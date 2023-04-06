@@ -1,0 +1,425 @@
+<div class="formsize">
+    <form [formGroup]="Empregister" (ngSubmit)="onFormSubmit()">
+        <mat-stepper [linear]="isLinear" #stepper>
+
+            <mat-step [stepControl]="Basicform">
+                <div class="formemployee">
+                    <div formGroupName="basic">
+                        <ng-template matStepLabel>Fill Basic Details</ng-template>
+                        <!--1ST ROW-->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>EmployeeCode</mat-label>
+                                    <input matInput placeholder="EmployeeCode" ngDefaultControl
+                                        formControlName="employeeCode">
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="left" appearance="fill">
+                                    <mat-label>EmployeeName</mat-label>
+                                    <input matInput placeholder="EmployeeName" ngDefaultControl
+                                        formControlName="employeeName">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--2ND ROW -->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field>
+                                    <mat-label>Department</mat-label>
+                                    <mat-select ngDefaultControl formControlName="department"
+                                        [(value)]="selecteddepartmentOption">
+                                        <mat-option *ngFor="let departmentdropdownvalues of Departmentdropdownvalues"
+                                            [value]="departmentdropdownvalues.id">
+                                            {{ departmentdropdownvalues.description }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Date of Birth</mat-label>
+                                    <input ngDefaultControl formControlName="dob" matInput [matDatepicker]="picker">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--3RD ROW-->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Date of Joining</mat-label>
+                                    <input ngDefaultControl formControlName="doj" matInput [matDatepicker]="DOJ">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="DOJ"></mat-datepicker-toggle>
+                                    <mat-datepicker #DOJ></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Martial Status</mat-label>
+                                    <mat-select ngDefaultControl formControlName="martialstatus">
+                                        <mat-option *ngFor="let martial of martials" [value]="martial.value">
+                                            {{martial.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--4TH ROW-->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Date of Resignation</mat-label>
+                                    <input ngDefaultControl formControlName="dor" matInput [matDatepicker]="DOR">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="DOR"></mat-datepicker-toggle>
+                                    <mat-datepicker #DOR></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field>
+                                    <mat-label>Resign Reasons</mat-label>
+                                    <mat-select ngDefaultControl formControlName="resignReasons"
+                                        [(value)]="selectedresignOption">
+                                        <mat-option *ngFor="let resigndropdownvalues of Resigndropdownvalues"
+                                            [value]="resigndropdownvalues.id">
+                                            {{ resigndropdownvalues.description }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--5TH ROW-->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Gender</mat-label>
+                                    <mat-select ngDefaultControl formControlName="gender">
+                                        <mat-option *ngFor="let gender of genders" [value]="gender.gendervalue">
+                                            {{gender.genderViewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field>
+                                    <mat-label>Designation</mat-label>
+                                    <mat-select ngDefaultControl formControlName="destination">
+                                        <mat-option *ngFor="let destinationoption of destinationoptions"
+                                            [value]="destinationoption.id">
+                                            {{ destinationoption.description }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--6th row-->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Blood Group</mat-label>
+                                    <mat-select ngDefaultControl formControlName="bloodGroup">
+                                        <mat-option *ngFor="let blood of bloods" [value]="blood.bloodvalue">
+                                            {{blood.bloodViewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <input type="checkbox" name="" id="" formControlName="isOutOfSourceChecked"> IsOutofsource
+                            </div>
+                        </div>
+                        <!--7th row-->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Is Internet Available</mat-label>
+                                    <mat-select ngDefaultControl formControlName="internet">
+                                        <mat-option *ngFor="let internet of internets" [value]="internet.internetvalue">
+                                            {{internet.internetViewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--8th row-->
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>System/Laptop Available</mat-label>
+                                    <mat-select ngDefaultControl formControlName="system">
+                                        <mat-option *ngFor="let system of systems" [value]="system.systemvalue">
+                                            {{system.systemViewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <button mat-raised-button color="primary" matStepperNext>Next</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step [stepControl]="contactform" label="Fill out contact info">
+                <div formGroupName="contact">
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>Reporting Manager 1</mat-label>
+                                <mat-select ngDefaultControl formControlName="reportingManager1"
+                                    [(value)]="selectedmanger1Value">
+                                    <mat-option *ngFor="let rm1option of rm1options" [value]="rm1option.employeeId">
+                                        {{ rm1option.employeeName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>Reporting Leader 1</mat-label>
+                                <mat-select ngDefaultControl formControlName="reportingLeader1"
+                                    [(value)]="selectedleader1Value">
+                                    <mat-option *ngFor="let rl1option of rl1options" [value]="rl1option.employeeId">
+                                        {{ rl1option.employeeName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>Reporting Manager 2</mat-label>
+                                <mat-select ngDefaultControl formControlName="reportingManager2"
+                                    [(value)]="selectedmanger2Value">
+                                    <mat-option *ngFor="let rm2option of rm2options" [value]="rm2option.employeeId">
+                                        {{ rm2option.employeeName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>Reporting Leader 2</mat-label>
+                                <mat-select ngDefaultControl formControlName="reportingLeader2"
+                                    [(value)]="selectedleader2Value">
+                                    <mat-option *ngFor="let rl2option of rl2options" [value]="rl2option.employeeId">
+                                        {{ rl2option.employeeName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>Proficiency</mat-label>
+                                <mat-select ngDefaultControl formControlName="proficiency">
+                                    <mat-option *ngFor="let proficiencyoption of proficiencyoptions"
+                                        [value]="proficiencyoption.id">
+                                        {{ proficiencyoption.description }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>EmployeeHierachy</mat-label>
+                                <mat-select ngDefaultControl formControlName="employeeHierachy"
+                                    [formControl]="selectControl" multiple>
+                                    <mat-option *ngFor="let employeehierarchyoption of EmployeeHierarchyOptions"
+                                        [value]="employeehierarchyoption.employeeId">
+                                        {{ employeehierarchyoption.employeeName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="primary" matStepperPrevious>Back</button> |
+                        <button mat-raised-button color="primary" matStepperNext>Next</button>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step [stepControl]="addressform" label="Fill out address">
+                <div formGroupName="address">
+                    <div class="row">
+                        <div class="col">
+                            Present Address
+                        </div>
+                        <div class="col">
+                            Permanent Address
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address1</mat-label>
+                                <input type="text" matInput placeholder="Address1" ngDefaultControl
+                                    formControlName="presentaddress1">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address1</mat-label>
+                                <input type="" matInput placeholder="Address1" ngDefaultControl
+                                    formControlName="permanentaddress1">
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address2</mat-label>
+                                <input type="text" matInput placeholder="Address2" ngDefaultControl
+                                    formControlName="presentaddress2">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address2</mat-label>
+                                <input type="text" matInput placeholder="Address2" ngDefaultControl
+                                    formControlName="permanentaddress2">
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address3</mat-label>
+                                <input type="text" matInput placeholder="Address3" ngDefaultControl
+                                    formControlName="presentaddress3">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address3</mat-label>
+                                <input type="text" matInput placeholder="Address3" ngDefaultControl
+                                    formControlName="permanentaddress3">
+                            </mat-form-field>
+                            <!-- <input type="checkbox" [(ngModel)]="ischeckboxChecked"><p>Temporary address is same as permanent</p> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Phone number</mat-label>
+                                <input matInput placeholder="phn no" ngDefaultControl formControlName="phonenum">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>MobileNumber</mat-label>
+                                <input matInput placeholder="mob no" ngDefaultControl formControlName="mobileNumber">
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Emergency Contact Name</mat-label>
+                                <input matInput placeholder="Emergency contact Name" ngDefaultControl
+                                    formControlName="emergencyContactName">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Emergency Mobile number</mat-label>
+                                <input matInput placeholder="mob no" ngDefaultControl
+                                    formControlName="emergencyMobilenumber">
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Official Email Address</mat-label>
+                                <input matInput placeholder="official email address" ngDefaultControl
+                                    formControlName="officialemailaddress">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>EmployeeProcess</mat-label>
+                                <mat-select ngDefaultControl formControlName="employeeProcess"
+                                    [formControl]="selectEmployeeprocessControl" multiple>
+                                    <mat-option *ngFor="let employeeprocessoption of employeeprocessOptions"
+                                        [value]="employeeprocessoption.id">
+                                        {{ employeeprocessoption.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>EmployeeRoles</mat-label>
+                                <mat-select ngDefaultControl formControlName="employeeRoles"  [formControl]="selectEmployeeRoleControl" multiple>
+                                    <mat-option *ngFor="let EmployeeRolesoption of EmployeeRolesoptions"
+                                        [value]="EmployeeRolesoption.id">
+                                        {{ EmployeeRolesoption.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <br>
+                            <button class="btn btn-primary" (click)="showForm()">Add New Role</button>
+                            <form *ngIf="formVisible" (ngSubmit)="newRoleSubmit()">
+                                <label for="name">Role Name:</label>
+                                <input class="form-control" type="text" id="name" name="name"
+                                    [(ngModel)]="formData.description">
+
+                                <!-- add more form fields here as needed -->
+                                <button mat-raised-button color="accent" type="submit">Submit</button> |
+                                <button mat-raised-button color="primary" type="button"
+                                    (click)="hideForm()">Close</button>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Personal Email Address</mat-label>
+                                <input matInput placeholder="email" ngDefaultControl formControlName="personalEmail">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div mat-dialog-actions class="action">
+                        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+                        <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Save'}}</button>
+                      </div>
+                </div>
+            </mat-step>
+
+        </mat-stepper>
+    </form>
+</div>

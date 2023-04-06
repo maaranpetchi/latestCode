@@ -1,0 +1,82 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+        (click)="toggleNav(sidenav)">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span><img src="http://www.vleadservices.com/wp-content/uploads/2017/06/logo.png" alt=""
+            style="max-width: 60%;"></span>
+    <div class="center-text-container">
+        <span class="center-text"><span style="color:red">V</span>is <span style="color:red">I</span>nformation <span style="color:red">S</span>ystem</span>
+    </div>
+    <span class="example-spacer"></span>
+        <label>Welcome {{getloginusername()}}</label>
+    <br>
+    <mat-button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>settings</mat-icon>
+  </mat-button>
+
+  <!-- define the dropdown menu using mat-menu and mat-menu-item -->
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item><mat-icon>account_circle</mat-icon>ChangePassword</button>
+    <button (click)="logout()" mat-menu-item><mat-icon>lock_open</mat-icon> Logout</button>
+  </mat-menu>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" opened class="vertical-menu">
+        <mat-nav-list style="width:200px">
+            <a mat-list-item routerLink="dashboard">
+                <mat-icon>
+                    dashboard
+                </mat-icon>&nbsp;<label>dashboard</label>
+            </a>
+
+            <a mat-list-item>
+                <mat-icon>perm_identity</mat-icon>
+                <span>Employee</span>
+                <button mat-icon-button [matMenuTriggerFor]="settingsEmployeeMenu">
+                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #settingsEmployeeMenu="matMenu">
+                    <button mat-menu-item routerLink="Emp-Empcontroller">Employee</button>
+                    <button mat-menu-item routerLink="Emp-empvsdiv">EmployeeVsDivision</button>
+                </mat-menu>
+
+            </a>
+
+            <a mat-list-item>
+
+                <mat-icon>perm_identity</mat-icon>
+                <span>Customer</span>
+                <button mat-icon-button [matMenuTriggerFor]="settingsCustomerMenu">
+                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #settingsCustomerMenu="matMenu">
+                    <button mat-menu-item routerLink="cus-cusvsemp">CustomerVSEmployee</button>
+                    <button mat-menu-item routerLink="cus-cusvsprocess">CustomerVSProcess</button>
+
+                </mat-menu>
+
+            </a>
+
+            <a mat-list-item>
+                <mat-icon>perm_identity</mat-icon>
+                <span>Accounts</span>
+                <button mat-icon-button [matMenuTriggerFor]="settingsAccountsMenu">
+                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #settingsAccountsMenu="matMenu">
+                    <button mat-menu-item routerLink="acc-pricing">PricingCalulation</button>
+                    <button mat-menu-item routerLink="acc-customer">CustomerReceipts</button>
+                    <button mat-menu-item routerLink="acc-nonbill">Non-Billable Jobs</button>
+                    <button mat-menu-item routerLink="acc-scopechange">ScopeChange</button>
+                </mat-menu>
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <p style="height:85vh">
+            <router-outlet></router-outlet>
+        </p>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,45 @@
+.container {  display: grid;
+    grid-template-columns: 0.1fr 6.3fr 0.1fr;
+    grid-template-rows: 0.1fr 1.8fr 1.3fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". . ."
+      ". formgroup ."
+      ". . .";
+  }
+  
+  .formgroup {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1.4fr 0.6fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "firstform firstform firstform"
+      "secondform secondform secondform"
+      "secondform secondform secondform";
+    grid-area: formgroup;
+    margin-top: 106px;
+  }
+  
+  .firstform { grid-area: firstform; }
+  
+  .secondform { grid-area: secondform; }
+  
+
+  .button {
+    position: relative;
+  }
+  
+  .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .matbuttonaign {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   /* Optional: set a height for the container */
+  }

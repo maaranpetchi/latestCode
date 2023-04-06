@@ -1,0 +1,124 @@
+.dashboard {
+    height: auto;
+    border: 1px solid black;
+    width: 72VW;
+    margin-top: 126px
+}
+
+.parentdashboard {
+    justify-content: center;
+    display: grid;
+    place-items: center;
+}
+
+mat-grid-tile {
+    background: lightblue;
+}
+
+.ClientCoordination {
+    width: 300px;
+    height: 200px;
+    background-color: #03d9ff;
+    transition: background-color 0.5s ease;
+}
+
+.card.hovered {
+    background-color: #8b8b8b;
+}
+
+.Reports {
+    left: 0px;
+    width: 300px;
+    top: 0px;
+    height: calc(100px);
+}
+.ClientCoordination:hover{
+    background-color: #8b8b8b;
+}
+a{
+    text-decoration: none;
+    font-family: 'Times New Roman', Times, serif;
+    color:white;
+}
+
+.ProductionAllocation{
+
+    background-color: #f549ad;
+    transition: background-color 0.5s ease;
+  
+}
+.ProductionAllocation:hover{
+    background-color: #8b8b8b;
+}
+.Production{
+
+    background-color: rgba(48, 138, 25, 0.827);
+    transition: background-color 0.5s ease;
+  
+}
+.Production:hover{
+    background-color: #8b8b8b;
+}
+.QualityAllocation{
+
+    background-color: rgba(16, 80, 0, 0.827);
+    transition: background-color 0.5s ease;
+  
+}
+.QualityAllocation:hover{
+    background-color: #8b8b8b;
+}
+.quality{
+
+    background-color: rgba(252, 136, 27, 0.827);
+    transition: background-color 0.5s ease;
+  
+}
+.quality:hover{
+    background-color: #8b8b8b;
+}
+.ProofReadingAllocation{
+
+    background-color: rgba(0, 102, 255, 0.827);
+    transition: background-color 0.5s ease;
+  
+}
+.ProofReadingAllocation:hover{
+    background-color: #8b8b8b;
+}
+.ProofReading{
+
+    background-color: rgb(167, 67, 0);
+    transition: background-color 0.5s ease;
+  
+}
+.ProofReading:hover{
+    background-color: #8b8b8b;
+}
+.BuddyProof{
+
+    background-color: rgb(0, 104, 52);
+    transition: background-color 0.5s ease;
+  
+}
+.BuddyProof:hover{
+    background-color: #8b8b8b;
+}
+.SewOut{
+
+    background-color: rgb(112, 2, 255);
+    transition: background-color 0.5s ease;
+  
+}
+.SewOut:hover{
+    background-color: #8b8b8b;
+}
+.Reportstitle{
+
+    background-color: rgba(167, 155, 0, 0.911);
+    transition: background-color 0.5s ease;
+  
+}
+.Reportstitle:hover{
+    background-color: #8b8b8b;
+}

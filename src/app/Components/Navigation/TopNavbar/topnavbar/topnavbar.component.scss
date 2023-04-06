@@ -1,0 +1,27 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .center-text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .center-text {
+    font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  }
+ .arrowbtn{
+    height: 19px;
+ }
+
+ .mat-sidenav a:hover{
+    background: #526fad;
+ }
+
+ .mat-toolbar.mat-primary {
+    background: #15508d;
+    color: #fff;
+}
