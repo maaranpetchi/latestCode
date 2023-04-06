@@ -15,11 +15,12 @@ import { AddeditemployeevsdivisionComponent } from 'src/app/Components/EmployeeV
 import { indexemployeevsdivisionComponent } from 'src/app/Components/EmployeeVSDivision/indexemployeevsdivision/indexemployeevsdivision.component';
 import { TopnavbarComponent } from 'src/app/Components/Navigation/TopNavbar/topnavbar/topnavbar.component';
 import { DashboardComponent } from 'src/app/Components/dashboard/dashboard.component';
-import { LoginComponent } from 'src/app/Components/login/login.component';
+import { LoginComponent } from 'src/app/Components/Navigation/TopNavbar/login/login.component';
 
 const routes: Routes = [
 
   { path: "", component: LoginComponent },
+  { path: "login", component: LoginComponent },
   {
     path: 'topnavbar',
     component: TopnavbarComponent,
