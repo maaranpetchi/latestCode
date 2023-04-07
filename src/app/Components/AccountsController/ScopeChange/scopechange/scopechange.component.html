@@ -3,7 +3,7 @@
         <div mat-dialog-title>
             <h1 style="font-family: 'Times New Roman', Times, serif;color:#0a5dac;text-align: center;">Scope Change</h1>
         </div>
-        <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
+        <form [formGroup]="empForm" (ngSubmit)="onSubmit()">
             <div mat-dialog-content class="content">
                 <div class="row">
                     <div class="col">
@@ -32,14 +32,14 @@
                             <mat-select ngDefaultControl formControlName="client" [(value)]="selectedclientOption">
                                 <mat-option *ngFor="let clientdropdownvalues of Clientdropdownvalues"
                                     [value]="clientdropdownvalues.id">
-                                    {{clientdropdownvalues.description }}
+                                    {{clientdropdownvalues.shortName }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="col">
                         <mat-form-field appearance="fill">
-                            <mat-label>Martial Status</mat-label>
+                            <mat-label>Department</mat-label>
                             <mat-select ngDefaultControl formControlName="department">
                                 <mat-option *ngFor="let department of departments" [value]="department.value">
                                     {{department.viewValue}}
@@ -49,8 +49,8 @@
                     </div>
                 </div>
                 <div class="buttongo">
-                    <button class="btn btn-primary" id="gobutton"> Go</button>
-                  </div>
+                    <button class="btn btn-primary" type="button" id="gobutton" (click)="getJobOrderList()"> Go</button>
+                </div>
             </div>
             <hr>
             <div class="main-body">
@@ -61,38 +61,48 @@
                 <div class="table-container">
                     <table mat-table [dataSource]="dataSource" matSort>
                         <!-- Progress Column -->
-                        <ng-container matColumnDef="jobid">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Id </th>
-                            <td mat-cell *matCellDef="let row"> {{row.employeeCode}}</td>
+                        <ng-container matColumnDef="selected">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Select </th>
+                            <td mat-cell *matCellDef="let element"> <mat-checkbox
+                                    (change)="setAll($event.checked,element)"></mat-checkbox> </td>
                         </ng-container>
-
+                        <ng-container matColumnDef="jobid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Job Id</th>
+                            <td mat-cell *matCellDef="let row">{{row.jobId}}</td>
+                        </ng-container>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
                         <ng-container matColumnDef="jobdate">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Date </th>
-                            <td mat-cell *matCellDef="let row"> {{row.lastName}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.estJobDate}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="department">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
-                            <td mat-cell *matCellDef="let row"> {{row.departmentId}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.departmentName}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="clientName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Client Name </th>
+                            <td mat-cell *matCellDef="let row"> {{row.shortName}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="filename">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> File Name </th>
-                            <td mat-cell *matCellDef="let row"> {{row.designationId}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.fileName}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="jobstatus">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Status </th>
-                            <td mat-cell *matCellDef="let row"> {{row.profiencyId}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.jobStatusDescription}}</td>
                         </ng-container>
 
-                        
+
 
                         <ng-container matColumnDef="Scope">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Scope </th>
-                            <td mat-cell *matCellDef="let row"> {{row.reportLeader1}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.scopeName}}</td>
                         </ng-container>
-                       
+
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -108,9 +118,19 @@
                 </div>
             </div>
             <div mat-dialog-actions class="action">
-                <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+                <!-- <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button> -->
                 <!-- <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Save'}}</button> -->
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <mat-form-field>
+                    <mat-label>Choose Scope</mat-label>
+                    <mat-select ngDefaultControl formControlName="scope" [(value)]="selectedScopeOption">
+                        <mat-option *ngFor="let scopedropdownvalues of Scopedropdownvalues"
+                            [value]="scopedropdownvalues.id">
+                            {{scopedropdownvalues.description }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <button type="submit" class="btn btn-primary">Change</button>
             </div>
         </form>
     </div>

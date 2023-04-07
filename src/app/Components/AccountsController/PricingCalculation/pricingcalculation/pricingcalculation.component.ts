@@ -47,12 +47,12 @@ export class PricingcalculationComponent implements OnInit {
   }
 
   setAll(completed: boolean, item: any) {
-    console.log("before",this.selectedInvoices)
+    console.log("before", this.selectedInvoices)
     if (completed == true) {
       this.selectedInvoices.push(item)
     }
     else {
-     
+
       if (this.selectedInvoices.find(x => x.id == item.id)) {
         this.selectedInvoices = this.selectedInvoices.filter(x => {
           if (x.id != item.id) {
@@ -61,7 +61,7 @@ export class PricingcalculationComponent implements OnInit {
         })
       }
     }
-    console.log("after",this.selectedInvoices)
+    console.log("after", this.selectedInvoices)
   }
 
 
@@ -90,22 +90,23 @@ export class PricingcalculationComponent implements OnInit {
 
 
 
-  openDialog() { 
-    let clientid=0;
-    if(this. selectedInvoices.length==0){ 
+  openDialog() {
+    let clientid = 0;
+    if (this.selectedInvoices.length == 0) {
       const dialogRef = this.dialog.open(InformationpopupComponent, {
-      width: '500px',
-      height: '150px',
-      data: 'Please select the list items!'
+        width: '500px',
+        height: '150px',
+        data: 'Please select the list items!'
 
+      }
+      );
     }
-    );}
-    else{
-      let temporaryarray:any[] = [];
-      clientid = parseInt(this.myForm?.value.ClientId?this.myForm?.value.ClientId:"0")
-      let createdby= 152;
-      temporaryarray = this.selectedInvoices.map(x=> {
-return{
+    else {
+      let temporaryarray: any[] = [];
+      clientid = parseInt(this.myForm?.value.ClientId ? this.myForm?.value.ClientId : "0")
+      let createdby = 152;
+      temporaryarray = this.selectedInvoices.map(x => {
+        return {
           "jobId": x.jobId,
           "shortName": x.shortName,
           "scopeId": x.scopeId,
@@ -116,11 +117,11 @@ return{
           "createdBy": 152,
           "departmentId": x.departmentId,
           "tranId": 0,
-          "id":x.id ,
+          "id": x.id,
           "jId": x.jId,
           "pricingTypeId": 0,
           "getInvoice": [],
-        
+
           "fileReceivedDate": x.fileReceivedDate,
           "isBillable": x.isBillable,
           "specialPrice": x.specialPrice,
@@ -130,7 +131,7 @@ return{
         }
       })
 
-      let result:any={
+      let result: any = {
         "jobId": "string",
         "shortName": "string",
         "scopeId": 0,
@@ -154,7 +155,7 @@ return{
       }
       this.onInvoiceCalculation(result)
     }
-   
+
   }
 
   getEmployeeList() {
@@ -189,9 +190,9 @@ return{
     )
   }
 
-  onInvoiceCalculation(item:any) {
+  onInvoiceCalculation(item: any) {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetCalculatedInvoice',item ).subscribe((results: any) => {
+    this.http.post<any>('https://localhost:7208/api/Invoice/GetCalculatedInvoice', item).subscribe((results: any) => {
       // Set the search results in the data source
       const dialogRef = this.dialog.open(InformationpopupComponent, {
         width: '500px',

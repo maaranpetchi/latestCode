@@ -17,10 +17,13 @@ export class ScopechangeService {
   }
 
   getEmployeeList(): Observable<any> {
-    return this._http.get('http://localhost:3000/employees');
+    return this._http.get('https://localhost:7208/api/Report/GetJobOrderDetailsList');
   }
 
   deleteEmployee(id: number): Observable<any> {
     return this._http.delete(`http://localhost:3000/employees/${id}`);
+  }
+  getJobOrderList(data:any):Observable<any>{
+    return this._http.post('https://localhost:7208/api/Report/GetJobOrderDetailsList', data);
   }
 }
