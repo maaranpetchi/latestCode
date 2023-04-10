@@ -109,7 +109,7 @@ export class EmployeecontrollerComponent implements OnInit {
     });
   }
 
-  onCheckboxChange(event:any, id: number) {
+  onCheckboxChange(event, id: number) {
     if (id == 1) {
       this.isDeletedInclude = event.checked;
     }

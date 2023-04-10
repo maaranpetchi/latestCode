@@ -1,0 +1,105 @@
+<h1 mat-dialog-title>Adjusting Invoice</h1>
+<div mat-dialog-content>
+    <div class="dialog">
+        <form #itemForm="ngForm" (ngSubmit)="addItem(itemForm)">
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Invoice Type</mat-label>
+                    <input matInput placeholder="Invoice Type"  value="Adjustment" style="font-weight: bold" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Choose Invoice Number</mat-label>
+                    <mat-select ngDefaultControl  [(ngModel)]="selectedValue"  name="selectedinvoicenumber" (selectionChange)="onchangevalues()" [(value)]="selectedInvoiceOption">
+                        <mat-option *ngFor="let invoicedropdownvalues of Invoicedropdownvalues"
+                            [value]="invoicedropdownvalues.invoiceNo">
+                            {{ invoicedropdownvalues.invoiceNo }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Invoice Value</mat-label>
+                    <input matInput  name="invoicevalue" [(ngModel)]="input1" placeholder="Invoice Value" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Already Adjusted Amount</mat-label>
+                    <input matInput name="alreadyadjustedamount" [(ngModel)]="input2" placeholder="Already Adjusted Amount" disabled>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Balance Amount</mat-label>
+                    <input matInput  name="balanceamount" [(ngModel)]="input3" [value]="input1 - input2" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Invoice Date</mat-label>
+                    <input matInput [(ngModel)]="input4" name="InvoiceDate" placeholder="InvoiceDate" disabled> 
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Advance Amount</mat-label>
+                    <input matInput [(ngModel)]="input5" name="InvoiceAmount" placeholder="Advance Amount" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Enter amount to be Adjusted</mat-label>
+                    <input matInput [(ngModel)]="input6" name="enteramount"  >
+                </mat-form-field>
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                
+                <th scope="col">selectedValue</th>
+                <th scope="col">input1</th>
+                <th scope="col">input2</th>
+                <th scope="col">input3</th>
+                <th scope="col">input4</th>
+                <th scope="col">input5</th>
+                <th scope="col">input6</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of items; let i = index">
+                <td>{{ item.selectedValue }}</td>
+                <td>{{ item.input1}}</td>
+                <td>{{ item.input2}}</td>
+                <td>{{ item.input3}}</td>
+                <td>{{ item.input4}}</td>
+                <td>{{ item.input5}}</td>
+                <td>{{ item.input6}}</td>
+                <td>
+                  <button (click)="deleteItem(i)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table> 
+
+    </form>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button>No Thanks</button>
+    <button mat-button cdkFocusInitial>Ok</button>
+</div>

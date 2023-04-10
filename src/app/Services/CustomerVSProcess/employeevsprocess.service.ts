@@ -32,4 +32,9 @@ export class EmployeevsprocessService {
   deleteEmployee(id: number): Observable<any> {
     return this._http.get(`https://localhost:7208/api/CustomerVsProcess/DeleteProcessworkflow?Id=${id}&EmployeeId=${parseInt(this.loginservice.getUsername())}`);
   }
+
+
+  changeapi(data):Observable<any>{
+   return  this._http.post<any>('https://localhost:7208/api/CustomerVsProcess/GetScopeList', data)
+  }
 }

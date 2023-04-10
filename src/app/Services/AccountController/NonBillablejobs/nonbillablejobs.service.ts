@@ -24,4 +24,7 @@ export class NonbillablejobsService {
   deleteEmployee(id: number): Observable<any> {
     return this._http.delete(`http://localhost:3000/employees/${id}`);
   }
+  getJobOrderList(data:any):Observable<any>{
+    return this._http.post('https://localhost:7208/api/Report/GetJobOrderDetailsList', data);
+  }
 }

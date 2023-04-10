@@ -101,7 +101,7 @@ export class CustomervsprocessComponent implements OnInit {
     console.log(event);
     console.log(myForm.value);
     if (myForm.value.customerscopestatus.length > 0) {
-      return this.http.post<any>('https://localhost:7208/api/CustomerVsProcess/GetScopeList', {
+      this._empService.changeapi({
         "customerId": myForm.value.customer == '' ? 0 : myForm.value.customer,
         "deptId": myForm.value.departmentList,
         "customerJobType": myForm.value.customerscopestatus,
@@ -146,8 +146,16 @@ export class CustomervsprocessComponent implements OnInit {
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
         this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
-        console.log(id);
+        this._empService.changeapi({
+          "customerId": this.myForm.value.customer == '' ? 0 : this.myForm.value.customer,
+          "deptId": this.myForm.value.departmentList,
+          "customerJobType": this.myForm.value.customerscopestatus,
+        }).subscribe(data => {
+          this.scopeList = data.getScopeList;
+         
+          // console.log("scopelist" + JSON.stringify(this.scopeList));
+        })
+        this.refreshPage();
 
       },
       error: console.log,
@@ -208,11 +216,14 @@ export class CustomervsprocessComponent implements OnInit {
         verticalPosition: 'top',
         panelClass: ['my-snackbar']
       });
-    
-      this.myForm.reset();
       this.submitted = false;
+      this.refreshPage();
     });
   }
 
+
+  refreshPage() {
+    window.location.reload();
+  }
 
 }

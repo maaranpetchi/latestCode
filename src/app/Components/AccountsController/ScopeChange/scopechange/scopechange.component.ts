@@ -184,12 +184,5 @@ export class ScopechangeComponent implements OnInit {
     this.getScopeList();
   }
 
-  applyFilter1(filterValue: string, columnName: string) {
-    filterValue = filterValue.trim().toLowerCase(); // remove whitespace and convert to lowercase
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      const columnValue = data[columnName].toString().toLowerCase(); // convert column value to lowercase
-      return columnValue.indexOf(filter) !== -1; // check if column value contains the filter value
-    };
-    this.dataSource.filter = filterValue; // apply the filter
-  }
+
 }

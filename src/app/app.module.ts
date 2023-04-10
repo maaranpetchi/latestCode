@@ -10,9 +10,14 @@ import { MaterialModule } from './AngularMaterialModule/material/material.module
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { NavigationModule } from './NavigationModuleRouting/navigation/navigation.module';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { AdvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Index/advanceadjustment/advanceadjustment.component';
+import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 @NgModule({
   declarations: [
     AppComponent,
+    AdvanceadjustmentComponent,
+    EditadvanceadjustmentComponent,
+ 
     
   ],
   imports: [
@@ -25,7 +30,10 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
     NavigationModule,
     MatDialogModule,
   ],
-  providers: [],
+  providers: [
+    EditadvanceadjustmentComponent,
+    AdvanceadjustmentComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
