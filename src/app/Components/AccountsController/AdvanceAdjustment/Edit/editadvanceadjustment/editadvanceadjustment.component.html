@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Adjusting Invoice</h1>
 <div mat-dialog-content>
     <div class="dialog">
-        <form #itemForm="ngForm" (ngSubmit)="addItem(itemForm)">
+        <form  #itemForm="ngForm" >
         <div class="row">
             <div class="col">
                 <mat-form-field appearance="fill">
@@ -21,18 +21,17 @@
                 </mat-form-field>
             </div>
         </div>
-
         <div class="row">
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Invoice Value</mat-label>
-                    <input matInput  name="invoicevalue" [(ngModel)]="input1" placeholder="Invoice Value" disabled>
+                    <input matInput  name="invoicevalue" [(ngModel)]="invoiceValue" placeholder="Invoice Value" disabled>
                 </mat-form-field>
             </div>
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Already Adjusted Amount</mat-label>
-                    <input matInput name="alreadyadjustedamount" [(ngModel)]="input2" placeholder="Already Adjusted Amount" disabled>
+                    <input matInput name="alreadyadjustedamount" [(ngModel)]="adjustmentAmount" placeholder="Already Adjusted Amount" disabled>
                 </mat-form-field>
             </div>
         </div>
@@ -40,7 +39,7 @@
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Balance Amount</mat-label>
-                    <input matInput  name="balanceamount" [(ngModel)]="input3" [value]="input1 - input2" disabled>
+                    <input matInput  name="balanceamount" [(ngModel)]="input3" [value]="invoiceValue - adjustmentAmount" disabled>
                 </mat-form-field>
             </div>
             <div class="col">
@@ -50,56 +49,57 @@
                 </mat-form-field>
             </div>
         </div>
-
         <div class="row">
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Advance Amount</mat-label>
-                    <input matInput [(ngModel)]="input5" name="InvoiceAmount" placeholder="Advance Amount" disabled>
+                    <input matInput [(ngModel)]="InvoiceAmount" [value]="InvoiceAmount" name="InvoiceAmount" placeholder="Advance Amount" disabled>
                 </mat-form-field>
             </div>
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Enter amount to be Adjusted</mat-label>
-                    <input matInput [(ngModel)]="input6" name="enteramount"  >
+                    <input matInput [(ngModel)]="input6" name="enteramount"   [min]="0" [max]="InvoiceAmount">
                 </mat-form-field>
             </div>
-            <button class="btn btn-primary" type="submit">Add</button>
+            <div class="addbutton">
+                <button class="btn btn-primary" (click)="addItem(itemForm)">Add</button>
+            </div>
         </div>
+        
+        <!--table to add the advance details-->
         <table class="table">
             <thead>
               <tr>
                 
-                <th scope="col">selectedValue</th>
-                <th scope="col">input1</th>
-                <th scope="col">input2</th>
-                <th scope="col">input3</th>
-                <th scope="col">input4</th>
-                <th scope="col">input5</th>
-                <th scope="col">input6</th>
-                <th scope="col">Actions</th>
+                <th scope="col">Invoice Number</th>
+                <th scope="col">Invoice Date</th>
+                <th scope="col">Invoice Value</th>
+                <th scope="col">Already Adjusted Inv Amount</th>
+                <th scope="col">Invoce O/S Amount</th>
+                <th scope="col">Advanve Amount Adjusted</th>
+                <th scope="col">Remove</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of items; let i = index">
                 <td>{{ item.selectedValue }}</td>
-                <td>{{ item.input1}}</td>
-                <td>{{ item.input2}}</td>
-                <td>{{ item.input3}}</td>
                 <td>{{ item.input4}}</td>
-                <td>{{ item.input5}}</td>
+                <td>{{ item.invoiceValue}}</td>
+                <td>{{ item.adjustmentAmount}}</td>
+                <td>{{ item.InvoiceAmount}}</td>
                 <td>{{ item.input6}}</td>
                 <td>
-                  <button (click)="deleteItem(i)">Delete</button>
+                  <button class="btn btn-danger" (click)="deleteItem(i)">Delete</button>
                 </td>
               </tr>
             </tbody>
           </table> 
-
     </form>
+
     </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button>No Thanks</button>
-    <button mat-button cdkFocusInitial>Ok</button>
+    <button  mat-raised-button color="accent" (click)="onCloseClick()">Cancel</button>
+    <button  mat-raised-button color="primary">Submit</button>
 </div>

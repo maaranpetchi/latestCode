@@ -69,11 +69,13 @@ applyFilter(event: Event) {
   }
 }
 
-openEditForm(){
+openEditForm(data:any){
   
   const dialogRef = this._dialog.open(EditadvanceadjustmentComponent,{
-    width: '50vw',
-    data:this.selecteddepartmentOption
+    width: '70vw',
+    data:{
+      id:data.id,availableAdvance:data.availableAdvance,department:this.selecteddepartmentOption
+    }
   });
 }
 
@@ -87,6 +89,8 @@ getcustomerid(){
 loadData() {
   this.http.get<any[]>(`https://localhost:7208/api/AdvanceAdjustment/GetAllCustomerAdvance?CustomerId=${this.selecteddepartmentOption}`).subscribe(data => {
     this.dataSource = new MatTableDataSource(data);
+    console.table(data);
+    
   });
 }
 

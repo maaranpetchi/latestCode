@@ -1,0 +1,79 @@
+<h1 mat-dialog-title>CREDIT NOTE</h1>
+<div mat-dialog-content>
+ <form [formGroup]="Empregister" (ngSubmit)="onFormSubmit()">
+    <div class="creditnoteform" >
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Voucher Number</mat-label>
+                    <input matInput placeholder="Invoice Type"  formcontrolname="vouchernumber" value="0" style="font-weight: bold" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Voucher Date</mat-label>
+                    <input ngDefaultControl formControlName="voucherdate" matInput [matDatepicker]="voucherdate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="voucherdate"></mat-datepicker-toggle>
+                    <mat-datepicker #voucherdate></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Reference Number</mat-label>
+                    <input type="number" matInput placeholder="ReferenceNumber"  formcontrolname="referencenumber" >
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Reference Date</mat-label>
+                    <input ngDefaultControl formControlName="referencedate" matInput [matDatepicker]="referencedate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="referencedate"></mat-datepicker-toggle>
+                    <mat-datepicker #referencedate></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Department</mat-label>
+                    <mat-select ngDefaultControl formControlName="customer"
+                        [(value)]="selectedCustomerOption">
+                        <mat-option *ngFor="let customerdropdownvalues of Customerdropdownvalues"
+                            [value]="customerdropdownvalues.id">
+                            {{ customerdropdownvalues.description }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Credit Note Amount</mat-label>
+                    <input matInput placeholder="Invoice Type"  formcontrolname="creditnoteamount" >
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+    
+            </div>
+        </div>
+      </div>
+    
+
+ </form>
+  
+    
+</div>
+<div mat-dialog-actions>
+  <button mat-button >No Thanks</button>
+  <button mat-button >Ok</button>
+</div>

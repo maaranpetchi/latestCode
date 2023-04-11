@@ -7,7 +7,7 @@ import { TopnavbarComponent } from 'src/app/Components/Navigation/TopNavbar/topn
 import { EmployeecontrollerComponent } from 'src/app/Components/EmployeeController/Components/employeecontroller/employeecontroller.component';
 import { AddEditEmployeecontrollerComponent } from 'src/app/Components/EmployeeController/Components/add-edit-employeecontroller/add-edit-employeecontroller.component';
 import { DashboardComponent } from 'src/app/Components/dashboard/dashboard.component';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddeditemployeevsdivisionComponent } from 'src/app/Components/EmployeeVSDivision/addeditemployeevsdivision/addeditemployeevsdivision.component';
@@ -21,6 +21,10 @@ import { NonbillablejobsComponent } from 'src/app/Components/AccountsController/
 import { CustomerreceiptsindexComponent } from 'src/app/Components/AccountsController/CustomerReceipts/customerreceiptsindex/customerreceiptsindex.component';
 import { AddEditCustomerreceiptsComponent } from 'src/app/Components/AccountsController/CustomerReceipts/add-edit-customerreceipts/add-edit-customerreceipts.component';
 import { ScopechangeComponent } from 'src/app/Components/AccountsController/ScopeChange/scopechange/scopechange.component';
+import { AdvanceadjustmentComponent } from 'src/app/Components/AccountsController/AdvanceAdjustment/Index/advanceadjustment/advanceadjustment.component';
+import { EditadvanceadjustmentComponent } from 'src/app/Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
+import { CreditnoteindexComponent } from 'src/app/Components/AccountsController/CreditNote/creditnoteindex/creditnoteindex.component';
+import { AddCreditnoteComponent } from 'src/app/Components/AccountsController/CreditNote/add-creditnote/add-creditnote.component';
 
 @NgModule({
   declarations: [
@@ -45,11 +49,18 @@ import { ScopechangeComponent } from 'src/app/Components/AccountsController/Scop
     PricingcalculationComponent,
     //2.NonBillableJobs
     NonbillablejobsComponent,
-     //3.customerreceipts
-     CustomerreceiptsindexComponent,
-     AddEditCustomerreceiptsComponent,
-  //4.scopeChange
-  ScopechangeComponent
+    //3.customerreceipts
+    CustomerreceiptsindexComponent,
+    AddEditCustomerreceiptsComponent,
+    //4.scopeChange
+    ScopechangeComponent,
+    //5.AdvanceAdjustment
+    AdvanceadjustmentComponent,
+    EditadvanceadjustmentComponent,
+    //6.creditnote
+    CreditnoteindexComponent,
+    AddCreditnoteComponent,
+
   ],
   imports: [
     CommonModule,

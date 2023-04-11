@@ -83,15 +83,6 @@ export class EmployeecontrollerComponent implements OnInit {
     }
   }
 
-  deleteEmployee(id: number) {
-    this._empService.deleteEmployee(id).subscribe({
-      next: (res) => {
-        this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
-      },
-      error: console.log,
-    });
-  }
 
 
   openEditForm(data: any) {
@@ -106,6 +97,16 @@ export class EmployeecontrollerComponent implements OnInit {
 
         }
       },
+    });
+  }
+
+  deleteEmployee(id: number) {
+    this._empService.deleteEmployee(id).subscribe({
+      next: (res) => {
+        this._coreService.openSnackBar('Employee deleted!', 'done');
+        this.getEmployeeList();
+      },
+      error: console.log,
     });
   }
 

@@ -18,6 +18,8 @@ import { DashboardComponent } from 'src/app/Components/dashboard/dashboard.compo
 import { LoginComponent } from 'src/app/Components/Navigation/TopNavbar/login/login.component';
 import { AdvanceadjustmentComponent } from 'src/app/Components/AccountsController/AdvanceAdjustment/Index/advanceadjustment/advanceadjustment.component';
 import { EditadvanceadjustmentComponent } from 'src/app/Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
+import { CreditnoteindexComponent } from 'src/app/Components/AccountsController/CreditNote/creditnoteindex/creditnoteindex.component';
+import { AddCreditnoteComponent } from 'src/app/Components/AccountsController/CreditNote/add-creditnote/add-creditnote.component';
 
 const routes: Routes = [
 
@@ -54,6 +56,9 @@ const routes: Routes = [
         //Advance-Adjustment
         {path:'acc-advance', component:AdvanceadjustmentComponent},
         {path:'acc-editadvance', component:EditadvanceadjustmentComponent},
+        //credit-note
+        {path:'acc-creditnote', component:CreditnoteindexComponent},
+        {path:'acc-addcredit', component:AddCreditnoteComponent},
     ]
 
 
