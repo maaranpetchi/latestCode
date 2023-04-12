@@ -276,19 +276,19 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
       dob: this.builder.control(this.data?.dateOfBirth, Validators.required),
       doj: this.builder.control(this.data?.dateOfJoining, Validators.required),
       martialstatus: this.builder.control(this.data?.maritalStatus, Validators.required),
-      dor: this.builder.control(this.data?.dor, Validators.required),
+      dor: this.builder.control(this.data?.dateOfResignation, Validators.required),
       resignReasons: this.builder.control(this.data?.resignReasons, Validators.required),
       gender: this.builder.control(this.data?.gender, Validators.required),
       destination: this.builder.control(this.data?.designationId, Validators.required),
       bloodGroup: this.builder.control(this.data?.bloodGroup, Validators.required),
       internet: this.builder.control(this.data?.isInternetConnection, Validators.required),
-      system: this.builder.control(this.data?.system, Validators.required),
+      system: this.builder.control(this.data?.isSystem, Validators.required),
       isOutOfSourceChecked: this.builder.control(this.data?.isOutsource, Validators.required),
 
     }),
     contact: this.builder.group({
       reportingManager1: this.builder.control(this.data?.reportingManager1, Validators.required),
-      reportingLeader1: this.builder.control(this.data?.reportingLeader1, Validators.required),
+      reportingLeader1: this.builder.control(this.data?.reportLeader1, Validators.required),
       reportingManager2: this.builder.control(this.data?.reportingManager2, Validators.required),
       reportingLeader2: this.builder.control(this.data?.reportingLeader2, Validators.required),
       proficiency: this.builder.control(this.data?.proficiency, Validators.required),
@@ -386,6 +386,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
           departmentId: this.Empregister.value.basic?.department,
           designationId: this.Empregister.value.basic?.destination,
           dateOfJoining: this.Empregister.value.basic?.doj,
+          dateOfResigning: this.Empregister.value.basic?.dor,
           dateOfBirth: this.Empregister.value.basic?.dob,
           bloodGroup: this.Empregister.value.basic?.bloodGroup,
           gender: this.Empregister.value.basic?.gender,
@@ -449,6 +450,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
           departmentId: this.Empregister.value.basic?.department,
           designationId: this.Empregister.value.basic?.destination,
           dateOfJoining: this.Empregister.value.basic?.doj,
+          dateOfResigning: this.Empregister.value.basic?.dor,
           dateOfBirth: this.Empregister.value.basic?.dob,
           bloodGroup: this.Empregister.value.basic?.bloodGroup,
           gender: this.Empregister.value.basic?.gender,
@@ -493,7 +495,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
           empHierarchyList: hierarchyvalues.slice(1),
         }
         
-        console.log(data);
+        console.log(data,"Before data");
         this._empservice.addEmployee(data).subscribe({
           next: (val: any) => {
             this._coreService.openSnackBar('Employee added successfully');
@@ -503,6 +505,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
             console.error(err);
           },
         });
+        console.log(data,"after data");
       }
     }
   }

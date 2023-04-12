@@ -1,58 +1,96 @@
 <div class="container">
-    <div class="fullform">
-        <h1 style="text-align: center;color:#225eb8;font-family: 'Times New Roman', Times, serif;">Customer Receipts
-        </h1>
-        <div class="firstform">
-            <div class="container">
-                <div class="fullform">
-                  <h1 style="text-align: center;color:#225eb8;font-family: 'Times New Roman', Times, serif;">Customer Receipts</h1>
-                  <div class="firstform">
-                    <div class="firstformcontainer">
-                      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-                        <div class="row">
-                          <div class="col">
-                            <mat-form-field>
-                              <mat-label>VoucherNumber</mat-label>
-                              <input matInput value="0"  formControlName="vouchernumber">
-                            </mat-form-field>
-                          </div>
-                          <div class="col">
-                            <mat-form-field>
-                              <mat-label>VoucherDate</mat-label>
-                              <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="voucherdate">
-                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                              <mat-datepicker #picker></mat-datepicker>
-                              <mat-hint>(MM/DD/YYYY)</mat-hint>
-                            </mat-form-field>
-                          </div>
-                        </div>
-              
-                        <div class="row">
-                          <div class="col">
-                            <mat-form-field>
-                              <mat-label>ReferenceNumber</mat-label>
-                              <input matInput placeholder="referencenumber" formControlName="referencenumber">
-                            </mat-form-field>
-                          </div>
-                          <div class="col">
-                            <mat-form-field>
-                              <mat-label>ReferenceDate</mat-label>
-                              <input matInput [matDatepicker]="referencedate" placeholder="Choose a date" formControlName="referencedate">
-                              <mat-datepicker-toggle matSuffix [for]="referencedate"></mat-datepicker-toggle>
-                              <mat-datepicker #referencedate></mat-datepicker>
-                              <mat-hint>(MM/DD/YYYY)</mat-hint>
-                            </mat-form-field>
-                          </div>
-                        </div>
-              
-                        <button type="submit">Submit</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
+  <div class="fullform">
+    <h1 style="text-align: center;color:#225eb8;font-family: 'Times New Roman', Times, serif;">Customer Receipts </h1>
 
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="voucher">
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>VoucherNumber</mat-label>
+              <input matInput type="number" formControlName="vouchernumber" [disabled]="true" [value]="voucherNumber">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>VoucherDate</mat-label>
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="voucherdate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-hint>(MM/DD/YYYY)</mat-hint>
+            </mat-form-field>
+          </div>
         </div>
-    </div>
+
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>ReferenceNumber</mat-label>
+              <input type="number" matInput placeholder="referencenumber" formControlName="referencenumber">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>ReferenceDate</mat-label>
+              <input matInput [matDatepicker]="referencedate" placeholder="Choose a date"
+                formControlName="referencedate">
+              <mat-datepicker-toggle matSuffix [for]="referencedate"></mat-datepicker-toggle>
+              <mat-datepicker #referencedate></mat-datepicker>
+              <mat-hint>(MM/DD/YYYY)</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>CustomerName</mat-label>
+              <mat-select ngDefaultControl formControlName="customername" [(value)]="selectedCustomerNameOption">
+                <mat-option *ngFor="let customernamedropdownvalues of CustomerNamedropdownvalues"
+                  [value]="customernamedropdownvalues.id">
+                  {{ customernamedropdownvalues.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Destination Bank </mat-label>
+              <input matInput type="text" placeholder="destination bank" formControlName="destinationbank">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Description</mat-label>
+              <input matInput type="text" placeholder="description" formControlName="description">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Total Receipt Amount</mat-label>
+              <input matInput type="number" placeholder="totalreceiptamount" formControlName="totalreceiptamount">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Exchange Rate</mat-label>
+              <input matInput type="number" placeholder="exchangerate" formControlName="exchangerate">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+     
+      <div class="receiptdetails">
+        
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+  </div>
 </div>

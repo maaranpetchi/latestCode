@@ -36,6 +36,7 @@ export class CustomerreceiptsindexComponent implements OnInit{
 
 
 constructor( private _dialog: MatDialog,
+  private router:Router,
   private _empService:CustomerreceiptsService ,
   private _coreService: CoreService,
   private http:HttpClient){}
@@ -46,14 +47,15 @@ constructor( private _dialog: MatDialog,
   }
 
   openAddEditEmpForm() {
-    const dialogRef = this._dialog.open(AddEditCustomerreceiptsComponent);
-    dialogRef.afterClosed().subscribe({
-      next: (val) => {
-        if (val) {
-          this.getEmployeeList();
-        }
-      },
-    });
+    // const dialogRef = this._dialog.open(AddEditCustomerreceiptsComponent);
+    // dialogRef.afterClosed().subscribe({
+    //   next: (val) => {
+    //     if (val) {
+    //       this.getEmployeeList();
+    //     }
+    //   },
+    // });
+    this.router.navigate(['/topnavbar/acc-addeditcustomer']);
 
   }
 
@@ -118,6 +120,7 @@ constructor( private _dialog: MatDialog,
         }
       },
     });
+    // this.router.navigate(['/topnavbar/dashboard']);
   }
 
 

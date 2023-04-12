@@ -1,0 +1,27 @@
+// .container {  display: grid;
+//     grid-template-columns: 1.1fr 3.7fr 1.7fr;
+//     grid-template-rows: 0.4fr 1.2fr 1.6fr;
+//     gap: 0px 0px;
+//     grid-auto-flow: row;
+//     grid-template-areas:
+//       ". . ."
+//       ". fullform ."
+//       ". . .";
+//     width: 50%;
+//     height: 50%;
+//   }
+  
+//   .fullform {  display: grid;
+//     grid-template-columns: 1fr 1.3fr 0.7fr;
+//     grid-template-rows: 1fr 1fr 1fr;
+//     gap: 0px 0px;
+//     grid-auto-flow: row;
+//     grid-template-areas:
+//       ". . ."
+//       ". . ."
+//       ". . .";
+//     grid-area: fullform;
+//   }
+//   .voucher{
+//     border:1px solid black
+//   }

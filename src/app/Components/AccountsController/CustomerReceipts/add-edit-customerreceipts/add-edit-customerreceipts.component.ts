@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,21 +7,42 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './add-edit-customerreceipts.component.html',
   styleUrls: ['./add-edit-customerreceipts.component.scss']
 })
-export class AddEditCustomerreceiptsComponent {
+export class AddEditCustomerreceiptsComponent implements OnInit{
   myForm: FormGroup;
+  voucherNumber:number;
 
-  constructor(private fb: FormBuilder) {
+//dropdown of customername
+  selectedCustomerNameOption: any = '';
+  CustomerNamedropdownvalues: any[] = [];
+
+
+  constructor(private fb: FormBuilder,private http:HttpClient) {
     this.myForm = this.fb.group({
-      vouchernumber: [{value: 0, disabled: true}],
+      vouchernumber: [{ value: 0, disabled: true }],
       voucherdate: ['', Validators.required],
       referencenumber: ['', Validators.required],
       referencedate: ['', Validators.required],
+      customername: ['', Validators.required],
+      destinationbank: ['', Validators.required],
+      description: ['', Validators.required],
+      totalreceiptamount: ['', Validators.required],
+      exchangerate: ['', Validators.required],
 
+    });
+
+
+  }
+  ngOnInit(){
+     // customername dropdown fetch the values from the API
+     this.http.get<any>('https://localhost:7208/api/Employee/GetDropDownList').subscribe(customernamedata => {
+      this.CustomerNamedropdownvalues = customernamedata.departmentList;
     });
   }
 
+  
   onSubmit() {
     if (this.myForm.valid) {
+
       const formValue = this.myForm.value;
       console.log(formValue); // Do something with the form value
     }
