@@ -155,6 +155,8 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
     { bloodvalue: '0+-1', bloodViewValue: 'O+' },
     { bloodvalue: '0--1', bloodViewValue: '0-' },
   ];
+  
+  public updatedata: any;
 
   constructor(private builder: FormBuilder,
      private http: HttpClient, 
@@ -379,7 +381,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
 
 
       if (this.data) {
-        var data = {
+        var updatedata = {
           employeeId: 0,
           employeeCode: this.Empregister.value.basic?.employeeCode,
           employeeName: this.Empregister.value.basic?.employeeName,
@@ -431,8 +433,9 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
           empHierarchyList: hierarchyvalues.slice(1),
           
         }
+        console.log(this.data,"updatedata")
         this._empservice
-          .updateEmployee(this.data)
+          .updateEmployee(this.updatedata)
           .subscribe({
             next: (val: any) => {
               this._coreService.openSnackBar('Employee detail updated!');

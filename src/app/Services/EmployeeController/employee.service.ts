@@ -6,7 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class EmployeeService {
+
+   
+  
   constructor(private _http: HttpClient) {}
+ 
  
 
   addEmployee(data: any): Observable<any> {
@@ -14,7 +18,11 @@ export class EmployeeService {
   }
 
   updateEmployee(data: any): Observable<any> {
-    return this._http.post(`https://localhost:7208/api/Employee/EditEmployee`, data);
+     // Set the request headers
+     const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this._http.post(`https://localhost:7208/api/Employee/EditEmployee`, data,{headers});
   }
 
   getEmployeeList(): Observable<any> {
