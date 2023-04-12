@@ -20,6 +20,7 @@ import { AdvanceadjustmentComponent } from 'src/app/Components/AccountsControlle
 import { EditadvanceadjustmentComponent } from 'src/app/Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { CreditnoteindexComponent } from 'src/app/Components/AccountsController/CreditNote/creditnoteindex/creditnoteindex.component';
 import { AddCreditnoteComponent } from 'src/app/Components/AccountsController/CreditNote/add-creditnote/add-creditnote.component';
+import { ChangepasswordComponent } from 'src/app/Components/Navigation/ChangePass/changepassword/changepassword.component';
 
 const routes: Routes = [
 
@@ -30,6 +31,7 @@ const routes: Routes = [
     component: TopnavbarComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'changepassword', component: ChangepasswordComponent },
       //EmployeeController
       { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },
       { path: 'Emp-addeditEmpcontroller', component: AddEditEmployeecontrollerComponent },

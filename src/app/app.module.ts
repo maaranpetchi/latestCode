@@ -12,12 +12,11 @@ import { NavigationModule } from './NavigationModuleRouting/navigation/navigatio
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AdvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Index/advanceadjustment/advanceadjustment.component';
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
-import { CreditnoteindexComponent } from './Components/AccountsController/CreditNote/creditnoteindex/creditnoteindex.component';
-import { AddCreditnoteComponent } from './Components/AccountsController/CreditNote/add-creditnote/add-creditnote.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,

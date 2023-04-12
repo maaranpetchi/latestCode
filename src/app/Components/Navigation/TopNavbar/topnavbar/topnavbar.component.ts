@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { LogoutService } from 'src/app/Services/Logout/logout.service';
+import { ChangepasswordComponent } from '../../ChangePass/changepassword/changepassword.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-topnavbar',
@@ -10,7 +12,7 @@ import { LogoutService } from 'src/app/Services/Logout/logout.service';
   styleUrls: ['./topnavbar.component.scss']
 })
 export class TopnavbarComponent {
-constructor(private loginservice:LoginService ,private router: Router, private logoutService:LogoutService,private cookieService: CookieService){}
+constructor(private _dialog: MatDialog,private loginservice:LoginService ,private router: Router, private logoutService:LogoutService,private cookieService: CookieService){}
 
   getloginusername():string{
     return this.loginservice.getToken();
@@ -37,4 +39,17 @@ constructor(private loginservice:LoginService ,private router: Router, private l
       }
     );
   }
+
+  openchangepassword() {
+    const dialogRef = this._dialog.open(ChangepasswordComponent);
+    dialogRef.afterClosed().subscribe({
+      // next: (val) => {
+      //   if (val) {
+      //     this.getEmployeeList();
+      //   }
+      // },
+    });
+
+  }
+
 }

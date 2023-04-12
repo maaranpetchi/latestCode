@@ -17,7 +17,7 @@
 
   <!-- define the dropdown menu using mat-menu and mat-menu-item -->
   <mat-menu #menu="matMenu">
-    <button mat-menu-item><mat-icon>account_circle</mat-icon>ChangePassword</button>
+    <button   (click)="openchangepassword()" mat-menu-item><mat-icon>account_circle</mat-icon>ChangePassword</button>
     <button (click)="logout()" mat-menu-item><mat-icon>lock_open</mat-icon> Logout</button>
   </mat-menu>
 </mat-toolbar>

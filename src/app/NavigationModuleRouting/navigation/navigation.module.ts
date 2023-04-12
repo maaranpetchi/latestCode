@@ -25,12 +25,15 @@ import { AdvanceadjustmentComponent } from 'src/app/Components/AccountsControlle
 import { EditadvanceadjustmentComponent } from 'src/app/Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { CreditnoteindexComponent } from 'src/app/Components/AccountsController/CreditNote/creditnoteindex/creditnoteindex.component';
 import { AddCreditnoteComponent } from 'src/app/Components/AccountsController/CreditNote/add-creditnote/add-creditnote.component';
+import { ChangepasswordComponent } from 'src/app/Components/Navigation/ChangePass/changepassword/changepassword.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     //Login
     LoginComponent,
+    //changepassword
+    ChangepasswordComponent,
     //navbar
     TopnavbarComponent,
     //EmployeeController
