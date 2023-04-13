@@ -70,8 +70,10 @@
                             </div>
                         </div>
                         <!--4TH ROW-->
+                      
                         <div class="row">
                             <div class="col">
+                                <div *ngIf="editFormVisible$ | async">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Date of Resignation</mat-label>
                                     <input ngDefaultControl formControlName="dor" matInput [matDatepicker]="DOR">
@@ -79,8 +81,10 @@
                                     <mat-datepicker-toggle matIconSuffix [for]="DOR"></mat-datepicker-toggle>
                                     <mat-datepicker #DOR></mat-datepicker>
                                 </mat-form-field>
+                                </div>
                             </div>
                             <div class="col">
+                                <div *ngIf="editFormVisible$ | async">
                                 <mat-form-field>
                                     <mat-label>Resign Reasons</mat-label>
                                     <mat-select ngDefaultControl formControlName="resignReasons"
@@ -91,8 +95,9 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                            </div>
-                        </div>
+                                </div>
+                            </div> 
+                    </div>
                         <!--5TH ROW-->
                         <div class="row">
                             <div class="col">

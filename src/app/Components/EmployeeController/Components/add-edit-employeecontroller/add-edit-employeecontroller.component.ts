@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms"
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
 import { CoreService } from 'src/app/Services/EmployeeController/Core/core.service';
 import { EmployeeService } from 'src/app/Services/EmployeeController/employee.service';
 
@@ -46,6 +47,7 @@ interface SYSTEM {
 })
 
 export class AddEditEmployeecontrollerComponent implements OnInit {
+  editFormVisible$ = this.editService.editFormVisible;
   //adrress same as temporary field
   public firstValue: string = '';
   public secondValue: string = '';
@@ -159,6 +161,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
   public updatedata: any;
 
   constructor(private builder: FormBuilder,
+    private editService:EditService,
      private http: HttpClient, 
      private _empservice: EmployeeService, 
      private _dialogRef: MatDialogRef<AddEditEmployeecontrollerComponent>,

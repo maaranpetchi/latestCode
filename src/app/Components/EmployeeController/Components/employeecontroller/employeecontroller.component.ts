@@ -9,13 +9,15 @@ import { EmployeeService } from 'src/app/Services/EmployeeController/employee.se
 import { json } from 'stream/consumers';
 import { AddEditEmployeecontrollerComponent } from '../add-edit-employeecontroller/add-edit-employeecontroller.component';
 import { HttpClient } from '@angular/common/http';
-
+import { EventEmitter, Output } from '@angular/core';
+import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
 @Component({
   selector: 'app-employeecontroller',
   templateUrl: './employeecontroller.component.html',
   styleUrls: ['./employeecontroller.component.scss']
 })
 export class EmployeecontrollerComponent implements OnInit {
+  
 
   displayedColumns: string[] = [
     'employeeCode',
@@ -36,6 +38,7 @@ export class EmployeecontrollerComponent implements OnInit {
   isResignInclude = false;
 
   constructor(private _dialog: MatDialog,
+    private editService: EditService,
     private _empService: EmployeeService,
     private _coreService: CoreService,
     private http: HttpClient) { }
@@ -86,6 +89,7 @@ export class EmployeecontrollerComponent implements OnInit {
 
 
   openEditForm(data: any) {
+    this.editService.showEditForm();
     console.log(data, "openeditform");
     const dialogRef = this._dialog.open(AddEditEmployeecontrollerComponent, {
       data,
@@ -98,6 +102,7 @@ export class EmployeecontrollerComponent implements OnInit {
         }
       },
     });
+   
   }
 
   deleteEmployee(id: number) {
