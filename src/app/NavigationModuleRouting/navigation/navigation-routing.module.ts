@@ -21,11 +21,17 @@ import { EditadvanceadjustmentComponent } from 'src/app/Components/AccountsContr
 import { CreditnoteindexComponent } from 'src/app/Components/AccountsController/CreditNote/creditnoteindex/creditnoteindex.component';
 import { AddCreditnoteComponent } from 'src/app/Components/AccountsController/CreditNote/add-creditnote/add-creditnote.component';
 import { ChangepasswordComponent } from 'src/app/Components/Navigation/ChangePass/changepassword/changepassword.component';
+import { InvoicecancellationComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancellation/invoicecancellation.component';
+import { ViewinvoicecancelComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/viewinvoicecancel/viewinvoicecancel.component';
+import { InvoicecancelleddetailsComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancelleddetails/invoicecancelleddetails.component';
 
 const routes: Routes = [
 
   { path: "", component: LoginComponent },
   { path: "login", component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  
+  
   {
     path: 'topnavbar',
     component: TopnavbarComponent,
@@ -45,23 +51,29 @@ const routes: Routes = [
       //CustomerVSprocess
       { path: 'cus-cusvsprocess', component: CustomervsprocessComponent },
        //AccountsController
-        //pricingcalculation
-        {path:'acc-pricing', component:PricingcalculationComponent},
-        {path:'acc-pricingpopup', component:InformationpopupComponent},
-        //Non-billable
-        {path:'acc-nonbill', component:NonbillablejobsComponent},
-         //Customerreceipts
-        {path:'acc-customer', component:CustomerreceiptsindexComponent},
-        {path:'acc-addeditcustomer', component:AddEditCustomerreceiptsComponent},
-        //ScopeChange
-        {path:'acc-scopechange', component:ScopechangeComponent},
-        //Advance-Adjustment
-        {path:'acc-advance', component:AdvanceadjustmentComponent},
-        {path:'acc-editadvance', component:EditadvanceadjustmentComponent},
-        //credit-note
-        {path:'acc-creditnote', component:CreditnoteindexComponent},
-        {path:'acc-addcredit', component:AddCreditnoteComponent},
-    ]
+              //pricingcalculation
+              {path:'acc-pricing', component:PricingcalculationComponent},
+              {path:'acc-pricingpopup', component:InformationpopupComponent},
+              //Non-billable
+              {path:'acc-nonbill', component:NonbillablejobsComponent},
+               //Customerreceipts
+              {path:'acc-customer', component:CustomerreceiptsindexComponent},
+              {path:'acc-addeditcustomer', component:AddEditCustomerreceiptsComponent},
+              //ScopeChange
+              {path:'acc-scopechange', component:ScopechangeComponent},
+              //Advance-Adjustment
+              {path:'acc-advance', component:AdvanceadjustmentComponent},
+              {path:'acc-editadvance', component:EditadvanceadjustmentComponent},
+              //credit-note
+              {path:'acc-creditnote', component:CreditnoteindexComponent},
+              {path:'acc-addcredit', component:AddCreditnoteComponent},
+             // Invoicecancellation,
+              {path:'acc-invcan', component: InvoicecancellationComponent},
+              // ViewinvoicecancelComponent,
+              {path:'acc-viewinvcan', component:  ViewinvoicecancelComponent,},
+              // InvoicecancelleddetailsComponent,
+              {path:'acc-viewinvdet', component:  InvoicecancelleddetailsComponent,},
+    ]      
 
 
   }

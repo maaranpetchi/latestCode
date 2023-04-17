@@ -17,7 +17,7 @@
     </mat-form-field>
     <br>
     <mat-form-field>
-        <mat-label>Select an option</mat-label>
+        <mat-label>Employee</mat-label>
         <mat-select ngDefaultControl formControlName="employeeName">
           <mat-option *ngFor="let option of data.employeeList" [value]="option.employeeId">{{option.employeeName}}</mat-option>
         </mat-select>

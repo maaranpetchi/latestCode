@@ -1,20 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+//receiptmode dropdown INTERFACE
+interface RECEIPTMODE {
+  receiptmodevalue: string;
+  receiptmodeviewvalue: string;
+}
 @Component({
   selector: 'app-add-edit-customerreceipts',
   templateUrl: './add-edit-customerreceipts.component.html',
   styleUrls: ['./add-edit-customerreceipts.component.scss']
 })
+
 export class AddEditCustomerreceiptsComponent implements OnInit{
   myForm: FormGroup;
   voucherNumber:number;
 
-//dropdown of customername
+//dropdown restapi of customername
   selectedCustomerNameOption: any = '';
   CustomerNamedropdownvalues: any[] = [];
 
+
+   //receiptmode dropdown values
+   receiptmodes: RECEIPTMODE[] = [
+    { receiptmodevalue: 'Charges',receiptmodeviewvalue: 'Charges' },
+    { receiptmodevalue: 'Paypal', receiptmodeviewvalue: 'Paypal' },
+    { receiptmodevalue: 'Wire', receiptmodeviewvalue: 'Wire' },
+  ];
 
   constructor(private fb: FormBuilder,private http:HttpClient) {
     this.myForm = this.fb.group({

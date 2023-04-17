@@ -1,0 +1,67 @@
+<div class="grid-container">
+    <div class="fullform"><div class="table-container mat-elevation-z8">
+        <h1 style="text-align: center;font-family: 'Times New Roman', Times, serif;color:#FF9671">Invoice Cancelled Details</h1>
+              
+        <table mat-table [dataSource]="dataSource" matSort>
+      
+          <!-- CancellationNo Column -->
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Qunantity </th>
+            <td mat-cell *matCellDef="let element"> {{element.CancellationNo}} </td>
+          </ng-container>
+      
+          <!-- InvoiceNo Column -->
+          <ng-container matColumnDef="rate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
+            <td mat-cell *matCellDef="let element"> {{element.InvoiceNo}} </td>
+          </ng-container>
+      
+          <!-- CancelledDate Column -->
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.CancelledDate}} </td>
+          </ng-container>
+      
+          <!-- CancelledBy Column -->
+          <ng-container matColumnDef="pricingtype">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> PricingType </th>
+            <td mat-cell *matCellDef="let element"> {{element.CancelledBy}} </td>
+          </ng-container>
+      
+          <!-- ProductValue Column -->
+          <ng-container matColumnDef="scope">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Scope </th>
+            <td mat-cell *matCellDef="let element"> {{element.ProductValue}} </td>
+          </ng-container>
+      
+          <!-- Wavier Column -->
+          <ng-container matColumnDef="department">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+            <td mat-cell *matCellDef="let element"> {{element.Wavier}} </td>
+          </ng-container>
+      
+          <!-- RoundOff Column -->
+          <ng-container matColumnDef="invoicenumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> invoice No </th>
+            <td mat-cell *matCellDef="let element"> {{element.RoundOff}} </td>
+          </ng-container>
+      
+          <!-- Discount Column -->
+          <ng-container matColumnDef="invoicedate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.Discount}} </td>
+          </ng-container>
+      
+      
+          <!-- Column definitions -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      
+        <!-- Paginator -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+      </div></div>
+  </div>
+
+
+  

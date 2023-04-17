@@ -26,6 +26,9 @@ import { EditadvanceadjustmentComponent } from 'src/app/Components/AccountsContr
 import { CreditnoteindexComponent } from 'src/app/Components/AccountsController/CreditNote/creditnoteindex/creditnoteindex.component';
 import { AddCreditnoteComponent } from 'src/app/Components/AccountsController/CreditNote/add-creditnote/add-creditnote.component';
 import { ChangepasswordComponent } from 'src/app/Components/Navigation/ChangePass/changepassword/changepassword.component';
+import { InvoicecancellationComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancellation/invoicecancellation.component';
+import { ViewinvoicecancelComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/viewinvoicecancel/viewinvoicecancel.component';
+import { InvoicecancelleddetailsComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancelleddetails/invoicecancelleddetails.component';
 
 @NgModule({
   declarations: [
@@ -63,8 +66,13 @@ import { ChangepasswordComponent } from 'src/app/Components/Navigation/ChangePas
     //6.creditnote
     CreditnoteindexComponent,
     AddCreditnoteComponent,
-
-  ],
+    //7.invoicecancellation
+    InvoicecancellationComponent,
+      // 1.viewinvoicecancelationlist
+      ViewinvoicecancelComponent,
+      //2.InvoicecancelleddetailsComponent
+      InvoicecancelleddetailsComponent
+    ],
   imports: [
     CommonModule,
     NavigationRoutingModule,

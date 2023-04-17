@@ -8,7 +8,7 @@
           <div class="col">
             <mat-form-field>
               <mat-label>VoucherNumber</mat-label>
-              <input matInput type="number" formControlName="vouchernumber" [disabled]="true" [value]="voucherNumber">
+              <input matInput type="text" formControlName="vouchernumber" [disabled]="true" [value]="voucherNumber">
             </mat-form-field>
           </div>
           <div class="col">
@@ -26,7 +26,7 @@
           <div class="col">
             <mat-form-field>
               <mat-label>ReferenceNumber</mat-label>
-              <input type="number" matInput placeholder="referencenumber" formControlName="referencenumber">
+              <input type="text" matInput placeholder="referencenumber" formControlName="referencenumber">
             </mat-form-field>
           </div>
           <div class="col">
@@ -86,7 +86,20 @@
       </div>
      
       <div class="receiptdetails">
-        
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Receipt Mode</mat-label>
+              <mat-select ngDefaultControl formControlName="receiptmode">
+                  <mat-option *ngFor="let receiptmode of receiptmodes" [value]="receiptmode.receiptmodevalue">
+                      {{receiptmode.receiptmodeviewvalue}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+    
+          </div>
+        </div>
+       
       </div>
 
       <button type="submit">Submit</button>
