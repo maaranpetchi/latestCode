@@ -40,10 +40,16 @@ export class AddCreditnoteComponent implements OnInit{
      this._empservice.getcustomerdropdown().subscribe(customerdata => {
       this.Customerdropdownvalues = customerdata.departmentList;
     });
+
+//Invoice number dropdown
+    this.http.get('https://yourapi.com/data').subscribe((data: any) => {
+    this.apiData = data;
+  });
   }
  
 
-
+  selectedValue: any;
+  apiData: any[] = [];
 
 
   onFormSubmit(){

@@ -35,7 +35,7 @@ export class ScopechangeComponent implements OnInit {
     { value: '1', viewValue: 'Artwork' },
     { value: '2', viewValue: 'Digitizing' },
   ];
-  dataSource = new MatTableDataSource();
+  dataSource = new MatTableDataSource([]);
   
 
 

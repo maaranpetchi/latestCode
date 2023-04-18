@@ -12,11 +12,18 @@ import { NavigationModule } from './NavigationModuleRouting/navigation/navigatio
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AdvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Index/advanceadjustment/advanceadjustment.component';
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
+import { InvoiceComponent } from './Components/AccountsController/Invoice/invoice/invoice.component';
+import { DetailsComponent } from './Components/AccountsController/Invoice/details/details.component';
+import { GeneratedinvoiceComponent } from './Components/AccountsController/Invoice/generatedinvoice/generatedinvoice.component';
+import { ConfirminvoiceComponent } from './Components/AccountsController/Invoice/confirminvoice/confirminvoice.component';
+import { PopupinvoiceComponent } from './Components/AccountsController/Invoice/popupinvoice/popupinvoice.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    PopupinvoiceComponent,
+    
     
    
    

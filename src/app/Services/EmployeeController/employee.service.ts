@@ -18,11 +18,11 @@ export class EmployeeService {
   }
 
   updateEmployee(data: any): Observable<any> {
-     // Set the request headers
-     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    return this._http.post(`https://localhost:7208/api/Employee/EditEmployee`, data,{headers});
+    //  // Set the request headers
+    //  const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json'
+    // });
+    return this._http.post(`https://localhost:7208/api/Employee/EditEmployee`, data);
   }
 
   getEmployeeList(): Observable<any> {

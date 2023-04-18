@@ -24,6 +24,10 @@ import { ChangepasswordComponent } from 'src/app/Components/Navigation/ChangePas
 import { InvoicecancellationComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancellation/invoicecancellation.component';
 import { ViewinvoicecancelComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/viewinvoicecancel/viewinvoicecancel.component';
 import { InvoicecancelleddetailsComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancelleddetails/invoicecancelleddetails.component';
+import { InvoiceComponent } from 'src/app/Components/AccountsController/Invoice/invoice/invoice.component';
+import { DetailsComponent } from 'src/app/Components/AccountsController/Invoice/details/details.component';
+import { GeneratedinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/generatedinvoice/generatedinvoice.component';
+import { ConfirminvoiceComponent } from 'src/app/Components/AccountsController/Invoice/confirminvoice/confirminvoice.component';
 
 const routes: Routes = [
 
@@ -73,9 +77,12 @@ const routes: Routes = [
               {path:'acc-viewinvcan', component:  ViewinvoicecancelComponent,},
               // InvoicecancelleddetailsComponent,
               {path:'acc-viewinvdet', component:  InvoicecancelleddetailsComponent,},
+              //Invoicecomponent
+              {path:'acc-invoice', component:  InvoiceComponent,},
+              {path:'acc-details', component:  DetailsComponent,},
+              {path:'acc-generatedinvoice', component:  GeneratedinvoiceComponent,},
+              {path:'acc-confirminvoice', component:  ConfirminvoiceComponent,},
     ]      
-
-
   }
 ];
 

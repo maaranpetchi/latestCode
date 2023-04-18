@@ -29,7 +29,11 @@ import { ChangepasswordComponent } from 'src/app/Components/Navigation/ChangePas
 import { InvoicecancellationComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancellation/invoicecancellation.component';
 import { ViewinvoicecancelComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/viewinvoicecancel/viewinvoicecancel.component';
 import { InvoicecancelleddetailsComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/invoicecancelleddetails/invoicecancelleddetails.component';
-
+import { MatSortModule } from '@angular/material/sort';
+import { InvoiceComponent } from 'src/app/Components/AccountsController/Invoice/invoice/invoice.component';
+import { DetailsComponent } from 'src/app/Components/AccountsController/Invoice/details/details.component';
+import { GeneratedinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/generatedinvoice/generatedinvoice.component';
+import { ConfirminvoiceComponent } from 'src/app/Components/AccountsController/Invoice/confirminvoice/confirminvoice.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -68,11 +72,16 @@ import { InvoicecancelleddetailsComponent } from 'src/app/Components/AccountsCon
     AddCreditnoteComponent,
     //7.invoicecancellation
     InvoicecancellationComponent,
-      // 1.viewinvoicecancelationlist
-      ViewinvoicecancelComponent,
-      //2.InvoicecancelleddetailsComponent
-      InvoicecancelleddetailsComponent
-    ],
+    // 1.viewinvoicecancelationlist
+    ViewinvoicecancelComponent,
+    //2.InvoicecancelleddetailsComponent
+    InvoicecancelleddetailsComponent,
+    //3.invoice
+    InvoiceComponent,
+    DetailsComponent,
+    GeneratedinvoiceComponent,
+    ConfirminvoiceComponent,
+  ],
   imports: [
     CommonModule,
     NavigationRoutingModule,
@@ -80,7 +89,8 @@ import { InvoicecancelleddetailsComponent } from 'src/app/Components/AccountsCon
     BrowserModule,
     FormsModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSortModule
   ]
 })
 export class NavigationModule { }

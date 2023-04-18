@@ -1,0 +1,23 @@
+
+<h1 style="text-align: center;font-family: 'Times New Roman', Times, serif;color:#FF9671">Invoice </h1>
+              
+
+<ul class="demo">
+    <button class="btn btn-primary"><a (click)="toggle('detail')">Detail</a></button>&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-primary"><a (click)="toggle('generatedinvoice')">Generated Invoice</a></button>&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-primary"><a (click)="toggle('confirminvoice')">Confirm Invoice</a></button>
+</ul>
+<div class="container">
+    <div class="row justify-content-center">
+  
+      <div class="col-12">
+        <app-details *ngIf="showDetail"></app-details>
+        <app-generatedinvoice *ngIf="showGeneratedinvoice"></app-generatedinvoice>
+        <app-confirminvoice *ngIf="showConfirminvoice"></app-confirminvoice>
+      </div>
+  
+    </div>
+  </div>
+<!-- <div class="showingcontent">
+  
+</div> -->

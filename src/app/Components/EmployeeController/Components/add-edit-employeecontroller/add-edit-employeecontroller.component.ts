@@ -281,8 +281,8 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
       dob: this.builder.control(this.data?.dateOfBirth, Validators.required),
       doj: this.builder.control(this.data?.dateOfJoining, Validators.required),
       martialstatus: this.builder.control(this.data?.maritalStatus, Validators.required),
-      dor: this.builder.control(this.data?.dateOfResignation, Validators.required),
-      resignReasons: this.builder.control(this.data?.resignReasons, Validators.required),
+      dor: this.builder.control(this.data?.dateOfResignation ),
+      resignReasons: this.builder.control(this.data?.resignReasons, ),
       gender: this.builder.control(this.data?.gender, Validators.required),
       destination: this.builder.control(this.data?.designationId, Validators.required),
       bloodGroup: this.builder.control(this.data?.bloodGroup, Validators.required),
@@ -438,7 +438,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
         }
         console.log(this.data,"updatedata")
         this._empservice
-          .updateEmployee(this.updatedata)
+          .updateEmployee(updatedata)
           .subscribe({
             next: (val: any) => {
               this._coreService.openSnackBar('Employee detail updated!');
@@ -486,8 +486,8 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
           addressType: "Permanent",
           mobileNo: this.Empregister.value.address?.mobileNumber,
           phoneNo: this.Empregister.value.address?.phonenum,
-          resignReasons: this.Empregister.value.basic?.resignReasons,
-          dateOfResignation: this.Empregister.value.basic?.dor,
+          // resignReasons: this.Empregister.value.basic?.resignReasons,
+          // dateOfResignation: this.Empregister.value.basic?.dor,
           processCode: this.Empregister.value.address?.employeeProcess,
           result: true,
           roleDescription: '',

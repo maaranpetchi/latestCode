@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./invoicecancellation.component.scss']
 })
 export class InvoicecancellationComponent {
+  invoicenumbers: any;
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +23,7 @@ export class InvoicecancellationComponent {
     'roundoff',
     'discount',
     'invoicevalue',
-    
+
   ];
 
   selectedInvoices: any[] = [];
@@ -56,8 +57,8 @@ export class InvoicecancellationComponent {
   }
 
 
-
   ngOnInit(): void {
+    this.invoicenumbers = [];
     //client dropdown
     this.http.get<any>('https://localhost:7208/api/invoice/getdropclientforinvoicecancel').subscribe(data => {
       this.clientdata = data;
@@ -87,18 +88,30 @@ export class InvoicecancellationComponent {
     ClientId: new FormControl("", Validators.required)
   });
 
+  storinginvoicevalue: any[] = [];
 
+  onOptionSelected(event: any, myform: FormGroup) {
+    console.log(myform.value);
+    const apiUrl = "https://localhost:7208/api/Invoice/GetDropInvoiceforCancel"; // replace with your actual API URL
+    const requestData = {
+      id: myform.value.ClientId
+    };
 
-  
+    this.http.post<any>(apiUrl, requestData).subscribe(response => {
+      console.log(response.clientList); // handle the API response here
+      this.storinginvoicevalue = response.clientList;
+    });
+  }
+
   onSubmit() {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetClientDetails', {
-      "clientId": this.myForm.value?.ClientId,
-      "invoicenumber": this.myForm.value?.invoicenumber,
+    this.http.post<any>('https://localhost:7208/api/Invoice/GetInvoiceMasterforSalesCancel', {
+      "Id": 0,
+      "invoiceNo":this.myForm.value.invoicenumber
     }).subscribe((results: any) => {
       // Set the search results in the data source
 
-      this.dataSource.data = results.getInvoice;
+      this.dataSource.data = results.invoicesc;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       console.log(results, "results")
@@ -106,5 +119,5 @@ export class InvoicecancellationComponent {
     )
   }
 
-  
+
 }
