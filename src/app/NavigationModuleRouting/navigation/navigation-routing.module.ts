@@ -30,6 +30,8 @@ import { GeneratedinvoiceComponent } from 'src/app/Components/AccountsController
 import { ConfirminvoiceComponent } from 'src/app/Components/AccountsController/Invoice/confirminvoice/confirminvoice.component';
 import { PopupinvoicecancellistComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/popupinvoicecancellist/popupinvoicecancellist.component';
 import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/popupinvoice/popupinvoice.component';
+import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wavier/wavier.component';
+import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
 
 const routes: Routes = [
 
@@ -73,6 +75,11 @@ const routes: Routes = [
               //credit-note
               {path:'acc-creditnote', component:CreditnoteindexComponent},
               {path:'acc-addcredit', component:AddCreditnoteComponent},
+              //wavier
+              {path:'acc-wavier', component:WavierComponent},
+              //Tally
+              {path:'acc-tally', component:TallyComponent},
+              
              // Invoicecancellation,
               {path:'acc-invcan', component: InvoicecancellationComponent},
                   // ViewinvoicecancelComponent,

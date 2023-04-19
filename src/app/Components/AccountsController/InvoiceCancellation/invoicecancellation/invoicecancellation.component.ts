@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,6 +13,9 @@ import { InvoicecancelleddetailsComponent } from '../invoicecancelleddetails/inv
   styleUrls: ['./invoicecancellation.component.scss']
 })
 export class InvoicecancellationComponent {
+  @Output() invoiceNumberSelected = new EventEmitter<string>();
+ 
+ 
   invoicenumbers: any;
 
   constructor(private http: HttpClient,private dialog: MatDialog) { }
@@ -32,12 +35,13 @@ export class InvoicecancellationComponent {
   openPopupForm(invoiceNo: string): void {
     const dialogRef = this.dialog.open(InvoicecancelleddetailsComponent, {
       width: '800px',
-      data: { invoiceNo: invoiceNo }
+      data: { invoiceNo: this.myForm.value.invoicenumber }
     });
   
     dialogRef.afterClosed().subscribe(result => {
       console.log('The popup form was closed');
     });
+    this.invoiceNumberSelected.emit(invoiceNo);
   }
   
   selectedInvoices: any[] = [];

@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit,Inject, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-popupinvoicecancellist',
   templateUrl: './popupinvoicecancellist.component.html',
@@ -14,13 +15,13 @@ export class PopupinvoicecancellistComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     const request = {
       // your request body goes here
       "id":0,
-      "invoiceNo":"18190055"
+      "invoiceNo":this.data.invoiceNo
     };
 
     this.http.post<any>('https://localhost:7208/api/Invoice/GetInvoiceTranforSalesCancel', request).subscribe(data => {

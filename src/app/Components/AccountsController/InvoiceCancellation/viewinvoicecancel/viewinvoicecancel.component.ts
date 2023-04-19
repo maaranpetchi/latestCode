@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { HttpClient } from '@angular/common/http';
 import { OnInit, ViewChild } from '@angular/core';
+import { PopupinvoicecancellistComponent } from '../popupinvoicecancellist/popupinvoicecancellist.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-viewinvoicecancel',
   templateUrl: './viewinvoicecancel.component.html',
@@ -14,8 +16,10 @@ export class ViewinvoicecancelComponent  implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @Output() invoiceNumberSelected = new EventEmitter<string>();
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient,private dialog:MatDialog) {}
 
   ngOnInit() {
     this.getData();
@@ -29,21 +33,37 @@ export class ViewinvoicecancelComponent  implements OnInit {
   //   });
   // }
 
+
+  openPopupForm(invoiceNo: string): void {
+    const dialogRef = this.dialog.open(PopupinvoicecancellistComponent, {
+      width: '1000px',
+      data: { invoiceNo: invoiceNo}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The popup form was closed');
+    });
+    this.invoiceNumberSelected.emit(invoiceNo);
+  }
+  
+
+
+
   getData() {
-    this.http.get('https://myapi.com/data').subscribe((response: any) => {
-      if (response && response.length) {
+    this.http.get('https://localhost:7208/api/Invoice/GetInvoiceMasterDetailforCancelled').subscribe((response: any) => {
+      if (response && response.invoicesc.length>0) {
         // transform the API response if needed to match the structure of your table's columns
-        const data = response.map(item => {
+        const data = response.invoicesc.map(item => {
           return {
-            CancellationNo: item.cancellationNo,
-            InvoiceNo: item.invoiceNo,
-            CancelledDate: item.cancelledDate,
-            CancelledBy: item.cancelledBy,
+            CancellationNo: item.invoiceNo,
+            InvoiceNo: item.originalNo,
+            CancelledDate: item.invoiceDate,
+            CancelledBy: item.employeeName,
             ProductValue: item.productValue,
-            Wavier: item.wavier,
+            Wavier: item.waiver,
             RoundOff: item.roundOff,
             Discount: item.discount,
-            Invoicevalue: item.invoiceValue
+            Invoicevalue: item.totalInvoiceValue
           };
         });
         // assign the transformed data to the MatTableDataSource

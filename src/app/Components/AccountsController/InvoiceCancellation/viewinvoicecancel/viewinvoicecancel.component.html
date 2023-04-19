@@ -7,7 +7,7 @@
           <!-- CancellationNo Column -->
           <ng-container matColumnDef="CancellationNo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> CancellationNo </th>
-            <td mat-cell *matCellDef="let element"> {{element.CancellationNo}} </td>
+            <td mat-cell *matCellDef="let element"> <a class="popinvoice"  (click)="openPopupForm(element.invoiceNo)">{{element.CancellationNo}}</a></td>
           </ng-container>
       
           <!-- InvoiceNo Column -->

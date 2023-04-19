@@ -36,6 +36,8 @@ import { GeneratedinvoiceComponent } from 'src/app/Components/AccountsController
 import { ConfirminvoiceComponent } from 'src/app/Components/AccountsController/Invoice/confirminvoice/confirminvoice.component';
 import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/popupinvoice/popupinvoice.component';
 import { PopupinvoicecancellistComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/popupinvoicecancellist/popupinvoicecancellist.component';
+import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wavier/wavier.component';
+import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -57,34 +59,38 @@ import { PopupinvoicecancellistComponent } from 'src/app/Components/AccountsCont
     //Customervsprocess
     CustomervsprocessComponent,
     //AccountsController
-    //1.pricingcalculation
-    PricingcalculationComponent,
-    //2.NonBillableJobs
-    NonbillablejobsComponent,
-    //3.customerreceipts
-    CustomerreceiptsindexComponent,
-    AddEditCustomerreceiptsComponent,
-    //4.scopeChange
-    ScopechangeComponent,
-    //5.AdvanceAdjustment
-    AdvanceadjustmentComponent,
-    EditadvanceadjustmentComponent,
-    //6.creditnote
-    CreditnoteindexComponent,
-    AddCreditnoteComponent,
-    //7.invoicecancellation
-    InvoicecancellationComponent,
-    // 1.viewinvoicecancelationlist
-    ViewinvoicecancelComponent,
-    //2.InvoicecancelleddetailsComponent
-    InvoicecancelleddetailsComponent,
-    //3.invoice
-    InvoiceComponent,
-    DetailsComponent,
-    GeneratedinvoiceComponent,
-    ConfirminvoiceComponent,
-    PopupinvoiceComponent,
-    PopupinvoicecancellistComponent,
+         //1.pricingcalculation
+         PricingcalculationComponent,
+         //2.NonBillableJobs
+         NonbillablejobsComponent,
+         //3.customerreceipts
+         CustomerreceiptsindexComponent,
+         AddEditCustomerreceiptsComponent,
+         //4.scopeChange
+         ScopechangeComponent,
+         //5.AdvanceAdjustment
+         AdvanceadjustmentComponent,
+         EditadvanceadjustmentComponent,
+         //6.creditnote
+         CreditnoteindexComponent,
+         AddCreditnoteComponent,
+         //7.invoicecancellation
+         InvoicecancellationComponent,
+         // 1.viewinvoicecancelationlist
+         ViewinvoicecancelComponent,
+         //2.InvoicecancelleddetailsComponent
+         InvoicecancelleddetailsComponent,
+         //3.invoice
+         InvoiceComponent,
+         DetailsComponent,
+         GeneratedinvoiceComponent,
+         ConfirminvoiceComponent,
+         PopupinvoiceComponent,
+         PopupinvoicecancellistComponent,
+         //Wavier
+         WavierComponent,
+        //tally
+        TallyComponent,
   ],
   imports: [
     CommonModule,

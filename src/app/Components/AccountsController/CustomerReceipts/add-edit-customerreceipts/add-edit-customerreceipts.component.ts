@@ -15,6 +15,11 @@ interface RECEIPTMODE {
 export class AddEditCustomerreceiptsComponent implements OnInit{
   myForm: FormGroup;
   voucherNumber:number;
+  totalreceiptamount:string='';
+  Amount:string='';
+  setamountvalue(){
+    this.Amount= this.totalreceiptamount;
+  }
 
 //dropdown restapi of customername
   selectedCustomerNameOption: any = '';
@@ -30,7 +35,7 @@ export class AddEditCustomerreceiptsComponent implements OnInit{
 
   constructor(private fb: FormBuilder,private http:HttpClient) {
     this.myForm = this.fb.group({
-      vouchernumber: [{ value: 0, disabled: true }],
+      vouchernumber: [{value: 0, disabled: true}, Validators.required],
       voucherdate: ['', Validators.required],
       referencenumber: ['', Validators.required],
       referencedate: ['', Validators.required],
@@ -39,7 +44,11 @@ export class AddEditCustomerreceiptsComponent implements OnInit{
       description: ['', Validators.required],
       totalreceiptamount: ['', Validators.required],
       exchangerate: ['', Validators.required],
-
+      receiptmode: ['', Validators.required],
+      bankname: ['', Validators.required],
+      transactionnumber: ['', Validators.required],
+      amount: [{ disabled: true}, Validators.required],
+      transactiondate: ['', Validators.required],
     });
 
 

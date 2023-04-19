@@ -8,7 +8,7 @@
           <div class="col">
             <mat-form-field>
               <mat-label>VoucherNumber</mat-label>
-              <input matInput type="text" formControlName="vouchernumber" [disabled]="true" [value]="voucherNumber">
+              <input matInput type="text" formControlName="vouchernumber" >
             </mat-form-field>
           </div>
           <div class="col">
@@ -71,7 +71,7 @@
           <div class="col">
             <mat-form-field appearance="fill">
               <mat-label>Total Receipt Amount</mat-label>
-              <input matInput type="number" placeholder="totalreceiptamount" formControlName="totalreceiptamount">
+              <input matInput type="number" [ngModel]="totalreceiptamount" (input)="setamountvalue()" placeholder="totalreceiptamount" formControlName="totalreceiptamount">
             </mat-form-field>
           </div>
         </div>
@@ -86,8 +86,12 @@
       </div>
      
       <div class="receiptdetails">
+      
         <div class="row">
-          <div class="col">
+            <div class="receiptdetailsheading">
+              <h1 style="text-align: center;color:#939597;font-family: 'Times New Roman', Times, serif;">Receipt Details</h1>
+              </div>
+              <div class="col">
             <mat-form-field appearance="fill">
               <mat-label>Receipt Mode</mat-label>
               <mat-select ngDefaultControl formControlName="receiptmode">
@@ -96,10 +100,44 @@
                   </mat-option>
               </mat-select>
           </mat-form-field>
-    
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Bank Name</mat-label>
+              <input matInput type="text" placeholder="bankname" formControlName="bankname">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Transaction Number</mat-label>
+              <input matInput type="text" placeholder="transaction-number" formControlName="transactionnumber">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Transaction Date</mat-label>
+              <input matInput [matDatepicker]="transactiondate" placeholder="Choose a date"
+                formControlName="transactiondate">
+              <mat-datepicker-toggle matSuffix [for]="transactiondate"></mat-datepicker-toggle>
+              <mat-datepicker #transactiondate></mat-datepicker>
+              <mat-hint>(MM/DD/YYYY)</mat-hint>
+            </mat-form-field>
           </div>
         </div>
        
+        <div class="row">
+         <div class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Amount</mat-label>
+            <input matInput type="text" [ngModel]="Amount"  formControlName="amount" >
+          </mat-form-field>
+         </div>
+        </div>
+
+
       </div>
 
       <button type="submit">Submit</button>
