@@ -28,13 +28,15 @@ import { InvoiceComponent } from 'src/app/Components/AccountsController/Invoice/
 import { DetailsComponent } from 'src/app/Components/AccountsController/Invoice/details/details.component';
 import { GeneratedinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/generatedinvoice/generatedinvoice.component';
 import { ConfirminvoiceComponent } from 'src/app/Components/AccountsController/Invoice/confirminvoice/confirminvoice.component';
+import { PopupinvoicecancellistComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/popupinvoicecancellist/popupinvoicecancellist.component';
+import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/popupinvoice/popupinvoice.component';
 
 const routes: Routes = [
 
   { path: "", component: LoginComponent },
   { path: "login", component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  
+  {path:'acc-viewinvdet', component:  InvoicecancelleddetailsComponent,},
   
   {
     path: 'topnavbar',
@@ -73,15 +75,19 @@ const routes: Routes = [
               {path:'acc-addcredit', component:AddCreditnoteComponent},
              // Invoicecancellation,
               {path:'acc-invcan', component: InvoicecancellationComponent},
-              // ViewinvoicecancelComponent,
-              {path:'acc-viewinvcan', component:  ViewinvoicecancelComponent,},
-              // InvoicecancelleddetailsComponent,
-              {path:'acc-viewinvdet', component:  InvoicecancelleddetailsComponent,},
+                  // ViewinvoicecancelComponent,
+                   {path:'acc-viewinvcan', component:  ViewinvoicecancelComponent,},
+                  // InvoicecancelleddetailsComponent,
+                  {path:'acc-viewinvdet', component:  InvoicecancelleddetailsComponent,},
+                 //popupinvoicecancelledlist
+                  {path:'acc-popinvcan', component:  PopupinvoicecancellistComponent,},
               //Invoicecomponent
               {path:'acc-invoice', component:  InvoiceComponent,},
               {path:'acc-details', component:  DetailsComponent,},
               {path:'acc-generatedinvoice', component:  GeneratedinvoiceComponent,},
               {path:'acc-confirminvoice', component:  ConfirminvoiceComponent,},
+              {path:'acc-popupinvoice', component:  PopupinvoiceComponent,},
+             
     ]      
   }
 ];

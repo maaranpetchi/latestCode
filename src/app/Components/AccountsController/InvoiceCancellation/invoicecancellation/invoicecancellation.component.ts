@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { InvoicecancelleddetailsComponent } from '../invoicecancelleddetails/invoicecancelleddetails.component';
 
 @Component({
   selector: 'app-invoicecancellation',
@@ -13,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class InvoicecancellationComponent {
   invoicenumbers: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private dialog: MatDialog) { }
 
   displayedColumns: string[] = [
     'invoicenumber',
@@ -26,6 +28,18 @@ export class InvoicecancellationComponent {
 
   ];
 
+
+  openPopupForm(invoiceNo: string): void {
+    const dialogRef = this.dialog.open(InvoicecancelleddetailsComponent, {
+      width: '800px',
+      data: { invoiceNo: invoiceNo }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The popup form was closed');
+    });
+  }
+  
   selectedInvoices: any[] = [];
 
 

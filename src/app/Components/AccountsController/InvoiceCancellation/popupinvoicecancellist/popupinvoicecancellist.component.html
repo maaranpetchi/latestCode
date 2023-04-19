@@ -39,6 +39,14 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
             <td mat-cell *matCellDef="let element"> {{element.departmentName}} </td>
           </ng-container>
+          <ng-container matColumnDef="invoicenumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> InvoiceNumber </th>
+            <td mat-cell *matCellDef="let element"> {{element.departmentName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="invoicedate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> invoiceDate </th>
+            <td mat-cell *matCellDef="let element"> {{element.departmentName}} </td>
+          </ng-container>
       
       
       

@@ -34,6 +34,8 @@ import { InvoiceComponent } from 'src/app/Components/AccountsController/Invoice/
 import { DetailsComponent } from 'src/app/Components/AccountsController/Invoice/details/details.component';
 import { GeneratedinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/generatedinvoice/generatedinvoice.component';
 import { ConfirminvoiceComponent } from 'src/app/Components/AccountsController/Invoice/confirminvoice/confirminvoice.component';
+import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/popupinvoice/popupinvoice.component';
+import { PopupinvoicecancellistComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/popupinvoicecancellist/popupinvoicecancellist.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -81,6 +83,8 @@ import { ConfirminvoiceComponent } from 'src/app/Components/AccountsController/I
     DetailsComponent,
     GeneratedinvoiceComponent,
     ConfirminvoiceComponent,
+    PopupinvoiceComponent,
+    PopupinvoicecancellistComponent,
   ],
   imports: [
     CommonModule,

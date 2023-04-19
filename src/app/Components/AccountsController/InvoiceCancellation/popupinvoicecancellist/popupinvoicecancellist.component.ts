@@ -4,13 +4,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 @Component({
-  selector: 'app-invoicecancelleddetails',
-  templateUrl: './invoicecancelleddetails.component.html',
-  styleUrls: ['./invoicecancelleddetails.component.scss']
+  selector: 'app-popupinvoicecancellist',
+  templateUrl: './popupinvoicecancellist.component.html',
+  styleUrls: ['./popupinvoicecancellist.component.scss']
 })
-export class InvoicecancelleddetailsComponent implements OnInit {
+export class PopupinvoicecancellistComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['quantity', 'rate', 'value', 'pricingtype','scope','department'];
+  displayedColumns: string[] = ['quantity', 'rate', 'value', 'pricingtype','scope','department','invoicenumber','invoicedate'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
