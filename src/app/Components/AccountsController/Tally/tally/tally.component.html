@@ -2,7 +2,7 @@
     <div class="formgroup">
         <div class="firstform">
             <form [formGroup]="myForm"  (ngSubmit)="onSubmit()" >
-                <h1 style="text-align: center;font-family: 'Times New Roman', Times, serif;color:#FF9671">Invoice Integration</h1>
+                <h1 style="text-align: center;font-family: 'Times New Roman', Times, serif;color:#FF9671">Tally Invoice Integration</h1>
                 <div class="container1">
                     <div class="row">
                         <div class="col">
@@ -45,6 +45,14 @@
 
 
         <div class="secondform">
+            <div style="float: right;" class="exchangerate">
+<mat-form-field>
+    <mat-label>Exchange Header</mat-label>
+    <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="setExchangeHeader()">Set</button>
+            </div>
             <mat-form-field>
                 <mat-label>Filter</mat-label>
                 <input matInput (keyup)="applyFilter($event)" placeholder="ex.prasana" #input>
@@ -66,57 +74,45 @@
                     </ng-container>
 
                     <!-- Progress Column -->
-                    <ng-container matColumnDef="Jobid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Jobid </th>
-                        <td mat-cell *matCellDef="let row"> {{row.jobId}}</td>
+                    <ng-container matColumnDef="invoiceno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice No </th>
+                        <td mat-cell *matCellDef="let row"> {{row.invoiceNo}}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="FileName">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> FileName </th>
-                        <td mat-cell *matCellDef="let row"> {{row.fileName}}</td>
+                    <ng-container matColumnDef="invoicedate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Date </th>
+                        <td mat-cell *matCellDef="let row"> {{row.invoiceDate}}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="Department">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
-                        <td mat-cell *matCellDef="let row"> {{row.department}}</td>
+                    <ng-container matColumnDef="productamount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Amount </th>
+                        <td mat-cell *matCellDef="let row"> {{row.invoiceValue}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="ProjectCode">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ProjectCode </th>
-                        <td mat-cell *matCellDef="let row"> {{row.projectCode}}</td>
+                    <ng-container matColumnDef="roundoff">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Round Off </th>
+                        <td mat-cell *matCellDef="let row"> {{row.roundOff}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="SpecialPrice">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> SpecialPrice </th>
-                        <td mat-cell *matCellDef="let row"> {{row.specialPrice}}</td>
+                    <ng-container matColumnDef="waiver">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Waiver </th>
+                        <td mat-cell *matCellDef="let row"> {{row.waiver}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="scope">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Scope </th>
-                        <td mat-cell *matCellDef="let row"> {{row.description}}</td>
+                    <ng-container matColumnDef="discount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
+                        <td mat-cell *matCellDef="let row"> {{row.discount}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="JobStatus">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> JobStatus </th>
-                        <td mat-cell *matCellDef="let row"> {{row.jobStatusDescription}}</td>
+                    <ng-container matColumnDef="invoiceamout">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Amount </th>
+                        <td mat-cell *matCellDef="let row"> ${{row.invoiceValue}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="StitchCount">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> StitchCount </th>
-                        <td mat-cell *matCellDef="let row"> {{row.stitchCount}}</td>
+                    <ng-container matColumnDef="paymentmode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Mode </th>
+                        <td mat-cell *matCellDef="let row"> {{row.paymentMode}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="ESTFileReceivedDate">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTFileReceivedDate </th>
-                        <td mat-cell *matCellDef="let row"> {{row.estFileReceivedDate}}</td>
+                    <ng-container matColumnDef="exchangerate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Exchange Rate </th>
+                        <td mat-cell *matCellDef="let row"> {{row.exchangeRate}}</td>
                     </ng-container>
-                    <ng-container matColumnDef="ESTDateofUpload">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTDateofUpload </th>
-                        <td mat-cell *matCellDef="let row"> {{row.estDateofUpload}}</td>
-                    </ng-container>
-                    <!-- <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-                <td mat-cell *matCellDef="let row">
-                 
-                  <button mat-icon-button color="warn" (click)="deleteEmployee(row.id)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
-              </ng-container> -->
+              
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -129,6 +125,10 @@
                 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
                
             </div>
+            <div class="footer">
+                <button mat-flat-button color="primary">Move To Integration</button>&nbsp;&nbsp;&nbsp;  <button mat-flat-button color="primary">Update Exchange Rate</button>
+            </div>
+         
         </div>
     </div>
 </div>

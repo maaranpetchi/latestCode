@@ -14,6 +14,7 @@ import { EditadvanceadjustmentComponent } from './Components/AccountsController/
 @NgModule({
   declarations: [
     AppComponent,
+   
   ],
   imports: [
     BrowserModule,

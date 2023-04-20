@@ -38,6 +38,8 @@ import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Inv
 import { PopupinvoicecancellistComponent } from 'src/app/Components/AccountsController/InvoiceCancellation/popupinvoicecancellist/popupinvoicecancellist.component';
 import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wavier/wavier.component';
 import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
+import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -89,6 +91,7 @@ import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tall
          PopupinvoicecancellistComponent,
          //Wavier
          WavierComponent,
+         PopupwavierconfirmationComponent,
         //tally
         TallyComponent,
   ],
@@ -100,7 +103,8 @@ import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tall
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ]
 })
 export class NavigationModule { }

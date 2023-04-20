@@ -12,23 +12,22 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./tally.component.scss']
 })
 export class TallyComponent implements OnInit {
-
+  exchangeHeader: string;
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
   displayedColumns: string[] = [
     'selected',
     'ClientName',
-    'Jobid',
-    'FileName',
-    'Department',
-    'ProjectCode',
-    'SpecialPrice',
-    'scope',
-    'JobStatus',
-    'StitchCount',
-    'ESTFileReceivedDate',
-    'ESTDateofUpload'
+    'invoiceno',
+    'invoicedate',
+    'productamount',
+    'roundoff',
+    'waiver',
+    'discount',
+    'invoiceamout',
+    'paymentmode',
+    'exchangerate',
   ];
 
   selectedInvoices: any[] = [];
@@ -60,8 +59,14 @@ export class TallyComponent implements OnInit {
     }
     console.log("after", this.selectedInvoices)
   }
-
-
+setExchangeHeader() {
+    const selectedRows = this.dataSource.data.filter((row: any) => row.selected);
+    selectedRows.forEach((row: any) => {
+      row.exchangeHeader = this.exchangeHeader;
+    });
+    this.dataSource.data = [...this.dataSource.data];
+    this.exchangeHeader = '';
+}
 
   ngOnInit(): void {
     this.http.get<any>('https://localhost:7208/api/Invoice/GetClient').subscribe(data => {
@@ -172,7 +177,7 @@ export class TallyComponent implements OnInit {
   }
   onSubmit() {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetClientDetails', {
+    this.http.post<any>('https://localhost:7208/api/Invoice/GetInvoiceIntegrationMaster', {
       "clientId": this.myForm.value?.ClientId,
       "fromDate": this.myForm.value?.fromDate,
       "toDate": this.myForm.value?.toDate

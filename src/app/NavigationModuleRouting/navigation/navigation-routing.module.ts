@@ -32,6 +32,7 @@ import { PopupinvoicecancellistComponent } from 'src/app/Components/AccountsCont
 import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Invoice/popupinvoice/popupinvoice.component';
 import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wavier/wavier.component';
 import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
+import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
 
 const routes: Routes = [
 
@@ -77,9 +78,10 @@ const routes: Routes = [
               {path:'acc-addcredit', component:AddCreditnoteComponent},
               //wavier
               {path:'acc-wavier', component:WavierComponent},
+                //popupwaiver
+                {path:'acc-wavierpop', component:PopupwavierconfirmationComponent}, 
               //Tally
               {path:'acc-tally', component:TallyComponent},
-              
              // Invoicecancellation,
               {path:'acc-invcan', component: InvoicecancellationComponent},
                   // ViewinvoicecancelComponent,
