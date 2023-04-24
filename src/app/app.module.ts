@@ -10,10 +10,14 @@ import { NavigationModule } from './NavigationModuleRouting/navigation/navigatio
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AdvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Index/advanceadjustment/advanceadjustment.component';
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
+import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
+import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MovetointegrationComponent,
+    UpdateExchangeRateComponent,
    
   ],
   imports: [

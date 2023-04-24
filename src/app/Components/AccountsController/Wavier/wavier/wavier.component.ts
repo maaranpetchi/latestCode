@@ -15,6 +15,8 @@ export class WavierComponent {
   selectedFilter: string;
   selectedClient: number;
   selectedFileName:string;
+  fromDate:Date;
+   toDate:Date;
   clients: any[]; // Change to match the shape of your client data
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
@@ -85,6 +87,7 @@ export class WavierComponent {
   });
 
   onFilterChange() {
+    //client value 
     if (this.selectedFilter === 'client') {
       this.http.get<any[]>('https://localhost:7208/api/Customer/GetCustomers').subscribe(clientdata => {
         this.clients = clientdata;
@@ -131,4 +134,90 @@ export class WavierComponent {
    
   this.fetchData();
   }
+
+
+
+
+
+  ///practice
+
+  customers:boolean= false;
+  dateFields:boolean = false;
+  inputField:boolean=false;
+
+//    inputParameters(inputParameters) {
+//     if (this.selectedFilter == client || inputParameters.deptId == 2 || inputParameters.deptId == 0) {
+//         this.customers = false;
+//         this.inputField = false;
+//         this.dateFields = false;
+//         this.SelectedValue.fileName = '';
+//         this.SelectedValue.FromDate = '';
+//         this.SelectedValue.Todate = '';
+    
+//         SelectedValue.clientId = 0;
+//     }
+//     if (inputParameters.deptId == 3) {
+//         this.customers = true;
+//         this.inputField = false;
+//         this.dateFields = false;
+//         this.SelectedValue.fileName = '';
+//         this.SelectedValue.FromDate = '';
+//         this.SelectedValue.Todate = '';
+   
+        
+//         PricingBillingInvoiceFactory.GetCompletedJobs('getCustomers').$promise.then(function (result) {
+//             // GetCustomers = result;  
+//             GetCustomers = result.StringList;
+//         });
+        
+//     }
+//     else if (inputParameters.deptId == 4) {
+//         this.inputField = true;
+//         this.customers = false;
+//         this.dateFields = false;
+//         this.SelectedValue.clientId = 0;
+//         this.SelectedValue.FromDate = '';
+//         this.SelectedValue.Todate = '';
+        
+//     }
+
+//     else if (inputParameters.deptId == 6) {
+//         this.inputField = false;
+//         this.customers = false;
+//         this.dateFields = true;
+//         this.SelectedValue.clientId = 0;
+//         this.SelectedValue.fileName = '';
+     
+//     }
+// };
+
+
+
+
+// //job history
+
+// jobHistories(data) {
+//       if (data != undefined) {
+//           if ((data.clientId == undefined || data.clientId == null)) {
+//               data.clientId = 0;
+//           }
+//           if ((data.fileName == undefined || data.fileName == null || data.fileName == '')) {
+//               data.fileName = '';
+//           }
+//           var departmentId = data.deptId;
+//           if (departmentId == 3 || departmentId == 4 || departmentId == 5 || departmentId == 6) {
+//               departmentId = 0;
+//           }
+//           var jobOrder = {
+//               DepartmentId: departmentId,
+//               ClientId:SelectedValue.clientId,
+//               FileName:SelectedValue.fileName,
+//               JobClosedUTC:SelectedValue.FromDate,
+//               DateofUpload:SelectedValue.Todate
+//           };
+//           PricingBillingInvoiceFactory.GetJobsHistory('GetWaiverJobWithclientIdfileName', jobOrder).$promise.then(function (result) {
+//              completedjobs.data = result.WaiverJobList;
+//           });
+//       }
+//   };
 }

@@ -37,7 +37,7 @@
                            <!--Daterange-->
                            <mat-form-field *ngIf="selectedFilter === 'date'">
                             <mat-label>Start Date</mat-label>
-                            <input matInput [matDatepicker]="startDatePicker" placeholder="Choose a date"
+                            <input matInput  [(ngModel)]="fromDate"[matDatepicker]="startDatePicker" placeholder="Choose a date"
                                 formControlName="fromDate">
                             <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
                             <mat-datepicker #startDatePicker></mat-datepicker>
@@ -45,7 +45,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                            <mat-form-field *ngIf="selectedFilter === 'date'">
                             <mat-label>To Date</mat-label>
-                            <input matInput [matDatepicker]="toDatePicker" placeholder="Choose a date"
+                            <input matInput [(ngModel)]="toDate" [matDatepicker]="toDatePicker" placeholder="Choose a date"
                                 formControlName="toDate">
                             <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
                             <mat-datepicker #toDatePicker></mat-datepicker>

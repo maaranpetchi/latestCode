@@ -14,6 +14,12 @@ import { MatDialog } from '@angular/material/dialog';
 export class TopnavbarComponent {
 constructor(private _dialog: MatDialog,private loginservice:LoginService ,private router: Router, private logoutService:LogoutService,private cookieService: CookieService){}
 
+
+
+
+
+
+
   getloginusername():string{
     return this.loginservice.getToken();
   }

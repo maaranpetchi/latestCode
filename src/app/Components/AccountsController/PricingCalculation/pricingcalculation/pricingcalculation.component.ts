@@ -67,6 +67,8 @@ export class PricingcalculationComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    //client name dropdown
     this.http.get<any>('https://localhost:7208/api/Invoice/GetClient').subscribe(data => {
       this.data = data;
       console.log(data);
