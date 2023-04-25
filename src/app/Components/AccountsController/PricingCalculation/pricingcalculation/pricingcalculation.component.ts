@@ -91,6 +91,7 @@ export class PricingcalculationComponent implements OnInit {
   });
 
 
+  
 
   openDialog() {
     let clientid = 0;

@@ -49,7 +49,7 @@ export class CustomervsprocessComponent implements OnInit {
 
   options = [
     { value: 'Live', viewValue: 'Live' },
-    { value: 'Trail', viewValue: 'Trail' }
+    { value: 'Trial', viewValue: 'Trial' }
 
   ];
 

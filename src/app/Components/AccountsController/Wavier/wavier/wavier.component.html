@@ -10,18 +10,18 @@
                                 <mat-label>Select a filter</mat-label>
                                 <mat-select [(ngModel)]="selectedFilter" (selectionChange)="onFilterChange()"
                                     formControlName="selectdropdown">
-                                    <mat-option value="client">Client</mat-option>
-                                    <mat-option value="filename">Filename</mat-option>
-                                    <mat-option value="date">Date</mat-option>
-                                    <mat-option value="all">All</mat-option>
-                                    <mat-option value="Artwork">Artwork</mat-option>
-                                    <mat-option value="Digitizing">Digitizing</mat-option>
+                                    <mat-option value="3">Client</mat-option>
+                                    <mat-option value="4">Filename</mat-option>
+                                    <mat-option value="6">Date</mat-option>
+                                    <mat-option value="0">All</mat-option>
+                                    <mat-option value="1">Artwork</mat-option>
+                                    <mat-option value="2">Digitizing</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="col">
                             <!--ClientName-->
-                            <mat-form-field *ngIf="selectedFilter === 'client'">
+                            <mat-form-field *ngIf="customers">
                                 <mat-label>Select a client</mat-label>
                                 <mat-select [(ngModel)]="selectedClient" formControlName="client">
                                     <mat-option *ngFor="let client of clients" [value]="client.id">{{ client.shortName
@@ -29,13 +29,13 @@
                                 </mat-select>
                             </mat-form-field>
                             <!--Filename-->
-                            <mat-form-field *ngIf="selectedFilter === 'filename'">
+                            <mat-form-field *ngIf="inputField">
                                 <mat-label>File Name</mat-label>
                                 <input type="text" [(ngModel)]="selectedFileName" formControlName="filename" matInput
                                     placeholder="filename">
                             </mat-form-field>
                            <!--Daterange-->
-                           <mat-form-field *ngIf="selectedFilter === 'date'">
+                           <mat-form-field *ngIf="dateFields">
                             <mat-label>Start Date</mat-label>
                             <input matInput  [(ngModel)]="fromDate"[matDatepicker]="startDatePicker" placeholder="Choose a date"
                                 formControlName="fromDate">
@@ -43,7 +43,7 @@
                             <mat-datepicker #startDatePicker></mat-datepicker>
                         </mat-form-field>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                           <mat-form-field *ngIf="selectedFilter === 'date'">
+                           <mat-form-field *ngIf="dateFields">
                             <mat-label>To Date</mat-label>
                             <input matInput [(ngModel)]="toDate" [matDatepicker]="toDatePicker" placeholder="Choose a date"
                                 formControlName="toDate">
@@ -62,7 +62,7 @@
 
         <div class="secondform">
             <div  id="submit">
-                <button class="btn submitcolor" type="submit" >Submit</button>
+                <button class="btn submitcolor" (click)="submitassignvalue()" >Submit</button>
             </div>
             <mat-form-field>
                 <mat-label>Filter</mat-label>
@@ -82,35 +82,35 @@
                     <!-- ID Column -->
                     <ng-container matColumnDef="jobnumber">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> JobNumber </th>
-                        <td mat-cell *matCellDef="let row"> {{row.shortName}} </td>
+                        <td mat-cell *matCellDef="let row"> {{row.jobId}} </td>
                     </ng-container>
 
                     <!-- Progress Column -->
                     <ng-container matColumnDef="jobdate">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> JobDate </th>
-                        <td mat-cell *matCellDef="let row"> {{row.jobId}}</td>
+                        <td mat-cell *matCellDef="let row"> {{row.jobDate}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="department">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
-                        <td mat-cell *matCellDef="let row"> {{row.fileName}}</td>
+                        <td mat-cell *matCellDef="let row"> {{row.department}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="client">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
-                        <td mat-cell *matCellDef="let row"> {{row.department}}</td>
+                        <td mat-cell *matCellDef="let row"> {{row.shortName}}</td>
                     </ng-container>
                     <ng-container matColumnDef="jobstatus">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> JobStatus </th>
-                        <td mat-cell *matCellDef="let row"> {{row.projectCode}}</td>
+                        <td mat-cell *matCellDef="let row"> {{row.jobStatusDescription}}</td>
                     </ng-container>
                     <ng-container matColumnDef="filename">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> FileName </th>
-                        <td mat-cell *matCellDef="let row"> {{row.specialPrice}}</td>
+                        <td mat-cell *matCellDef="let row"> {{row.fileName}}</td>
                     </ng-container>
                     <ng-container matColumnDef="jobdate1">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> JobDate </th>
-                        <td mat-cell *matCellDef="let row"> {{row.description}}</td>
+                        <td mat-cell *matCellDef="let row"> {{row.jobDate}}</td>
                     </ng-container>
                     
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -127,4 +127,49 @@
             </div>
         </div>
     </div>
+    <!--Modalpopup-->
+   
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closebutton()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Add your form controls here -->
+     <h1>Assign selected job(s) as Waiver?</h1>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closebutton()">Close</button>
+      <button type="button" class="btn btn-primary" (click)="savechanges()">Save changes</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closebutton()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Add your form controls here -->
+     <h1>{{message}}</h1>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closebutton()">Close</button>
+    </div>
+  </div>
+</div>
 </div>

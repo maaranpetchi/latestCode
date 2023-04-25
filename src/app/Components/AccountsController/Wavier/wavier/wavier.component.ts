@@ -5,18 +5,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { PopupwavierconfirmationComponent } from '../popupwavierconfirmation/popupwavierconfirmation.component';
+declare var $: any;
 @Component({
   selector: 'app-wavier',
   templateUrl: './wavier.component.html',
   styleUrls: ['./wavier.component.scss']
 })
 export class WavierComponent {
-  selectedFilter: string;
+  selectedFilter: number;
   selectedClient: number;
-  selectedFileName:string;
-  fromDate:Date;
-   toDate:Date;
+  selectedFileName: string;
+  fromDate: string;
+  toDate: string;
+
+
+
+  message:string='';
+
   clients: any[]; // Change to match the shape of your client data
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
@@ -29,7 +35,7 @@ export class WavierComponent {
     'jobstatus',
     'filename',
     'jobdate1',
-    
+
   ];
 
   selectedInvoices: any[] = [];
@@ -47,7 +53,7 @@ export class WavierComponent {
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedInvoices)
     if (completed == true) {
-      this.selectedInvoices.push(item)
+      this.selectedInvoices.push({id:item.id})
     }
     else {
 
@@ -62,16 +68,20 @@ export class WavierComponent {
     console.log("after", this.selectedInvoices)
   }
 
-  ngOnInit(): void {
-    this.fetchData()
-  }
   
+
+
+  ngOnInit(): void {
+
+    this.onGoButtonClick()
+  }
+
   fetchData() {
-    let url = '<your API endpoint here>';
-    // Add any necessary query parameters based on the selected filter and inputs
-    this.http.get(url).subscribe((response: any) => {
-      this.dataSource.data = response;
-    });
+    // let url = '<your API endpoint here>';
+    // // Add any necessary query parameters based on the selected filter and inputs
+    // this.http.get(url).subscribe((response: any) => {
+    //   this.dataSource.data = response;
+    // });
   }
 
 
@@ -83,141 +93,143 @@ export class WavierComponent {
 
     selectdropdown: new FormControl("", Validators.required),
     client: new FormControl("", Validators.required),
-    ClientId: new FormControl("", Validators.required)
+    ClientId: new FormControl("", Validators.required),
+    filename: new FormControl("")
   });
 
-  onFilterChange() {
-    //client value 
-    if (this.selectedFilter === 'client') {
-      this.http.get<any[]>('https://localhost:7208/api/Customer/GetCustomers').subscribe(clientdata => {
-        this.clients = clientdata;
-      });
-    }
-  }
 
-  onGoButtonClick() {
-    // Check which filter is selected
-    switch (this.selectedFilter) {
-      case "client":
-        // Call the REST API with the selected client ID and date range
-        // Populate the table with the API response data
-        let clienturl = '<your API endpoint here>' + '?clientId=' + this.selectedClient;
-        this.http.get(clienturl).subscribe((response: any) => {
-          this.dataSource.data = response;
-        });
-        
-        break;
-      case "filename":
-        // Call the REST API with the selected filename and date range
-        // Populate the table with the API response data
-        break;
-      case "date":
-        // Call the REST API with the selected date range
-        // Populate the table with the API response data
-        break;
-      case "all":
-        // Call the REST API with no filters applied
-        // Populate the table with the API response data
-        break;
-      case "Artwork":
-        // Call the REST API with the selected filter applied
-        // Populate the table with the API response data
-        break;
-      case "Digitizing":
-        // Call the REST API with the selected filter applied
-        // Populate the table with the API response data
-        break;
-    }
-  }
-  
+
+
   onSubmit() {
-   
-  this.fetchData();
+
+    this.fetchData();
   }
 
+  submitassignvalue(){
+    if (this.selectedInvoices.length == 0) {
+      // const dialogRef = this.dialog.open(PopupwavierconfirmationComponent, {
+      //   width: '500px',
+      //   height: '150px',
+      //   data: 'Please select the list items!'
 
+      // }
+      // );
+      this.message="please select the list items!"
+      $('#myModal1').appendTo("body").modal('show');
+    }
+    else{
+      
+      $('#myModal').appendTo("body").modal('show');
+    }
+  }
 
 
 
   ///practice
 
-  customers:boolean= false;
-  dateFields:boolean = false;
-  inputField:boolean=false;
+  customers: boolean = false;
+  dateFields: boolean = false;
+  inputField: boolean = false;
 
-//    inputParameters(inputParameters) {
-//     if (this.selectedFilter == client || inputParameters.deptId == 2 || inputParameters.deptId == 0) {
-//         this.customers = false;
-//         this.inputField = false;
-//         this.dateFields = false;
-//         this.SelectedValue.fileName = '';
-//         this.SelectedValue.FromDate = '';
-//         this.SelectedValue.Todate = '';
+  onFilterChange() {
+    if (this.selectedFilter == 1 || this.selectedFilter == 2 || this.selectedFilter == 0) {
+      this.customers = false;
+      this.inputField = false;
+      this.dateFields = false;
+      this.selectedFileName = '';
+      this.fromDate = '';
+      this.toDate = '';
+
+      this.selectedClient = 0;
+    }
+    if (this.selectedFilter == 3) {
+      this.customers = true;
+      this.inputField = false;
+      this.dateFields = false;
+      this.selectedFileName = '';
+      this.fromDate = '';
+      this.toDate = '';
+
+      this.http.get<any[]>('https://localhost:7208/api/Customer/GetCustomers').subscribe(clientdata => {
+        this.clients = clientdata;
+      });
+      // PricingBillingInvoiceFactory.GetCompletedJobs('getCustomers').$promise.then(function (result) {
+      //     // GetCustomers = result;  
+      //     GetCustomers = result.StringList;
+      // });
+
+    }
+    else if (this.selectedFilter == 4) {
+      this.inputField = true;
+      this.customers = false;
+      this.dateFields = false;
+      this.selectedClient = 0;
+      this.fromDate = '';
+      this.toDate = '';
+
+    }
+
+    else if (this.selectedFilter == 6) {
+      this.inputField = false;
+      this.customers = false;
+      this.dateFields = true;
+      this.selectedClient = 0;
+      this.selectedFileName = '';
+
+    }
+  };
+
+  closebutton(){
+    $('#myModal').modal('hide');
+    $('#myModal1').modal('hide');
+  }
+
+
+  //job history
+
+  onGoButtonClick() {
+    if (this.selectedClient != undefined || this.selectedFileName != undefined || this.selectedFilter != undefined || this.fromDate != undefined || this.toDate != undefined) {
+      if ((this.selectedClient == undefined || this.selectedClient == null)) {
+        this.selectedClient = 0;
+      }
+      if ((this.selectedFileName == undefined || this.selectedFileName == null || this.selectedFileName == '')) {
+        this.selectedFileName = '';
+      }
+      var departmentId = this.selectedFilter;
+      if (departmentId == 3 || departmentId == 4 || departmentId == 6) {
+        departmentId = 0;
+      }
+      var jobOrder = {
+        DepartmentId: departmentId,
+        ClientId: this.selectedClient,
+        FileName: this.selectedFileName,
+        JobClosedUTC: this.fromDate,
+        DateofUpload: this.toDate
+      };
+      this.http.post<any>('https://localhost:7208/api/Invoice/GetWaiverJobWithclientIdfileName', jobOrder).subscribe(response => {
+        this.dataSource.data = response.waiverJobList;
+        // Sort dataSource based on MatSort
+        this.dataSource.sort = this.sort;
+        // Paginate dataSource based on MatPaginator
+        this.dataSource.paginator = this.paginator;
+        console.log(response.waiverJobList);
+
+      });
+      // PricingBillingInvoiceFactory.GetJobsHistory('GetWaiverJobWithclientIdfileName', jobOrder).$promise.then(function (result) {
+      //    completedjobs.data = result.WaiverJobList;
+      // });
+    }
+  };
+
+
+  savechanges(){
     
-//         SelectedValue.clientId = 0;
-//     }
-//     if (inputParameters.deptId == 3) {
-//         this.customers = true;
-//         this.inputField = false;
-//         this.dateFields = false;
-//         this.SelectedValue.fileName = '';
-//         this.SelectedValue.FromDate = '';
-//         this.SelectedValue.Todate = '';
-   
-        
-//         PricingBillingInvoiceFactory.GetCompletedJobs('getCustomers').$promise.then(function (result) {
-//             // GetCustomers = result;  
-//             GetCustomers = result.StringList;
-//         });
-        
-//     }
-//     else if (inputParameters.deptId == 4) {
-//         this.inputField = true;
-//         this.customers = false;
-//         this.dateFields = false;
-//         this.SelectedValue.clientId = 0;
-//         this.SelectedValue.FromDate = '';
-//         this.SelectedValue.Todate = '';
-        
-//     }
-
-//     else if (inputParameters.deptId == 6) {
-//         this.inputField = false;
-//         this.customers = false;
-//         this.dateFields = true;
-//         this.SelectedValue.clientId = 0;
-//         this.SelectedValue.fileName = '';
-     
-//     }
-// };
-
-
-
-
-// //job history
-
-// jobHistories(data) {
-//       if (data != undefined) {
-//           if ((data.clientId == undefined || data.clientId == null)) {
-//               data.clientId = 0;
-//           }
-//           if ((data.fileName == undefined || data.fileName == null || data.fileName == '')) {
-//               data.fileName = '';
-//           }
-//           var departmentId = data.deptId;
-//           if (departmentId == 3 || departmentId == 4 || departmentId == 5 || departmentId == 6) {
-//               departmentId = 0;
-//           }
-//           var jobOrder = {
-//               DepartmentId: departmentId,
-//               ClientId:SelectedValue.clientId,
-//               FileName:SelectedValue.fileName,
-//               JobClosedUTC:SelectedValue.FromDate,
-//               DateofUpload:SelectedValue.Todate
-//           };
-//           PricingBillingInvoiceFactory.GetJobsHistory('GetWaiverJobWithclientIdfileName', jobOrder).$promise.then(function (result) {
-//              completedjobs.data = result.WaiverJobList;
-//           });
-//       }
-//   };
+    $('#myModal').modal('hide');
+    this.http.post<any>('https://localhost:7208/api/Invoice/AddWaiverJobList',this.selectedInvoices).subscribe(data => {
+     this.onGoButtonClick();
+    this.message=data.message;
+      $('#myModal1').appendTo("body").modal('show');
+      console.log(data,"savechanges");
+    });
+  }
 }

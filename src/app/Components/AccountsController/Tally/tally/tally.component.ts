@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./tally.component.scss']
 })
 export class TallyComponent implements OnInit {
-  exchangeHeader: string;
+  exchangeHeader: number;
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
@@ -45,13 +45,13 @@ export class TallyComponent implements OnInit {
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedInvoices)
     if (completed == true) {
-      this.selectedInvoices.push(item)
+      this.selectedInvoices.push(item.id)
     }
     else {
 
-      if (this.selectedInvoices.find(x => x.id == item.id)) {
+      if (this.selectedInvoices.find(x => x == item.id)) {
         this.selectedInvoices = this.selectedInvoices.filter(x => {
-          if (x.id != item.id) {
+          if (x != item.id) {
             return item
           }
         })
@@ -59,13 +59,28 @@ export class TallyComponent implements OnInit {
     }
     console.log("after", this.selectedInvoices)
   }
+
 setExchangeHeader() {
-    const selectedRows = this.dataSource.data.filter((row: any) => row.selected);
-    selectedRows.forEach((row: any) => {
-      row.exchangeHeader = this.exchangeHeader;
-    });
-    this.dataSource.data = [...this.dataSource.data];
-    this.exchangeHeader = '';
+  let temparray:any[]=[]
+ let skip:boolean;
+    this.dataSource.data.filter((y:any)=>{
+      skip=false;
+      this.selectedInvoices.forEach(x=>{
+      if(y.id===x){
+        temparray.push({  ...y,
+          exchangeRate:this.exchangeHeader,
+        isSelected:true})
+          skip=true;
+      }
+     
+    })
+    if(!skip){
+      temparray.push(y)
+    }
+   
+    })
+
+  this.dataSource.data=temparray;
 }
 
   ngOnInit(): void {
@@ -205,6 +220,27 @@ setExchangeHeader() {
   //   }
   //   )
   // }
+updateintegration(){
 
+var invintigxchange = this.selectedInvoices.map(x => {
+return { 
+  "id": x,
+  "invoiceNo": "",
+  "exchangeRate": this.exchangeHeader,
+  "invintigxchange": []
+}
+})
+var data={
+  "id": 0,
+  "invoiceNo": "",
+  "exchangeRate": 0,
+  "invintigxchange": invintigxchange
+}
+this.http.post<any>('https://localhost:7208/api/Invoice/GetExchangeRatetoInvoice',data).subscribe(data => {
+  console.log(data, "updateinvooice");
+  this.selectedInvoices = [];
+  this.onSubmit();
+})
+}
 
 }
