@@ -1,7 +1,8 @@
 <h1 mat-dialog-title>Adjusting Invoice</h1>
 <div mat-dialog-content>
     <div class="dialog">
-        <form  #itemForm="ngForm" >
+        <form  #itemForm="ngForm" [formGroup]="invoiceForm" >
+            
         <div class="row">
             <div class="col">
                 <mat-form-field appearance="fill">
@@ -12,12 +13,13 @@
             <div class="col">
                 <mat-form-field>
                     <mat-label>Choose Invoice Number</mat-label>
-                    <mat-select ngDefaultControl  [(ngModel)]="selectedValue"  name="selectedinvoicenumber" (selectionChange)="onchangevalues()" [(value)]="selectedInvoiceOption">
+                    <mat-select ngDefaultControl  [(ngModel)]="selectedValue" formControlName="selectedinvoicenumber" name="selectedinvoicenumber" (selectionChange)="onchangevalues()" [(value)]="selectedInvoiceOption">
                         <mat-option *ngFor="let invoicedropdownvalues of Invoicedropdownvalues"
                             [value]="invoicedropdownvalues.invoiceNo">
                             {{ invoicedropdownvalues.invoiceNo }}
                         </mat-option>
                     </mat-select>
+                    <input matInput placeholder="Invoice Type" [value]="InvoiceId" style="font-weight: bold" hidden>
                 </mat-form-field>
             </div>
         </div>
@@ -25,13 +27,13 @@
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Invoice Value</mat-label>
-                    <input matInput  name="invoicevalue" [(ngModel)]="invoiceValue" placeholder="Invoice Value" disabled>
+                    <input matInput  name="invoicevalue" [(ngModel)]="invoiceValue" formControlName="invoicevalue" placeholder="Invoice Value" >
                 </mat-form-field>
             </div>
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Already Adjusted Amount</mat-label>
-                    <input matInput name="alreadyadjustedamount" [(ngModel)]="adjustmentAmount" placeholder="Already Adjusted Amount" disabled>
+                    <input matInput name="alreadyadjustedamount" [(ngModel)]="adjustmentAmount" formControlName="alreadyadjustedamount" placeholder="Already Adjusted Amount" >
                 </mat-form-field>
             </div>
         </div>
@@ -39,13 +41,13 @@
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Balance Amount</mat-label>
-                    <input matInput  name="balanceamount" [(ngModel)]="input3" [value]="invoiceValue - adjustmentAmount" disabled>
+                    <input matInput  name="balanceamount" formControlName="balanceamount" [(ngModel)]="input3" [value]="invoiceValue - adjustmentAmount" >
                 </mat-form-field>
             </div>
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Invoice Date</mat-label>
-                    <input matInput [(ngModel)]="input4" name="InvoiceDate" placeholder="InvoiceDate" disabled> 
+                    <input matInput [(ngModel)]="input4" name="InvoiceDate" formControlName="InvoiceDate" placeholder="InvoiceDate" > 
                 </mat-form-field>
             </div>
         </div>
@@ -53,14 +55,16 @@
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Advance Amount</mat-label>
-                    <input matInput [(ngModel)]="InvoiceAmount" [value]="InvoiceAmount" name="InvoiceAmount" placeholder="Advance Amount" disabled>
+                    <input matInput [(ngModel)]="InvoiceAmount" formControlName="AdvanceAmount" [value]="InvoiceAmount" name="InvoiceAmount" placeholder="Advance Amount" >
                 </mat-form-field>
             </div>
             <div class="col">
                 <mat-form-field appearance="fill">
                     <mat-label>Enter amount to be Adjusted</mat-label>
-                    <input matInput [(ngModel)]="input6" name="enteramount"   [min]="0" [max]="InvoiceAmount">
+                    <input matInput [(ngModel)]="input6"   (ngModelChange)="amountvalidation()"  name="enteramount" formControlName="enteramount"  [min]="0" [max]="InvoiceAmount">
+                
                 </mat-form-field>
+                <p  style="color:red"  *ngIf="amountvalidationerror">Enter amount is greater than balance amount</p>
             </div>
             <div class="addbutton">
                 <button class="btn btn-primary" (click)="addItem(itemForm)">Add</button>
@@ -101,5 +105,5 @@
 </div>
 <div mat-dialog-actions>
     <button  mat-raised-button color="accent" (click)="onCloseClick()">Cancel</button>
-    <button  mat-raised-button color="primary" (click)="formsubmit()" >Submit</button>
+    <button  mat-raised-button color="primary" (click)="onFormSubmit()">Submit</button>
 </div>
