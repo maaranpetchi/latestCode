@@ -13,6 +13,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./editadvanceadjustment.component.scss']
 })
 export class EditadvanceadjustmentComponent {
+  
+  
   itemForm: FormGroup;
 
 
@@ -99,6 +101,11 @@ export class EditadvanceadjustmentComponent {
 
     deleteItem(index: number) {
       this.items.splice(index, 1);
+    }
+
+
+    formsubmit(){
+      console.log(this.itemForm.value,"AdvanceAdjustment")
     }
 
 }
