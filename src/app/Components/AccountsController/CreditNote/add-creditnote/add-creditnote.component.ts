@@ -19,7 +19,7 @@ export class AddCreditnoteComponent implements OnInit{
   Customerdropdownvalues: any[] = [];
 
 //Invoidedropdown
-selectedinvoiceoption:any=0;
+selectedinvoiceoption:any='';
 invoicedropdownvalues:any[] = [];
 
 
@@ -61,13 +61,26 @@ invoicedropdownvalues:any[] = [];
     });
 
 //Invoice number dropdown
-    
 
   }
  
 
   selectedValue: any;
- 
+
+  invoiceDate:any=""
+  invoiceValue:any=0
+  adjustedAmount:number=0;
+  amountToBeAdjusted:number=0;
+  invoicenumberdetails(){
+    this.http.get<any>(`  https://localhost:7208/api/Receivable/GetInvoice?invoiceNo=${this.selectedinvoiceoption}&customerId=${this.selectedCustomerOption}`).subscribe(data => {
+    console.log(data)  
+    this.invoiceDate=new Date(data.invoiceDate).toLocaleDateString()
+      this.invoiceValue=data.invoiceValue
+      this.adjustedAmount=data.adjustmentAmount
+      this.amountToBeAdjusted=data.invoiceValue-data.adjustmentAmount
+    });
+   
+  }
 
 onchangesubmit(){
   this.http.get<any[]>(`https://localhost:7208/api/Receivable/GetCustomerInvoice?CustomerId=${this.selectedCustomerOption}`).subscribe(data => {

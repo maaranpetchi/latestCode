@@ -62,12 +62,12 @@
                 <h1 style="text-align: center;color:#939597;font-family: 'Times New Roman', Times, serif;">Invoice
                     Details
                 </h1>
-                <div class="wrapper" *ngIf="selectedCustomerOption == 0 ? false : true">
+                <div class="wrapper" *ngIf="invoicedropdownvalues.length == 0 ? false : true">
                     <div class="row">
                         <div class="col">
                             <mat-form-field appearance="fill">
                                 <mat-label>Invoice Date</mat-label>
-                                <input type="number" matInput placeholder="" formcontrolname="">
+                                <input type="text" matInput placeholder="" formcontrolname="" [value]="invoiceDate">
                                 <mat-hint>(MM/DD/YYYY)</mat-hint>
                             </mat-form-field>
 
@@ -75,10 +75,10 @@
                         <div class="col">
                             <mat-form-field>
                                 <mat-label>Invoice Number</mat-label>
-                                <mat-select ngDefaultControl formControlName="invoicenumber" [(value)]="selectedinvoiceoption">
+                                <mat-select ngDefaultControl formControlName="invoicenumber"  (selectionChange)="invoicenumberdetails()"  [(value)]="selectedinvoiceoption">
                                 
                                     <mat-option *ngFor="let InvoiceDropdownvalues of invoicedropdownvalues"
-                                        [value]="InvoiceDropdownvalues.id">
+                                        [value]="InvoiceDropdownvalues.invoiceNo">
                                         {{ InvoiceDropdownvalues.invoiceNo}}
                                    
                                     </mat-option>
@@ -91,13 +91,13 @@
                         <div class="col">
                             <mat-form-field appearance="fill">
                                 <mat-label>Invoice Value</mat-label>
-                                <input type="number" matInput placeholder="" formcontrolname="">
+                                <input type="number" matInput [value]="invoiceValue" placeholder="" formcontrolname="">
                             </mat-form-field>
                         </div>
                         <div class="col">
                             <mat-form-field appearance="fill">
                                 <mat-label>Adjusted Amount</mat-label>
-                                <input type="number" matInput placeholder="" formcontrolname="">
+                                <input type="number" matInput placeholder="" [value]="adjustedAmount" formcontrolname="">
                             </mat-form-field>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                         <div class="col">
                             <mat-form-field appearance="fill">
                                 <mat-label>Balance To Be Adjusted</mat-label>
-                                <input type="number" matInput placeholder="" formcontrolname="">
+                                <input type="number" matInput [value]="amountToBeAdjusted" placeholder="" formcontrolname="">
                             </mat-form-field>
                         </div>
                     </div>
