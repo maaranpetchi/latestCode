@@ -17,42 +17,42 @@
                   <!-- ID Column -->
                   <ng-container matColumnDef="employeeCode">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Voucher Number </th>
-                    <td mat-cell *matCellDef="let row"> {{row.employeeCode}} </td>
+                    <td mat-cell *matCellDef="let row"> {{row.voucherNo}} </td>
                   </ng-container>
           
                   <!-- Progress Column -->
                   <ng-container matColumnDef="employeeName">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Voucher Date </th>
-                    <td mat-cell *matCellDef="let row"> {{row.employeeName}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.collectionDate}}</td>
                   </ng-container>
           
                   <ng-container matColumnDef="departmentId">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
-                    <td mat-cell *matCellDef="let row"> {{row.departmentId}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.customerShortName}}</td>
                   </ng-container>
           
                   <ng-container matColumnDef="designationId">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Credit Note Amount </th>
-                    <td mat-cell *matCellDef="let row"> {{row.designationId}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.collectionAmount}}</td>
                   </ng-container>
           
                   <ng-container matColumnDef="profiencyId">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference Number </th>
-                    <td mat-cell *matCellDef="let row"> {{row.profiencyId}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.referenceNo}}</td>
                   </ng-container>
           
                   <ng-container matColumnDef="reportingManager1">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference Date </th>
-                    <td mat-cell *matCellDef="let row"> {{row.reportingManager1}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.referenceDate}}</td>
                   </ng-container>
           
                   <ng-container matColumnDef="reportLeader1">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                    <td mat-cell *matCellDef="let row"> {{row.reportLeader1}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.description}}</td>
                   </ng-container>
                   <ng-container matColumnDef="invoicenumber">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice No </th>
-                    <td mat-cell *matCellDef="let row"> {{row.invoicenumber}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.invoiceNo}}</td>
                   </ng-container>
           
                   

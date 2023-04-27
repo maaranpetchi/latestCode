@@ -14,7 +14,7 @@ export class CreditnoteService {
 
   getcustomerdropdown():Observable<any>{
 
-    return this._http.get('https://localhost:7208/api/Employee/GetEmployeeList')
+    return this._http.get('https://localhost:7208/api/Customer/GetCustomers')
   }
   addEmployee(data: any): Observable<any> {
     return this._http.post('https://localhost:7208/api/Employee/AddEmployee', data);
@@ -25,7 +25,7 @@ export class CreditnoteService {
   }
 
   getEmployeeList(): Observable<any> {
-     return this._http.get('https://localhost:7208/api/Employee/GetEmployeeList');
+     return this._http.get('https://localhost:7208/api/Receivable/GetAllCreditNotes');
   }
 
   deleteEmployee(id: number): Observable<any> {

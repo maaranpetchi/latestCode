@@ -13,9 +13,17 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 })
 export class AddCreditnoteComponent implements OnInit{
   Empregister: FormGroup<any>;
-//customerdropdown
-  selectedCustomerOption: any = '';
+
+  //customerdropdown
+  selectedCustomerOption: any = 0;
   Customerdropdownvalues: any[] = [];
+
+//Invoidedropdown
+selectedinvoiceoption:any=0;
+invoicedropdownvalues:any[] = [];
+
+
+
 
 
   constructor(private builder: FormBuilder,
@@ -32,26 +40,41 @@ export class AddCreditnoteComponent implements OnInit{
       referencenumber: new FormControl('', Validators.required),
       customer: new FormControl('', Validators.required),
       creditnoteamount: new FormControl('', Validators.required),
+      invoicenumber: new FormControl(''),
 
     });
    }
   ngOnInit(): void {
      // customer dropdown fetch the values from the API
      this._empservice.getcustomerdropdown().subscribe(customerdata => {
-      this.Customerdropdownvalues = customerdata.departmentList;
+      this.Customerdropdownvalues = customerdata;
+      // Sort the array by a specific property
+  this.Customerdropdownvalues.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    } else if (a.name > b.name) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
     });
 
 //Invoice number dropdown
-    this.http.get('https://yourapi.com/data').subscribe((data: any) => {
-    this.apiData = data;
-  });
+    
+
   }
  
 
   selectedValue: any;
-  apiData: any[] = [];
+ 
 
+onchangesubmit(){
+  this.http.get<any[]>(`https://localhost:7208/api/Receivable/GetCustomerInvoice?CustomerId=${this.selectedCustomerOption}`).subscribe(data => {
+    this.invoicedropdownvalues = data;
+  });
 
+}
   onFormSubmit(){
 
   }

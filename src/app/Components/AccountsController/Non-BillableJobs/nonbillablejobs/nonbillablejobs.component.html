@@ -1,7 +1,8 @@
 <div class="container">
     <div class="fullform">
         <div mat-dialog-title>
-            <h1 style="font-family: 'Times New Roman', Times, serif;color:#0a5dac;text-align: center;">Non-Billable Jobs</h1>
+            <h1 style="font-family: 'Times New Roman', Times, serif;color:#0a5dac;text-align: center;">Non-Billable Jobs
+            </h1>
         </div>
         <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
             <div mat-dialog-content class="content">
@@ -18,7 +19,7 @@
                     <div class="col">
                         <mat-form-field appearance="outline">
                             <mat-label>To Date</mat-label>
-                            <input matInput [matDatepicker]="picker" formControlName="todate">
+                            <input matInput [matDatepicker]="picker1" formControlName="todate">
                             <mat-hint>MM/DD/YYYY</mat-hint>
                             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
@@ -32,7 +33,7 @@
                             <mat-select ngDefaultControl formControlName="customer" [(value)]="selectedcustomerOption">
                                 <mat-option *ngFor="let customerdropdownvalues of Customerdropdownvalues"
                                     [value]="customerdropdownvalues.id">
-                                    {{customerdropdownvalues.description }}
+                                    {{!customerdropdownvalues.shortName ? "NUll" : customerdropdownvalues.shortName }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -40,19 +41,17 @@
                     <div class="col">
                         <mat-form-field>
                             <mat-label>Department</mat-label>
-                            <mat-select ngDefaultControl formControlName="department"
-                                [(value)]="selecteddepartmentOption">
-                                <mat-option *ngFor="let departmentdropdownvalues of Departmentdropdownvalues"
-                                    [value]="departmentdropdownvalues.id">
-                                    {{departmentdropdownvalues.description }}
-                                </mat-option>
+                            <mat-select formControlName="department">
+                                <mat-option value="0">All</mat-option>
+                                <mat-option value="1">Artwork</mat-option>
+                                <mat-option value="2">Digitizing</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="buttongo">
-                    <button class="btn btn-primary" id="gobutton"> Go</button>
-                  </div>
+                    <button class="btn" mat-raised-button color="primary" (click)="onGoButtonClick()">GO</button>
+                </div>
             </div>
             <hr>
             <div class="main-body">
@@ -61,50 +60,57 @@
                     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
                 </mat-form-field>
                 <div class="table-container">
-                    <table mat-table [dataSource]="dataSource" matSort>
+                    <table mat-table [dataSource]="dataSource" matSort >
+
+                        <ng-container matColumnDef="selected">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Select </th>
+                            <td mat-cell *matCellDef="let element"> <mat-checkbox
+                                    (change)="setAll($event.checked,element)"></mat-checkbox> </td>
+    
+                        </ng-container>
                         <!-- Progress Column -->
                         <ng-container matColumnDef="jobid">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Id </th>
-                            <td mat-cell *matCellDef="let row"> {{row.employeeCode}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.jobId}}</td>
                         </ng-container>
 
-                        <ng-container matColumnDef="jobcode">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Code </th>
-                            <td mat-cell *matCellDef="let row"> {{row.lastName}}</td>
+                        <ng-container matColumnDef="jobdate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Date </th>
+                            <td mat-cell *matCellDef="let row"> {{row.jobDate}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="filename">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> File Name </th>
-                            <td mat-cell *matCellDef="let row"> {{row.departmentId}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.fileName}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="department">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
-                            <td mat-cell *matCellDef="let row"> {{row.designationId}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.department}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="jobstatus">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Status </th>
-                            <td mat-cell *matCellDef="let row"> {{row.profiencyId}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.jobStatus}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="customer">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
-                            <td mat-cell *matCellDef="let row"> {{row.reportingManager1}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.customer}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Scope">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Scope </th>
-                            <td mat-cell *matCellDef="let row"> {{row.reportLeader1}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.scope}}</td>
                         </ng-container>
                         <ng-container matColumnDef="stitchcount">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Stitch Count </th>
-                            <td mat-cell *matCellDef="let row"> {{row.reportLeader1}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.stitchCount}}</td>
                         </ng-container>
-                     
+
                         <ng-container matColumnDef="nonbillablestatus">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> NonBillable Status </th>
-                            <td mat-cell *matCellDef="let row"> {{row.reportLeader1}}</td>
+                            <td mat-cell *matCellDef="let row"> {{row.nonBillableStatus}}</td>
                         </ng-container>
 
 
@@ -135,8 +141,20 @@
             <div mat-dialog-actions class="action">
                 <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
                 <!-- <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Save'}}</button> -->
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" (click)="submitnonbillable()">Submit</button>
             </div>
         </form>
+        <div class="nonbillable">
+            <mat-form-field>
+                <mat-label>Non Billable Status</mat-label>
+                <mat-select ngDefaultControl 
+                    [(value)]="selectednonbillableOption">
+                    <mat-option *ngFor="let nonbillabledropdown of Nonbillabledropdownvalues"
+                        [value]="nonbillabledropdown.id">
+                        {{ nonbillabledropdown.description }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
 </div>
