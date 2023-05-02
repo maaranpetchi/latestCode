@@ -39,6 +39,7 @@ import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wa
 import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
 import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PricingComponent } from 'src/app/Components/SalesController/Pricing/pricing/pricing.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -93,6 +94,9 @@ import { MatDialogModule } from '@angular/material/dialog';
          PopupwavierconfirmationComponent,
         //tally
         TallyComponent,
+    //SALES CONTROLLER
+      //  1.PRICING
+      PricingComponent
   ],
   imports: [
     CommonModule,

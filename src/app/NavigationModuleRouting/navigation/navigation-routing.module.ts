@@ -33,6 +33,7 @@ import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Inv
 import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wavier/wavier.component';
 import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
 import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
+import { PricingComponent } from 'src/app/Components/SalesController/Pricing/pricing/pricing.component';
 
 const routes: Routes = [
 
@@ -96,8 +97,10 @@ const routes: Routes = [
               {path:'acc-generatedinvoice', component:  GeneratedinvoiceComponent,},
               {path:'acc-confirminvoice', component:  ConfirminvoiceComponent,},
               {path:'acc-popupinvoice', component:  PopupinvoiceComponent,},
-             
-    ]      
+    //SALES CONTROLLER
+    //1.PRICING    
+    {path:'sales-pricing', component:  PricingComponent,},
+    ]
   }
 ];
 

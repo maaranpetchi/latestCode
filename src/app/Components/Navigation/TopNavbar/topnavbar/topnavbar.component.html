@@ -98,6 +98,19 @@
                     <button mat-menu-item routerLink="acc-invcan">invoice-cancellation</button>
                 </mat-menu>
             </a>
+
+            <a mat-list-item>
+                <mat-icon>perm_identity</mat-icon>
+                <span>Sales</span>
+                <button mat-icon-button [matMenuTriggerFor]="settingsSalesMenu">
+                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #settingsSalesMenu="matMenu">
+                    <button mat-menu-item routerLink="sales-pricing">Pricing</button>
+                    <!-- <button mat-menu-item routerLink="Emp-empvsdiv">EmployeeVsDivision</button> -->
+                </mat-menu>
+
+            </a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
