@@ -23,7 +23,8 @@ selectedinvoiceoption:any='';
 invoicedropdownvalues:any[] = [];
 
 
-
+adjustedAmount1:any[] = [];
+receivableAdjustment:any[] = [];
 
 
   constructor(private builder: FormBuilder,
@@ -88,7 +89,43 @@ onchangesubmit(){
   });
 
 }
-  onFormSubmit(){
 
+  onFormSubmit(){
+    let adjustmentDetails = {
+      IsInvoiceAdjustment: true,
+      InvoiceId:23,
+      InvoiceNo: "3445",
+      AdjustmentAmount: 90,
+    };
+    
+    let AlreadyAdjustedDetails = {
+      InvoiceId:10,
+      InvoiceNo:"9546",
+      AlreadyAdjustedAmount:23.45,
+      InvoiceValue: 89,
+      CurrentAdjustedAmount: 10,
+    };
+    
+    
+     this.adjustedAmount1.push(AlreadyAdjustedDetails);
+     this.receivableAdjustment.push(adjustmentDetails);
+   let receivable = {
+        ReceivableAdjustments: this.receivableAdjustment,
+        Receivables: {
+            CollectionDate: "2023-04-27T12:37:39.120Z",
+            CollectionAmount: 23,
+            ExchangeRate:23,
+            ReferenceNo:"2023",
+            ReferenceDate: "2023-04-27T12:37:39.120Z",
+            Description: "CreditNoteDetails.Description",
+            CreatedBy: 4141,
+            CustomerId: 200,
+        },
+        AlreadyAdjusted: this.adjustedAmount1,
+       
+    };
+    this.http.post<any>(`https://localhost:7208/api/Receivable/CreateCreditNote`,receivable).subscribe(data => {
+   console.log(data)
+  });
   }
 }
