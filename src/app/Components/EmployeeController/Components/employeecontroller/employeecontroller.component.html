@@ -18,7 +18,7 @@
     <mat-checkbox (change)="onCheckboxChange($event,1)">Include Delete Employee</mat-checkbox>
     <mat-checkbox (change)="onCheckboxChange($event,2)">Include Resign Employee</mat-checkbox>
     <div class="table-container">
-      <table mat-table [dataSource]="dataSource" matSort>
+      <table class="table table-sm table-responsive" mat-table [dataSource]="dataSource"  matSort>
 
         <!-- ID Column -->
         <ng-container matColumnDef="employeeCode">

@@ -4,23 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 
-export interface TableData {
-  pricingType: string;
-  department: string;
-  scope: string;
-  jobStatus: string;
-  withEffective: string;
-  from: string;
-  to: string;
-  fromeffective: string;
-  toeffective: string;
-  fileCount: number;
-  fromDate: string;
-  toDate: string;
-  destination: string;
-  numOfArtist: number;
-}
-
 
 @Component({
   selector: 'app-pricing',
@@ -36,6 +19,18 @@ export class PricingComponent implements OnInit {
     private snackBar: MatSnackBar) { }
 
     selectedFilter: number;
+
+
+
+    selectedbasedonscope:boolean=false;
+
+
+
+    onSelectionChange(event: any) {
+      const selectedValue = event.value;
+      this.selectedpricingtypeOption = this.pricingtypes.find(option => option.value === selectedValue);
+    }
+  
 
   ngOnInit(): void {
     //department

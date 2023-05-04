@@ -19,7 +19,7 @@
           <div class="col">
             <mat-form-field>
               <mat-label>Pricing Type</mat-label>
-              <mat-select [(value)]="selectedpricingtypeOption" [(ngModel)]="selectedFilter" name="selectedfilter" >
+              <mat-select [(value)]="selectedpricingtypeOption" [(ngModel)]="selectedFilter" name="selectedfilter"  (selectionChange)="onSelectionChange($event)">
                 <mat-option *ngFor="let pricingtype of pricingtypes" [value]="pricingtype.id">
                   {{ pricingtype.description }}
                 </mat-option>
@@ -54,7 +54,7 @@
       </div>
 
 
-<div class="basedonscope" >
+<div class="basedonscope"  *ngIf="selectedbasedonscope">
   <div class="row">
     <div class="col">
       <mat-form-field>

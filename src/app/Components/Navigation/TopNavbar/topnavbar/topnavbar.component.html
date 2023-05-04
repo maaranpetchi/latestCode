@@ -7,6 +7,7 @@
             style="max-width: 60%;"></span>
     <div class="center-text-container">
         <span class="center-text"><span style="color:red">V</span>is <span style="color:red">I</span>nformation <span style="color:red">S</span>ystem</span>
+        <p style="font-family: 'Open Sans';font-size: 17px;">Ver[3.0.0]</p>
     </div>
     <span class="example-spacer"></span>
         <label>Welcome {{getloginusername()}}</label>
@@ -23,11 +24,11 @@
 </mat-toolbar>
 <div class="toptoolbar">
 
-<!-- <mat-toolbar>
+<mat-toolbar style="justify-content: center;">
     <span>
         <div class="toptoolbar">
-    <img class="clientcoordination"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="clientcoordination">
-    <img class="ProductionAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="ProductionAllocation">
+    <img class="clientcoordination"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="clientcoordination" routerLink="clientindex">
+    <img class="ProductionAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="ProductionAllocation" routerLink="production">
     <img class="Production"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Production">
     <img class="QualityAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="QualityAllocation">
     <img class="Quality"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Quality">
@@ -38,7 +39,7 @@
     <img class="Reports"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Reports">
 </div>
 </span>  
-</mat-toolbar> -->
+</mat-toolbar>
 </div>
 
 
@@ -114,7 +115,7 @@
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <p style="height:85vh">
+        <p>
             <router-outlet></router-outlet>
         </p>
     </mat-sidenav-content>

@@ -40,6 +40,11 @@ import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tall
 import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PricingComponent } from 'src/app/Components/SalesController/Pricing/pricing/pricing.component';
+import { ClientordinationindexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/clientordinationindex/clientordinationindex.component';
+import { QueryToClientComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/query-to-client.component';
+import { JoborderComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborder/joborder.component';
+import { ProductionallocationComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/productionallocation/productionallocation.component';
+import { ProductionallocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/productionallocationtable/productionallocationtable.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -47,6 +52,16 @@ import { PricingComponent } from 'src/app/Components/SalesController/Pricing/pri
     LoginComponent,
     //changepassword
     ChangepasswordComponent,
+    //TOPNAVBARCOMPONENTS
+       //1.ClientordinationindexComponent
+       ClientordinationindexComponent,
+          //SUBCATEGOROFCLIENTCORDINATION
+          ProductionallocationComponent,
+          ProductionallocationtableComponent,
+          //JoborderComponent
+          JoborderComponent,
+               //1.QueryToClientComponentfortableComponent
+               QueryToClientComponent,
     //navbar
     TopnavbarComponent,
     //EmployeeController

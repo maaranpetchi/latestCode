@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="height:100vh">
+
+    <div class="main-body">
+        <div class="container">
+            <div class="rowoorderlink" style="display: flex; flex-direction: column;">
+               <a routerLink="joborder" style="margin-top: 10px;">Create Job Order</a>
+                <a routerLink="" style="margin-top: 10px;">Job Order For Excel</a>
+                <a routerLink="" style="margin-top: 10px;">Completed Jobs (0)</a>
+                <a routerLink="" style="margin-top: 10px;">Client Orders (10)</a>
+            </div>
+            <h3 style="font-family:'Times New Roman', Times, serif">Client Coordination (0)</h3>
+            <!-- <div style="display: flex; flex-direction: row;">
+                <a routerLink="/queries" style="margin-right: 10px;">Queries To Client (0)</a>
+                <a routerLink="/query-response" style="margin-right: 10px;">Query Response (0)</a>
+                <a routerLink="/cancelled-jobs" style="margin-right: 10px;">Cancelled Jobs (0)</a>
+                <a routerLink="/quotation-jobs">Quotation Jobs (0)</a>
+              </div> -->
+
+              <mat-tab-group dynamicHeight>
+                <mat-tab label="Queries To Client (0)">
+                  <div class="example-small-box mat-elevation-z4">
+                    <app-query-to-client></app-query-to-client>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Query Response (0)">
+                  <div class="example-large-box mat-elevation-z4">
+                    <app-query-to-client></app-query-to-client>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Cancelled Jobs (0)">
+                  <div class="example-large-box mat-elevation-z4">
+                    <app-query-to-client></app-query-to-client>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Quotation Jobs (0)">
+                  <div class="example-large-box mat-elevation-z4">
+                    <app-query-to-client></app-query-to-client>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+              
+              
+        </div>
+    </div>
+</body>
+
+</html>
