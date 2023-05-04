@@ -45,6 +45,16 @@ import { QueryToClientComponent } from 'src/app/Components/TopToolbarComponents/
 import { JoborderComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborder/joborder.component';
 import { ProductionallocationComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/productionallocation/productionallocation.component';
 import { ProductionallocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/productionallocationtable/productionallocationtable.component';
+import { ProductionComponent } from 'src/app/Components/TopToolbarComponents/Production/production/production.component';
+import { ProductiontableComponent } from 'src/app/Components/TopToolbarComponents/Production/productiontable/productiontable.component';
+import { JobAssignedDetailsPopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/job-assigned-details-popup/job-assigned-details-popup.component';
+import { QualityallocationComponent } from 'src/app/Components/TopToolbarComponents/QualityAllocation/qualityallocation/qualityallocation.component';
+import { QualityallocationtableComponent } from 'src/app/Components/TopToolbarComponents/QualityAllocation/qualityallocationtable/qualityallocationtable.component';
+import { QualitypopupjobassignComponent } from 'src/app/Components/TopToolbarComponents/QualityAllocation/qualitypopupjobassign/qualitypopupjobassign.component';
+import { QualityComponent } from 'src/app/Components/TopToolbarComponents/Quality/quality/quality.component';
+import { QualitytableComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualitytable/qualitytable.component';
+import { QualityjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualityjobdetailpopup/qualityjobdetailpopup.component';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -53,15 +63,27 @@ import { ProductionallocationtableComponent } from 'src/app/Components/TopToolba
     //changepassword
     ChangepasswordComponent,
     //TOPNAVBARCOMPONENTS
-       //1.ClientordinationindexComponent
-       ClientordinationindexComponent,
-          //SUBCATEGOROFCLIENTCORDINATION
-          ProductionallocationComponent,
-          ProductionallocationtableComponent,
-          //JoborderComponent
-          JoborderComponent,
-               //1.QueryToClientComponentfortableComponent
-               QueryToClientComponent,
+    //1.ClientordinationindexComponent
+    ClientordinationindexComponent,
+    //SUBCATEGOROFCLIENTCORDINATION
+    ProductionallocationComponent,
+    ProductionallocationtableComponent,
+    JobAssignedDetailsPopupComponent,
+    //JoborderComponent
+    JoborderComponent,
+    //1.QueryToClientComponentfortableComponent
+    QueryToClientComponent,
+    //ProductionmainComponent
+    ProductionComponent,
+    ProductiontableComponent,
+    //QualityAllocation
+    QualityallocationComponent,
+    QualityallocationtableComponent,
+    QualitypopupjobassignComponent,
+    //Quality
+    QualityComponent,
+    QualitytableComponent,
+    QualityjobdetailpopupComponent,
     //navbar
     TopnavbarComponent,
     //EmployeeController
@@ -76,42 +98,42 @@ import { ProductionallocationtableComponent } from 'src/app/Components/TopToolba
     //Customervsprocess
     CustomervsprocessComponent,
     //AccountsController
-         //1.pricingcalculation
-         PricingcalculationComponent,
-         //2.NonBillableJobs
-         NonbillablejobsComponent,
-         //3.customerreceipts
-         CustomerreceiptsindexComponent,
-         AddEditCustomerreceiptsComponent,
-         //4.scopeChange
-         ScopechangeComponent,
-         //5.AdvanceAdjustment
-         AdvanceadjustmentComponent,
-         EditadvanceadjustmentComponent,
-         //6.creditnote
-         CreditnoteindexComponent,
-         AddCreditnoteComponent,
-         //7.invoicecancellation
-         InvoicecancellationComponent,
-         // 1.viewinvoicecancelationlist
-         ViewinvoicecancelComponent,
-         //2.InvoicecancelleddetailsComponent
-         InvoicecancelleddetailsComponent,
-         //3.invoice
-         InvoiceComponent,
-         DetailsComponent,
-         GeneratedinvoiceComponent,
-         ConfirminvoiceComponent,
-         PopupinvoiceComponent,
-         PopupinvoicecancellistComponent,
-         //Wavier
-         WavierComponent,
-         PopupwavierconfirmationComponent,
-        //tally
-        TallyComponent,
+    //1.pricingcalculation
+    PricingcalculationComponent,
+    //2.NonBillableJobs
+    NonbillablejobsComponent,
+    //3.customerreceipts
+    CustomerreceiptsindexComponent,
+    AddEditCustomerreceiptsComponent,
+    //4.scopeChange
+    ScopechangeComponent,
+    //5.AdvanceAdjustment
+    AdvanceadjustmentComponent,
+    EditadvanceadjustmentComponent,
+    //6.creditnote
+    CreditnoteindexComponent,
+    AddCreditnoteComponent,
+    //7.invoicecancellation
+    InvoicecancellationComponent,
+    // 1.viewinvoicecancelationlist
+    ViewinvoicecancelComponent,
+    //2.InvoicecancelleddetailsComponent
+    InvoicecancelleddetailsComponent,
+    //3.invoice
+    InvoiceComponent,
+    DetailsComponent,
+    GeneratedinvoiceComponent,
+    ConfirminvoiceComponent,
+    PopupinvoiceComponent,
+    PopupinvoicecancellistComponent,
+    //Wavier
+    WavierComponent,
+    PopupwavierconfirmationComponent,
+    //tally
+    TallyComponent,
     //SALES CONTROLLER
-      //  1.PRICING
-      PricingComponent
+    //  1.PRICING
+    PricingComponent
   ],
   imports: [
     CommonModule,

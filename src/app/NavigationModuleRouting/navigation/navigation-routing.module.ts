@@ -39,6 +39,15 @@ import { QueryToClientComponent } from 'src/app/Components/TopToolbarComponents/
 import { JoborderComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborder/joborder.component';
 import { ProductionallocationComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/productionallocation/productionallocation.component';
 import { ProductionallocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/productionallocationtable/productionallocationtable.component';
+import { ProductionComponent } from 'src/app/Components/TopToolbarComponents/Production/production/production.component';
+import { ProductiontableComponent } from 'src/app/Components/TopToolbarComponents/Production/productiontable/productiontable.component';
+import { JobAssignedDetailsPopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/job-assigned-details-popup/job-assigned-details-popup.component';
+import { QualityallocationComponent } from 'src/app/Components/TopToolbarComponents/QualityAllocation/qualityallocation/qualityallocation.component';
+import { QualityallocationtableComponent } from 'src/app/Components/TopToolbarComponents/QualityAllocation/qualityallocationtable/qualityallocationtable.component';
+import { QualitypopupjobassignComponent } from 'src/app/Components/TopToolbarComponents/QualityAllocation/qualitypopupjobassign/qualitypopupjobassign.component';
+import { QualityComponent } from 'src/app/Components/TopToolbarComponents/Quality/quality/quality.component';
+import { QualitytableComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualitytable/qualitytable.component';
+import { QualityjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualityjobdetailpopup/qualityjobdetailpopup.component';
 
 const routes: Routes = [
 
@@ -62,7 +71,20 @@ const routes: Routes = [
       { path: 'clientindex/joborder', component: JoborderComponent }, // Added redirect path
       { path: 'production', component: ProductionallocationComponent },
       { path: 'productiontable', component: ProductionallocationtableComponent },
-     
+      { path: 'JobAssignPopup', component: JobAssignedDetailsPopupComponent, },
+
+      //QualityAlloactionsComponent
+      { path: 'qualityallocation', component: QualityallocationComponent, },
+      { path: 'qualityallocationtable', component: QualityallocationtableComponent },
+      { path: 'qualitypopup', component: QualitypopupjobassignComponent },
+
+      //Quality
+      { path: 'quality', component: QualityComponent },
+      { path: 'qualitytable', component: QualitytableComponent },
+      { path: 'qualityjobpop', component:   QualityjobdetailpopupComponent },
+      //Productionmaincomponent
+      { path: 'productionmain', component: ProductionComponent },
+      { path: 'productionmaintable', component: ProductiontableComponent },
       //EmployeeController
       { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },
       { path: 'Emp-addeditEmpcontroller', component: AddEditEmployeecontrollerComponent },
