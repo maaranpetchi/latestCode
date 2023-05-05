@@ -13,6 +13,8 @@ import { EditadvanceadjustmentComponent } from './Components/AccountsController/
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
 import { QualityjobdetailpopupComponent } from './Components/TopToolbarComponents/Quality/qualityjobdetailpopup/qualityjobdetailpopup.component';
+import { JoborderexcelComponent } from './Components/TopToolbarComponents/ClientCordination/joborderexcel/joborderexcel.component';
+import { CompletedjobsComponent } from './Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobs.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { QualityjobdetailpopupComponent } from './Components/TopToolbarComponent
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
   
+   
    
     
   

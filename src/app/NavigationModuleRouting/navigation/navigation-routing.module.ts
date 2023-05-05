@@ -48,6 +48,8 @@ import { QualitypopupjobassignComponent } from 'src/app/Components/TopToolbarCom
 import { QualityComponent } from 'src/app/Components/TopToolbarComponents/Quality/quality/quality.component';
 import { QualitytableComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualitytable/qualitytable.component';
 import { QualityjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualityjobdetailpopup/qualityjobdetailpopup.component';
+import { JoborderexcelComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborderexcel/joborderexcel.component';
+import { CompletedjobsComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobs.component';
 
 const routes: Routes = [
 
@@ -55,6 +57,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent, },
+  // { path: 'topnavbar/clientindex/joborder', component: JoborderComponent },
 
   {
     path: 'topnavbar',
@@ -64,84 +67,84 @@ const routes: Routes = [
       { path: 'changepassword', component: ChangepasswordComponent },
       //TOPNAVBAR COMPONENTS
       {
-        path: 'clientindex', component: ClientordinationindexComponent, children: [
-          { path: 'joborder', component: JoborderComponent }
-        ]
+        path: 'clientindex', component: ClientordinationindexComponent
       },
       { path: 'clientindex/joborder', component: JoborderComponent }, // Added redirect path
       { path: 'production', component: ProductionallocationComponent },
       { path: 'productiontable', component: ProductionallocationtableComponent },
       { path: 'JobAssignPopup', component: JobAssignedDetailsPopupComponent, },
+      { path: 'clientindex/Jobexcel', component: JoborderexcelComponent },
+      { path: 'clientindex/completedjobs', component: CompletedjobsComponent },
 
-      //QualityAlloactionsComponent
-      { path: 'qualityallocation', component: QualityallocationComponent, },
-      { path: 'qualityallocationtable', component: QualityallocationtableComponent },
-      { path: 'qualitypopup', component: QualitypopupjobassignComponent },
+  //QualityAlloactionsComponent
+  { path: 'qualityallocation', component: QualityallocationComponent, },
+  { path: 'qualityallocationtable', component: QualityallocationtableComponent },
+  { path: 'qualitypopup', component: QualitypopupjobassignComponent },
 
-      //Quality
-      { path: 'quality', component: QualityComponent },
-      { path: 'qualitytable', component: QualitytableComponent },
-      { path: 'qualityjobpop', component:   QualityjobdetailpopupComponent },
-      //Productionmaincomponent
-      { path: 'productionmain', component: ProductionComponent },
-      { path: 'productionmaintable', component: ProductiontableComponent },
-      //EmployeeController
-      { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },
-      { path: 'Emp-addeditEmpcontroller', component: AddEditEmployeecontrollerComponent },
-      //EmployeevsdivController
-      { path: 'Emp-empvsdiv', component: indexemployeevsdivisionComponent },
-      { path: 'Emp-addeditempvsdiv', component: AddeditemployeevsdivisionComponent },
-      //customercontroller
-      //CustomerVSEmployee
-      { path: 'cus-cusvsemp', component: CustomerVSEmployeeComponent },
-      { path: 'cus-addeditcusvsemp', component: AddEditCustomerVSEmployeeComponent },
-      //CustomerVSprocess
-      { path: 'cus-cusvsprocess', component: CustomervsprocessComponent },
-      //AccountsController
-      //pricingcalculation
-      { path: 'acc-pricing', component: PricingcalculationComponent },
-      { path: 'acc-pricingpopup', component: InformationpopupComponent },
-      //Non-billable
-      { path: 'acc-nonbill', component: NonbillablejobsComponent },
-      //Customerreceipts
-      { path: 'acc-customer', component: CustomerreceiptsindexComponent },
-      { path: 'acc-addeditcustomer', component: AddEditCustomerreceiptsComponent },
-      //ScopeChange
-      { path: 'acc-scopechange', component: ScopechangeComponent },
-      //Advance-Adjustment
-      { path: 'acc-advance', component: AdvanceadjustmentComponent },
-      { path: 'acc-editadvance', component: EditadvanceadjustmentComponent },
-      //credit-note
-      { path: 'acc-creditnote', component: CreditnoteindexComponent },
-      { path: 'acc-addcredit', component: AddCreditnoteComponent },
-      //wavier
-      { path: 'acc-wavier', component: WavierComponent },
-      //popupwaiver
-      { path: 'acc-wavierpop', component: PopupwavierconfirmationComponent },
-      //Tally
-      { path: 'acc-tally', component: TallyComponent },
-      // Invoicecancellation,
-      { path: 'acc-invcan', component: InvoicecancellationComponent },
-      // ViewinvoicecancelComponent,
-      { path: 'acc-viewinvcan', component: ViewinvoicecancelComponent, },
-      // InvoicecancelleddetailsComponent,
-      { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent, },
-      //popupinvoicecancelledlist
-      { path: 'acc-popinvcan', component: PopupinvoicecancellistComponent, },
-      //Invoicecomponent
-      { path: 'acc-invoice', component: InvoiceComponent, },
-      { path: 'acc-details', component: DetailsComponent, },
-      { path: 'acc-generatedinvoice', component: GeneratedinvoiceComponent, },
-      { path: 'acc-confirminvoice', component: ConfirminvoiceComponent, },
-      { path: 'acc-popupinvoice', component: PopupinvoiceComponent, },
-      //SALES CONTROLLER
-      //1.PRICING    
-      { path: 'sales-pricing', component: PricingComponent, },
-    ]
+  //Quality
+  { path: 'quality', component: QualityComponent },
+  { path: 'qualitytable', component: QualitytableComponent },
+  { path: 'qualityjobpop', component: QualityjobdetailpopupComponent },
+  //Productionmaincomponent
+  { path: 'productionmain', component: ProductionComponent },
+  { path: 'productionmaintable', component: ProductiontableComponent },
+  //EmployeeController
+  { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },
+  { path: 'Emp-addeditEmpcontroller', component: AddEditEmployeecontrollerComponent },
+  //EmployeevsdivController
+  { path: 'Emp-empvsdiv', component: indexemployeevsdivisionComponent },
+  { path: 'Emp-addeditempvsdiv', component: AddeditemployeevsdivisionComponent },
+  //customercontroller
+  //CustomerVSEmployee
+  { path: 'cus-cusvsemp', component: CustomerVSEmployeeComponent },
+  { path: 'cus-addeditcusvsemp', component: AddEditCustomerVSEmployeeComponent },
+  //CustomerVSprocess
+  { path: 'cus-cusvsprocess', component: CustomervsprocessComponent },
+  //AccountsController
+  //pricingcalculation
+  { path: 'acc-pricing', component: PricingcalculationComponent },
+  { path: 'acc-pricingpopup', component: InformationpopupComponent },
+  //Non-billable
+  { path: 'acc-nonbill', component: NonbillablejobsComponent },
+  //Customerreceipts
+  { path: 'acc-customer', component: CustomerreceiptsindexComponent },
+  { path: 'acc-addeditcustomer', component: AddEditCustomerreceiptsComponent },
+  //ScopeChange
+  { path: 'acc-scopechange', component: ScopechangeComponent },
+  //Advance-Adjustment
+  { path: 'acc-advance', component: AdvanceadjustmentComponent },
+  { path: 'acc-editadvance', component: EditadvanceadjustmentComponent },
+  //credit-note
+  { path: 'acc-creditnote', component: CreditnoteindexComponent },
+  { path: 'acc-addcredit', component: AddCreditnoteComponent },
+  //wavier
+  { path: 'acc-wavier', component: WavierComponent },
+  //popupwaiver
+  { path: 'acc-wavierpop', component: PopupwavierconfirmationComponent },
+  //Tally
+  { path: 'acc-tally', component: TallyComponent },
+  // Invoicecancellation,
+  { path: 'acc-invcan', component: InvoicecancellationComponent },
+  // ViewinvoicecancelComponent,
+  { path: 'acc-viewinvcan', component: ViewinvoicecancelComponent, },
+  // InvoicecancelleddetailsComponent,
+  { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent, },
+  //popupinvoicecancelledlist
+  { path: 'acc-popinvcan', component: PopupinvoicecancellistComponent, },
+  //Invoicecomponent
+  { path: 'acc-invoice', component: InvoiceComponent, },
+  { path: 'acc-details', component: DetailsComponent, },
+  { path: 'acc-generatedinvoice', component: GeneratedinvoiceComponent, },
+  { path: 'acc-confirminvoice', component: ConfirminvoiceComponent, },
+  { path: 'acc-popupinvoice', component: PopupinvoiceComponent, },
+  //SALES CONTROLLER
+  //1.PRICING    
+  { path: 'sales-pricing', component: PricingComponent, },
+]
   },
-  
 
-  
+
+
 ];
 
 @NgModule({

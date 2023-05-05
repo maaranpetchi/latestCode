@@ -54,6 +54,8 @@ import { QualitypopupjobassignComponent } from 'src/app/Components/TopToolbarCom
 import { QualityComponent } from 'src/app/Components/TopToolbarComponents/Quality/quality/quality.component';
 import { QualitytableComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualitytable/qualitytable.component';
 import { QualityjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualityjobdetailpopup/qualityjobdetailpopup.component';
+import { JoborderexcelComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborderexcel/joborderexcel.component';
+import { CompletedjobsComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobs.component';
 
 @NgModule({
   declarations: [
@@ -69,8 +71,11 @@ import { QualityjobdetailpopupComponent } from 'src/app/Components/TopToolbarCom
     ProductionallocationComponent,
     ProductionallocationtableComponent,
     JobAssignedDetailsPopupComponent,
+    CompletedjobsComponent,
     //JoborderComponent
     JoborderComponent,
+    JoborderexcelComponent,
+  
     //1.QueryToClientComponentfortableComponent
     QueryToClientComponent,
     //ProductionmainComponent

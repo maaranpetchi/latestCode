@@ -2,7 +2,7 @@
     <div class="container">
         <div class="mat-elevation-z8">
             
-            <table mat-table [dataSource]="dataSource" matSort class="table table-sm">
+            <table mat-table [dataSource]="dataSource" matSort class="table table-sm" style="width:50vw">
                 <!--Checkbox to select the values-->
                 <ng-container matColumnDef="selected">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Select </th>
@@ -84,7 +84,12 @@
                 <!-- Table Rows -->
                 <tr mat-row *matRowDef="let job; columns: displayedColumns;"></tr>
             </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
         </div>
+        <br>
+        <br>
+        <br>
+
         <div class="scope" style="float: right;">
             <mat-form-field>
                 <mat-label>Scope</mat-label>
