@@ -50,6 +50,9 @@ import { QualitytableComponent } from 'src/app/Components/TopToolbarComponents/Q
 import { QualityjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/Quality/qualityjobdetailpopup/qualityjobdetailpopup.component';
 import { JoborderexcelComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborderexcel/joborderexcel.component';
 import { CompletedjobsComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobs.component';
+import { ClientordersComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorders/clientorders.component';
+import { ClientorderstableComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/clientorderstable.component';
+import { ClientorderviewComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderview/clientorderview.component';
 
 const routes: Routes = [
 
@@ -75,6 +78,10 @@ const routes: Routes = [
       { path: 'JobAssignPopup', component: JobAssignedDetailsPopupComponent, },
       { path: 'clientindex/Jobexcel', component: JoborderexcelComponent },
       { path: 'clientindex/completedjobs', component: CompletedjobsComponent },
+      { path: 'clientindex/clientorder', component: ClientordersComponent },
+      { path: 'clientindex/clientordertable', component: ClientorderstableComponent },
+      { path: 'clientindex/clientordertable', component: ClientorderstableComponent },
+      { path: 'clientindex/clientorder/clientorderview', component: ClientorderviewComponent },
 
   //QualityAlloactionsComponent
   { path: 'qualityallocation', component: QualityallocationComponent, },
