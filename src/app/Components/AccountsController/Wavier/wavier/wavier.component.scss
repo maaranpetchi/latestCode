@@ -1,29 +1,17 @@
 .container {  display: grid;
-    grid-template-columns: 0.2fr 2.4fr 0.4fr;
-    grid-template-rows: 0.3fr 1.4fr 1.3fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      ". . ."
-      ". fullform ."
-      ". . .";
-  }
-  
-  .fullform {  display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 0.6fr 4fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "firstform firstform firstform"
-      "secondform secondform secondform"
-      "secondform secondform secondform";
-    grid-area: fullform;
-  }
-  
-  .firstform { grid-area: firstform; }
-  
-  .secondform { grid-area: secondform; }
+  grid-template-columns: 0.8fr 1.2fr 1fr;
+  grid-template-rows: 1.2fr 0.5fr 1.3fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". fullform ."
+    ". . ."
+    ". . .";
+}
+
+.fullform { grid-area: fullform; }
+
+
   
   #submit{
 float: right;

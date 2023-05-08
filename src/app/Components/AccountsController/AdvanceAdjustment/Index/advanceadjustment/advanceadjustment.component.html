@@ -11,7 +11,7 @@
         <div class="fullform">
             <h1 style="font-family: 'Times New Roman', Times, serif;color:#0a5dac;text-align: center;">Advance Adjustment</h1>
             <mat-form-field>
-                <mat-label>Department</mat-label>
+                <mat-label>Customer Name</mat-label>
                 <mat-select ngDefaultControl  [(ngModel)]="selectedOption" 
                     [(value)]="selecteddepartmentOption" (selectionChange)="loadData()">
                     <mat-option *ngFor="let departmentdropdownvalues of Departmentdropdownvalues"

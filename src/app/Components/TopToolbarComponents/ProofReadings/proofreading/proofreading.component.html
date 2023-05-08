@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +8,25 @@
     <title>Document</title>
     <script src="extensions/resizable/bootstrap-table-resizable.js"></script>
 </head>
+
 <body style="height: 100vh;">
     <div class="main-body">
         <div class="container">
             <div class="productionmain">
-                <h3 style="font-family:'Times New Roman', Times, serif">Quality (0)</h3>
-    
-                <mat-tab-group  dynamicHeight (selectedTabChange)="onTabChange($event)">
-                    <mat-tab label="Fresh Jobs ()" >
+                <h1 style="font-family:'Times New Roman', Times, serif;color:#43958e">Proof Reading (0)</h1>
+             
+             
+                <div layout="row" layout-align="center center">
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button value="Both"> Both</mat-radio-button>
+                        <mat-radio-button value="Artwork">Artwork </mat-radio-button>
+                        <mat-radio-button value="Digitizing">Digitizing </mat-radio-button>
+                      </mat-radio-group>
+                  </div>
+                  
+             
+                <mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)">
+                    <mat-tab label="Fresh Jobs ()">
                     </mat-tab>
                     <mat-tab label="Revision Jobs ()">
                     </mat-tab>
@@ -30,22 +42,12 @@
 
 
                 <div>
-                    <app-qualitytable></app-qualitytable>
-                    <br>
-                    <div class="scope" style="float: right;">
-                        <mat-form-field>
-                            <mat-label>Scope</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let item of ScopeApiData" [value]="item.id">
-                                {{ item.scope }}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                          
-                    </div>
+                    <app-proof-reading-table></app-proof-reading-table>
+                    
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

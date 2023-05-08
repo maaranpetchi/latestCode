@@ -1,6 +1,5 @@
 <div class="container">
     <div class="formgroup">
-        <div class="firstform">
             <form [formGroup]="myForm"  (ngSubmit)="onSubmit()" >
                 <h1 style="text-align: center;font-family: 'Times New Roman', Times, serif;color:#FF9671">Invoice Calculation</h1>
                 <div class="container1">
@@ -41,10 +40,7 @@
                     <button class="btn" mat-raised-button color="primary">Search</button>
                 </div>
             </form>
-        </div>
-
-
-        <div class="secondform">
+        
             <mat-form-field>
                 <mat-label>Filter</mat-label>
                 <input matInput (keyup)="applyFilter($event)" placeholder="ex.prasana" #input>
@@ -133,4 +129,3 @@
             </div>
         </div>
     </div>
-</div>

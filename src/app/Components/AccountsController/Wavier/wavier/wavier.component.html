@@ -1,6 +1,6 @@
 <div class="container">
     <div class="fullform">
-        <div class="firstform">
+    
             <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                 <h1 style="text-align: center;font-family: 'Times New Roman', Times, serif;color:#FF9671">Waiver </h1>
                 <div class="container1">
@@ -57,9 +57,9 @@
                     <button class="btn" mat-raised-button color="primary" (click)="onGoButtonClick()">GO</button>
                 </div>
             </form>
-        </div>
+    
 
-        <div class="secondform">
+      
             <div id="submit">
                 <button class="btn submitcolor" (click)="submitassignvalue()">Submit</button>
             </div>
@@ -124,11 +124,8 @@
                 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
             </div>
-        </div>
     </div>
     <!--Modalpopup-->
-
-
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

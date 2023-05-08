@@ -8,15 +8,6 @@
                             <input matInput (keyup)="applyFilter($event)" placeholder="Filter" style="width: 50%;">
                         </mat-form-field>
                     </div>
-                    <div class="col" style="float: right;">
-                        <mat-form-field class="exchangeheader">
-                            <mat-label>Exchange Header</mat-label>
-                            <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header"
-                                style="width: 30%;">
-                        </mat-form-field>
-
-                        <button mat-raised-button color="primary" (click)="setExchangeHeader()">Set</button>
-                    </div>
                 </div>
             </div>
 
@@ -92,74 +83,7 @@
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
         </div>
 
-<br>
-        <div class="employeetable">
-            <div class="row">
-                <div class="col-6">
-                    <div class="mat-elevation-z8">
-                        <h3 style="font-family: 'Times New Roman', Times, serif;color:#ff9710df">Assigned To:</h3>
-                        <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
-                        </mat-form-field>
 
-                        <table mat-table [dataSource]="dataEmployeeSource" matSort class="table table-sm">
-                            <!--Checkbox to select the values-->
-                            <ng-container matColumnDef="selected">
-                                <th mat-sort-header mat-header-cell *matHeaderCellDef> Select </th>
-                                <td mat-cell *matCellDef="let element"> <mat-checkbox
-                                        (change)="setAll($event.checked,element)"></mat-checkbox> </td>
-
-                            </ng-container>
-                            <!-- Job ID Column -->
-                            <ng-container matColumnDef="employee">
-                                <th mat-sort-header mat-header-cell *matHeaderCellDef> Employee </th>
-                                <td mat-cell *matCellDef="let job"> {{ job.employee }} </td>
-                            </ng-container>
-
-                            <!-- Job Name Column -->
-                            <ng-container matColumnDef="estTime">
-                                <th mat-sort-header mat-header-cell *matHeaderCellDef> EST Time(in Mins) </th>
-                                <td mat-cell *matCellDef="let job"> {{ job.estTime }} </td>
-                            </ng-container>
-                            <!-- Client Column -->
-                            <ng-container matColumnDef="jobCategory">
-                                <th mat-sort-header mat-header-cell *matHeaderCellDef> Job Cat. </th>
-                                <td mat-cell *matCellDef="let job"> {{ job.jobCategory }} </td>
-                            </ng-container>
-                            <!-- Customer Satisfaction Column -->
-                            <ng-container matColumnDef="shift">
-                                <th mat-sort-header mat-header-cell *matHeaderCellDef>Shift </th>
-                                <td mat-cell *matCellDef="let job"> {{ job.shift }} </td>
-                            </ng-container>
-
-                            <!-- Table Header -->
-                            <tr mat-header-row *matHeaderRowDef="displayedEmployeeColumns"></tr>
-
-                            <!-- Table Rows -->
-                            <tr mat-row *matRowDef="let job; columns: displayedEmployeeColumns;"></tr>
-                        </table>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-                    </div>
-
-                </div>
-                <br>
-                <div class="col-6">
-                    <mat-form-field>
-                        <mat-label>Scope</mat-label>
-                        <mat-select [(value)]="selectedScope">
-                            <mat-option *ngFor="let scope of scopes" [value]="scope">
-                                {{ scope.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <br>
-
-                        <mat-checkbox matInput [(ngModel)]="benchChecked" (change)="onBenchCheckboxChange($event)">
-                            BenchBox
-                        </mat-checkbox>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success">Submit</button>
-
-                </div>
-            </div>
-        </div>
+    
     </div>
 </div>

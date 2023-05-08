@@ -1,24 +1,20 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { QualitytableComponent } from '../qualitytable/qualitytable.component';
+import { ProofReadingAllocationTableComponent } from '../../ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
+import { HttpClient } from '@angular/common/http';
+import { ProofReadingTableComponent } from '../proof-reading-table/proof-reading-table.component';
 
 @Component({
-  selector: 'app-quality',
-  templateUrl: './quality.component.html',
-  styleUrls: ['./quality.component.scss']
+  selector: 'app-proofreading',
+  templateUrl: './proofreading.component.html',
+  styleUrls: ['./proofreading.component.scss']
 })
-export class QualityComponent  implements OnInit{
-  @ViewChild(QualitytableComponent) QualitytableComponent: QualitytableComponent;
-  ScopeApiData: any[];
+export class ProofreadingComponent implements OnInit{
+  @ViewChild(ProofReadingTableComponent) ProofReadingTableComponent: ProofReadingTableComponent;
+
  constructor(private http:HttpClient){}
   ngOnInit(): void {
-  //ScopeDropdown
-    this.http.get<any>('ScopeUrl').subscribe(data =>{
-      this.ScopeApiData = data;
-    });
+  
+
     
   }
   onTabChange(event: any) {
@@ -100,16 +96,34 @@ tab(action){
 // };
   }
 
-showChildAlert() {
-  this.QualitytableComponent.showAlert();
-}
+
 
  BindPendingJobs() {
   console.log("2");
   this.http.get<any>('https://localhost:7208/api/Allocation/getWorkflowJobList/152/3/1/1').subscribe(response=> {
-    this.QualitytableComponent.assigndatasource(response.getWorkflowDetails)
+    this.ProofReadingTableComponent.assigndatasource(response.getWorkflowDetails)
 
   });
-
+  // PendingJobListFactory.GetAllocationAndErrorJobswithDept('getWorkflowJobList', EmployeeId, ProcessId, 1, rbnSelect).promise.then(function (result) {
+  //     workFlowJobs.data = result.GetWorkflowDetails;
+  //     getWorkflowDetails = result.GetWorkflowDetails;
+  //     freshJobsCount = result.FreshJobsCount;
+  //     revisionJobsCount = result.RevisionJobsCount;
+  //     reworkJobsCount = result.ReworkJobsCount;
+  //     quoteJobsCount = result.QuoteJobsCount;
+  //     sewOutJobsCount = result.SewOutJobsCount;
+  //     bulkJobsCount = result.BulkJobsCount;
+  //     bulkUploadJobsCount = result.BulkUploadJobsCount;
+  };
+  // var pos1 = workFlowJobs.columnDefs.map(function (e) { return e.field; }).indexOf('Start');
+  // workFlowJobs.columnDefs[pos1].visible = false;
+  // var pos2 = workFlowJobs.columnDefs.map(function (e) { return e.field; }).indexOf('End');
+  // workFlowJobs.columnDefs[pos2].visible = false;
+  // var pos3 = workFlowJobs.columnDefs.map(function (e) { return e.field; }).indexOf('WorkFiles');
+  // workFlowJobs.columnDefs[pos3].visible = false;
+  // var pos4 = workFlowJobs.columnDefs.map(function (e) { return e.field; }).indexOf('actions');
+  // workFlowJobs.columnDefs[pos4].visible = true;
+  // var pos5 = workFlowJobs.columnDefs.map(function (e) { return e.field; }).indexOf('BulkUpload');
+  // workFlowJobs.columnDefs[pos5].visible = false;
 };
-}
+

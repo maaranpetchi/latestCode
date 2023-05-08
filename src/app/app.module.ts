@@ -12,12 +12,20 @@ import { AdvanceadjustmentComponent } from './Components/AccountsController/Adva
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
+import { BuddyProofTableComponent } from './Components/TopToolbarComponents/BuddyProof/buddy-proof-table/buddy-proof-table.component';
+import { SewOutComponent } from './Components/TopToolbarComponents/SewOut/sew-out/sew-out.component';
+import { SewOutTableComponent } from './Components/TopToolbarComponents/SewOut/sew-out-table/sew-out-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
+
+
+
+   
+
    
   ],
   imports: [

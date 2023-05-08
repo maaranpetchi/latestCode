@@ -4,18 +4,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { QualitypopupjobassignComponent } from '../../QualityAllocation/qualitypopupjobassign/qualitypopupjobassign.component';
-import { QualityjobdetailpopupComponent } from '../qualityjobdetailpopup/qualityjobdetailpopup.component';
-@Component({
-  selector: 'app-qualitytable',
-  templateUrl: './qualitytable.component.html',
-  styleUrls: ['./qualitytable.component.scss']
-})
-export class QualitytableComponent {
 
-  @Output() showAlertEvent: EventEmitter<any> = new EventEmitter();
-  ScopeApiData: any[];
+
+@Component({
+  selector: 'app-proof-reading-table',
+  templateUrl: './proof-reading-table.component.html',
+  styleUrls: ['./proof-reading-table.component.scss']
+})
+export class ProofReadingTableComponent {
+
+ @Output() showAlertEvent: EventEmitter<any> = new EventEmitter();
+  
 
   displayedColumns: string[] = [
     'selected',
@@ -39,17 +38,13 @@ export class QualitytableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,public dialog: MatDialog) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // //scopedropdown
-     this.fetchScope();
+    // //ScopeDropdown
+   
   }
-
-  fetchScope(){
  
-  }
-
 
   assigndatasource(data){
     this.dataSource = new MatTableDataSource(data);
@@ -85,24 +80,5 @@ export class QualitytableComponent {
     console.log("after", this.selectedproduction)
   }
 
-  showAlert() {
-    alert('HI TESTING');
-  }
-
-
-
-  openqualitypop(){
-    const dialogRef = this.dialog.open(QualityjobdetailpopupComponent, {
-      width: '2000px',
-    
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      
-    });
-  }
-
-  }
-
+}
 

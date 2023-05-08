@@ -8,15 +8,6 @@
                             <input matInput (keyup)="applyFilter($event)" placeholder="Filter" style="width: 50%;">
                         </mat-form-field>
                     </div>
-                    <div class="col" style="float: right;">
-                        <mat-form-field class="exchangeheader">
-                            <mat-label>Exchange Header</mat-label>
-                            <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header"
-                                style="width: 30%;">
-                        </mat-form-field>
-
-                        <button mat-raised-button color="primary" (click)="setExchangeHeader()">Set</button>
-                    </div>
                 </div>
             </div>
 
@@ -138,12 +129,14 @@
                             <!-- Table Rows -->
                             <tr mat-row *matRowDef="let job; columns: displayedEmployeeColumns;"></tr>
                         </table>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                            aria-label="Select page of users"></mat-paginator>
                     </div>
 
                 </div>
                 <br>
                 <div class="col-6">
+
                     <mat-form-field>
                         <mat-label>Scope</mat-label>
                         <mat-select [(value)]="selectedScope">
@@ -154,9 +147,9 @@
                     </mat-form-field>
                     <br>
 
-                        <mat-checkbox matInput [(ngModel)]="benchChecked" (change)="onBenchCheckboxChange($event)">
-                            BenchBox
-                        </mat-checkbox>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success">Submit</button>
+                    <mat-checkbox matInput [(ngModel)]="benchChecked" (change)="onBenchCheckboxChange($event)">
+                        BenchBox
+                    </mat-checkbox>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success">Submit</button>
 
                 </div>
             </div>

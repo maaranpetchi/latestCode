@@ -10,9 +10,8 @@
 <body style="height: 100vh;">
     <div class="main-body">
         <div class="container">
-            <div class="productionmain">
-                <h3 style="font-family:'Times New Roman', Times, serif">Quality (0)</h3>
-    
+            <div class="sewout">
+                <h1 style="font-family:'Times New Roman', Times, serif;color: #3388cd;">Sew Out (0)</h1>
                 <mat-tab-group  dynamicHeight (selectedTabChange)="onTabChange($event)">
                     <mat-tab label="Fresh Jobs ()" >
                     </mat-tab>
@@ -22,6 +21,8 @@
                     </mat-tab>
                     <mat-tab label="Quote Jobs()">
                     </mat-tab>
+                    <mat-tab label="Sew Out()">
+                    </mat-tab>
                     <mat-tab label="Bulk Jobs()">
                     </mat-tab>
                     <mat-tab label="Bulk Upload Jobs()">
@@ -30,14 +31,15 @@
 
 
                 <div>
-                    <app-qualitytable></app-qualitytable>
+                    <app-sew-out-table></app-sew-out-table>
                     <br>
-                    <div class="scope" style="float: right;">
+
+                    <div class="scope" style="float:right">
                         <mat-form-field>
                             <mat-label>Scope</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let item of ScopeApiData" [value]="item.id">
-                                {{ item.scope }}
+                            <mat-select [(value)]="selectedScope">
+                              <mat-option *ngFor="let item of scopes" [value]="item.id">
+                                {{ item.name }}
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
