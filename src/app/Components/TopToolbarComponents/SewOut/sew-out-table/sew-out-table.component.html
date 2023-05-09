@@ -91,7 +91,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
                 <!-- Table Rows -->
-                <tr mat-row *matRowDef="let job; columns: displayedColumns;" else nodata></tr>
+                <tr mat-row *matRowDef="let job; columns: displayedColumns;" else noData></tr>
                 <ng-template #noData>
                     <tr>
                       <td colspan="2" class="no-data-cell">No Data Available</td>

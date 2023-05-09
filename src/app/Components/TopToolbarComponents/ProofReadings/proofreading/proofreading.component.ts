@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProofReadingAllocationTableComponent } from '../../ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
 import { HttpClient } from '@angular/common/http';
 import { ProofReadingTableComponent } from '../proof-reading-table/proof-reading-table.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ProofjobdetailpopupComponent } from '../proofjobdetailpopup/proofjobdetailpopup.component';
+import { ProofworkflowComponent } from '../proofworkflow/proofworkflow.component';
 
 @Component({
   selector: 'app-proofreading',
@@ -11,7 +14,7 @@ import { ProofReadingTableComponent } from '../proof-reading-table/proof-reading
 export class ProofreadingComponent implements OnInit{
   @ViewChild(ProofReadingTableComponent) ProofReadingTableComponent: ProofReadingTableComponent;
 
- constructor(private http:HttpClient){}
+ constructor(private http:HttpClient,public dialog:MatDialog){}
   ngOnInit(): void {
   
 
@@ -125,5 +128,29 @@ tab(action){
   // workFlowJobs.columnDefs[pos4].visible = true;
   // var pos5 = workFlowJobs.columnDefs.map(function (e) { return e.field; }).indexOf('BulkUpload');
   // workFlowJobs.columnDefs[pos5].visible = false;
+
+  
+  openproofdetailpop(){
+    const dialogRef = this.dialog.open(ProofjobdetailpopupComponent, {
+      width: '2000px',
+    
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      
+    });
+  }
+
+  openproofworkflowpop(){
+    const dialogRef = this.dialog.open(ProofworkflowComponent, {
+      width: '2000px',
+    
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      
+    });
+  }
 };
 

@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-qualityjobdetailpopup',
-  templateUrl: './qualityjobdetailpopup.component.html',
-  styleUrls: ['./qualityjobdetailpopup.component.scss']
+  selector: 'app-proofjobdetailpopup',
+  templateUrl: './proofjobdetailpopup.component.html',
+  styleUrls: ['./proofjobdetailpopup.component.scss']
 })
-export class QualityjobdetailpopupComponent  implements OnInit{
+export class ProofjobdetailpopupComponent implements OnInit{
 
   restApiData: any[];
   isPopupOpen: boolean = false;

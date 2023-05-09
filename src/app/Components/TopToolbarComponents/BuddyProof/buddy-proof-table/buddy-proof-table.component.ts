@@ -25,15 +25,19 @@ export class BuddyProofTableComponent implements OnInit {
       'selected',
       'jobId',
       'estjob',
-      'fileName',
-      'fileInwardMode',
+      'actions',
       'client',
       'customerSatisfaction',
+      'fileName',
+      'fileInwardMode',
+      'scope',
       'jobstatus',
       'projectcode',
-      'status',
-      'scope',
+      'allocatedby',
+      'artistname',
+      'processstatus',
       'esttime',
+      'jobcategory',
       'deliverydate'
     ];
     dataSource: MatTableDataSource<any>;

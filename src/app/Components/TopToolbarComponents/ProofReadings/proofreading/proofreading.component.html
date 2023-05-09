@@ -14,8 +14,7 @@
         <div class="container">
             <div class="productionmain">
                 <h1 style="font-family:'Times New Roman', Times, serif;color:#43958e">Proof Reading (0)</h1>
-             
-             
+                <button (click)="openproofdetailpop()"> ProofDetails</button>&nbsp;&nbsp;<button (click)="openproofworkflowpop()">ProofWorkflow</button>
                 <div layout="row" layout-align="center center">
                     <mat-radio-group aria-label="Select an option">
                         <mat-radio-button value="Both"> Both</mat-radio-button>
@@ -43,7 +42,7 @@
 
                 <div>
                     <app-proof-reading-table></app-proof-reading-table>
-                    
+
                 </div>
             </div>
         </div>

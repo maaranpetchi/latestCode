@@ -69,6 +69,10 @@ import { SewOutComponent } from 'src/app/Components/TopToolbarComponents/SewOut/
 import { SewOutTableComponent } from 'src/app/Components/TopToolbarComponents/SewOut/sew-out-table/sew-out-table.component';
 import { QualityWorkflowComponent } from 'src/app/Components/TopToolbarComponents/Quality/quality-workflow/quality-workflow.component';
 import { JobhistorypopuptableComponent } from 'src/app/Components/TopToolbarComponents/Quality/jobhistorypopuptable/jobhistorypopuptable.component';
+import { ProofjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobdetailpopup/proofjobdetailpopup.component';
+import { ProofjobhistorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobhistorypopup/proofjobhistorypopup.component';
+import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
+import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 
 @NgModule({
   declarations: [
@@ -110,11 +114,13 @@ import { JobhistorypopuptableComponent } from 'src/app/Components/TopToolbarComp
     //ProofReadingAllocation
     ProofReadingAllocationComponent,
     ProofReadingAllocationTableComponent,
-
+    EmployeejobassisgnedpopupComponent,
     //ProofReading
     ProofreadingComponent,
     ProofReadingTableComponent,
-
+    ProofjobdetailpopupComponent,
+    ProofjobhistorypopupComponent,
+    ProofworkflowComponent,
     //BuddyProof
     BuddyProofComponent,
     BuddyProofTableComponent,

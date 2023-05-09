@@ -17,20 +17,17 @@ import { SewOutComponent } from './Components/TopToolbarComponents/SewOut/sew-ou
 import { SewOutTableComponent } from './Components/TopToolbarComponents/SewOut/sew-out-table/sew-out-table.component';
 import { QualityWorkflowComponent } from './Components/TopToolbarComponents/Quality/quality-workflow/quality-workflow.component';
 import { JobhistorypopuptableComponent } from './Components/TopToolbarComponents/Quality/jobhistorypopuptable/jobhistorypopuptable.component';
+import { ProofjobdetailpopupComponent } from './Components/TopToolbarComponents/ProofReadings/proofjobdetailpopup/proofjobdetailpopup.component';
+import { ProofjobhistorypopupComponent } from './Components/TopToolbarComponents/ProofReadings/proofjobhistorypopup/proofjobhistorypopup.component';
+import { ProofworkflowComponent } from './Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
+import { EmployeejobassisgnedpopupComponent } from './Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
-    
 
-
-
-
-   
-
-   
   ],
   imports: [
     BrowserModule,

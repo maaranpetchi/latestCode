@@ -63,6 +63,10 @@ import { SewOutComponent } from 'src/app/Components/TopToolbarComponents/SewOut/
 import { SewOutTableComponent } from 'src/app/Components/TopToolbarComponents/SewOut/sew-out-table/sew-out-table.component';
 import { QualityWorkflowComponent } from 'src/app/Components/TopToolbarComponents/Quality/quality-workflow/quality-workflow.component';
 import { JobhistorypopuptableComponent } from 'src/app/Components/TopToolbarComponents/Quality/jobhistorypopuptable/jobhistorypopuptable.component';
+import { ProofjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobdetailpopup/proofjobdetailpopup.component';
+import { ProofjobhistorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobhistorypopup/proofjobhistorypopup.component';
+import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
+import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 
 const routes: Routes = [
 
@@ -111,10 +115,14 @@ const routes: Routes = [
       //ProofReadingAllocation
       { path: 'proofreadingallocation', component: ProofReadingAllocationComponent },
       { path: 'proofreadingallocationtable', component: ProofReadingAllocationTableComponent },
+      { path: 'proofjobassignpop', component:  EmployeejobassisgnedpopupComponent, },
 
       //ProofReading
       { path: 'proofreading', component: ProofreadingComponent },
       { path: 'proofreadingtable', component: ProofReadingTableComponent },
+      { path: 'proofreadingdetails', component: ProofjobdetailpopupComponent },
+      { path: 'proofhistory', component: ProofjobhistorypopupComponent },
+      { path: 'proofworkflow', component: ProofworkflowComponent },
 
       //BuddyProof
       { path: 'buddyproof', component: BuddyProofComponent },
