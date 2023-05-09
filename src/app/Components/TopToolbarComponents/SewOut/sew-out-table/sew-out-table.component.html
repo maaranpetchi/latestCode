@@ -1,5 +1,5 @@
-<div class="main-body">
-    <div class="container">
+<div class="container">
+    <div class="fullform">
         <div class="mat-elevation-z8">
             <div class="headertable">
                 <div class="row">
@@ -91,7 +91,12 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
                 <!-- Table Rows -->
-                <tr mat-row *matRowDef="let job; columns: displayedColumns;"></tr>
+                <tr mat-row *matRowDef="let job; columns: displayedColumns;" else nodata></tr>
+                <ng-template #noData>
+                    <tr>
+                      <td colspan="2" class="no-data-cell">No Data Available</td>
+                    </tr>
+                  </ng-template>
             </table>
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
         </div>

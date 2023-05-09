@@ -15,12 +15,16 @@ import { UpdateExchangeRateComponent } from './Components/AccountsController/Tal
 import { BuddyProofTableComponent } from './Components/TopToolbarComponents/BuddyProof/buddy-proof-table/buddy-proof-table.component';
 import { SewOutComponent } from './Components/TopToolbarComponents/SewOut/sew-out/sew-out.component';
 import { SewOutTableComponent } from './Components/TopToolbarComponents/SewOut/sew-out-table/sew-out-table.component';
+import { QualityWorkflowComponent } from './Components/TopToolbarComponents/Quality/quality-workflow/quality-workflow.component';
+import { JobhistorypopuptableComponent } from './Components/TopToolbarComponents/Quality/jobhistorypopuptable/jobhistorypopuptable.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
+    
+
 
 
 

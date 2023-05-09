@@ -67,6 +67,8 @@ import { BuddyProofComponent } from 'src/app/Components/TopToolbarComponents/Bud
 import { BuddyProofTableComponent } from 'src/app/Components/TopToolbarComponents/BuddyProof/buddy-proof-table/buddy-proof-table.component';
 import { SewOutComponent } from 'src/app/Components/TopToolbarComponents/SewOut/sew-out/sew-out.component';
 import { SewOutTableComponent } from 'src/app/Components/TopToolbarComponents/SewOut/sew-out-table/sew-out-table.component';
+import { QualityWorkflowComponent } from 'src/app/Components/TopToolbarComponents/Quality/quality-workflow/quality-workflow.component';
+import { JobhistorypopuptableComponent } from 'src/app/Components/TopToolbarComponents/Quality/jobhistorypopuptable/jobhistorypopuptable.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +105,8 @@ import { SewOutTableComponent } from 'src/app/Components/TopToolbarComponents/Se
     QualityComponent,
     QualitytableComponent,
     QualityjobdetailpopupComponent,
-
+    QualityWorkflowComponent,
+    JobhistorypopuptableComponent,
     //ProofReadingAllocation
     ProofReadingAllocationComponent,
     ProofReadingAllocationTableComponent,

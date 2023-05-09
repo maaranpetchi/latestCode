@@ -7,6 +7,7 @@ import { Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { QualitypopupjobassignComponent } from '../../QualityAllocation/qualitypopupjobassign/qualitypopupjobassign.component';
 import { QualityjobdetailpopupComponent } from '../qualityjobdetailpopup/qualityjobdetailpopup.component';
+import { QualityWorkflowComponent } from '../quality-workflow/quality-workflow.component';
 @Component({
   selector: 'app-qualitytable',
   templateUrl: './qualitytable.component.html',
@@ -97,6 +98,17 @@ export class QualitytableComponent {
     
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      
+    });
+  }
+
+  openqualityworkflowpop(){
+    const dialogRef = this.dialog.open(QualityWorkflowComponent, {
+      width: '2000px',
+    
+    });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       
