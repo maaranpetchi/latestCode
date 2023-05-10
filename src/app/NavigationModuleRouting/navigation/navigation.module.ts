@@ -73,6 +73,7 @@ import { ProofjobdetailpopupComponent } from 'src/app/Components/TopToolbarCompo
 import { ProofjobhistorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobhistorypopup/proofjobhistorypopup.component';
 import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
+import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolba
     ClientordersComponent,
     ClientorderstableComponent,
     ClientorderviewComponent,
+    ClientdetailspopupComponent,
     //JoborderComponent
     JoborderComponent,
     JoborderexcelComponent,

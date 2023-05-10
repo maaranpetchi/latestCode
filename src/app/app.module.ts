@@ -12,21 +12,14 @@ import { AdvanceadjustmentComponent } from './Components/AccountsController/Adva
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
-import { BuddyProofTableComponent } from './Components/TopToolbarComponents/BuddyProof/buddy-proof-table/buddy-proof-table.component';
-import { SewOutComponent } from './Components/TopToolbarComponents/SewOut/sew-out/sew-out.component';
-import { SewOutTableComponent } from './Components/TopToolbarComponents/SewOut/sew-out-table/sew-out-table.component';
-import { QualityWorkflowComponent } from './Components/TopToolbarComponents/Quality/quality-workflow/quality-workflow.component';
-import { JobhistorypopuptableComponent } from './Components/TopToolbarComponents/Quality/jobhistorypopuptable/jobhistorypopuptable.component';
-import { ProofjobdetailpopupComponent } from './Components/TopToolbarComponents/ProofReadings/proofjobdetailpopup/proofjobdetailpopup.component';
-import { ProofjobhistorypopupComponent } from './Components/TopToolbarComponents/ProofReadings/proofjobhistorypopup/proofjobhistorypopup.component';
-import { ProofworkflowComponent } from './Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
-import { EmployeejobassisgnedpopupComponent } from './Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
+import { ClientdetailspopupComponent } from './Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
+   
 
   ],
   imports: [

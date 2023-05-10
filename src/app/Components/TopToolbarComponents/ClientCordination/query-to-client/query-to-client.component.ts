@@ -47,7 +47,7 @@ export class QueryToClientComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
+  } 
 
 
   //to save the checkbox value

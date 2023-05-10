@@ -20,7 +20,7 @@ export class ClientorderstableComponent {
     'client',
     'customerSatisfaction',
     'fileName',
-    'fileInwardMode',
+    'fileReceivedEstDate',
     'department',
     'quoteparentid',
     'instruction',
@@ -58,6 +58,7 @@ export class ClientorderstableComponent {
   //to save the checkbox values
   selectedproduction:any[]=[];
   setAll(completed: boolean, item: any) {
+
     console.log("before", this.selectedproduction)
     if (completed == true) {
       this.selectedproduction.push(item)
@@ -75,7 +76,44 @@ export class ClientorderstableComponent {
     console.log("after", this.selectedproduction)
   }
 
+//   OrdersFactory.GetAllClientOrders('ClientOrdersExts', 1).$promise.then(function (result) {
+//     $scope.gridClientOrder.data = result.Data;
+//     $scope.NewJobCount = $scope.gridClientOrder.data.length;
+// });
 
+
+
+
+bindingjobs(){
+  this.http.get<any>('https://localhost:7208/api/ClientOrderService/ClientOrdersExts/1').subscribe(binddata =>{
+      this.dataSource = binddata.data;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log(this.dataSource);
+    
+    });
+}
+
+quotationjobs(){
+  this.http.get<any>('https://localhost:7208/api/ClientOrderService/ClientOrdersExts/2').subscribe(quotation =>{
+      this.dataSource = quotation.data;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log(this.dataSource);
+    
+    });
+}
+
+tab(action){
+  if(action == '1'){
+    this.bindingjobs();
+  }
+  else if(action == '2'){
+      this.quotationjobs();
+      
+    }
+
+}
   }
 
 
