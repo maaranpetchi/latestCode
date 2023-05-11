@@ -12,16 +12,19 @@ export class ClientordersComponent implements OnInit {
   @ViewChild(ClientorderstableComponent) ClientorderstableComponent: ClientorderstableComponent;
 
 
-  constructor(private http: HttpClient) { }
-  
+  constructor(private http: HttpClient) {
+  }
+
   DivisionApiData: any[];
   ngOnInit(): void {
-//division dropdown
-this.http.get<any>('APIURL').subscribe(divisiondata =>{
-  this.DivisionApiData = divisiondata;
-})
+    //division dropdown
+    this.http.get<any>('https://localhost:7208/api/ClientOrderService/nGetDivisionForJO').subscribe(divisiondata => {
+      this.DivisionApiData = divisiondata;
+    })
   }
- 
+
+
+
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
     console.log("first", event);
@@ -32,21 +35,25 @@ this.http.get<any>('APIURL').subscribe(divisiondata =>{
         this.BindPendingJobs();
         break;
       case 1: // Revision Jobs tab
-    
+
         // Call your REST API for Revision Jobs
         this.quotationjobs();
         break;
       case 2: // Rework Jobs tab
         // Call your REST API for Rework Jobs
+        this.convertedjobs();
         break;
       case 3: // Quote Jobs tab
         // Call your REST API for Quote Jobs
+        this.deletedjobs();
         break;
       case 4: // Bulk Jobs tab
         // Call your REST API for Bulk Jobs
+        this.quotenotapprovaljobs();
         break;
       case 5: // Bulk Upload Jobs tab
         // Call your REST API for Bulk Upload Jobs
+        this.queryforsp();
         break;
       default:
         break;
@@ -59,4 +66,17 @@ this.http.get<any>('APIURL').subscribe(divisiondata =>{
   quotationjobs() {
     this.ClientorderstableComponent.tab('2');
   }
+  convertedjobs() {
+    this.ClientorderstableComponent.tab('3');
+  }
+  deletedjobs() {
+    this.ClientorderstableComponent.tab('4');
+  }
+  quotenotapprovaljobs(){
+    this.ClientorderstableComponent.tab('5');
+  }
+  queryforsp(){
+    this.ClientorderstableComponent.tab('6');
+  }
+
 }

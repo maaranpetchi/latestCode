@@ -68,6 +68,7 @@ import { ProofjobhistorypopupComponent } from 'src/app/Components/TopToolbarComp
 import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
+import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 
 const routes: Routes = [
 
@@ -98,6 +99,7 @@ const routes: Routes = [
       { path: 'clientindex/clientordertable', component: ClientorderstableComponent },
       { path: 'clientindex/clientorder/clientorderview', component: ClientorderviewComponent },
       { path: 'clientindex/clientorder/clientdetailpopup', component:  ClientdetailspopupComponent, },
+      { path: 'clientindex/clientorder/fileconvert', component: FileconvertComponent, },
 
       //QualityAlloactionsComponent
       { path: 'qualityallocation', component: QualityallocationComponent, },

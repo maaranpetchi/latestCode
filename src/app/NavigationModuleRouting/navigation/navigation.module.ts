@@ -7,6 +7,7 @@ import { EmployeecontrollerComponent } from 'src/app/Components/EmployeeControll
 import { AddEditEmployeecontrollerComponent } from 'src/app/Components/EmployeeController/Components/add-edit-employeecontroller/add-edit-employeecontroller.component';
 import { DashboardComponent } from 'src/app/Components/dashboard/dashboard.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatIconModule} from '@angular/material/icon'
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddeditemployeevsdivisionComponent } from 'src/app/Components/EmployeeVSDivision/addeditemployeevsdivision/addeditemployeevsdivision.component';
@@ -74,6 +75,7 @@ import { ProofjobhistorypopupComponent } from 'src/app/Components/TopToolbarComp
 import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
+import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,7 @@ import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarCompon
     ClientorderstableComponent,
     ClientorderviewComponent,
     ClientdetailspopupComponent,
+    FileconvertComponent,
     //JoborderComponent
     JoborderComponent,
     JoborderexcelComponent,
@@ -190,7 +193,8 @@ import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarCompon
     MatNativeDateModule,
     ReactiveFormsModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ]
 })
 export class NavigationModule { }
