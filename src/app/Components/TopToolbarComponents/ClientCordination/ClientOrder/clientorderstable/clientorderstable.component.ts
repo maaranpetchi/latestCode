@@ -220,11 +220,11 @@ export class ClientorderstableComponent {
 
   fileCount:number;
 
-  openPopup() {
+  openPopup(fileCount,row) {
     // Create an instance of the dialog component
     const dialogRef = this.dialog.open(FileconvertComponent, {
       data: {
-        fileCount: this.fileCount
+        fileCount: fileCount, row : row
       }
     });
 
@@ -234,9 +234,14 @@ export class ClientorderstableComponent {
     });
   }
 
-  handleKeyPress(event: KeyboardEvent) {
+  handleKeyPress(event: KeyboardEvent,job:any) {
+    const enteredNumber = (event.target as HTMLInputElement).value;
+    console.log("enter value",enteredNumber)
+
     if (event.key === 'Enter') {
-      this.openPopup();
+      this.openPopup(enteredNumber,job);
+      console.log(event,"event");
+      console.log(job,"job");
     }
   }
 }

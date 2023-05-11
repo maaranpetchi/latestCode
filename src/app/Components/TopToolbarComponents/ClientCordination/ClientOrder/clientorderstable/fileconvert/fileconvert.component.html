@@ -1,1 +1,45 @@
-<p>fileconvert works!</p>
+<!-- rest-api-table.component.html -->
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="fileName">
+        <mat-header-cell *matHeaderCellDef>FileName</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.fileName }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="poNo">
+        <mat-header-cell *matHeaderCellDef>P.O.No</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.poNo }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="poDate">
+        <mat-header-cell *matHeaderCellDef>P.O.Date</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.poDate }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="instruction">
+        <mat-header-cell *matHeaderCellDef>Instruction</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.instruction }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="salesPersonName">
+        <mat-header-cell *matHeaderCellDef>Sales Person Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.salesPersonName }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="transactionType">
+        <mat-header-cell *matHeaderCellDef>Transaction Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.transactionType }}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="division">
+        <mat-header-cell *matHeaderCellDef>Division</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.division }}</mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  

@@ -61,7 +61,7 @@
                 <ng-container matColumnDef="filecount">
                     <th mat-header-cell *matHeaderCellDef> FileCount </th>
                     <td mat-cell *matCellDef="let job">
-                      <input matInput class="filecount" type="number" name="filecount" [(ngModel)]="fileCount" (keydown)="handleKeyPress($event)">
+                      <input matInput class="filecount" type="number" name="filecount"  (keydown)="handleKeyPress($event,job)">
                     </td>
                   </ng-container>
                   
