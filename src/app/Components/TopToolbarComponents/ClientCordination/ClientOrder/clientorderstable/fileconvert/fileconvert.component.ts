@@ -35,9 +35,10 @@ export class FileconvertComponent implements OnInit {
 
 
   @ViewChild(ClientorderstableComponent) ClientorderstableComponent: ClientorderstableComponent;
-
+ division=0;
   constructor(private http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public data: any) {console.log(data,"data");
+
     this.gettingdata(data);
 
     }
@@ -80,7 +81,7 @@ for (let i = 0; i < count; i++) {
       CCId:GetAllvalues.ccId,//
       CCEmailId:GetAllvalues.ccEmailId,//
       FileInwardTypeId:GetAllvalues.fileInwardTypeId,//
-      DivisionId:this.ClientorderstableComponent.getselecteddivisions(),// //
+      DivisionId:data.divisionid,// //
       getAllValues:[],
       ApparelLogoLocation:'apparel',
       poNo: "string",

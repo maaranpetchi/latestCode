@@ -230,7 +230,7 @@ export class ClientorderstableComponent {
     const dialogRef = this.dialog.open(FileconvertComponent, {
       width:'100vw',
       data: {
-        fileCount: fileCount, row : row
+        fileCount: fileCount, row : row, divisionid: this.selectdivision
       }
     });
 
