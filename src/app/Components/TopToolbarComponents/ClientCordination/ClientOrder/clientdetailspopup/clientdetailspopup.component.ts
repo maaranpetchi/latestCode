@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ClientorderstableComponent } from '../clientorderstable/clientorderstable.component';
 
 export interface TableData {
   amount: number;
@@ -18,19 +19,26 @@ export class ClientdetailspopupComponent implements OnInit {
   displayedColumns: string[] = ['amount', 'instruction', 'suggestion', 'vleadComments', 'department'];
   dataSource: TableData[] = [];
 
-  constructor(private http: HttpClient,private dialogRef: MatDialogRef<ClientdetailspopupComponent>) {}
+  @ViewChild(ClientorderstableComponent) ClientorderstableComponent: ClientorderstableComponent;
+  constructor(private http: HttpClient,private dialogRef: MatDialogRef<ClientdetailspopupComponent>,@Inject(MAT_DIALOG_DATA) public data: any) { this.fetchTableData(data.id);}
 
   ngOnInit() {
-    this.fetchTableData();
+   
   }
 
-  fetchTableData() {
-    this.http.get<TableData[]>('https://api.example.com/table-data').subscribe(data => {
-      this.dataSource = data;
+  fetchTableData(id) {
+    let a:any[] = [];
+    this.http.get<any>(`https://localhost:7208/api/ClientOrderService/GetJobOrderByJobId?JobId=${id}`).subscribe(data => {
+    a.push(data);  
+    this.dataSource = a;
+      console.log(a,'details')
     });
   }
 
   closeDialog(): void {
     this.dialogRef.close();
   }
+
+
+  
 }

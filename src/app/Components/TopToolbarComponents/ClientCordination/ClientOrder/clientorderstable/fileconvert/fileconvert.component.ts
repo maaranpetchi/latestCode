@@ -38,6 +38,8 @@ export class FileconvertComponent implements OnInit {
 
   constructor(private http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public data: any) {console.log(data,"data");
+    this.gettingdata(data);
+
     }
 
   ngOnInit() {
@@ -51,6 +53,75 @@ export class FileconvertComponent implements OnInit {
       this.dataSource.data = data;
     });
   }
+
+gettingdata(data:any){
+  console.log(data,"filedata");
+  
+let a:any[] = [];
+let GetAllvalues= data.row;
+let count= data.fileCount;
+for (let i = 0; i < count; i++) {
+ 
+ 
+  let GetAddList =
+  {
+      FileName:GetAllvalues.fileName,
+      PoNo:GetAllvalues.poNo,
+      PODate:GetAllvalues.poDate,
+      Remarks:GetAllvalues.instruction,
+      SalesPersonName:GetAllvalues.salesPersonName,
+      JobStatusId:GetAllvalues.jobStatusId,
+      TransactionId:GetAllvalues.transactionType,
+      DepartmentId:GetAllvalues.workType,
+      ClientId:GetAllvalues.clientId,
+      EmployeeId:152,
+      FileReceivedDate:GetAllvalues.fileReceivedDate,
+      ClientOrderId:GetAllvalues.orderId,
+      CCId:GetAllvalues.ccId,//
+      CCEmailId:GetAllvalues.ccEmailId,//
+      FileInwardTypeId:GetAllvalues.fileInwardTypeId,//
+      DivisionId:this.ClientorderstableComponent.getselecteddivisions(),// //
+      getAllValues:[],
+      ApparelLogoLocation:'apparel',
+      poNo: "string",
+      clientName: "string",
+      clientJobId: "string",
+      jobStatusDescription: "string",
+      username: "string",
+      clientSalesPerson: "string",
+      customerName: "string",
+      temp: "string",
+      style: "string",
+      projectCode: "string",
+      teamCode: "string",
+      schoolName: "string",
+      ground: "string",
+      gender: "string",
+      fileInwardMode: "string",
+      jobDescription: "string",
+      color: "string",
+      logoDimensionWidth: "string",
+      logoDimensionsLength: "string",
+      apparelLogoLocation: "string",
+      imprintColors1: "string",
+      imprintColors2: "string",
+      imprintColors3: "string",
+      virtualProof: "string",
+    
+      customerJobType: "string",
+     
+viewDatas:[],
+      
+  }
+  a.push(
+    GetAddList
+  );
+this.dataSource = new MatTableDataSource(a)
+}
+}
+
+
+
 
 
 }
