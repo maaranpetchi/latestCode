@@ -6,8 +6,8 @@
     <mat-table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="fileName">
             <mat-header-cell *matHeaderCellDef>FileName</mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              <input type="text" name="" id="" [value]="element.FileName"  style="width:100%">
+            <mat-cell *matCellDef="let element;let i = index">
+              <input type="text" name="" id="" [value]="element.FileName"  (change)="updatefilename($event,i,element)" style="width:100%">
             </mat-cell>
           </ng-container>
           
@@ -53,6 +53,9 @@
   <button class="yesbutton" mat-button class="btn btn-success" (click)="multiorderconvert()">Yes</button>
   <button class="nobutton" mat-button class="btn btn-danger">No</button>
 </div>
+
+
+
 
 
 

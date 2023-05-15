@@ -56,7 +56,7 @@
                 <!-- Client Column -->
                 <ng-container matColumnDef="action">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let job"> <mat-icon>search</mat-icon> &nbsp; <mat-icon (click)="singleconvert(job)">input</mat-icon></td>
+                    <td mat-cell *matCellDef="let job"> <mat-icon   class="actionicon" matTooltip="View" (click)="openclientorder(job)">search  </mat-icon> &nbsp; <mat-icon  class="actionicon"  matTooltip="Convert to job order" (click)="singleconvert(job)" >input</mat-icon></td>
                 </ng-container>
                 <ng-container matColumnDef="filecount">
                     <th mat-header-cell *matHeaderCellDef> FileCount </th>
@@ -88,10 +88,5 @@
 
         </div>
 
-        <ng-template #popupComponent>
-            <div class="popup">
-              <!-- Popup component content goes here -->
-            </div>
-          </ng-template>
     </div>
 </div>

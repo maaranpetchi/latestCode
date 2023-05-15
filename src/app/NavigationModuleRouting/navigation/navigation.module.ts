@@ -97,6 +97,7 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     ClientorderviewComponent,
     ClientdetailspopupComponent,
     FileconvertComponent,
+  
     //JoborderComponent
     JoborderComponent,
     JoborderexcelComponent,
@@ -195,6 +196,9 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     MatSortModule,
     MatDialogModule,
     MatIconModule
+  ],
+  providers:[
+    FileconvertComponent
   ]
 })
 export class NavigationModule { }

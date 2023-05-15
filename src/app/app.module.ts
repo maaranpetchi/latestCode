@@ -12,13 +12,13 @@ import { AdvanceadjustmentComponent } from './Components/AccountsController/Adva
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
-import { FileconvertComponent } from './Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
+  
 
 
   ],
@@ -34,7 +34,7 @@ import { FileconvertComponent } from './Components/TopToolbarComponents/ClientCo
   ],
   providers: [
     EditadvanceadjustmentComponent,
-    AdvanceadjustmentComponent
+    AdvanceadjustmentComponent,
   ],
   bootstrap: [AppComponent]
 })

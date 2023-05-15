@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FileconvertComponent } from './fileconvert/fileconvert.component';
 import { ClientdetailspopupComponent } from '../clientdetailspopup/clientdetailspopup.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ClientorderviewComponent } from '../clientorderview/clientorderview.component';
 @Component({
   selector: 'app-clientorderstable',
   templateUrl: './clientorderstable.component.html',
@@ -99,7 +101,7 @@ export class ClientorderstableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  constructor(private http: HttpClient, public dialog: MatDialog,private snackBar:MatSnackBar) { }
   
   ngOnInit(): void {
     // //DivisionApiDatadropdown
@@ -113,9 +115,6 @@ export class ClientorderstableComponent {
       this.DivisionApiData = data;
     });
   }
-
-
-
 
   //to save the checkbox values
   selectedproduction: any[] = [];
@@ -407,7 +406,6 @@ console.log("succesfully converted data");
 
     } // added co if ends
 
-
     multiconvert(){
        //added co if starts 
       let Gridwithmultiplefilesname:any[] = [];
@@ -549,7 +547,7 @@ console.log("succesfully converted data");
               };
               this.http.post<any>('https://localhost:7208/api/JobOrder/DirectOrder',senddata).subscribe(multorder => 
               {
-             console.log("succesfully converted data");
+             this.showSnackBar("succesfully Bulk converted data");
              
               })     
     } 
@@ -566,7 +564,23 @@ console.log("succesfully converted data");
 
 }
 
+showSnackBar(message: string): void {
+  this.snackBar.open(message, 'Close', {
+    duration: 3000, // Duration in milliseconds
+    verticalPosition: 'top' // Position of the snack bar
+  });
+}
 
+
+openclientorder(job){
+  const dialogRef = this.dialog.open(ClientorderviewComponent, {
+    width:'50vw',
+    height:'auto',
+    data:job,
+
+  });
+  console.log(job,"jobdata");
+}
 
 
 }
