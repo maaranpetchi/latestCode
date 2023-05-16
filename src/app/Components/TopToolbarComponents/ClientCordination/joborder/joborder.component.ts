@@ -72,7 +72,7 @@ export class JoborderComponent implements OnInit {
   selectedDepartment: string;
   Department: any[];
   //ClientName
-  selectedClientName: string;
+  selectedClientName: any;
   ClientName: any[];
   //CustomerContactName
   selectedCustomerContactName: string;
@@ -112,7 +112,7 @@ onFileSelected(event: any) {
 
 //Selectionchange method to get customer contact
 getcustomername(){
-  this.http.get<any>(`https://localhost:7208/api/ClientOrderService/CCByCusId?custId=${this.selectedClientName}`).subscribe(CustomerContactName => {
+  this.http.get<any>(`https://localhost:7208/api/ClientOrderService/CCByCusId?custId=${this.selectedClientName.id}`).subscribe(CustomerContactName => {
   this.CustomerContactName = CustomerContactName;
   console.log(  this.CustomerContactName = CustomerContactName,"GetCustomer")
 });
@@ -126,5 +126,59 @@ getCurrentDate(): string {
 
 onFormSubmit(){
   console.log(this.joborder.value,"Formvalue");
+  console.log( this.selectedClientName.name, "clientname");
+
+
+  let jobordervalues={
+    "id": 0,
+    "dateofReceived": "2023-05-16T05:39:59.055Z",
+    "clientName": this.selectedClientName.name,
+    "clientJobId":this.joborder.value.clientjobid ,
+    "fileName": this.joborder.value.filename ,
+    "jobStatusDescription":this.joborder.value.jobstatusdescription,
+    "username": this.joborder.value.username,
+    "salesPersonName": this.joborder.value.salespersonname,
+    "clientSalesPerson": this.joborder.value.clientSalesperson,
+    "customerName": this.joborder.value.customername,
+    "temp": this.joborder.value.temp,
+    "style": this.joborder.value.style,
+    "projectCode": this.joborder.value.projectcode,
+    "teamCode": this.joborder.value.teamcode,
+    "schoolName": this.joborder.value.schoolname,
+    "ground": "",
+    "gender": this.joborder.value.gender,
+    "fileInwardMode": this.joborder.value.fileinwardmode,
+    "status": true,
+    "fileReceivedDate": "2023-05-16T05:39:59.055Z",
+    "jobDescription": this.joborder.value.jobdescription,
+    "jobStatusId": 0,
+    "departmentId": 0,
+    "divisionId": 0,
+    "employeeId": 0,
+    "clientId": 0,
+    "remarks": "string",
+    "poNo": "string",
+    "fileInwardTypeId": 0,
+    "color": "string",
+    "logoDimensionWidth":  this.joborder.value.logowidth,
+    "logoDimensionsLength": this.joborder.value.logolength,
+    "apparelLogoLocation": this.joborder.value.apparellogo,
+    "imprintColors1": this.joborder.value.imprintcolor1,
+    "imprintColors2": this.joborder.value.imprintcolor2,
+    "imprintColors3": this.joborder.value.imprintcolor3,
+    "virtualProof": this.joborder.value.virtualProof,
+    "dateofUpload": "2023-05-16T05:39:59.055Z",
+    "dateofClose": "2023-05-16T05:39:59.055Z",
+    "customerJobType": "string",
+    "jobDate": "2023-05-16T05:39:59.055Z",
+    "clientOrderId": 0,
+    "viewDatas": null,
+    "createdBy": 0,
+    "poDate": "2023-05-16T05:39:59.055Z",
+    "ccId": 0,
+    "ccEmailId": "string",
+    "dateofDelivery": "2023-05-16T05:39:59.055Z",
+    "getAllValues": []
+  }
 }
 }
