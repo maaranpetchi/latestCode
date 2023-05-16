@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ClientorderstableComponent } from '../clientorderstable.component';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface TableData {
@@ -41,7 +41,7 @@ export class FileconvertComponent implements OnInit {
 
   @Output() childEvent = new EventEmitter();
   division = 0;
-  constructor(private http: HttpClient, private _dialog: MatDialog, private snackBar: MatSnackBar,
+  constructor(private http: HttpClient, private _dialog: MatDialog, private snackBar: MatSnackBar, public dialogRef: MatDialogRef<FileconvertComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       console.log(data, "data");
 
@@ -51,15 +51,9 @@ export class FileconvertComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    this.fetchDataFromAPI();
   }
 
-  fetchDataFromAPI() {
-    // Replace 'API_URL' with the actual URL of your REST API
-    this.http.get<TableData[]>('API_URL').subscribe(data => {
-      this.dataSource.data = data;
-    });
-  }
+
 
   a: any[] = [];
 
@@ -212,6 +206,7 @@ export class FileconvertComponent implements OnInit {
     console.log(senddata, "fileconvertdata");
     this.http.post<any>('https://localhost:7208/api/JobOrder/DirectOrder', senddata).subscribe(multiorderdataconvert => {
       this.showSnackBar('Converted successfully');
+      this.dialogRef.close();
     })
  
   }

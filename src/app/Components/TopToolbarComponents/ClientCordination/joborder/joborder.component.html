@@ -64,7 +64,7 @@
                         <mat-form-field>
                             <mat-label>ClientName</mat-label>
                             <mat-select [(ngModel)]="selectedClientName" name="ClientName" (selectionChange)="getcustomername()" formControlName="clientname">
-                                <mat-option *ngFor="let ClientName of ClientName" [value]="ClientName.id">
+                                <mat-option *ngFor="let ClientName of ClientName;let i = index" [value]="{id:ClientName.id,name:ClientName.shortName}">
                                     {{ ClientName.shortName }}
                                 </mat-option>
                             </mat-select>
