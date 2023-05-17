@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 @Component({
   selector: 'app-completedjobs',
@@ -31,14 +32,15 @@ export class CompletedjobsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private loginservice:LoginService) {}
 
   ngOnInit(): void {
     this.fetchData();
+
   }
 
   fetchData(): void {
-    this.http.get<any>('YOUR_API_URL').subscribe(data => {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

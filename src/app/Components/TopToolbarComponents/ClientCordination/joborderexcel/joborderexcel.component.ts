@@ -3,6 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-joborderexcel',
@@ -10,10 +13,8 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./joborderexcel.component.scss']
 })
 export class JoborderexcelComponent implements OnInit {
-  selectedFile: File | undefined;
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];//store the selected file in selectdfile
-  }
+  selectedFile: File[]=[] ;
+ 
   
   displayedColumns: string[] = [
 
@@ -31,7 +32,7 @@ export class JoborderexcelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private loginservice:LoginService) {}
 
   ngOnInit(): void {
     this.fetchData();
@@ -55,7 +56,32 @@ export class JoborderexcelComponent implements OnInit {
   }
 
 
+  onFileSelected(event: any) {
+     this.selectedFile = event.target.files;
 
+  }
+
+  importExcel() {
+    // Perform any additional processing or validation here
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+importExceFile(){
+  var employeeId = this.loginservice.getUsername();
+  var fd = new FormData();
+  for(let i=0; i<this.selectedFile.length;i++){
+    fd.append('FormCollection[]', this.selectedFile[i]);
+  }
+  fd.append('Id', employeeId);
+  this.http.post<any>(`https://localhost:7208//JobOrder/PostImportExcel`,fd).subscribe(response =>{
+console.log(response,"FileImport");
+
+  })
+
+
+}
 
 
 

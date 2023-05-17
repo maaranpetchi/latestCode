@@ -13,8 +13,9 @@
         <div class="container">
 
             <div class="chooosefiles" style="display:flex;justify-content: center;">
-                <P style="font-family: 'Times New Roman', Times, serif;">File Name</P> <input #fileInput type="file"
-                    (change)="onFileSelected($event)"> &nbsp;&nbsp;&nbsp;<button class="btn btn-success">Import
+                <P style="font-family: 'Times New Roman', Times, serif;">File Name</P> <input #fileInput type="file" id="importFile"
+                    (change)="onFileSelected($event)"> &nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-success" (click)="importExceFile()">Import
                     Excel</button>
             </div>
             <div class="mat-elevation-z8">
