@@ -29,21 +29,24 @@ export class CompletedjobsComponent implements OnInit {
   ];
   dataSource: MatTableDataSource<any>;
 
+data:any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private http: HttpClient,private loginservice:LoginService) {}
 
   ngOnInit(): void {
-    this.fetchData();
+    this.getCompletedJobData();
 
   }
 
-  fetchData(): void {
+  getCompletedJobData(): void {
     this.http.get<any>(`https://localhost:7208/api/Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
-      this.dataSource = new MatTableDataSource(data);
+      this.dataSource = new MatTableDataSource(data.clientDetails.resultCompletedJobsList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      console.log(data,'getcompletedjobdata')
     });
   }
 
@@ -56,7 +59,7 @@ export class CompletedjobsComponent implements OnInit {
     }
   }
 
-
+  remarkValue:string='';
   //to save the checkbox value
   selectedQuery:any[]=[];
 
@@ -76,6 +79,68 @@ export class CompletedjobsComponent implements OnInit {
       }
     }
     console.log("after", this.selectedQuery)
+  }
+
+  bulkUpload(){
+    // let bulkuploaddata={
+    //   "id": 0,
+    //   "processId": 1,
+    //   "statusId": 12,
+    //   "selectedScopeId": 0,
+    //   "autoUploadJobs": false,
+    //   "employeeId": 152,
+    //   "remarks": this.remarkValue,
+    //   "isBench": true,
+    //   "jobId": "string",
+    //   "value": 0,
+    //   "amount": 0,
+    //   "stitchCount": 0,
+    //   "estimationTime": 0,
+    //   "dateofDelivery": "2023-05-18T11:26:56.846Z",
+    //   "comments": "string",
+    //   "validity": 0,
+    //   "copyFiles": false,
+    //   "updatedBy": 0,
+    //   "jId": 0,
+    //   "estimatedTime": 0,
+    //   "tranMasterId": 0,
+    //   "selectedRows": this.selectedQuery,
+    //   "selectedEmployees": [],
+    //   "departmentId": 0,
+    //   "updatedUTC": "2023-05-18T11:26:56.846Z",
+    //   "categoryDesc": "string",
+    //   "allocatedEstimatedTime": 0,
+    //   "tranId": 0,
+    //   "fileInwardType": "string",
+    //   "timeStamp": "string",
+    //   "scopeId": 0,
+    //   "quotationRaisedby": 0,
+    //   "quotationraisedOn": "2023-05-18T11:26:56.846Z",
+    //   "clientId": 0,
+    //   "customerId": 0,
+    //   "fileReceivedDate": "2023-05-18T11:26:56.846Z",
+    //   "commentsToClient": "string",
+    //   "isJobFilesNotTransfer": true
+    // }
+    let bulkuploaddata={
+      "id": 0,
+      "processId": 1,
+      "statusId": 12,
+      "autoUploadJobs": false,
+      "employeeId": 152,
+      "remarks": this.remarkValue,
+      "copyFiles": false,
+      "selectedRows": this.selectedQuery,
+      "isJobFilesNotTransfer": true
+    }
+    this.http.post<any>(`https://localhost:7208/api/Allocation/processMovement`,bulkuploaddata).subscribe(data => {
+      console.log(data,"dataprocess");
+  });
+  }
+
+
+  getRemarkValue(event:Event){
+     this.remarkValue = (event.target as HTMLInputElement).value;
   }
 
 }
