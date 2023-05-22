@@ -12,7 +12,7 @@
 
     <div class="main-body">
         <div class="container">
-            <div class="rowoorderlink" style="display: flex; flex-direction: column;">
+            <div class="roworderlink" style="display: flex; flex-direction: column;">
                 <a routerLink="joborder">Create Job Order</a>
 
                 <a routerLink="Jobexcel" style="margin-top: 10px;">Job Order For Excel</a>
@@ -27,30 +27,20 @@
                 <a routerLink="/quotation-jobs">Quotation Jobs (0)</a>
               </div> -->
 
-              <mat-tab-group dynamicHeight>
+              <mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)">
                 <mat-tab label="Queries To Client (0)">
-                  <div class="example-small-box mat-elevation-z4">
-                    <app-query-to-client></app-query-to-client>
-                  </div>
                 </mat-tab>
                 <mat-tab label="Query Response (0)">
-                  <div class="example-large-box mat-elevation-z4">
-                    <app-query-to-client></app-query-to-client>
-                  </div>
                 </mat-tab>
                 <mat-tab label="Cancelled Jobs (0)">
-                  <div class="example-large-box mat-elevation-z4">
-                    <app-query-to-client></app-query-to-client>
-                  </div>
                 </mat-tab>
                 <mat-tab label="Quotation Jobs (0)">
-                  <div class="example-large-box mat-elevation-z4">
-                    <app-query-to-client></app-query-to-client>
-                  </div>
                 </mat-tab>
               </mat-tab-group>
               
-              
+              <div>
+                <app-query-to-client></app-query-to-client>
+              </div>
         </div>
     </div>
 </body>

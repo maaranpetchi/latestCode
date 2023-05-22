@@ -180,5 +180,9 @@ onFormSubmit(){
     "dateofDelivery": "2023-05-16T05:39:59.055Z",
     "getAllValues": []
   }
+  this.http.post<any>(`https://localhost:7208/api/JobOrder/InternalOrder`,jobordervalues).subscribe(data => {
+  console.log(data,"Joborder");
+  }  
+  )
 }
 }

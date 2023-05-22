@@ -22,13 +22,13 @@
             <br>
             <br>
             <form (ngSubmit)="onSubmit()">
-                <div class="mb-3" [ngClass]="{'slide-left': labelState === 'translated'}">
+                <div class="mb-3" >
                     <mat-form-field class="example-full-width">
-                        <mat-label [@labelAnimation]="labelState"> Username</mat-label>
+                        <mat-label > Username</mat-label>
                         <input matInput type="text" class="form-control" name="username" placeholder="Username" [(ngModel)]="username" >
                     </mat-form-field>
                 </div>
-                <div class="mb-3" [ngClass]="{'slide-left': labelState === 'translated'}">
+                <div class="mb-3" >
                     <mat-form-field class="example-full-width">
                         <mat-label> Password</mat-label>
                         <input matInput type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="password">

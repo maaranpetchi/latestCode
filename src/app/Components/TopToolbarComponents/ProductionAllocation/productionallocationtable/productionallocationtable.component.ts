@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 interface Employee {
   id: number;
@@ -44,24 +45,17 @@ exchangenumber:number;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private loginservice:LoginService) {}
 
   ngOnInit(): void {
-    //maintable
-    this.fetchData();
+    
     //Employeetable
     this.fetchEmployees();
     //scopes
     this.fetchScopes();
   }
 
-  fetchData(): void {
-    this.http.get<any>('YOUR_API_URL').subscribe(data => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
-  }
+  
 
   fetchEmployees() {
     // Replace 'your-api-endpoint' with the actual endpoint to fetch employee data from your REST API
@@ -166,6 +160,102 @@ exchangenumber:number;
   benchChecked: boolean = false;
   onBenchCheckboxChange(event: any) {
     this.benchChecked = event.checked;
+  }
+
+
+
+  freshJobs(){
+    this.http.get<any>(`APIURL`).subscribe(freshJobs => {
+      this.dataSource = freshJobs;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log("freshJobs")
+    });  
+  }
+  revisionJobs(){
+    this.http.get<any>(`APIURL`).subscribe(revisionJobs => {
+      this.dataSource = revisionJobs;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log(" revisionJobs")
+    });  
+  }
+  reworkJobs(){
+    this.http.get<any>(`APIURL`).subscribe(reworkJobs => {
+      this.dataSource = reworkJobs;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log("reworkJobs")
+    });  
+  }
+  allocaetdJobs(){
+    this.http.get<any>(`APIURL`).subscribe(allocaetdJobs => {
+      this.dataSource = allocaetdJobs;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log("allocaetdJobs")
+    });  
+  }
+  queries(){
+    this.http.get<any>(`APIURL`).subscribe(queries => {
+      this.dataSource = queries;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log("queries")
+    });  
+  }
+  queryResposne(){
+    this.http.get<any>(`APIURL`).subscribe(queryResposne => {
+      this.dataSource = queryResposne;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log("queries")
+    });  
+  }
+  errorJobs(){
+    this.http.get<any>(`APIURL`).subscribe(errorJobs => {
+      this.dataSource =   errorJobs
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log("errorJobs")
+    });  
+  }
+  quotationJobs(){
+    this.http.get<any>(`APIURL`).subscribe(quotationJobs => {
+      this.dataSource =   quotationJobs
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log("errorJobs")
+    });  
+  }
+
+  
+
+  tab(action){
+    if (action == '1') {
+      this.freshJobs();
+    }
+    else if (action == '2') {
+      this.revisionJobs();
+    }
+    else if (action == '3') {
+      this.reworkJobs();
+    }
+    else if (action == '4') {
+      this.allocaetdJobs();
+    }
+    else if(action == '5') {
+      this.queries();
+    }
+    else if(action == '6') {
+      this.queryResposne();
+    }
+    else if(action == '7') {
+      this.errorJobs();
+    }
+    else if(action == '8') {
+      this.quotationJobs();
+    }
   }
 
 }

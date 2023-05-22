@@ -15,48 +15,28 @@
             </div>
 
 
-            <mat-tab-group dynamicHeight>
+            <mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)">
                 <mat-tab label="Fresh Jobs ()">
-                    <div class="example-small-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
                 <mat-tab label="Revision Jobs ()">
-                    <div class="example-large-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
                 <mat-tab label="Rework Jobs ()">
-                    <div class="example-large-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
                 <mat-tab label="Allocated Jobs ()">
-                    <div class="example-large-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
                 <mat-tab label="Queries  ()">
-                    <div class="example-large-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
                 <mat-tab label="Query Response  ()">
-                    <div class="example-large-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
                 <mat-tab label="Error Jobs ()">
-                    <div class="example-large-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
                 <mat-tab label="Quotation Jobs ()">
-                    <div class="example-large-box mat-elevation-z4">
-                        <app-productionallocationtable></app-productionallocationtable>
-                    </div>
                 </mat-tab>
             </mat-tab-group>
+
+            <div class="example-large-box mat-elevation-z4">
+                <app-productionallocationtable></app-productionallocationtable>
+            </div>
         </div>
     </div>
 </div>

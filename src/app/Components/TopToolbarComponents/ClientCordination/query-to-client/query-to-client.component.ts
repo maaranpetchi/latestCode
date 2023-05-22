@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 
 @Component({
@@ -26,19 +27,14 @@ export class QueryToClientComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private loginservice:LoginService) {}
 
   ngOnInit(): void {
-    this.fetchData();
+    //to get the data and show it in table
+  this.queriesToClient();
   }
 
-  fetchData(): void {
-    this.http.get<any>('YOUR_API_URL').subscribe(data => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
-  }
+
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -70,5 +66,57 @@ export class QueryToClientComponent implements OnInit {
     }
     console.log("after", this.selectedQuery)
   }
+
+
+queriesToClient(){
+  this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+    this.dataSource = data.quotationJobs;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    console.log("Queries to client")
+  });  
+}
+queryResponse(){
+  this.http.get<any>(`http://localhost:56081/api/Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+    this.dataSource = data.quotationJobs;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    console.log(" queryResponse")
+  });  
+}
+cancelledJobs(){
+  this.http.get<any>(`http://localhost:56081/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+    this.dataSource = data;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    console.log("cancelledJobs")
+  });  
+}
+quotationJobs(){
+  this.http.get<any>(`http://localhost:56081/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+    this.dataSource = data;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    console.log("quotationJobs")
+  });  
+}
+
+
+tab(action) {
+  if (action == '1') {
+    this.queriesToClient();
+  }
+  else if (action == '2') {
+    this.queryResponse();
+  }
+  else if (action == '3') {
+    this.cancelledJobs();
+  }
+  else if (action == '4') {
+    this.quotationJobs();
+  }
+
+}
+
 
 }
