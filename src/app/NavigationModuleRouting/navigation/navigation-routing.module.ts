@@ -69,6 +69,7 @@ import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
+import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 
 const routes: Routes = [
 
@@ -92,6 +93,7 @@ const routes: Routes = [
       { path: 'production', component: ProductionallocationComponent },
       { path: 'productiontable', component: ProductionallocationtableComponent },
       { path: 'JobAssignPopup', component: JobAssignedDetailsPopupComponent, },
+      //ClientCordination
       { path: 'clientindex/Jobexcel', component: JoborderexcelComponent },
       { path: 'clientindex/completedjobs', component: CompletedjobsComponent },
       { path: 'clientindex/clientorder', component: ClientordersComponent },
@@ -100,6 +102,7 @@ const routes: Routes = [
       { path: 'clientindex/clientorder/clientorderview', component: ClientorderviewComponent },
       { path: 'clientindex/clientorder/clientdetailpopup', component:  ClientdetailspopupComponent, },
       { path: 'clientindex/clientorder/fileconvert', component: FileconvertComponent, },
+      { path: 'clientindex/clientorder/fileconvert', component:JobDetailsClientIndexComponent},  //Main index Jobdetailpopup
 
       //QualityAlloactionsComponent
       { path: 'qualityallocation', component: QualityallocationComponent, },

@@ -76,6 +76,7 @@ import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
+import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     ClientorderviewComponent,
     ClientdetailspopupComponent,
     FileconvertComponent,
+    JobDetailsClientIndexComponent,
   
     //JoborderComponent
     JoborderComponent,
