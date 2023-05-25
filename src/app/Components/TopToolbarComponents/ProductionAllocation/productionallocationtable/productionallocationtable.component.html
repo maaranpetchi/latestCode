@@ -8,7 +8,7 @@
                             <input matInput (keyup)="applyFilter($event)" placeholder="Filter" style="width: 50%;">
                         </mat-form-field>
                     </div>
-                    <div class="col" style="float: right;">
+                    <div class="col" style="display: flex; justify-content: flex-end;align-items: baseline;">
                         <mat-form-field class="exchangeheader">
                             <mat-label>Exchange Header</mat-label>
                             <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header"
