@@ -20,9 +20,6 @@ import { JobDetailsClientIndexComponent } from './Components/TopToolbarComponent
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
 
-  
-
-
   ],
   imports: [
     BrowserModule,

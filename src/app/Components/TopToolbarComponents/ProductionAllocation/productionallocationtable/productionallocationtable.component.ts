@@ -48,7 +48,7 @@ exchangenumber:number;
   constructor(private http: HttpClient,private loginservice:LoginService) {}
 
   ngOnInit(): void {
-    
+    this.freshJobs();
     //Employeetable
     this.fetchEmployees();
     //scopes
@@ -165,55 +165,56 @@ exchangenumber:number;
 
 
   freshJobs(){
-    this.http.get<any>(`APIURL`).subscribe(freshJobs => {
-      this.dataSource = freshJobs;
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/1/0`).subscribe(freshJobs => {
+      this.dataSource = freshJobs.allocationJobs;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log("freshJobs")
     });  
   }
   revisionJobs(){
-    this.http.get<any>(`APIURL`).subscribe(revisionJobs => {
-      this.dataSource = revisionJobs;
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/2/0`).subscribe(revisionJobs => {
+      this.dataSource = revisionJobs.allocationJobs;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log(" revisionJobs")
     });  
   }
   reworkJobs(){
-    this.http.get<any>(`APIURL`).subscribe(reworkJobs => {
-      this.dataSource = reworkJobs;
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/3/0`).subscribe(reworkJobs => {
+      this.dataSource = reworkJobs.allocationJobs;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log("reworkJobs")
     });  
   }
   allocaetdJobs(){
-    this.http.get<any>(`APIURL`).subscribe(allocaetdJobs => {
-      this.dataSource = allocaetdJobs;
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/4/0`).subscribe(allocaetdJobs => {
+      this.dataSource = allocaetdJobs.allocationJobs;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log("allocaetdJobs")
     });  
   }
   queries(){
-    this.http.get<any>(`APIURL`).subscribe(queries => {
-      this.dataSource = queries;
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getQueryPendingJobs/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/0`).subscribe(queries => {
+      this.dataSource = queries.allocationJobs;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log("queries")
     });  
   }
   queryResposne(){
-    this.http.get<any>(`APIURL`).subscribe(queryResposne => {
-      this.dataSource = queryResposne;
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getQueryResponseJobsAndEmployees/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/0`).subscribe(queryResposne => {
+      this.dataSource = queryResposne.allocationJobs;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log("queries")
     });  
   }
   errorJobs(){
-    this.http.get<any>(`APIURL`).subscribe(errorJobs => {
+    this.http.get<any>(`
+    https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/5/0`).subscribe(errorJobs => {
       this.dataSource =   errorJobs
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -221,7 +222,7 @@ exchangenumber:number;
     });  
   }
   quotationJobs(){
-    this.http.get<any>(`APIURL`).subscribe(quotationJobs => {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${ parseInt(this.loginservice.getUsername())}/${ parseInt(this.loginservice.getProcessId())}/7/0`).subscribe(quotationJobs => {
       this.dataSource =   quotationJobs
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

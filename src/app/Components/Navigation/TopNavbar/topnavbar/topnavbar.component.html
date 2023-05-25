@@ -25,9 +25,9 @@
 <div class="toptoolbar">
 
 <mat-toolbar style="justify-content: center;">
-    <span>
-        <div class="toptoolbar">
-    <img class="clientcoordination"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="clientcoordination" routerLink="clientindex">
+    <span style="display: flex;">
+        <div class="toptoolbar" *ngFor="let process of Processes">
+    <!-- <img class="clientcoordination"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="clientcoordination" routerLink="clientindex">
     <img class="ProductionAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="ProductionAllocation" routerLink="production">
     <img class="Production"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Production" routerLink="productionmain">
     <img class="QualityAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="QualityAllocation" routerLink="qualityallocation">
@@ -36,7 +36,24 @@
     <img class="ProofReading"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="ProofReading" routerLink="proofreading">
     <img class="BuddyProof"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="BuddyProof" routerLink="buddyproof">
     <img class="SewOut"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="SewOut"  routerLink="sewout">
-    <img class="Reports"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Reports">
+    <img class="Reports"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Reports"> -->
+
+ <img [ngClass]="{
+    'clientcoordination': process.id == 1,
+    'ProductionAllocation': process.id == 2,
+    'Production': process.id == 3,
+    'QualityAllocation': process.id == 4,
+    'Quality': process.id == 5,
+    'ProofReadingAllocation': process.id == 6,
+    'ProofReading': process.id == 7,
+    'BuddyProof': process.id == 9,
+    'SewOut': process.id == 11,
+    'Reports': process.id == 1013
+  }"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"
+  src="" alt="" 
+  srcset="" matTooltip={{process.name}}
+(click)="routeNav(process)">
+  
 </div>
 </span>  
 </mat-toolbar>
