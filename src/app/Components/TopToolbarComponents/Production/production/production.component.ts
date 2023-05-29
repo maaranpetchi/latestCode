@@ -52,10 +52,6 @@ export class ProductionComponent implements OnInit{
   }
 
 
-
-showChildAlert() {
-  this.ProductiontableComponent.showAlert();
-}
 freshJobs(){
   this.ProductiontableComponent.tab('1');
 }

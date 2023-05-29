@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { SewOutService } from 'src/app/Services/CoreStructure/SewOut/sew-out.service';
 
 @Component({
   selector: 'app-sew-out-table',
@@ -11,7 +12,7 @@ import { MatSort } from '@angular/material/sort';
 })
 export class SewOutTableComponent implements OnInit {
    
-  scopes: any[] = [];
+  scopes: any[];
   selectedScope: any=0;
 
   displayedColumns: string[] = [
@@ -37,28 +38,11 @@ export class SewOutTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private sewOutService:SewOutService) {}
 
   ngOnInit(): void {
     //maintable
-    this.fetchData();
-  }
-
-  fetchData(): void {
-    this.http.get<any>('YOUR_API_URL').subscribe(data => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
-  }
-
-  fetchEmployees() {
-    // Replace 'your-api-endpoint' with the actual endpoint to fetch employee data from your REST API
-    // this.http.get<Employee[]>('your-api-endpoint').subscribe((employees: Employee[]) => {
-    //   this.dataEmployeeSource = new MatTableDataSource(employees);
-    //   this.dataEmployeeSource.paginator = this.paginator;
-    //   this.dataEmployeeSource.sort = this.sort;
-    // });
+ this.freshJobs();
   }
 
 
@@ -100,6 +84,88 @@ export class SewOutTableComponent implements OnInit {
     this.benchChecked = event.checked;
   }
 
+tab(action){
+  if (action == '1') {
+    this.freshJobs();
+  }
+  else if (action == '2') {
+    this.revisionJobs();
+  }
+  else if (action == '3') {
+    this.reworkJobs();
+  }
+  else if (action == '4') {
+    this.quoteJobs();
+  }
+  else if (action == '5') {
+    this.sewOut();
+  }
+  else if (action == '6') {
+    this.bulkJobs();
+  }
+  else if (action == '6') {
+    this.bulkUploadJobs();
+  }
+}
 
 
+freshJobs(){
+this.sewOutService.getTabValue1().subscribe( freshJobs =>{
+this.dataSource = new MatTableDataSource (freshJobs.GetWorkflowDetails );
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+});
+}
+revisionJobs(){
+this.sewOutService.getTabValue2().subscribe( revisionJobs =>{
+this.dataSource = new MatTableDataSource (revisionJobs.GetWorkflowDetails );
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+});
+}
+reworkJobs(){
+this.sewOutService.getTabValue3().subscribe( reworkJobs =>{
+this.dataSource = new MatTableDataSource (reworkJobs.GetWorkflowDetails );
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+});
+}
+quoteJobs(){
+this.sewOutService.getTabValue4().subscribe( quoteJobs =>{
+this.dataSource = new MatTableDataSource (quoteJobs.GetWorkflowDetails );
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+});
+}
+sewOut(){
+this.sewOutService.getTabValue5().subscribe( sewOut =>{
+this.dataSource = new MatTableDataSource (sewOut.GetWorkflowDetails );
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+});
+}
+
+displayScopeDropdown:boolean = false; // hide a scope dropdown
+bulkJobs(){
+this.sewOutService.getTabValue6().subscribe( bulkJobs =>{
+this.dataSource = new MatTableDataSource (bulkJobs.GetWorkflowDetails );
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+this.displayScopeDropdown = true;
+});
+}
+bulkUploadJobs(){
+this.sewOutService.getTabValue7().subscribe( bulkUploadJobs =>{
+this.dataSource = new MatTableDataSource (bulkUploadJobs.GetWorkflowDetails );
+this.dataSource.paginator = this.paginator;
+this.dataSource.sort = this.sort;
+});
+}
+
+
+scopeDropdown(){
+  this.sewOutService.getScopeDropdown().subscribe(scopedata=>{
+    this.scopes = scopedata.ScopeDetails 
+  })
+}
 }
