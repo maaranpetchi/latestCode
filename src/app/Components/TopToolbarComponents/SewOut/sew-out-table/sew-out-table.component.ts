@@ -103,7 +103,7 @@ tab(action){
   else if (action == '6') {
     this.bulkJobs();
   }
-  else if (action == '6') {
+  else if (action == '7') {
     this.bulkUploadJobs();
   }
 }
