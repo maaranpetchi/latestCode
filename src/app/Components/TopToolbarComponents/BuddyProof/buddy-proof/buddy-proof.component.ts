@@ -19,14 +19,8 @@ export class BuddyProofComponent {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    //scopedropdown
-    this.http.get<any>('https://my-api.com/items').subscribe(scopesdata => {
-      this.scopes = scopesdata;
-    });
   }
 
-
-  //maintable
   // fetchData(): void {
   //   this.http.get<any>('YOUR_API_URL').subscribe(data => {
   //     this.dataSource = new MatTableDataSource(data);

@@ -9,10 +9,9 @@
                         </mat-form-field>
                     </div>
                     <div class="col" style="display: flex; justify-content: flex-end;align-items: baseline;">
-                        <mat-form-field class="exchangeheader">
+                        <mat-form-field>
                             <mat-label>Exchange Header</mat-label>
-                            <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header"
-                                style="width: 30%;">
+                            <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header">
                         </mat-form-field>
                         <button mat-raised-button color="primary" (click)="setExchangeHeader()">Set</button>
                     </div>
@@ -22,9 +21,9 @@
             <table mat-table [dataSource]="dataSource" matSort class="table table-sm">
                 <!--Checkbox to select the values-->
                 <ng-container matColumnDef="selected">
-                    <th mat-sort-header mat-header-cell *matHeaderCellDef> Select </th>
-                    <td mat-cell *matCellDef="let element"> <mat-checkbox
-                            (change)="setAll($event.checked,element)"></mat-checkbox> </td>
+                    <th mat-sort-header mat-header-cell *matHeaderCellDef mat-sort-header> Select </th>
+                    <td mat-cell *matCellDef="let element"> <mat-checkbox [checked]="element.isSelected"
+                        (change)="setAll($event.checked,element)"></mat-checkbox> </td>
 
                 </ng-container>
                 <!-- Job ID Column -->

@@ -131,26 +131,24 @@ export class ProductionallocationtableComponent implements OnInit {
 
 
   setExchangeHeader() {
-    //   let temparray:any[]=[]
-    //  let skip:boolean;
-    //     this.dataSource.data.filter((y:any)=>{
-    //       skip=false;
-    //       this.selectedInvoices.forEach(x=>{
-    //       if(y.id===x.id){
-    //         temparray.push({  ...y,
-    //           exchangeRate:this.exchangeHeader,
-    //         isSelected:true})
-    //           skip=true;
-    //       }
+      let temparray:any[]=[]
+     let skip:boolean;
+        this.dataSource.data.filter((y:any)=>{
+          skip=false;
+          this.selectedQuery.forEach(x=>{
+          if(y.id===x.id){
+            temparray.push({  ...y,
+              estimatedTime:this.exchangeHeader,
+            isSelected:true})
+              skip=true;
+          }
+        })
+        if(!skip){
+          temparray.push(y)
+        }
+        })
 
-    //     })
-    //     if(!skip){
-    //       temparray.push(y)
-    //     }
-
-    //     })
-
-    //   this.dataSource.data=temparray;
+      this.dataSource.data=temparray;
   }
 
   benchChecked: boolean = false;

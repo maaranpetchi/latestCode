@@ -107,8 +107,8 @@
             <mat-form-field>
                 <mat-label>Scope</mat-label>
                 <mat-select [(value)]="selectedScope">
-                    <mat-option *ngFor="let item of scopes" [value]="item.Id">
-                        {{ item.Name }}
+                    <mat-option *ngFor="let item of scopes" [value]="item.id">
+                        {{ item.name }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class JobDetailsClientIndexComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private http: HttpClient){}
+  
  displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy','MovedTo', 'remarks'];
  dataJobSource: MatTableDataSource<any>;
  displayedQueryColumns: string[] = ['movedFrom', 'movedTo', 'jobStatus', 'movedDate', 'movedBy','MovedTo', 'remarks'];

@@ -115,6 +115,7 @@ export class BuddyProofTableComponent implements OnInit {
   this.dataSource = new MatTableDataSource (freshJobs.GetWorkflowDetails );
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
+  this.displayScopeDropdown = false;
   });
   }
   revisionJobs(){
@@ -122,6 +123,7 @@ export class BuddyProofTableComponent implements OnInit {
   this.dataSource = new MatTableDataSource (revisionJobs.GetWorkflowDetails );
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
+  this.displayScopeDropdown = false;
   });
   }
   reworkJobs(){
@@ -129,6 +131,7 @@ export class BuddyProofTableComponent implements OnInit {
   this.dataSource = new MatTableDataSource (reworkJobs.GetWorkflowDetails );
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
+  this.displayScopeDropdown = false;
   });
   }
   quoteJobs(){
@@ -136,6 +139,7 @@ export class BuddyProofTableComponent implements OnInit {
   this.dataSource = new MatTableDataSource (quoteJobs.GetWorkflowDetails );
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
+  this.displayScopeDropdown = false;
   });
   }
   sewOut(){
@@ -143,6 +147,8 @@ export class BuddyProofTableComponent implements OnInit {
   this.dataSource = new MatTableDataSource (sewOut.GetWorkflowDetails );
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
+  this.displayScopeDropdown = false;
+
   });
   }
   
@@ -160,13 +166,17 @@ export class BuddyProofTableComponent implements OnInit {
   this.dataSource = new MatTableDataSource (bulkUploadJobs.GetWorkflowDetails );
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
+  this.displayScopeDropdown = false;
+
   });
   }
   
   
   scopeDropdown(){
     this.buddyService.getScopeDropdown().subscribe(scopedata=>{
-      this.scopes = scopedata.ScopeDetails 
+      this.scopes = scopedata.scopeDetails 
+      console.log("scopedata");
+      
     })
   }
 
