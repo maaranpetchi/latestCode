@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { ProductionAllocationService } from 'src/app/Services/CoreStructure/ProductionAllocation/production-allocation.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 
 export class ProductionallocationtableComponent implements OnInit {
   exchangenumber: number;
-  dataEmployeeSource: MatTableDataSource<any>;
+  dataEmployeeSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   displayedEmployeeColumns: string[] = ['selected', 'employee', 'estTime', 'jobCategory', 'shift'];
 
 
@@ -46,7 +47,12 @@ export class ProductionallocationtableComponent implements OnInit {
   @ViewChild('paginator2') paginator2: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private loginservice: LoginService) { }
+  constructor(private http: HttpClient, private loginservice: LoginService,private productionallocation: ProductionAllocationService)  {
+     // Initialize the `editing` flag for each job object to `false`
+     this.dataEmployeeSource.data.forEach(job => {
+      job.editing = false;
+    });
+   }
 
   ngOnInit(): void {
     this.freshJobs();
@@ -56,6 +62,9 @@ export class ProductionallocationtableComponent implements OnInit {
 
     //Assignvalue in second table
     this.getAssignedtable();
+
+    //getStatusMessageOfJobCategory
+    this.getJobCategoryStatus();
 
   }
 
@@ -261,5 +270,50 @@ getAssignedtable(){
       this.quotationJobs();
     }
   }
+
+  estTimeinput:any[]=[];
+
+getJobCategoryStatus(){
+  this.productionallocation.getJobCategoryStatusMessage().subscribe(data =>{
+    this.estTimeinput = data;
+  });
+}
+
+  
+afterCellEdit(rowEntity:any) {
+    if (parseInt(this.loginservice.getProcessId()) == 2) {
+      var colls = this.estTimeinput;
+      var Esttime1 = colls[0].estimatedTime;
+      var Esttime2 = colls[1].estimatedTime;
+      var Esttime3 = colls[2].estimatedTime;
+      var Esttime4 = colls[3].estimatedTime;
+      var desc1 = colls[0].description;
+      var desc2 = colls[1].description;
+      var desc3 = colls[2].description;
+      var desc4 = colls[3].description;
+      var desc5 = colls[4].description;
+      if (rowEntity.estTime <= Esttime1 && rowEntity.estTime > 0) {
+          rowEntity.status = desc1;
+      }
+      else if (rowEntity.estTime <= Esttime2 && rowEntity.estTime > Esttime1) {
+          rowEntity.status = desc2;
+      }
+      else if (rowEntity.estTime <= Esttime3 && rowEntity.estTime > Esttime2) {
+          rowEntity.status = desc3;
+      }
+      else if (rowEntity.estTime <= Esttime4 && rowEntity.estTime > Esttime3) {
+          rowEntity.status = desc4;
+      }
+      else if (rowEntity.estTime > Esttime4) {
+          rowEntity.status = desc5;
+      }
+  }
+};
+
+onKeyPress(event: KeyboardEvent, job: any) {
+  if (event.key === 'Enter') {
+    this.afterCellEdit(job);
+  }
+}
 
 }
