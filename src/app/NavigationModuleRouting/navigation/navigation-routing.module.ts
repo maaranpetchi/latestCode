@@ -70,6 +70,7 @@ import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolba
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
+import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 
 const routes: Routes = [
 
@@ -137,6 +138,7 @@ const routes: Routes = [
       //SewoutProof
       { path: 'sewout', component: SewOutComponent },
       { path: 'sewtable', component: SewOutTableComponent },
+      { path: 'sewJobDetails', component:JobDetailsSewPopComponent, },
       //SideNavbarMenu
       //EmployeeController
       { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },

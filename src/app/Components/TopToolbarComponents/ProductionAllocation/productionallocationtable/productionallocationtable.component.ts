@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { ProductionAllocationService } from 'src/app/Services/CoreStructure/ProductionAllocation/production-allocation.service';
+import { JobAssignedDetailsPopupComponent } from '../job-assigned-details-popup/job-assigned-details-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -47,7 +49,7 @@ export class ProductionallocationtableComponent implements OnInit {
   @ViewChild('paginator2') paginator2: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private loginservice: LoginService,private productionallocation: ProductionAllocationService)  {
+  constructor(private http: HttpClient, private loginservice: LoginService,private productionallocation: ProductionAllocationService,private dialog:MatDialog)  {
      // Initialize the `editing` flag for each job object to `false`
      this.dataEmployeeSource.data.forEach(job => {
       job.editing = false;
@@ -314,6 +316,14 @@ onKeyPress(event: KeyboardEvent, job: any) {
   if (event.key === 'Enter') {
     this.afterCellEdit(job);
   }
+}
+
+
+getProductionJob(data){
+  this.dialog.open(JobAssignedDetailsPopupComponent,{
+    width:'80vw',
+    data
+  })
 }
 
 }

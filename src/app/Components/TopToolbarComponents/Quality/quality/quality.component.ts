@@ -61,7 +61,6 @@ tab(action){
       this.BindPendingJobs();
 
     }
-//     else if (action == 'revisionJobs') {
 //         workFlowJobs.data = {};
 //         ScopeDetails = false;
 //         BindRevisionJobs();

@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SewOutService } from 'src/app/Services/CoreStructure/SewOut/sew-out.service';
+import { MatDialog } from '@angular/material/dialog';
+import { JobDetailsSewPopComponent } from '../SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 
 @Component({
   selector: 'app-sew-out-table',
@@ -38,7 +40,7 @@ export class SewOutTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private sewOutService:SewOutService) {}
+  constructor(private http: HttpClient,private sewOutService:SewOutService,private dialog:MatDialog) {}
 
   ngOnInit(): void {
     //maintable
@@ -108,38 +110,56 @@ tab(action){
   }
 }
 
+jids: string[] = []; //to get the jid to pass into edit restapi
+getWorkflowJobList(data:any) {
+
+  this.postJobHistory(data)
+}
+
+
+postJobHistory(data) {
+
+ return this.sewOutService.navJobDetails(data).subscribe(data => {
+  this.dialog.open(JobDetailsSewPopComponent, {
+    width: '250px',
+    data: data,
+  });
+// console.log("data created successfully",data);
+return data;
+ });
+}
 
 freshJobs(){
 this.sewOutService.getTabValue1().subscribe( freshJobs =>{
-this.dataSource = new MatTableDataSource (freshJobs.GetWorkflowDetails );
+this.dataSource = new MatTableDataSource (freshJobs.getWorkflowDetails );
 this.dataSource.paginator = this.paginator;
 this.dataSource.sort = this.sort;
 });
 }
 revisionJobs(){
 this.sewOutService.getTabValue2().subscribe( revisionJobs =>{
-this.dataSource = new MatTableDataSource (revisionJobs.GetWorkflowDetails );
+this.dataSource = new MatTableDataSource (revisionJobs.getWorkflowDetails );
 this.dataSource.paginator = this.paginator;
 this.dataSource.sort = this.sort;
 });
 }
 reworkJobs(){
 this.sewOutService.getTabValue3().subscribe( reworkJobs =>{
-this.dataSource = new MatTableDataSource (reworkJobs.GetWorkflowDetails );
+this.dataSource = new MatTableDataSource (reworkJobs.getWorkflowDetails );
 this.dataSource.paginator = this.paginator;
 this.dataSource.sort = this.sort;
 });
 }
 quoteJobs(){
 this.sewOutService.getTabValue4().subscribe( quoteJobs =>{
-this.dataSource = new MatTableDataSource (quoteJobs.GetWorkflowDetails );
+this.dataSource = new MatTableDataSource (quoteJobs.getWorkflowDetails );
 this.dataSource.paginator = this.paginator;
 this.dataSource.sort = this.sort;
 });
 }
 sewOut(){
 this.sewOutService.getTabValue5().subscribe( sewOut =>{
-this.dataSource = new MatTableDataSource (sewOut.GetWorkflowDetails );
+this.dataSource = new MatTableDataSource (sewOut.getWorkflowDetails );
 this.dataSource.paginator = this.paginator;
 this.dataSource.sort = this.sort;
 });
@@ -148,7 +168,7 @@ this.dataSource.sort = this.sort;
 displayScopeDropdown:boolean = false; // hide a scope dropdown
 bulkJobs(){
 this.sewOutService.getTabValue6().subscribe( bulkJobs =>{
-this.dataSource = new MatTableDataSource (bulkJobs.GetWorkflowDetails );
+this.dataSource = new MatTableDataSource (bulkJobs.getWorkflowDetails );
 this.dataSource.paginator = this.paginator;
 this.dataSource.sort = this.sort;
 this.displayScopeDropdown = true;
@@ -156,7 +176,7 @@ this.displayScopeDropdown = true;
 }
 bulkUploadJobs(){
 this.sewOutService.getTabValue7().subscribe( bulkUploadJobs =>{
-this.dataSource = new MatTableDataSource (bulkUploadJobs.GetWorkflowDetails );
+this.dataSource = new MatTableDataSource (bulkUploadJobs.getWorkflowDetails );
 this.dataSource.paginator = this.paginator;
 this.dataSource.sort = this.sort;
 });
@@ -168,4 +188,7 @@ scopeDropdown(){
     this.scopes = scopedata.ScopeDetails 
   })
 }
+
+
+
 }

@@ -77,6 +77,7 @@ import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolba
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
+import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,7 @@ import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarCom
     LoginComponent,
     //changepassword
     ChangepasswordComponent,
-    //TOPNAVBARCOMPONENTS
+                                                             //TOPNAVBARCOMPONENTS
     //1.ClientordinationindexComponent
     ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
@@ -104,7 +105,7 @@ import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarCom
     JoborderComponent,
     JoborderexcelComponent,
 
-    //1.QueryToClientComponentfortableComponent
+                                            //1.QueryToClientComponentfortableComponent
     QueryToClientComponent,
     //ProductionmainComponent
     ProductionComponent,
@@ -136,6 +137,7 @@ import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarCom
     //SewOut
     SewOutComponent,
     SewOutTableComponent,
+    JobDetailsSewPopComponent,
     //navbar
     TopnavbarComponent,
     //EmployeeController

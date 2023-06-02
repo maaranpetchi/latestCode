@@ -35,4 +35,11 @@ export class SewOutService {
   getTabValue7():Observable<any> {
     return this.http.get(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/0`) 
    }
-}
+
+
+
+   //FreshJobsTab
+navJobDetails(data):Observable<any>{
+  return  this.http.post(`https://localhost:7208/api/JobOrder/getJobHistory`,data)
+  }
+  }

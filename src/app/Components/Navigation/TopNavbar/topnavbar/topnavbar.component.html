@@ -63,46 +63,61 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav mode="side" opened class="vertical-menu">
         <mat-nav-list style="width:200px">
-            <a mat-list-item routerLink="dashboard">
-                <mat-icon>
-                    Dashboard
-                </mat-icon>&nbsp;<label>dashboard</label>
-            </a>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon>dashboard</mat-icon>
+                    <span>Dashboard</span>
+                </mat-expansion-panel-header>
+                  <a mat-list-item routerLink="dashboard">
+                    <label>dashboard</label>
+                </a>
+            </mat-expansion-panel>
+        
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon>perm_identity</mat-icon>
+                    <span>Employee</span>
+                </mat-expansion-panel-header>
 
-            <a mat-list-item>
-                <mat-icon>perm_identity</mat-icon>
-                <span>Employee</span>
-                <button mat-icon-button [matMenuTriggerFor]="settingsEmployeeMenu">
-                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
-                </button>
-                <mat-menu #settingsEmployeeMenu="matMenu">
+                <a mat-list-item routerLink="Emp-Empcontroller">
+                    <label>Employee</label>
+                    </a>
+                <a mat-list-item routerLink="Emp-empvsdiv">
+                    <label>EmployeeVsDivision</label>
+                    </a>
+
+                <!-- <mat-menu #settingsEmployeeMenu="matMenu">
                     <button mat-menu-item routerLink="Emp-Empcontroller">Employee</button>
                     <button mat-menu-item routerLink="Emp-empvsdiv">EmployeeVsDivision</button>
-                </mat-menu>
-
-            </a>
-
-            <a mat-list-item>
-
-                <mat-icon>perm_identity</mat-icon>
-                <span>Customer</span>
-                <button mat-icon-button [matMenuTriggerFor]="settingsCustomerMenu">
-                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
-                </button>
+                </mat-menu> -->
+                <!-- <a mat-list-item>
+                    <button mat-icon-button [matMenuTriggerFor]="settingsEmployeeMenu">
+                        <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                    </button>
+                </a> -->
+            </mat-expansion-panel>
+        
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon>perm_identity</mat-icon>
+                    <span>Customer</span>
+                </mat-expansion-panel-header>
                 <mat-menu #settingsCustomerMenu="matMenu">
                     <button mat-menu-item routerLink="cus-cusvsemp">CustomerVSEmployee</button>
                     <button mat-menu-item routerLink="cus-cusvsprocess">CustomerVSProcess</button>
-
                 </mat-menu>
-
-            </a>
-
-            <a mat-list-item>
-                <mat-icon>perm_identity</mat-icon>
-                <span>Accounts</span>
-                <button mat-icon-button [matMenuTriggerFor]="settingsAccountsMenu">
-                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
-                </button>
+                <a mat-list-item>
+                    <button mat-icon-button [matMenuTriggerFor]="settingsCustomerMenu">
+                        <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                    </button>
+                </a>
+            </mat-expansion-panel>
+        
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon>perm_identity</mat-icon>
+                    <span>Accounts</span>
+                </mat-expansion-panel-header>
                 <mat-menu #settingsAccountsMenu="matMenu">
                     <button mat-menu-item routerLink="acc-pricing">PricingCalulation</button>
                     <button mat-menu-item routerLink="acc-customer">CustomerReceipts</button>
@@ -115,21 +130,29 @@
                     <button mat-menu-item routerLink="acc-invoice">invoice</button>
                     <button mat-menu-item routerLink="acc-invcan">invoice-cancellation</button>
                 </mat-menu>
-            </a>
-
-            <a mat-list-item>
-                <mat-icon>perm_identity</mat-icon>
-                <span>Sales</span>
-                <button mat-icon-button [matMenuTriggerFor]="settingsSalesMenu">
-                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
-                </button>
+                <a mat-list-item>
+                    <button mat-icon-button [matMenuTriggerFor]="settingsAccountsMenu">
+                        <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                    </button>
+                </a>
+            </mat-expansion-panel>
+        
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon>perm_identity</mat-icon>
+                    <span>Sales</span>
+                </mat-expansion-panel-header>
                 <mat-menu #settingsSalesMenu="matMenu">
                     <button mat-menu-item routerLink="sales-pricing">Pricing</button>
-                    <!-- <button mat-menu-item routerLink="Emp-empvsdiv">EmployeeVsDivision</button> -->
                 </mat-menu>
-
-            </a>
+                <a mat-list-item>
+                    <button mat-icon-button [matMenuTriggerFor]="settingsSalesMenu">
+                        <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                    </button>
+                </a>
+            </mat-expansion-panel>
         </mat-nav-list>
+        
     </mat-sidenav>
     <mat-sidenav-content >
         <p>
