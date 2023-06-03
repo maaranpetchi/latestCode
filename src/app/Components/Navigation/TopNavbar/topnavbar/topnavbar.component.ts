@@ -6,11 +6,24 @@ import { LogoutService } from 'src/app/Services/Logout/logout.service';
 import { ChangepasswordComponent } from '../../ChangePass/changepassword/changepassword.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 
 @Component({
   selector: 'app-topnavbar',
   templateUrl: './topnavbar.component.html',
-  styleUrls: ['./topnavbar.component.scss']
+  styleUrls: ['./topnavbar.component.scss'],
+  animations: [
+    trigger('sidenavAnimation', [
+      state('void', style({ transform: 'translateX(-100%)' })),
+      transition(':enter', [
+        animate('0.3s', style({ transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('0.3s', style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ]
 })
 export class TopnavbarComponent  implements OnInit{
 constructor(private _dialog: MatDialog,private loginservice:LoginService ,private router: Router, private logoutService:LogoutService,private cookieService: CookieService,private http:HttpClient){}
@@ -19,7 +32,12 @@ constructor(private _dialog: MatDialog,private loginservice:LoginService ,privat
   }
 
 
+//toggle
+isSidenavOpen = true;
 
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
 
 
 

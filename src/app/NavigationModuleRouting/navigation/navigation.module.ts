@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MaterialModule } from 'src/app/AngularMaterialModule/material/material.module';
 import { NavigationRoutingModule } from './navigation-routing.module';
 import { TopnavbarComponent } from 'src/app/Components/Navigation/TopNavbar/topnavbar/topnavbar.component';
@@ -197,6 +199,7 @@ import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponen
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     MatSortModule,
     MatDialogModule,
     MatIconModule

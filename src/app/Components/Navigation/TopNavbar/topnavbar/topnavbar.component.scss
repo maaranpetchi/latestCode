@@ -121,3 +121,56 @@ background-image: url('../../../../../assets/Images/1014.png');
 .toptoolbar{
   justify-content: center;
 }
+
+
+.labelname{
+  font-size: small;
+  // text-transform: uppercase;
+  
+}
+.menu-with-scrollbar {
+  max-height: 800px;
+  overflow-y: hidden;
+}
+
+
+span{
+  text-transform: uppercase; 
+}
+
+
+//ToggleAnimation
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.mat-sidenav {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+
+.sidenavAnimation {
+  animation-timing-function: ease-in;
+}
+
+.sidenavAnimation.slidingIn {
+  animation-name: slideIn;
+}
+
+.sidenavAnimation.slidingOut {
+  animation-name: slideOut;
+}
