@@ -5,13 +5,22 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('500ms ease-in')
+      ]),
+      transition(':leave', [
+        animate('500ms ease-out', style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ]
 })
 export class LoginComponent implements OnInit {
   username: string;
@@ -28,13 +37,16 @@ export class LoginComponent implements OnInit {
   labelState = 'default';
 
   ngOnInit() {
-  
+
   }
 
-
+  showUsernameField = true;
+  showPasswordField = true;
 
   onSubmit() {
     this.isSubmitted = true;
+    this.showUsernameField = false;
+    this.showPasswordField = false;
     this.loginservice.login(this.username, this.password).subscribe(result => {
       if (result) {
         this.cookieService.set('token', result.user.employeeName);
@@ -44,4 +56,5 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
 }

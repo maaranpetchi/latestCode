@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Output, EventEmitter } from '@angular/core';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 @Component({
   selector: 'app-productiontable',
@@ -12,7 +13,7 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class ProductiontableComponent {
   @Output() showAlertEvent: EventEmitter<any> = new EventEmitter();
-  
+
 
   displayedColumns: string[] = [
     'selected',
@@ -31,40 +32,31 @@ export class ProductiontableComponent {
     'esttime',
     'deliverydate',
   ];
-  dataSource: MatTableDataSource<any>;
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private loginservice: LoginService) { }
 
   ngOnInit(): void {
     // //ScopeDropdown
-     this.fetchScope();
+    this.fetchScope();
+
+    //FreshJobs
+    this.freshJobs();
   }
-  ScopeApiData:any[];
-  fetchScope(){
-    this.http.get<any>('ScopeUrl').subscribe(data =>{
-      this.ScopeApiData = data;
+  ScopeApiData: any[];
+  fetchScope() {
+    this.http.get<any>('https://localhost:7208/api/Allocation/getScopeValues/152').subscribe(data => {
+      this.ScopeApiData = data.ScopeDetails ;
     });
-    }
-
-  assigndatasource(data){
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
-  //maintable
-  // fetchData(): void {
-  //   this.http.get<any>('YOUR_API_URL').subscribe(data => {
-  //     this.dataSource = new MatTableDataSource(data);
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.sort = this.sort;
-  //   });
-  // }
+
   //to save the checkbox values
-  selectedproduction:any[]=[];
+  selectedproduction: any[] = [];
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedproduction)
     if (completed == true) {
@@ -86,5 +78,77 @@ export class ProductiontableComponent {
   showAlert() {
     alert('HI TESTING');
   }
+
+  tab(action) {
+    if (action == '1') {
+      this.freshJobs();
+    }
+    else if (action == '2') {
+      this.revisionJobs();
+    }
+    else if (action == '3') {
+      this.reworkJobs();
+    }
+    else if (action == '4') {
+      this.quoteJobs();
+    }
+    else if (action == '5') {
+      this.bulkJobs();
+      this.scopeDisplay = true;
+
+    }
+    else if (action == '6') {
+      this.bulkUploadJobs();
+    }
+
+  }
+
+  freshJobs() {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdata => {
+      this.dataSource =  new MatTableDataSource (freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  revisionJobs() {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/0`).subscribe(freshdata => {
+      this.dataSource =new MatTableDataSource  (freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  reworkJobs() {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/3/0`).subscribe(freshdata => {
+      this.dataSource =new MatTableDataSource (freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  quoteJobs() {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/4/0`).subscribe(freshdata => {
+      this.dataSource=new MatTableDataSource( freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  scopeDisplay:boolean = false; // display a scope dropdown div
+  bulkJobs() {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/6/0`).subscribe(freshdata => {
+      this.dataSource =new MatTableDataSource(freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.scopeDisplay = true;
+    });
+  }
+  bulkUploadJobs() {
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/0`).subscribe(freshdata => {
+      this.dataSource = new MatTableDataSource (freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+ 
+
 
 }

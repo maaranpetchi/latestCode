@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { JobDetailsClientIndexComponent } from './job-details-client-index/job-details-client-index.component';
 
 
 @Component({
@@ -20,14 +22,60 @@ export class QueryToClientComponent implements OnInit {
     'fileReceivedEstDate',
     'fileInwardMode',
     'client',
-    'customerSatisfaction'
+    'customerSatisfaction',
+    'status'
   ];
+  displayedColumnsVisibility: any = {
+    'selected':true,
+    'jobId':true,
+    'jobName':true,
+    'fileName':true,
+    'fileReceivedEstDate':true,
+    'fileInwardMode':true,
+    'client':true,
+    'customerSatisfaction':true,
+    'status':true
+  };
+  visibility() {
+    let result: string[] = [];
+    if (this.displayedColumnsVisibility.selected) {
+      result.push('selected');
+    }
+
+    if (this.displayedColumnsVisibility.jobId) {
+      result.push('jobId');
+    }
+    if (this.displayedColumnsVisibility.jobName) {
+      result.push('jobName');
+    }
+
+    if (this.displayedColumnsVisibility.fileName) {
+      result.push('fileName');
+    }
+    if (this.displayedColumnsVisibility.fileReceivedEstDate) {
+      result.push('fileReceivedEstDate');
+    }
+    if (this.displayedColumnsVisibility.fileInwardMode) {
+      result.push('fileInwardMode');
+    }
+    if (this.displayedColumnsVisibility.jobName) {
+      result.push('client');
+    }
+    if (this.displayedColumnsVisibility.customerSatisfaction) {
+      result.push('customerSatisfaction');
+    }
+    if (this.displayedColumnsVisibility.status) {
+      result.push('status');
+    }
+    
+       return result;
+  }
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice:LoginService) {}
+  constructor(private http: HttpClient,private loginservice:LoginService, private dialog:MatDialog ) {}
 
   ngOnInit(): void {
     //to get the data and show it in table
@@ -67,36 +115,48 @@ export class QueryToClientComponent implements OnInit {
     console.log("after", this.selectedQuery)
   }
 
-
+  convertedDate:string;
 queriesToClient(){
-  this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
-    this.dataSource = data.quotationJobs;
+  this.http.get<any>(`https://localhost:7208/api/Allocation/getQueryPendingJobs/${this.loginservice.getUsername()}/1/0`).subscribe(data => {
+    this.dataSource = data.queryPendingJobs;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.displayedColumnsVisibility.status = true;
+    const apiDate = data.date; // Assuming the API response has a 'date' property
+      
+    // Convert the API date to dd/mm/yyyy format
+    const dateParts = apiDate.split('-');
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2].substr(0, 2);
+    this.convertedDate = `${day}/${month}/${year}`;
     console.log("Queries to client")
   });  
 }
 queryResponse(){
-  this.http.get<any>(`http://localhost:56081/api/Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+  this.http.get<any>(`http://localhost:7208/api/Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.dataSource = data.quotationJobs;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.displayedColumnsVisibility.status = true;
     console.log(" queryResponse")
   });  
 }
 cancelledJobs(){
-  this.http.get<any>(`http://localhost:56081/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+  this.http.get<any>(`http://localhost:7208/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.dataSource = data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.displayedColumnsVisibility.status = true;
     console.log("cancelledJobs")
   });  
 }
 quotationJobs(){
-  this.http.get<any>(`http://localhost:56081/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+  this.http.get<any>(`http://localhost:7208/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.dataSource = data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.displayedColumnsVisibility.status = false;
     console.log("quotationJobs")
   });  
 }
@@ -118,5 +178,10 @@ tab(action) {
 
 }
 
-
+getJobDetails(data){
+this.dialog.open(JobDetailsClientIndexComponent,{
+  width:'80vw',
+  data
+})
+}
 }

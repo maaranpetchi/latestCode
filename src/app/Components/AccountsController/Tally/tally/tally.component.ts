@@ -77,9 +77,7 @@ setExchangeHeader() {
     if(!skip){
       temparray.push(y)
     }
-   
     })
-
   this.dataSource.data=temparray;
 }
 

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MaterialModule } from 'src/app/AngularMaterialModule/material/material.module';
 import { NavigationRoutingModule } from './navigation-routing.module';
 import { TopnavbarComponent } from 'src/app/Components/Navigation/TopNavbar/topnavbar/topnavbar.component';
@@ -76,6 +78,8 @@ import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
+import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
+import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +88,7 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     LoginComponent,
     //changepassword
     ChangepasswordComponent,
-    //TOPNAVBARCOMPONENTS
+                                                             //TOPNAVBARCOMPONENTS
     //1.ClientordinationindexComponent
     ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
@@ -97,12 +101,13 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     ClientorderviewComponent,
     ClientdetailspopupComponent,
     FileconvertComponent,
+    JobDetailsClientIndexComponent,
   
     //JoborderComponent
     JoborderComponent,
     JoborderexcelComponent,
 
-    //1.QueryToClientComponentfortableComponent
+                                            //1.QueryToClientComponentfortableComponent
     QueryToClientComponent,
     //ProductionmainComponent
     ProductionComponent,
@@ -134,6 +139,7 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     //SewOut
     SewOutComponent,
     SewOutTableComponent,
+    JobDetailsSewPopComponent,
     //navbar
     TopnavbarComponent,
     //EmployeeController
@@ -193,6 +199,7 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     MatSortModule,
     MatDialogModule,
     MatIconModule

@@ -586,9 +586,9 @@ export class ClientorderstableComponent {
       "dateofDelivery": "2023-05-12T07:08:03.495Z",
       "getAllValues": Gridwithmultiplefilesname
     };
-    this.http.post<any>('https://localhost:7208/api/JobOrder/DirectOrder', senddata).subscribe(multorder => {
+    this.http.post<any>('https://localhost:7208/api/JobOrder/DirectOrder', senddata).subscribe(multiorder => {
       this.showSnackBar("succesfully Bulk converted data");
-
+ 
     })
   }
 

@@ -4,11 +4,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-job-assigned-details-popup',
-  templateUrl: './job-assigned-details-popup.component.html',
-  styleUrls: ['./job-assigned-details-popup.component.scss']
+  selector: 'app-job-details-client-index',
+  templateUrl: './job-details-client-index.component.html',
+  styleUrls: ['./job-details-client-index.component.scss']
 })
-export class JobAssignedDetailsPopupComponent implements OnInit {
+export class JobDetailsClientIndexComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private http: HttpClient){}
   
