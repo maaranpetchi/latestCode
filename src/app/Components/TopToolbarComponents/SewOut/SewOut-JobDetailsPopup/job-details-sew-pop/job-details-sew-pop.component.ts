@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-job-details-sew-pop',
@@ -8,18 +9,17 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./job-details-sew-pop.component.scss']
 })
 export class JobDetailsSewPopComponent implements OnInit {
-  displayedColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy', 'movedToAgain', 'remarks'];
-  dataSource: any;
+  displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy','MovedTo', 'remarks'];
+  dataJobSource: MatTableDataSource<any>;
 
-  constructor(private http: HttpClient,@Inject(MAT_DIALOG_DATA) public data: any) {console.log(data,"POpup"); }
+  constructor(private http: HttpClient,@Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<JobDetailsSewPopComponent>) {console.log(data,"POPUP"); this.dataJobSource = data.jobHistory;}
 
   ngOnInit() {
-    this.fetchData();
   }
 
-  fetchData() {
-    // Make an HTTP GET request to your API endpoint
-      // Assign the retrieved data to the dataSource variable
-      this.dataSource = this.data;
+  closeDialog() {
+    this.dialogRef.close();
+    // Add any additional logic here to navigate away from the current page
   }
+
 }

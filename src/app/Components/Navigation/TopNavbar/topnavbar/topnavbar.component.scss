@@ -134,9 +134,9 @@ background-image: url('../../../../../assets/Images/1014.png');
 }
 
 
-span{
-  text-transform: uppercase; 
-}
+// span{
+//   text-transform: uppercase; 
+// }
 
 
 //ToggleAnimation
@@ -173,4 +173,7 @@ span{
 
 .sidenavAnimation.slidingOut {
   animation-name: slideOut;
+}
+.panel-header-text::after {
+  display: none;
 }

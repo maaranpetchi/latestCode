@@ -1,72 +1,61 @@
 <mat-toolbar color="primary">
-    <span><img src="http://www.vleadservices.com/wp-content/uploads/2017/06/logo.png" alt=""
-            style="max-width: 60%;"></span>
+    <span><img src="http://www.vleadservices.com/wp-content/uploads/2017/06/logo.png" alt="" style="max-width: 60%;"></span>
     <div class="center-text-container">
-        <span class="center-text"><span style="color:red">V</span>is <span style="color:red">I</span>nformation <span style="color:red">S</span>ystem</span>
-        <p style="font-family: 'Open Sans';font-size: 17px;">Ver[3.0.0]</p>
+      <span class="center-text">
+        <span style="color:red">V</span>is <span style="color:red">I</span>nformation <span style="color:red">S</span>ystem
+      </span>
+      <p style="font-family: 'Open Sans';font-size: 17px;">Ver[3.0.0]</p>
     </div>
     <span class="example-spacer"></span>
-       <label class="userloginname">Welcome {{getloginusername()}}</label>
+    <label class="userloginname">Welcome {{ getloginusername() }}</label>
     <br>
     <mat-button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>settings</mat-icon>
-  </mat-button>
-
-  <!-- define the dropdown menu using mat-menu and mat-menu-item -->
-  <mat-menu #menu="matMenu">
-    <button   (click)="openchangepassword()" mat-menu-item><mat-icon>account_circle</mat-icon>ChangePassword</button>
-    <button (click)="logout()" mat-menu-item><mat-icon>lock_open</mat-icon> Logout</button>
-  </mat-menu>
-</mat-toolbar>
-<div class="toptoolbar">
-
-<mat-toolbar style="justify-content: center;">
-    <span style="display: flex;">
-        <div class="toptoolbar" *ngFor="let process of Processes">
-    <!-- <img class="clientcoordination"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="clientcoordination" routerLink="clientindex">
-    <img class="ProductionAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="ProductionAllocation" routerLink="production">
-    <img class="Production"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Production" routerLink="productionmain">
-    <img class="QualityAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="QualityAllocation" routerLink="qualityallocation">
-    <img class="Quality"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Quality" routerLink="quality">
-    <img class="ProofReadingAllocation"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="ProofReadingAllocation" routerLink="proofreadingallocation">
-    <img class="ProofReading"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="ProofReading" routerLink="proofreading">
-    <img class="BuddyProof"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="BuddyProof" routerLink="buddyproof">
-    <img class="SewOut"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="SewOut"  routerLink="sewout">
-    <img class="Reports"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"src="" alt="" srcset="" matTooltip="Reports"> -->
-
- <img [ngClass]="{
-    'clientcoordination': process.id == 1,
-    'ProductionAllocation': process.id == 2,
-    'Production': process.id == 3,
-    'QualityAllocation': process.id == 4,
-    'Quality': process.id == 5,
-    'ProofReadingAllocation': process.id == 6,
-    'ProofReading': process.id == 7,
-    'BuddyProof': process.id == 9,
-    'SewOut': process.id == 11,
-    'Reports': process.id == 1013
-  }"  style="padding: 30px;background-repeat: no-repeat;cursor: pointer;"
-  src="" alt="" 
-  srcset="" matTooltip={{process.name}}
-(click)="routeNav(process)">
+      <mat-icon>settings</mat-icon>
+    </mat-button>
   
-</div>
-</span>  
-</mat-toolbar>
-</div>
-
-
-<mat-sidenav-container>
+    <mat-menu #menu="matMenu">
+      <button (click)="openchangepassword()" mat-menu-item>
+        <mat-icon>account_circle</mat-icon>ChangePassword
+      </button>
+      <button (click)="logout()" mat-menu-item>
+        <mat-icon>lock_open</mat-icon> Logout
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+  
+  <div class="toptoolbar">
+    <mat-toolbar style="justify-content: center;">
+      <span style="display: flex;">
+        <div class="toptoolbar" *ngFor="let process of Processes">
+          <img [ngClass]="{
+            'clientcoordination': process.id == 1,
+            'ProductionAllocation': process.id == 2,
+            'Production': process.id == 3,
+            'QualityAllocation': process.id == 4,
+            'Quality': process.id == 5,
+            'ProofReadingAllocation': process.id == 6,
+            'ProofReading': process.id == 7,
+            'BuddyProof': process.id == 9,
+            'SewOut': process.id == 11,
+            'Reports': process.id == 1013
+          }" style="padding: 30px;background-repeat: no-repeat;cursor: pointer;" src="" alt="" srcset=""
+          [matTooltip]="process.name" (click)="routeNav(process)">
+        </div>
+      </span>
+    </mat-toolbar>
+  </div>
+  
+  <mat-sidenav-container>
     <mat-sidenav #sidenav mode="side" [opened]="isSidenavOpen" class="vertical-menu" [@sidenavAnimation]>
       <mat-nav-list style="width:220px">
-        
+  
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-icon>dashboard</mat-icon>
             <span>Dashboard</span>
           </mat-expansion-panel-header>
           <a mat-list-item routerLink="dashboard">
-           <label class="labelname">dashboard</label>
+            <label class="labelname">dashboard</label>
           </a>
         </mat-expansion-panel>
   
@@ -76,10 +65,10 @@
             <span>Employee</span>
           </mat-expansion-panel-header>
           <a mat-list-item routerLink="Emp-Empcontroller">
-           <label class="labelname">Employee</label>
+            <label class="labelname">Employee</label>
           </a>
           <a mat-list-item routerLink="Emp-empvsdiv">
-           <label class="labelname">EmployeeVsDivision</label>
+            <label class="labelname">EmployeeVsDivision</label>
           </a>
         </mat-expansion-panel>
   
@@ -89,10 +78,10 @@
             <span>Customer</span>
           </mat-expansion-panel-header>
           <a mat-list-item routerLink="cus-cusvsemp">
-           <label class="labelname">CustomerVSEmployee</label>
+            <label class="labelname">CustomerVSEmployee</label>
           </a>
           <a mat-list-item routerLink="cus-cusvsprocess">
-           <label class="labelname">CustomerVSProcess</label>
+            <label class="labelname">CustomerVSProcess</label>
           </a>
         </mat-expansion-panel>
   
@@ -102,34 +91,34 @@
             <span>Accounts</span>
           </mat-expansion-panel-header>
           <a mat-list-item routerLink="acc-pricing">
-           <label class="labelname">PricingCalulation</label>
+            <label class="labelname">PricingCalulation</label>
           </a>
           <a mat-list-item routerLink="acc-customer">
-           <label class="labelname">CustomerReceipts</label>
+            <label class="labelname">CustomerReceipts</label>
           </a>
           <a mat-list-item routerLink="acc-nonbill">
-           <label class="labelname">Non-Billable Jobs</label>
+            <label class="labelname">Non-Billable Jobs</label>
           </a>
           <a mat-list-item routerLink="acc-scopechange">
-           <label class="labelname">ScopeChange</label>
+            <label class="labelname">ScopeChange</label>
           </a>
           <a mat-list-item routerLink="acc-advance">
-           <label class="labelname">AdvanceAdjustment</label>
+            <label class="labelname">AdvanceAdjustment</label>
           </a>
           <a mat-list-item routerLink="acc-creditnote">
-           <label class="labelname">CreditNote</label>
+            <label class="labelname">CreditNote</label>
           </a>
           <a mat-list-item routerLink="acc-wavier">
-           <label class="labelname">Wavier</label>
+            <label class="labelname">Wavier</label>
           </a>
           <a mat-list-item routerLink="acc-tally">
-           <label class="labelname">Tally</label>
+            <label class="labelname">Tally</label>
           </a>
           <a mat-list-item routerLink="acc-invoice">
-           <label class="labelname">invoice</label>
+            <label class="labelname">invoice</label>
           </a>
           <a mat-list-item routerLink="acc-invcan">
-           <label class="labelname">invoice-cancellation</label>
+            <label class="labelname">invoice-cancellation</label>
           </a>
         </mat-expansion-panel>
   
@@ -138,18 +127,16 @@
             <mat-icon>perm_identity</mat-icon>
             <span>Sales</span>
           </mat-expansion-panel-header>
-        
           <a mat-list-item routerLink="sales-pricing">
-           <label class="labelname">Pricing</label>
+            <label class="labelname">Pricing</label>
           </a>
- 
         </mat-expansion-panel>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <button mat-icon-button (click)="toggleSidenav()" style="float:left">
-            <mat-icon>{{ isSidenavOpen ? 'menu_open' : 'menu' }}</mat-icon>
-          </button>
+      <button mat-icon-button (click)="toggleSidenav()" style="float:left">
+        <mat-icon>{{ isSidenavOpen ? 'menu_open' : 'menu' }}</mat-icon>
+      </button>
       <p>
         <router-outlet></router-outlet>
       </p>

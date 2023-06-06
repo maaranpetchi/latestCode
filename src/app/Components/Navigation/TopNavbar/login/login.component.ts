@@ -17,7 +17,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
         animate('500ms ease-in')
       ]),
       transition(':leave', [
-        animate('500ms ease-out', style({ transform: 'translateX(-100%)' }))
+        animate('500ms ease-out', style({ transform: 'translateX(0%)' }))
       ])
     ])
   ]
