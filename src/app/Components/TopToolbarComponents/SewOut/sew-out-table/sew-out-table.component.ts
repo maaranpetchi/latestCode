@@ -7,6 +7,7 @@ import { SewOutService } from 'src/app/Services/CoreStructure/SewOut/sew-out.ser
 import { MatDialog } from '@angular/material/dialog';
 import { JobDetailsSewPopComponent } from '../SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 
 @Component({
   selector: 'app-sew-out-table',
@@ -41,7 +42,7 @@ export class SewOutTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private sewOutService: SewOutService, private dialog: MatDialog, private loginservice: LoginService) { }
+  constructor(private http: HttpClient, private sewOutService: SewOutService, private dialog: MatDialog, private loginservice: LoginService,private _coreService:CoreService) { }
 
   ngOnInit(): void {
     //maintable
@@ -203,19 +204,15 @@ export class SewOutTableComponent implements OnInit {
   }
 
   workFlowConversion() {
-
-
-    const apiUrl = "https://localhost:7208/api/Allocation/getWorkflowJobList/156/11/1/0";
-
+    const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`;
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         // Handle success response here
         let timeStamp = response.getWorkflowDetails[0].timeStamp;
-
+        let customerId = response.getWorkflowDetails[0].customerId
         console.log(timeStamp, "TimeStamp");
-
+        console.log(customerId, "customerId");
         console.log("Data retrieved successfully", response);
-
         let existingSelectedRows = {
           // Existing selectedRows array
           // Add your existing selectedRows elements here
@@ -232,7 +229,7 @@ export class SewOutTableComponent implements OnInit {
           "amount": 0,
           "stitchCount": 0,
           "estimationTime": 0,
-          "dateofDelivery": "2023-06-06T07:48:07.190Z",
+          "dateofDelivery": new Date().toDateString,
           "comments": "string",
           "validity": 0,
           "copyFiles": true,
@@ -243,7 +240,7 @@ export class SewOutTableComponent implements OnInit {
           "selectedRows": [],
           "selectedEmployees": [],
           "departmentId": 0,
-          "updatedUTC": "2023-06-06T07:48:07.191Z",
+          "updatedUTC": new Date().toDateString,
           "categoryDesc": "string",
           "allocatedEstimatedTime": 0,
           "tranId": 0,
@@ -251,15 +248,13 @@ export class SewOutTableComponent implements OnInit {
           "timeStamp": response.getWorkflowDetails[0].timeStamp,
           "scopeId": 0,
           "quotationRaisedby": 0,
-          "quotationraisedOn": "2023-06-06T07:48:07.191Z",
+          "quotationraisedOn":new Date().toDateString,
           "clientId": 0,
-          "customerId": 0,
-          "fileReceivedDate": "2023-06-06T07:48:07.191Z",
+          "customerId": response.getWorkflowDetails[0].customerId,
+          "fileReceivedDate": new Date().toDateString,
           "commentsToClient": "string",
           "isJobFilesNotTransfer": true
         };
-
-
         // Update the payload with the retrieved data
         let payload = {
           "id": 0,
@@ -296,21 +291,22 @@ export class SewOutTableComponent implements OnInit {
           "quotationRaisedby": 0,
           "quotationraisedOn": new Date().toDateString(),
           "clientId": 0,
-          "customerId": 0,
+          "customerId":response.getWorkflowDetails[0].customerId,
           "fileReceivedDate": new Date().toDateString(),
           "commentsToClient": "string",
           "isJobFilesNotTransfer": true
         };
-
         // Send the updated payload to the desired API endpoint
         const postUrl = "https://localhost:7208/api/Allocation/processMovement";
         this.http.post(postUrl, payload).subscribe(
           (postResponse) => {
             // Handle success response here
+            this._coreService.openSnackBar('Employee added successfully');
             console.log("Post successful", postResponse);
           },
           (postError) => {
             // Handle error response here
+            this._coreService.openSnackBar('Employee not added successfully');
             console.error("Error occurred while posting data", postError);
           }
         );
