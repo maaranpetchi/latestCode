@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { JobDetailsSewPopComponent } from '../SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
+import { SewOutComponent } from '../sew-out/sew-out.component';
 
 @Component({
   selector: 'app-sew-out-table',
@@ -18,6 +19,7 @@ export class SewOutTableComponent implements OnInit {
 
   scopes: any[];
   selectedScope: any = 0;
+  // Variable to store the selected tab value
 
   displayedColumns: string[] = [
     'selected',
@@ -41,8 +43,10 @@ export class SewOutTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
-  constructor(private http: HttpClient, private sewOutService: SewOutService, private dialog: MatDialog, private loginservice: LoginService,private _coreService:CoreService) { }
+  @ViewChild('sewout') SewOutComponent: SewOutComponent;
+  constructor(private http: HttpClient, private sewOutService: SewOutService, private dialog: MatDialog, private loginservice: LoginService, private _coreService: CoreService, private SewOutComponent1: SewOutComponent) {
+    this.SewOutComponent = SewOutComponent1
+  }
 
   ngOnInit(): void {
     //maintable
@@ -85,6 +89,7 @@ export class SewOutTableComponent implements OnInit {
   }
 
   tab(action) {
+    // Store the selected tab value
     if (action == '1') {
       this.freshJobs();
     }
@@ -109,14 +114,6 @@ export class SewOutTableComponent implements OnInit {
   }
 
   jids: string[] = []; //to get the jid to pass into edit restapi
-
-  // getWorkflowJobList(data: any) {
-  //   this.dialog.open(JobDetailsSewPopComponent, {
-  //     width: '250px',
-  //     data: data,
-  //   });
-  //   // this.postJobHistory(data)
-  // }
 
   openModalWithData(data) {
     const dialogRef = this.dialog.open(JobDetailsSewPopComponent, {
@@ -199,12 +196,17 @@ export class SewOutTableComponent implements OnInit {
 
   scopeDropdown() {
     this.sewOutService.getScopeDropdown().subscribe(scopedata => {
-      this.scopes = scopedata.ScopeDetails
+      this.scopes = scopedata.ScopeDetails;
     });
   }
 
+  getTabValue() {
+    console.log("Inside table", this.SewOutComponent1.getCurrentTab());
+    return this.SewOutComponent1.getCurrentTab();
+  }
   workFlowConversion() {
-    const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`;
+    const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
+    console.log(this.getTabValue(),);
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         // Handle success response here
@@ -221,7 +223,7 @@ export class SewOutTableComponent implements OnInit {
           "statusId": 1,
           "selectedScopeId": 0,
           "autoUploadJobs": true,
-          "employeeId": this.loginservice.getUsername(),  //
+          "employeeId": this.loginservice.getUsername(),
           "remarks": "string",
           "isBench": true,
           "jobId": "string",
@@ -229,7 +231,7 @@ export class SewOutTableComponent implements OnInit {
           "amount": 0,
           "stitchCount": 0,
           "estimationTime": 0,
-          "dateofDelivery": new Date().toDateString,
+          "dateofDelivery": new Date().toDateString(),
           "comments": "string",
           "validity": 0,
           "copyFiles": true,
@@ -240,7 +242,7 @@ export class SewOutTableComponent implements OnInit {
           "selectedRows": [],
           "selectedEmployees": [],
           "departmentId": 0,
-          "updatedUTC": new Date().toDateString,
+          "updatedUTC": new Date().toDateString(),
           "categoryDesc": "string",
           "allocatedEstimatedTime": 0,
           "tranId": 0,
@@ -248,10 +250,10 @@ export class SewOutTableComponent implements OnInit {
           "timeStamp": response.getWorkflowDetails[0].timeStamp,
           "scopeId": 0,
           "quotationRaisedby": 0,
-          "quotationraisedOn":new Date().toDateString,
+          "quotationraisedOn": new Date().toDateString(),
           "clientId": 0,
           "customerId": response.getWorkflowDetails[0].customerId,
-          "fileReceivedDate": new Date().toDateString,
+          "fileReceivedDate": new Date().toDateString(),
           "commentsToClient": "string",
           "isJobFilesNotTransfer": true
         };
@@ -262,7 +264,7 @@ export class SewOutTableComponent implements OnInit {
           "statusId": 1,
           "selectedScopeId": 0,
           "autoUploadJobs": true,
-          "employeeId": this.loginservice.getUsername(),  //
+          "employeeId": this.loginservice.getUsername(),
           "remarks": "string",
           "isBench": true,
           "jobId": "string",
@@ -291,29 +293,27 @@ export class SewOutTableComponent implements OnInit {
           "quotationRaisedby": 0,
           "quotationraisedOn": new Date().toDateString(),
           "clientId": 0,
-          "customerId":response.getWorkflowDetails[0].customerId,
+          "customerId": response.getWorkflowDetails[0].customerId,
           "fileReceivedDate": new Date().toDateString(),
           "commentsToClient": "string",
           "isJobFilesNotTransfer": true
         };
-        // Send the updated payload to the desired API endpoint
-        const postUrl = "https://localhost:7208/api/Allocation/processMovement";
-        this.http.post(postUrl, payload).subscribe(
-          (postResponse) => {
+
+        // Make the POST request with the updated payload
+        this.http.post('https://localhost:7208/api/Allocation/processMovement', payload).subscribe(
+          (response: any) => {
             // Handle success response here
-            this._coreService.openSnackBar('Employee added successfully');
-            console.log("Post successful", postResponse);
+            console.log("Data posted successfully", response);
           },
-          (postError) => {
+          (error: any) => {
             // Handle error response here
-            this._coreService.openSnackBar('Employee not added successfully');
-            console.error("Error occurred while posting data", postError);
+            console.log("An error occurred while posting the data", error);
           }
         );
       },
-      (error) => {
+      (error: any) => {
         // Handle error response here
-        console.error("Error occurred while retrieving data", error);
+        console.log("An error occurred while retrieving the data", error);
       }
     );
   }

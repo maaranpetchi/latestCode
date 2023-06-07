@@ -36,10 +36,17 @@ this.freshJobs();
     console.log("after", this.selectedproduction)
   }
 
+ currentTab = 1;
 
+ getCurrentTab(){
+  console.log("inside sewout component",this.currentTab);
+  
+  return this.currentTab;
 
+ } 
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
+    this.currentTab = event.index+1;
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
