@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -66,6 +66,8 @@ totalWorked: string;
     //   this.totalTime = data.totalTime;
     // });
   }
+
+
 
 
 }
