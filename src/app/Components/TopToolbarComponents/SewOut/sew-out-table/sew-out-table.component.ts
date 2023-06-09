@@ -9,6 +9,8 @@ import { JobDetailsSewPopComponent } from '../SewOut-JobDetailsPopup/job-details
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { SewOutComponent } from '../sew-out/sew-out.component';
+import { SewoutworkflowComponent } from '../SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sew-out-table',
@@ -44,7 +46,7 @@ export class SewOutTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sewout') SewOutComponent: SewOutComponent;
-  constructor(private http: HttpClient, private sewOutService: SewOutService, private dialog: MatDialog, private loginservice: LoginService, private _coreService: CoreService, private SewOutComponent1: SewOutComponent) {
+  constructor(private http: HttpClient, private sewOutService: SewOutService, private router: Router, private dialog: MatDialog, private loginservice: LoginService, private _coreService: CoreService, private SewOutComponent1: SewOutComponent) {
     this.SewOutComponent = SewOutComponent1
   }
 
@@ -205,116 +207,140 @@ export class SewOutTableComponent implements OnInit {
     return this.SewOutComponent1.getCurrentTab();
   }
   workFlowConversion() {
-    const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
-    console.log(this.getTabValue(),);
-    this.http.get(apiUrl).subscribe(
-      (response: any) => {
-        // Handle success response here
-        let timeStamp = response.getWorkflowDetails[0].timeStamp;
-        let customerId = response.getWorkflowDetails[0].customerId
-        console.log(timeStamp, "TimeStamp");
-        console.log(customerId, "customerId");
-        console.log("Data retrieved successfully", response);
-        let existingSelectedRows = {
-          // Existing selectedRows array
-          // Add your existing selectedRows elements here
-          "id": 0,
-          "processId": response.getWorkflowDetails.processId,
-          "statusId": 1,
-          "selectedScopeId": 0,
-          "autoUploadJobs": true,
-          "employeeId": this.loginservice.getUsername(),
-          "remarks": "string",
-          "isBench": true,
-          "jobId": "string",
-          "value": 0,
-          "amount": 0,
-          "stitchCount": 0,
-          "estimationTime": 0,
-          "dateofDelivery": new Date().toDateString(),
-          "comments": "string",
-          "validity": 0,
-          "copyFiles": true,
-          "updatedBy": 0,
-          "jId": 0,
-          "estimatedTime": 0,
-          "tranMasterId": 0,
-          "selectedRows": [],
-          "selectedEmployees": [],
-          "departmentId": 0,
-          "updatedUTC": new Date().toDateString(),
-          "categoryDesc": "string",
-          "allocatedEstimatedTime": 0,
-          "tranId": 0,
-          "fileInwardType": "string",
-          "timeStamp": response.getWorkflowDetails[0].timeStamp,
-          "scopeId": 0,
-          "quotationRaisedby": 0,
-          "quotationraisedOn": new Date().toDateString(),
-          "clientId": 0,
-          "customerId": response.getWorkflowDetails[0].customerId,
-          "fileReceivedDate": new Date().toDateString(),
-          "commentsToClient": "string",
-          "isJobFilesNotTransfer": true
-        };
-        // Update the payload with the retrieved data
-        let payload = {
-          "id": 0,
-          "processId": response.getWorkflowDetails.processId,
-          "statusId": 1,
-          "selectedScopeId": 0,
-          "autoUploadJobs": true,
-          "employeeId": this.loginservice.getUsername(),
-          "remarks": "string",
-          "isBench": true,
-          "jobId": "string",
-          "value": 0,
-          "amount": 0,
-          "stitchCount": 0,
-          "estimationTime": 0,
-          "dateofDelivery": new Date().toDateString(),
-          "comments": "string",
-          "validity": 0,
-          "copyFiles": true,
-          "updatedBy": 0,
-          "jId": 0,
-          "estimatedTime": 0,
-          "tranMasterId": 0,
-          "selectedRows": [existingSelectedRows], // Change to an array
-          "selectedEmployees": [existingSelectedRows], // Change to an array
-          "departmentId": 0,
-          "updatedUTC": new Date().toDateString(),
-          "categoryDesc": "string",
-          "allocatedEstimatedTime": 0,
-          "tranId": 0,
-          "fileInwardType": "string",
-          "timeStamp": response.getWorkflowDetails[0].timeStamp,
-          "scopeId": 0,
-          "quotationRaisedby": 0,
-          "quotationraisedOn": new Date().toDateString(),
-          "clientId": 0,
-          "customerId": response.getWorkflowDetails[0].customerId,
-          "fileReceivedDate": new Date().toDateString(),
-          "commentsToClient": "string",
-          "isJobFilesNotTransfer": true
-        };
 
-        // Make the POST request with the updated payload
-        this.http.post('https://localhost:7208/api/Allocation/processMovement', payload).subscribe(
-          (response: any) => {
-            // Handle success response here
-            console.log("Data posted successfully", response);
-          },
-          (error: any) => {
-            // Handle error response here
-            console.log("An error occurred while posting the data", error);
-          }
-        );
-      },
-      (error: any) => {
-        // Handle error response here
-        console.log("An error occurred while retrieving the data", error);
-      }
-    );
+    if (this.getTabValue() !== 5) {
+      const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
+      console.log(this.getTabValue(),);
+      this.http.get(apiUrl).subscribe(
+        (response: any) => {
+          // Handle success response here
+          let timeStamp = response.getWorkflowDetails[0].timeStamp;
+          let customerId = response.getWorkflowDetails[0].customerId
+          console.log(timeStamp, "TimeStamp");
+          console.log(customerId, "customerId");
+          console.log("Data retrieved successfully", response);
+          let existingSelectedRows = {
+            // Existing selectedRows array
+            // Add your existing selectedRows elements here
+            "id": 0,
+            "processId": response.getWorkflowDetails.processId,
+            "statusId": 1,
+            "selectedScopeId": 0,
+            "autoUploadJobs": true,
+            "employeeId": this.loginservice.getUsername(),
+            "remarks": "string",
+            "isBench": true,
+            "jobId": "string",
+            "value": 0,
+            "amount": 0,
+            "stitchCount": 0,
+            "estimationTime": 0,
+            "dateofDelivery": new Date().toDateString(),
+            "comments": "string",
+            "validity": 0,
+            "copyFiles": true,
+            "updatedBy": 0,
+            "jId": response.getWorkflowDetails.jid,
+            "estimatedTime": 0,
+            "tranMasterId": 0,
+            "selectedRows": [],
+            "selectedEmployees": [],
+            "departmentId": 0,
+            "updatedUTC": new Date().toDateString(),
+            "categoryDesc": "string",
+            "allocatedEstimatedTime": 0,
+            "tranId": 0,
+            "fileInwardType": "string",
+            "timeStamp": response.getWorkflowDetails[0].timeStamp,
+            "scopeId": 0,
+            "quotationRaisedby": 0,
+            "quotationraisedOn": new Date().toDateString(),
+            "clientId": 0,
+            "customerId": response.getWorkflowDetails[0].customerId,
+            "fileReceivedDate": new Date().toDateString(),
+            "commentsToClient": "string",
+            "isJobFilesNotTransfer": true
+          };
+          // Update the payload with the retrieved data
+          let payload = {
+            "id": 0,
+            "processId": response.getWorkflowDetails.processId,
+            "statusId": 1,
+            "selectedScopeId": 0,
+            "autoUploadJobs": true,
+            "employeeId": this.loginservice.getUsername(),
+            "remarks": "string",
+            "isBench": true,
+            "jobId": "string",
+            "value": 0,
+            "amount": 0,
+            "stitchCount": 0,
+            "estimationTime": 0,
+            "dateofDelivery": new Date().toDateString(),
+            "comments": "string",
+            "validity": 0,
+            "copyFiles": true,
+            "updatedBy": 0,
+            "jId": response.getWorkflowDetails.jid,
+            "estimatedTime": 0,
+            "tranMasterId": 0,
+            "selectedRows": [existingSelectedRows], // Change to an array
+            "selectedEmployees": [existingSelectedRows], // Change to an array
+            "departmentId": 0,
+            "updatedUTC": new Date().toDateString(),
+            "categoryDesc": "string",
+            "allocatedEstimatedTime": 0,
+            "tranId": 0,
+            "fileInwardType": "string",
+            "timeStamp": response.getWorkflowDetails[0].timeStamp,
+            "scopeId": 0,
+            "quotationRaisedby": 0,
+            "quotationraisedOn": new Date().toDateString(),
+            "clientId": 0,
+            "customerId": response.getWorkflowDetails[0].customerId,
+            "fileReceivedDate": new Date().toDateString(),
+            "commentsToClient": "string",
+            "isJobFilesNotTransfer": true
+          };
+
+          // Make the POST request with the updated payload
+          this.http.post('https://localhost:7208/api/Allocation/processMovement', payload).subscribe(
+            (response: any) => {
+              // Handle success response here
+              console.log("Data posted successfully", response);
+            },
+            (error: any) => {
+              // Handle error response here
+              console.log("An error occurred while posting the data", error);
+            }
+          );
+        },
+        (error: any) => {
+          // Handle error response here
+          console.log("An error occurred while retrieving the data", error);
+        }
+      );
+    }
+    else {
+      const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
+      this.http.get(apiUrl).subscribe(
+        (response: any) => {
+          // Handle success response here
+          let tranid = response.getWorkflowDetails[0].tranId;
+       
+          console.log(tranid, "jid");
+          console.log("Data retrieved successfully", response);
+
+          // Make the POST request with the updated payload
+          this.http.get(`https://localhost:7208/api/Workflow/GetProcessTransaction/${tranid}/${this.loginservice.getUsername()}`).subscribe(
+            (response: any) => {
+              // Handle success response here
+              console.log("Data posted successfully", response);
+              this.router.navigate(['/topnavbar/sewoutworkflow'], { state: { data: response.getWorkflowDetails } });
+            }
+          );
+        }
+      );
+    }
   }
 }

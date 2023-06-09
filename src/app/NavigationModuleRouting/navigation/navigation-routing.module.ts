@@ -71,6 +71,7 @@ import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarCompon
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
+import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
 
 const routes: Routes = [
 
@@ -106,7 +107,7 @@ const routes: Routes = [
       { path: 'clientindex/clientorder/fileconvert', component:JobDetailsClientIndexComponent},  //Main index Jobdetailpopup
 
       //QualityAlloactionsComponent
-      { path: 'qualityallocation', component: QualityallocationComponent, },
+      { path: 'qualityallocation', component: QualityallocationComponent,},
       { path: 'qualityallocationtable', component: QualityallocationtableComponent },
       { path: 'qualitypopup', component: QualitypopupjobassignComponent },
 
@@ -139,6 +140,7 @@ const routes: Routes = [
       { path: 'sewout', component: SewOutComponent },
       { path: 'sewtable', component: SewOutTableComponent },
       { path: 'sewJobDetails', component:JobDetailsSewPopComponent, },
+      { path: 'sewoutworkflow', component:SewoutworkflowComponent},
       //SideNavbarMenu
       //EmployeeController
       { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },

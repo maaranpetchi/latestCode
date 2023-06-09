@@ -13,7 +13,7 @@ export class JobDetailsSewPopComponent implements OnInit {
   dataJobSource: MatTableDataSource<any>;
 
   constructor(private http: HttpClient,@Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<JobDetailsSewPopComponent>) {console.log(data,"POPUP"); this.dataJobSource = data.jobHistory;}
-
+  jobHistory: any[] = [];
   ngOnInit() {
   }
 

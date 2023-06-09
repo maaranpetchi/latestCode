@@ -163,7 +163,6 @@ export class CustomervsprocessComponent implements OnInit {
   }
 
 
-
   departmentList: any[];
   selectedDepartmentOption: string;
   selectedCustomerOption: string;

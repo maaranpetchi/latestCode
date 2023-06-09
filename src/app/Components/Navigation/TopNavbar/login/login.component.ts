@@ -48,13 +48,14 @@ export class LoginComponent implements OnInit {
     this.showUsernameField = false;
     this.showPasswordField = false;
     this.loginservice.login(this.username, this.password).subscribe(result => {
+      console.log(result,"login");
       if (result) {
         this.cookieService.set('token', result.user.employeeName);
         this.cookieService.set('username', result.user.employeeId);
+        // this.cookieService.set('password',window.btoa( result.user.password));
         this.username = this.user;
         this.router.navigate(['/topnavbar/dashboard']);
       }
     });
   }
-
 }

@@ -43,5 +43,6 @@ navJobDetails(data):Observable<any>{
   return  this.http.post(`https://localhost:7208/api/JobOrder/getJobHistory`,data)
   }
 
+  
 
   }

@@ -19,6 +19,7 @@ import { UpdateExchangeRateComponent } from './Components/AccountsController/Tal
     UpdateExchangeRateComponent,
 
 
+
   ],
   imports: [
     BrowserModule,

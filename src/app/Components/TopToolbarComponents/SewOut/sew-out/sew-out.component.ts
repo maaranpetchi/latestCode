@@ -33,14 +33,11 @@ this.freshJobs();
         })
       }
     }
-    console.log("after", this.selectedproduction)
   }
 
  currentTab = 1;
 
  getCurrentTab(){
-  console.log("inside sewout component",this.currentTab);
-  
   return this.currentTab;
 
  } 
