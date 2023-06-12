@@ -33,6 +33,7 @@ export class ProductionallocationComponent {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
         this.freshJobs();
+        
         break;
       case 1: // Revision Jobs tab
 

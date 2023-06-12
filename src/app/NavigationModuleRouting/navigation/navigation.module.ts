@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MaterialModule } from 'src/app/AngularMaterialModule/material/material.module';
 import { NavigationRoutingModule } from './navigation-routing.module';
 import { TopnavbarComponent } from 'src/app/Components/Navigation/TopNavbar/topnavbar/topnavbar.component';
@@ -87,6 +89,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { ErrorCategoryComponent } from 'src/app/Components/Master/ErrorCategory/error-category/error-category.component';
 import { AddErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/add-errorcategory/add-errorcategory.component';
 import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/edit-errorcategory/edit-errorcategory.component';
+import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
+import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
+import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
 
 @NgModule({
   declarations: [
@@ -95,8 +100,8 @@ import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCateg
     LoginComponent,
     //changepassword
     ChangepasswordComponent,
-    //TOPNAVBARCOMPONENTS
-    //1.ClientordinationindexComponent
+                                                             //TOPNAVBARCOMPONENTS
+                                                //1.ClientordinationindexComponent
     ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
     ProductionallocationComponent,
@@ -108,12 +113,13 @@ import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCateg
     ClientorderviewComponent,
     ClientdetailspopupComponent,
     FileconvertComponent,
+    JobDetailsClientIndexComponent,
   
     //JoborderComponent
     JoborderComponent,
     JoborderexcelComponent,
 
-    //1.QueryToClientComponentfortableComponent
+                                            //1.QueryToClientComponentfortableComponent
     QueryToClientComponent,
     //ProductionmainComponent
     ProductionComponent,
@@ -145,6 +151,8 @@ import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCateg
     //SewOut
     SewOutComponent,
     SewOutTableComponent,
+    JobDetailsSewPopComponent,
+    SewoutworkflowComponent,
     //navbar
     TopnavbarComponent,
     //EmployeeController
@@ -223,6 +231,7 @@ import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCateg
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     MatSortModule,
     MatDialogModule,
     MatIconModule,

@@ -41,17 +41,25 @@ export class ClientordinationindexComponent  implements OnInit {
   }
 
   queriesToClient(){
-    this.QueryToClientComponent.tab('1');
+    if (this.QueryToClientComponent) {
+      this.QueryToClientComponent.tab('1');
+    }
   };
 
 queryResponse(){
-  this.QueryToClientComponent.tab('2');
+  if (this.QueryToClientComponent) {
+    this.QueryToClientComponent.tab('2');
+  }
 };
 cancelledJobs(){
-  this.QueryToClientComponent.tab('3');
+  if (this.QueryToClientComponent) {
+    this.QueryToClientComponent.tab('3');
+  }
 };
 quotationJobs(){
-  this.QueryToClientComponent.tab('4');
+  if (this.QueryToClientComponent) {
+    this.QueryToClientComponent.tab('4');
+  }
 }
 
 }

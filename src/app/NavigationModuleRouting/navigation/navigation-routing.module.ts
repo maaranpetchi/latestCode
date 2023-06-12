@@ -78,6 +78,9 @@ import { ErrorCategoryComponent } from 'src/app/Components/Master/ErrorCategory/
 import { AddErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/add-errorcategory/add-errorcategory.component';
 import { ViewErrorCategoryComponent } from 'src/app/Components/Master/ErrorCategory/view-error-category/view-error-category.component';
 import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/edit-errorcategory/edit-errorcategory.component';
+import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
+import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
+import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
 
 const routes: Routes = [
 
@@ -101,6 +104,7 @@ const routes: Routes = [
       { path: 'production', component: ProductionallocationComponent },
       { path: 'productiontable', component: ProductionallocationtableComponent },
       { path: 'JobAssignPopup', component: JobAssignedDetailsPopupComponent, },
+      //ClientCordination
       { path: 'clientindex/Jobexcel', component: JoborderexcelComponent },
       { path: 'clientindex/completedjobs', component: CompletedjobsComponent },
       { path: 'clientindex/clientorder', component: ClientordersComponent },
@@ -109,9 +113,10 @@ const routes: Routes = [
       { path: 'clientindex/clientorder/clientorderview', component: ClientorderviewComponent },
       { path: 'clientindex/clientorder/clientdetailpopup', component:  ClientdetailspopupComponent, },
       { path: 'clientindex/clientorder/fileconvert', component: FileconvertComponent, },
+      { path: 'clientindex/clientorder/fileconvert', component:JobDetailsClientIndexComponent},  //Main index Jobdetailpopup
 
       //QualityAlloactionsComponent
-      { path: 'qualityallocation', component: QualityallocationComponent, },
+      { path: 'qualityallocation', component: QualityallocationComponent,},
       { path: 'qualityallocationtable', component: QualityallocationtableComponent },
       { path: 'qualitypopup', component: QualitypopupjobassignComponent },
 
@@ -143,6 +148,8 @@ const routes: Routes = [
       //SewoutProof
       { path: 'sewout', component: SewOutComponent },
       { path: 'sewtable', component: SewOutTableComponent },
+      { path: 'sewJobDetails', component:JobDetailsSewPopComponent, },
+      { path: 'sewoutworkflow', component:SewoutworkflowComponent},
       //SideNavbarMenu
       //EmployeeController
       { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },
