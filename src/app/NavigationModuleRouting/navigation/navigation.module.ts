@@ -76,6 +76,17 @@ import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
+import { UserMasterComponent } from 'src/app/Components/Master/user/user-master/user-master.component';
+import { AddEditUsermasterComponent } from 'src/app/Components/Master/user/add-edit-usermaster/add-edit-usermaster.component';
+import { AdduserMasterComponent } from 'src/app/Components/Master/user/adduser-master/adduser-master.component';
+import { ScopeComponent } from 'src/app/Components/Master/Scope/scope/scope.component';
+import { AddScopeComponent } from 'src/app/Components/Master/Scope/add-scope/add-scope.component';
+import { ViewScopeComponent } from 'src/app/Components/Master/Scope/view-scope/view-scope.component';
+import { ViewEditScopeComponent } from 'src/app/Components/Master/Scope/view-edit-scope/view-edit-scope.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ErrorCategoryComponent } from 'src/app/Components/Master/ErrorCategory/error-category/error-category.component';
+import { AddErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/add-errorcategory/add-errorcategory.component';
+import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/edit-errorcategory/edit-errorcategory.component';
 
 @NgModule({
   declarations: [
@@ -183,7 +194,26 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     TallyComponent,
     //SALES CONTROLLER
     //  1.PRICING
-    PricingComponent
+    PricingComponent,
+    
+    // Master.
+    UserMasterComponent,
+    AddEditUsermasterComponent,
+    AdduserMasterComponent,
+
+    // Scope
+    
+    ScopeComponent,
+    AddScopeComponent,
+    ViewScopeComponent,
+    ViewEditScopeComponent,
+
+    // Error Category
+    
+    ErrorCategoryComponent,
+    AddErrorcategoryComponent,
+    EditErrorcategoryComponent,
+
   ],
   imports: [
     CommonModule,
@@ -195,7 +225,9 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
     ReactiveFormsModule,
     MatSortModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
+    
   ],
   providers:[
     FileconvertComponent

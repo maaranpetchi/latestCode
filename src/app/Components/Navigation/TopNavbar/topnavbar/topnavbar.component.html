@@ -112,6 +112,20 @@
                 </mat-menu>
 
             </a>
+
+            <!-- master-user -->
+            <a mat-list-item>
+                <mat-icon>perm_identity</mat-icon>
+                <span>Master</span>
+                <button mat-icon-button [matMenuTriggerFor]="MasterUserMenu">
+                    <mat-icon class="arrowbtn">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #MasterUserMenu="matMenu">
+                    <button mat-menu-item routerLink="master-user">User</button>
+                    <button mat-menu-item routerLink="master-scope">Scope</button>
+                    <button mat-menu-item routerLink="errorCategory">Error Category</button>
+                </mat-menu>
+            </a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content style="height:85vh">

@@ -13,14 +13,12 @@ import { EditadvanceadjustmentComponent } from './Components/AccountsController/
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
-  
-
-
   ],
   imports: [
     BrowserModule,
