@@ -69,7 +69,7 @@
                             <button class="btn btn-warning btn-block">Break</button>
                             <button class="btn btn-primary btn-block">Training/Meeting</button>
                             <button class="btn btn-warning btn-block">Hold</button>
-                            <button class="btn btn-danger btn-block">Others</button>
+                            <button class="btn btn-danger btn-block" id="others">Others</button>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
 
                     </div>
                     <div class="col-4">
-                    
+
                         <table>
                             <tr>
                                 <th>Total Time Worked</th>
@@ -144,25 +144,113 @@
                             </tr>
                             <tr>
                                 <th>Hold</th>
-                                <td><td>{{ holdTime }}</td>
+                                <td>
+                                <td>{{ holdTime }}</td>
                             </tr>
                             <tr>
                                 <th>Others</th>
-                                <td><td>{{ othersTime }}</td>
+                                <td>
+                                <td>{{ othersTime }}</td>
                             </tr>
                             <tr>
                                 <th>Total Time Taken</th>
-                                <td><td>{{ totalTime }}</td>
+                                <td>
+                                <td>{{ totalTime }}</td>
                             </tr>
                         </table>
                     </div>
                 </div>
 
             </div>
+            <br>
+            <div class="dropdowns">
+                <!--!st row in dropdown-->
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Process Status</mat-label>
+                            <mat-select>
+                                <mat-option value="selected">Selected</mat-option>
+                                <mat-option value="completed">Completed</mat-option>
+                                <mat-option value="query">Query</mat-option>
+                                <mat-option value="query-special-pricing">Query for Special Pricing</mat-option>
+                                <mat-option value="work-incomplete">Work Incomplete</mat-option>
+                                <mat-option value="error">Error</mat-option>
+                                <mat-option value="completed-error">Completed with Error</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <div class="checkbox">
+                            <mat-label>Copy Files</mat-label>
+                            <mat-checkbox [(ngModel)]="copyPreviousTrayFiles" name="copyPreviousTrayFiles">
+                                copy Previous Tray Files
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <!--2ND ROW-->
+                <div class="row">
+                    <div class="col">
+                        <div class="completedtextarea">
+                            <mat-form-field class="example-full-width">
+                                <textarea matInput placeholder="Remarks"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="completeduploadfile">
+                            <input type="file" (change)="onFileSelected($event)" />
+                        </div>
+                    </div>
+                </div>
+                <!--3rd row-->
+                <div class="row">
+                    <div class="col">
+                        <div class="comremark">
+                          
+                            <mat-form-field class="example-full-width">
+                                <textarea matInput placeholder="Leave a remark"></textarea>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="combtn">
+                            <mat-label>Previous Tray Files</mat-label>
+                            <button class="btn btn-primary">Files</button>
+                        </div>
+                    </div>
+                </div>
+                <!--4th row-->
+                <div class="row">
+                    <div class="col">
+                        <div class="comstitch">
+                            <mat-form-field>
+                                <mat-label>Stitch Count</mat-label>
+                                <input matInput type="number" [(ngModel)]="stitchCount" name="stitchCount" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="combtn">
+                            <button class="btn btn-danger">End</button>
+                        </div>
+                    </div>
+                </div>
+                <!--5th row-->
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Scope</mat-label>
+                            <mat-select [(value)]="selectedScopeValue">
+                                <mat-option *ngFor="let value of scopeApiValues" [value]="value.id">{{ value.name }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
         </form>
     </div>
 </div>
-
-
-
-

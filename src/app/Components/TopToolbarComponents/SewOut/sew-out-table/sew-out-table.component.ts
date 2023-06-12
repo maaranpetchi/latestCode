@@ -304,14 +304,15 @@ export class SewOutTableComponent implements OnInit {
           };
 
           // Make the POST request with the updated payload
-          this.http.post('https://localhost:7208/api/Allocation/processMovement', payload).subscribe(
+          this.sewOutService.getprocessmovement(payload).subscribe(
             (response: any) => {
-              // Handle success response here
+              console.log('WFTID', response.wftId);
+              console.log('WFMID', response.wfmid);
+              localStorage.setItem('WFTID', response.wftId);
+              localStorage.setItem('WFMID', response.wfmid);
+              localStorage.setItem('JID', response.jid);
               console.log("Data posted successfully", response);
-            },
-            (error: any) => {
-              // Handle error response here
-              console.log("An error occurred while posting the data", error);
+
             }
           );
         },
@@ -322,23 +323,22 @@ export class SewOutTableComponent implements OnInit {
       );
     }
     else {
-      const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
-      this.http.get(apiUrl).subscribe(
+
+      // const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
+      // this.http.get(apiUrl).subscribe(
+      //   (response: any) => {
+      //     // Handle success response here
+      //     let tranid = response.getWorkflowDetails[0].tranId;
+
+      //     console.log(tranid, "jid");
+      //     console.log("Data retrieved successfully", response);
+
+      // Make the POST request with the updated payload
+      this.http.get(`https://localhost:7208/api/Workflow/GetProcessTransaction/${this.sewOutService.getWftIdFromLocalStorage()}/${this.loginservice.getUsername()}`).subscribe(
         (response: any) => {
           // Handle success response here
-          let tranid = response.getWorkflowDetails[0].tranId;
-       
-          console.log(tranid, "jid");
-          console.log("Data retrieved successfully", response);
-
-          // Make the POST request with the updated payload
-          this.http.get(`https://localhost:7208/api/Workflow/GetProcessTransaction/${tranid}/${this.loginservice.getUsername()}`).subscribe(
-            (response: any) => {
-              // Handle success response here
-              console.log("Data posted successfully", response);
-              this.router.navigate(['/topnavbar/sewoutworkflow'], { state: { data: response.getWorkflowDetails } });
-            }
-          );
+          console.log("Data posted successfully", response);
+          this.router.navigate(['/topnavbar/sewoutworkflow'], { state: { data: response.getWorkflowDetails } });
         }
       );
     }
