@@ -48,8 +48,7 @@ return  this.http.post('https://localhost:7208/api/Allocation/processMovement',d
 }
 
 getWftIdFromLocalStorage() {
-  let storedValue = localStorage.getItem('WFTID');
-  return storedValue;
+  return localStorage.getItem('WFTID');
 }
 getWfMIdFromLocalStorage() {
   let storedValue = localStorage.getItem('WFMID');

@@ -333,6 +333,8 @@ export class SewOutTableComponent implements OnInit {
       //     console.log(tranid, "jid");
       //     console.log("Data retrieved successfully", response);
 
+      console.log(this.sewOutService.getWftIdFromLocalStorage(),"wftlocal");
+      
       // Make the POST request with the updated payload
       this.http.get(`https://localhost:7208/api/Workflow/GetProcessTransaction/${this.sewOutService.getWftIdFromLocalStorage()}/${this.loginservice.getUsername()}`).subscribe(
         (response: any) => {
