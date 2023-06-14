@@ -44,7 +44,7 @@ export class SewOutService {
   }
 
 getprocessmovement(data:any): Observable<any>{
-return  this.http.post('https://localhost:7208/api/Allocation/processMovement',data)
+return  this.http.post('https://localhost:7208/api/allocation/processMovement',data)
 }
 
 getWftIdFromLocalStorage() {

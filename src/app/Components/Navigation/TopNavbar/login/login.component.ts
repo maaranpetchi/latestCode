@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
   styleUrls: ['./login.component.scss'],
   animations: [
     trigger('slideInOut', [
-      state('in', style({ transform: 'translateX(0)' })),
+      state('in', style({ transform: 'translateX(-50%)' })),
       transition(':enter', [
         style({ transform: 'translateX(-100%)' }),
         animate('500ms ease-in')
@@ -21,13 +21,15 @@ import { LoginService } from 'src/app/Services/Login/login.service';
       ])
     ])
   ]
+
 })
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
   isSubmitted: boolean;
   user: any;
-
+  showUsernameField: boolean;
+  showPasswordField: boolean;
   constructor(
     private loginservice: LoginService,
     private router: Router,
@@ -37,11 +39,12 @@ export class LoginComponent implements OnInit {
   labelState = 'default';
 
   ngOnInit() {
-
+    this.showUsernameField = false;
+    this.showPasswordField = false;
   }
 
-  showUsernameField = true;
-  showPasswordField = true;
+  // showUsernameField = true;
+  // showPasswordField = true;
 
   onSubmit() {
     this.isSubmitted = true;

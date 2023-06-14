@@ -11,6 +11,7 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { SewOutComponent } from '../sew-out/sew-out.component';
 import { SewoutworkflowComponent } from '../SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
 import { Router } from '@angular/router';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-sew-out-table',
@@ -210,9 +211,10 @@ export class SewOutTableComponent implements OnInit {
 
     if (this.getTabValue() !== 5) {
       const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
-      console.log(this.getTabValue(),);
       this.http.get(apiUrl).subscribe(
         (response: any) => {
+          console.log(response,"getworkflow");
+          
           // Handle success response here
           let timeStamp = response.getWorkflowDetails[0].timeStamp;
           let customerId = response.getWorkflowDetails[0].customerId
@@ -322,27 +324,16 @@ export class SewOutTableComponent implements OnInit {
         }
       );
     }
-    else {
+   else{
+            this.http.get<any>(``).subscribe(getWorkflowJobList =>{
 
-      // const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
-      // this.http.get(apiUrl).subscribe(
-      //   (response: any) => {
-      //     // Handle success response here
-      //     let tranid = response.getWorkflowDetails[0].tranId;
+              
+            });
 
-      //     console.log(tranid, "jid");
-      //     console.log("Data retrieved successfully", response);
-
-      console.log(this.sewOutService.getWftIdFromLocalStorage(),"wftlocal");
-      
-      // Make the POST request with the updated payload
-      this.http.get(`https://localhost:7208/api/Workflow/GetProcessTransaction/${this.sewOutService.getWftIdFromLocalStorage()}/${this.loginservice.getUsername()}`).subscribe(
-        (response: any) => {
-          // Handle success response here
-          console.log("Data posted successfully", response);
-          this.router.navigate(['/topnavbar/sewoutworkflow'], { state: { data: response.getWorkflowDetails } });
-        }
-      );
-    }
+    this.router.navigate(['/topnavbar/sewoutworkflow'])
+   }
   }
+
+
+
 }
