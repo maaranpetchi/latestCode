@@ -74,7 +74,7 @@
                         <mat-form-field>
                             <mat-label>CustomerContactName</mat-label>
                             <mat-select [(ngModel)]="selectedCustomerContactName" (selectionChange)="onCustomerContactChange()" name="CustomerContactName" formControlName="customercontactname">
-                              <mat-option *ngFor="let customerContact of CustomerContactName"  [value]="customerContact.contactName">
+                              <mat-option *ngFor="let customerContact of CustomerContactName"  [value]="customerContact.id">
                                 {{ customerContact.contactName }}
                               </mat-option>
                             </mat-select>
@@ -151,7 +151,7 @@
                     <div class="col">
                         <label>FileAttachment</label>
                         <br>
-                        <input #fileInput type="file" (change)="onFileSelected($event)" formControlName="fileattachment">
+                        <input #fileUpload type="file" (change)="onFileSelected($event)" formControlName="fileattachment">
                     </div>
                 </div>
                 <!--Employee and division-->
