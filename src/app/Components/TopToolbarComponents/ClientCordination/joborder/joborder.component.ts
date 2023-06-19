@@ -122,7 +122,7 @@ export class JoborderComponent implements OnInit {
   selectedFile: File[] = [];
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];//store the selected file in selectdfile
+    this.selectedFile = [event.target.files[0],...this.selectedFile];//store the selected file in selectdfile
   }
 
 
@@ -216,7 +216,7 @@ console.log(this.selectedFile ,"selected file");
     }
 
     let jobordervalues = {
-      "id": 0,
+        "id": 0,
       "dateofReceived": new Date().toISOString,
       "clientName": this.selectedClientName.name,
       "clientJobId": this.joborder.value.clientjobid,

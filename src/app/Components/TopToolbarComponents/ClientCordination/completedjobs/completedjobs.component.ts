@@ -28,6 +28,7 @@ export class CompletedjobsComponent implements OnInit {
     'jobcloseddate',
     'commentstoclient'
   ];
+  
   dataSource: MatTableDataSource<any>;
 
 data:any;
@@ -47,7 +48,7 @@ data:any;
       this.dataSource = new MatTableDataSource(data.clientDetails.resultCompletedJobsList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(data,'getcompletedjobdata')
+      console.log(data.clientDetails.resultCompletedJobsList[0].tranId,'getcompletedjobdata')
     });
   }
 
@@ -81,8 +82,11 @@ data:any;
     }
     console.log("after", this.selectedQuery)
   }
-
+postdatabulk:any;
   bulkUpload(){
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
+      this.postdatabulk = data.clientDetails.resultCompletedJobsList;
+    });
     let bulkuploaddata={
       "id": 0,
       "processId": 1,
