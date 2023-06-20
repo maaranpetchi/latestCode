@@ -78,10 +78,30 @@ import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/
 import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
+import { UserMasterComponent } from 'src/app/Components/Master/user/user-master/user-master.component';
+import { AddEditUsermasterComponent } from 'src/app/Components/Master/user/add-edit-usermaster/add-edit-usermaster.component';
+import { AdduserMasterComponent } from 'src/app/Components/Master/user/adduser-master/adduser-master.component';
+import { ScopeComponent } from 'src/app/Components/Master/Scope/scope/scope.component';
+import { AddScopeComponent } from 'src/app/Components/Master/Scope/add-scope/add-scope.component';
+import { ViewScopeComponent } from 'src/app/Components/Master/Scope/view-scope/view-scope.component';
+import { ViewEditScopeComponent } from 'src/app/Components/Master/Scope/view-edit-scope/view-edit-scope.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ErrorCategoryComponent } from 'src/app/Components/Master/ErrorCategory/error-category/error-category.component';
+import { AddErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/add-errorcategory/add-errorcategory.component';
+import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCategory/edit-errorcategory/edit-errorcategory.component';
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
+<<<<<<< HEAD
 import { GetJobHistoryPopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
+=======
+import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
+import { AddEditprocessComponent } from 'src/app/Components/Master/process/add-editprocess/add-editprocess.component';
+import { ProcessComponent } from 'src/app/Components/Master/process/process/process.component';
+import { ViewProcessComponent } from 'src/app/Components/Master/process/view-process/view-process.component';
+import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/bench-status/bench-status.component';
+import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
+>>>>>>> 62eea0775e2aabb53a71b08cb4cba9aaae798248
 
 @NgModule({
   declarations: [
@@ -194,7 +214,40 @@ import { GetJobHistoryPopupComponent } from 'src/app/Components/TopToolbarCompon
     TallyComponent,
     //SALES CONTROLLER
     //  1.PRICING
-    PricingComponent
+    PricingComponent,
+    
+    // Master.
+    UserMasterComponent,
+    AddEditUsermasterComponent,
+    AdduserMasterComponent,
+
+    // Scope
+    
+    ScopeComponent,
+    AddScopeComponent,
+    ViewScopeComponent,
+    ViewEditScopeComponent,
+
+    // Error Category
+    
+    ErrorCategoryComponent,
+    AddErrorcategoryComponent,
+    EditErrorcategoryComponent,
+
+    // process
+    
+    ProcessComponent,
+    AddEditprocessComponent,
+    ViewProcessComponent,
+
+    //  Bench Status
+    BenchStatusComponent,
+
+    // oneTime Master 
+    OneTimemasterComponent,
+    // job istory
+    JobHistoryComponent
+
   ],
   imports: [
     CommonModule,
@@ -207,7 +260,9 @@ import { GetJobHistoryPopupComponent } from 'src/app/Components/TopToolbarCompon
     BrowserAnimationsModule,
     MatSortModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
+    
   ],
   providers:[
     FileconvertComponent
