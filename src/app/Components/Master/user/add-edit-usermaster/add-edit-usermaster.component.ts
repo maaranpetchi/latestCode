@@ -51,16 +51,6 @@ export class AddEditUsermasterComponent implements OnInit {
     
   }
 
-// // 
-// getapi(){
-//   return this._service.getapi().subscribe(()=>{
-  // if ( ===  str){
-
-  // }
-//   })
-
-// } 
-
 
   getAllUsersById(data:any){
     console.log(data);

@@ -58,6 +58,15 @@
             <label class="labelname">dashboard</label>
           </a>
         </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-icon>dashboard</mat-icon>
+            <span>Job History</span>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLink="jobHistory">
+            <label class="labelname">Job History</label>
+          </a>
+        </mat-expansion-panel>
   
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -131,6 +140,33 @@
             <label class="labelname">Pricing</label>
           </a>
         </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-icon>perm_identity</mat-icon>
+            <span>Master</span>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLink="master-user">
+            <label class="labelname">User</label>
+          </a>
+          <a mat-list-item routerLink="master-scope">
+            <label class="labelname">Scope</label>
+          </a>
+          <a mat-list-item routerLink="errorCategory">
+            <label class="labelname">Error Category</label>
+          </a>
+          <a mat-list-item routerLink="processMaster">
+            <label class="labelname">Process</label>
+          </a>
+          <a mat-list-item routerLink="benchStatus">
+            <label class="labelname">Bench Status</label>
+          </a>
+          <a mat-list-item routerLink="oneTimeMaster">
+            <label class="labelname">One Time Master</label>
+          </a>
+        </mat-expansion-panel>
+
+        
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

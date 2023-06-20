@@ -73,13 +73,12 @@
                     <div class="col">
                         <mat-form-field>
                             <mat-label>CustomerContactName</mat-label>
-                            <mat-select [(ngModel)]="selectedCustomerContactName" name="CustomerContactName" formControlName="customercontactname">
-                                <mat-option *ngFor="let CustomerContactName of CustomerContactName"
-                                    [value]="CustomerContactName.id">
-                                    {{ CustomerContactName .contactName}}
-                                </mat-option>
+                            <mat-select [(ngModel)]="selectedCustomerContactName" (selectionChange)="onCustomerContactChange()" name="CustomerContactName" formControlName="customercontactname">
+                              <mat-option *ngFor="let customerContact of CustomerContactName"  [value]="customerContact.id">
+                                {{ customerContact.contactName }}
+                              </mat-option>
                             </mat-select>
-                        </mat-form-field>
+                          </mat-form-field>                          
                     </div>
                 </div>
                 <!--clientJobId and ClientStatus-->
@@ -141,13 +140,18 @@
                     <div class="col">
                         <mat-form-field>
                             <mat-label>FileInwardType</mat-label>
-                            <input matInput placeholder=" Enter FileInwardType" name="FileInwardType" formControlName="fileinwardtype">
+                            <mat-select [(ngModel)]="selectedfileinwardtype" name="fileinwardtype" formControlName="fileinwardtype">
+                                <mat-option *ngFor="let Fileinwardtype of fileinwardtype"
+                                    [value]="Fileinwardtype.id">
+                                    {{ Fileinwardtype.description}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="col">
                         <label>FileAttachment</label>
                         <br>
-                        <input #fileInput type="file" (change)="onFileSelected($event)" formControlName="fileattachment">
+                        <input #fileUpload type="file" (change)="onFileSelected($event)" formControlName="fileattachment">
                     </div>
                 </div>
                 <!--Employee and division-->

@@ -23,10 +23,10 @@ export class SewoutworkflowComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    const data = history.state.data;
-    // Use the retrieved data as needed
-    console.log(data, "datapassed"),
-      this.responseData = data;
+    // const data = history.state.data;
+    // // Use the retrieved data as needed
+    // console.log(data, "datapassed"),
+    //   this.responseData = data;
 
     this.fetchJobHistory();
     this.getscopevalues();
@@ -191,10 +191,10 @@ export class SewoutworkflowComponent {
   selectedScopeValue: any; // Holds the selected value
 
   getscopevalues() {
-    // Fetch data from the REST API
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getCustomerScopeValues/${this.responseData.departmentId}/${this.responseData.clientId}`).subscribe(data => {
-      this.scopeApiValues = data.scopeDetails;
-    });
+    // // Fetch data from the REST API
+    // this.http.get<any>(`https://localhost:7208/api/Allocation/getCustomerScopeValues/${this.responseData.departmentId}/${this.responseData.clientId}`).subscribe(data => {
+    //   this.scopeApiValues = data.scopeDetails;
+    // });
   }
 }
 

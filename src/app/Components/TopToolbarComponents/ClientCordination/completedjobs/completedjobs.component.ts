@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { GetJobHistoryPopupComponent } from './completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
 
 @Component({
   selector: 'app-completedjobs',
@@ -28,6 +30,7 @@ export class CompletedjobsComponent implements OnInit {
     'jobcloseddate',
     'commentstoclient'
   ];
+  
   dataSource: MatTableDataSource<any>;
 
 data:any;
@@ -35,7 +38,7 @@ data:any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice:LoginService) {}
+  constructor(private http: HttpClient,private loginservice:LoginService,private dialog:MatDialog) {}
 
   ngOnInit(): void {
     this.getCompletedJobData();
@@ -47,7 +50,6 @@ data:any;
       this.dataSource = new MatTableDataSource(data.clientDetails.resultCompletedJobsList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(data,'getcompletedjobdata')
     });
   }
 
@@ -81,15 +83,20 @@ data:any;
     }
     console.log("after", this.selectedQuery)
   }
-
+postdatabulk:any;
   bulkUpload(){
+    this.http.get<any>(`https://localhost:7208/api/Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
+    console.log("bulkdataemployee", data);
+      
+    this.postdatabulk = data.clientDetails.resultCompletedJobsList;
+    });
     let bulkuploaddata={
       "id": 0,
       "processId": 1,
       "statusId": 12,
       "selectedScopeId": 0,
       "autoUploadJobs": false,
-      "employeeId": 152,
+      "employeeId": this.loginservice.getUsername(),
       "remarks": this.remarkValue,
       "isBench": true,
       "jobId": "string",
@@ -100,7 +107,7 @@ data:any;
       "dateofDelivery": "2023-05-18T11:26:56.846Z",
       "comments": "string",
       "validity": 0,
-      "copyFiles": false,
+      "copyFiles": true,
       "updatedBy": 0,
       "jId": 0,
       "estimatedTime": 0,
@@ -111,7 +118,7 @@ data:any;
         "statusId": 12,
         "selectedScopeId": 0,
         "autoUploadJobs": false,
-        "employeeId": 152,
+        "employeeId": this.loginservice.getUsername(), //
         "remarks": this.remarkValue,
         "isBench": true,
         "jobId": "string",
@@ -196,5 +203,17 @@ data:any;
      tab= this.getCompletedJobData();
      console.log(tab,"changetab");
      
+  }
+
+  getjobhistory(data){
+    const dialogRef = this.dialog.open(GetJobHistoryPopupComponent, {
+      width: '100vw',
+      data
+    });
+
+    // Subscribe to the afterClosed event to handle dialog close actions
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle any actions after the dialog is closed, if needed
+    });
   }
 }

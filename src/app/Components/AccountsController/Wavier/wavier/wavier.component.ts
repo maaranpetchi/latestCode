@@ -207,7 +207,9 @@ export class WavierComponent {
         DateofUpload: this.toDate
       };
       this.http.post<any>('https://localhost:7208/api/Invoice/GetWaiverJobWithclientIdfileName', jobOrder).subscribe(response => {
-        this.dataSource.data = response.waiverJobList;
+      console.log(response, "response");
+        
+      this.dataSource.data = response.waiverJobList;
         // Sort dataSource based on MatSort
         this.dataSource.sort = this.sort;
         // Paginate dataSource based on MatPaginator

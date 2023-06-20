@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import * as XLSX from 'xlsx';
 
@@ -13,11 +14,10 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./joborderexcel.component.scss']
 })
 export class JoborderexcelComponent implements OnInit {
-  selectedFile: File[]=[] ;
- 
-  
-  displayedColumns: string[] = [
+  selectedFile: File[] = [];
 
+
+  displayedColumns: string[] = [
     'Department',
     'clientname',
     'clientstatus',
@@ -32,18 +32,10 @@ export class JoborderexcelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice:LoginService) {}
+  constructor(private http: HttpClient, private loginservice: LoginService, private clientcordinationservice: ClientcordinationService) { }
 
   ngOnInit(): void {
-    this.fetchData();
-  }
 
-  fetchData(): void {
-    this.http.get<any>('YOUR_API_URL').subscribe(data => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
   }
 
   applyFilter(event: Event): void {
@@ -57,7 +49,7 @@ export class JoborderexcelComponent implements OnInit {
 
 
   onFileSelected(event: any) {
-     this.selectedFile = event.target.files;
+    this.selectedFile = event.target.files;
 
   }
 
@@ -66,24 +58,38 @@ export class JoborderexcelComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+
   }
-importExceFile(){
-  var employeeId = this.loginservice.getUsername();
-  var fd = new FormData();
-  for(let i=0; i<this.selectedFile.length;i++){
-    fd.append('FormCollection[]', this.selectedFile[i]);
+
+  ViewImportExcel = {};
+  ViewImportExcelTrue = {};
+  importExceFile() {
+    let employeeId = this.loginservice.getUsername();
+    var fd = new FormData();
+    for (let i = 0; i < this.selectedFile.length; i++) {
+      fd.append('FormCollection[]', this.selectedFile[i]);
+    }
+    // fd.append('Id', employeeId);
+    this.http.post<any>(`https://localhost:7208/api/JobOrder/PostImportExcel?EmployeeId=${this.loginservice.getUsername()}`, fd).subscribe(response => {
+      console.log(response, "FileImport");
+      this.postBindFileInward();
+      this.postFileInwardType();
+    })
   }
-  fd.append('Id', employeeId);
-  this.http.post<any>(`https://localhost:7208//JobOrder/PostImportExcel`,fd).subscribe(response =>{
-console.log(response,"FileImport");
 
-  })
+  postBindFileInward() {
+    this.clientcordinationservice.getBindFileInward().subscribe(fileinwarddata => {
+      this.ViewImportExcel = fileinwarddata;
+      this.dataSource = fileinwarddata;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
 
-
-}
-
-
-
+  postFileInwardType() {
+    this.clientcordinationservice.getFileInwardType().subscribe(inwarddata => {
+      this.ViewImportExcelTrue = inwarddata;
+    });
+  }
 }
 

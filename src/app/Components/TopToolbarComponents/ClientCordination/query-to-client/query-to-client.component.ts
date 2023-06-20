@@ -124,13 +124,13 @@ queriesToClient(){
     this.displayedColumnsVisibility.status = true;
     const apiDate = data.date; // Assuming the API response has a 'date' property
       
-    // Convert the API date to dd/mm/yyyy format
-    const dateParts = apiDate.split('-');
-    const year = dateParts[0];
-    const month = dateParts[1];
-    const day = dateParts[2].substr(0, 2);
-    this.convertedDate = `${day}/${month}/${year}`;
-    console.log("Queries to client")
+    // // Convert the API date to dd/mm/yyyy format
+    // const dateParts = apiDate.split('-');
+    // const year = dateParts[0];
+    // const month = dateParts[1];
+    // const day = dateParts[2].substr(0, 2);
+    // this.convertedDate = `${day}/${month}/${year}`;
+    // console.log("Queries to client")
   });  
 }
 queryResponse(){
@@ -184,4 +184,5 @@ this.dialog.open(JobDetailsClientIndexComponent,{
   data
 })
 }
+
 }

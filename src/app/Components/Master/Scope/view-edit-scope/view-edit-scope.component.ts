@@ -51,14 +51,6 @@ export class ViewEditScopeComponent implements OnInit {
     description: '',
   });
 
-  // getScopeDetails(id:any) {
-  //   this.http
-  //     .get(`https://localhost:7208/api/Scope/GetScopeDetails?Id=${id}`)
-  //     .subscribe((response: any) => {
-  //       // this.router.navigate(["topnavbar/master-scope/edit"], {state:{data:response}});
-  //     });
-  // }
-
   listScope() {
     this._scopeService.listScopes().subscribe((data) => {
       this.departments = data.departmentList;

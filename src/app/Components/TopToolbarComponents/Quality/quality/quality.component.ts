@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { QualitytableComponent } from '../qualitytable/qualitytable.component';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 @Component({
   selector: 'app-quality',
@@ -13,7 +14,7 @@ import { QualitytableComponent } from '../qualitytable/qualitytable.component';
 export class QualityComponent  implements OnInit{
   @ViewChild(QualitytableComponent) QualitytableComponent: QualitytableComponent;
   ScopeApiData: any[];
- constructor(private http:HttpClient){}
+ constructor(private http:HttpClient,private loginservice:LoginService){}
   ngOnInit(): void {
   //ScopeDropdown
     this.http.get<any>('ScopeUrl').subscribe(data =>{
@@ -105,7 +106,7 @@ showChildAlert() {
 
  BindPendingJobs() {
   console.log("2");
-  this.http.get<any>('https://localhost:7208/api/Allocation/getWorkflowJobList/152/3/1/1').subscribe(response=> {
+  this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/1`).subscribe(response=> {
     this.QualitytableComponent.assigndatasource(response.getWorkflowDetails)
 
   });
