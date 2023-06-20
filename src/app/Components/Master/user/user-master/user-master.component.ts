@@ -8,6 +8,7 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdduserMasterComponent } from '../adduser-master/adduser-master.component';
 import { AddEditUsermasterComponent } from '../add-edit-usermaster/add-edit-usermaster.component';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-user-master',
@@ -33,7 +34,8 @@ export class UserMasterComponent implements OnInit {
   constructor(
     private _dialog: MatDialog,
     private _empService: UserMasterService,
-    private _coreService: CoreService
+    private _coreService: CoreService,
+    private spinnerService: SpinnerService
   ) {}
   myForm = new FormGroup({
     name:new FormControl('', Validators.required),
@@ -49,6 +51,7 @@ export class UserMasterComponent implements OnInit {
   getMasterUsers(){
     this._empService.getAllMasterUsers().subscribe({
       next: (data) => {
+        this.spinnerService.requestStarted()
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
