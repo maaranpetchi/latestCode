@@ -24,6 +24,10 @@ export class ErrorCategoryService {
   getErrorCategoryDetails(id:any): Observable<any>{
     return this.http.get(`https://localhost:7208/api/ErrorCategory/GetErrorCategoryDetails?Id= ${id}`)
   }
+  // Update error category.
+  updateErrorCategory(id:any):Observable<any>{
+    return this.http.post('https://localhost:7208/api/ErrorCategory/Update-ErrorCategory' , id)
+  }
 
    //Delete ErrorCategory
   deleteErrorCategoryDetails(id:any):Observable<any>{

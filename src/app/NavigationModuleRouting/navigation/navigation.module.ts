@@ -92,6 +92,12 @@ import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCateg
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
+import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
+import { AddEditprocessComponent } from 'src/app/Components/Master/process/add-editprocess/add-editprocess.component';
+import { ProcessComponent } from 'src/app/Components/Master/process/process/process.component';
+import { ViewProcessComponent } from 'src/app/Components/Master/process/view-process/view-process.component';
+import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/bench-status/bench-status.component';
+import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 
 @NgModule({
   declarations: [
@@ -221,6 +227,20 @@ import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents
     ErrorCategoryComponent,
     AddErrorcategoryComponent,
     EditErrorcategoryComponent,
+
+    // process
+    
+    ProcessComponent,
+    AddEditprocessComponent,
+    ViewProcessComponent,
+
+    //  Bench Status
+    BenchStatusComponent,
+
+    // oneTime Master 
+    OneTimemasterComponent,
+    // job istory
+    JobHistoryComponent
 
   ],
   imports: [

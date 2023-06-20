@@ -81,6 +81,12 @@ import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCateg
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
+import { ProcessComponent } from 'src/app/Components/Master/process/process/process.component';
+import { AddEditprocessComponent } from 'src/app/Components/Master/process/add-editprocess/add-editprocess.component';
+import { ViewProcessComponent } from 'src/app/Components/Master/process/view-process/view-process.component';
+import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/bench-status/bench-status.component';
+import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
+import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 
 const routes: Routes = [
 
@@ -217,6 +223,21 @@ const routes: Routes = [
       {path:'error-Categoryadd', component: AddErrorcategoryComponent},
       {path:'error-Categoryview', component: ViewErrorCategoryComponent},
       {path:'error-Categoryedit', component: EditErrorcategoryComponent},
+
+
+      //  Process Master
+      {path:'processMaster', component:ProcessComponent},
+      {path:'process-addEdit', component:AddEditprocessComponent},
+      {path:'process-view', component:ViewProcessComponent},
+
+      //  Bench Status
+      {path:'benchStatus', component:BenchStatusComponent},
+
+      // OneTime Master
+      {path:'oneTimeMaster', component:OneTimemasterComponent}, 
+      //  Job History
+      {path:'jobHistory', component:JobHistoryComponent}, 
+
 
     ]
   },

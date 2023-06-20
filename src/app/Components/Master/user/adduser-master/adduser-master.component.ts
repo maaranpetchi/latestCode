@@ -110,7 +110,7 @@ export class AdduserMasterComponent implements OnInit {
     this.dialogRef.close();
   }
   getEmployeeId(data: any) {
-    console.log(data);
+    console.log(data, "emplUsers");
     this._empService.getEmployeeCodeByEmployId(parseInt(data)).subscribe(
       (data: any) => {
         this.userRegistrationForm.get('employeeUsers')?.patchValue(data.employeeCode);
