@@ -9,7 +9,7 @@ import { EmployeecontrollerComponent } from 'src/app/Components/EmployeeControll
 import { AddEditEmployeecontrollerComponent } from 'src/app/Components/EmployeeController/Components/add-edit-employeecontroller/add-edit-employeecontroller.component';
 import { DashboardComponent } from 'src/app/Components/dashboard/dashboard.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatIconModule} from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon'
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddeditemployeevsdivisionComponent } from 'src/app/Components/EmployeeVSDivision/addeditemployeevsdivision/addeditemployeevsdivision.component';
@@ -92,16 +92,15 @@ import { EditErrorcategoryComponent } from 'src/app/Components/Master/ErrorCateg
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
-<<<<<<< HEAD
 import { GetJobHistoryPopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
-=======
 import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
 import { AddEditprocessComponent } from 'src/app/Components/Master/process/add-editprocess/add-editprocess.component';
 import { ProcessComponent } from 'src/app/Components/Master/process/process/process.component';
 import { ViewProcessComponent } from 'src/app/Components/Master/process/view-process/view-process.component';
 import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/bench-status/bench-status.component';
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
->>>>>>> 62eea0775e2aabb53a71b08cb4cba9aaae798248
+import { JobhistoryDetailsComponent } from 'src/app/Components/JobHistory/jobhistory-details/jobhistory-details.component';
+import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
 
 @NgModule({
   declarations: [
@@ -110,10 +109,10 @@ import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/j
     LoginComponent,
     //changepassword
     ChangepasswordComponent,
-                                                             //TOPNAVBARCOMPONENTS
-                                                //1.ClientordinationindexComponent
-   
-                                                ClientordinationindexComponent,
+    //TOPNAVBARCOMPONENTS
+    //1.ClientordinationindexComponent
+
+    ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
     ProductionallocationComponent,
     GetJobHistoryPopupComponent,
@@ -126,12 +125,12 @@ import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/j
     ClientdetailspopupComponent,
     FileconvertComponent,
     JobDetailsClientIndexComponent,
-  
+
     //JoborderComponent
     JoborderComponent,
     JoborderexcelComponent,
 
-                                            //1.QueryToClientComponentfortableComponent
+    //1.QueryToClientComponentfortableComponent
     QueryToClientComponent,
     //ProductionmainComponent
     ProductionComponent,
@@ -215,27 +214,27 @@ import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/j
     //SALES CONTROLLER
     //  1.PRICING
     PricingComponent,
-    
+
     // Master.
     UserMasterComponent,
     AddEditUsermasterComponent,
     AdduserMasterComponent,
 
     // Scope
-    
+
     ScopeComponent,
     AddScopeComponent,
     ViewScopeComponent,
     ViewEditScopeComponent,
 
     // Error Category
-    
+
     ErrorCategoryComponent,
     AddErrorcategoryComponent,
     EditErrorcategoryComponent,
 
     // process
-    
+
     ProcessComponent,
     AddEditprocessComponent,
     ViewProcessComponent,
@@ -246,7 +245,9 @@ import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/j
     // oneTime Master 
     OneTimemasterComponent,
     // job istory
-    JobHistoryComponent
+    JobHistoryComponent,
+    JobhistoryDetailsComponent,
+    JobTransferComponent,
 
   ],
   imports: [
@@ -262,9 +263,9 @@ import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/j
     MatDialogModule,
     MatIconModule,
     MatSelectModule
-    
+
   ],
-  providers:[
+  providers: [
     FileconvertComponent
   ]
 })

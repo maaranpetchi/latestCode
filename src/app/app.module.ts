@@ -12,29 +12,20 @@ import { AdvanceadjustmentComponent } from './Components/AccountsController/Adva
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
-<<<<<<< HEAD
 import { GetJobHistoryPopupComponent } from './Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
-=======
-import { JobhistoryDetailsComponent } from './Components/JobHistory/jobhistory-details/jobhistory-details.component';
-import { JobTransferComponent } from './Components/JobTransfer/job-transfer/job-transfer.component';
->>>>>>> 62eea0775e2aabb53a71b08cb4cba9aaae798248
 
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
-<<<<<<< HEAD
    
-=======
-    JobhistoryDetailsComponent,
-    JobTransferComponent,
+    
     
    
   
 
 
->>>>>>> 62eea0775e2aabb53a71b08cb4cba9aaae798248
   ],
   imports: [
     BrowserModule,
