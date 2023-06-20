@@ -81,6 +81,7 @@ import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/Cl
 import { JobDetailsClientIndexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/job-details-client-index/job-details-client-index.component';
 import { JobDetailsSewPopComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/job-details-sew-pop/job-details-sew-pop.component';
 import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents/SewOut/SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
+import { GetJobHistoryPopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
 
 @NgModule({
   declarations: [
@@ -91,9 +92,11 @@ import { SewoutworkflowComponent } from 'src/app/Components/TopToolbarComponents
     ChangepasswordComponent,
                                                              //TOPNAVBARCOMPONENTS
                                                 //1.ClientordinationindexComponent
-    ClientordinationindexComponent,
+   
+                                                ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
     ProductionallocationComponent,
+    GetJobHistoryPopupComponent,
     ProductionallocationtableComponent,
     JobAssignedDetailsPopupComponent,
     CompletedjobsComponent,

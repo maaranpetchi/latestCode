@@ -184,4 +184,5 @@ this.dialog.open(JobDetailsClientIndexComponent,{
   data
 })
 }
+
 }

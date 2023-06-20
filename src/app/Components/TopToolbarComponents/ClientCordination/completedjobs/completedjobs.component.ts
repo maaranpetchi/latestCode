@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { GetJobHistoryPopupComponent } from './completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
 
 @Component({
   selector: 'app-completedjobs',
@@ -36,7 +38,7 @@ data:any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice:LoginService) {}
+  constructor(private http: HttpClient,private loginservice:LoginService,private dialog:MatDialog) {}
 
   ngOnInit(): void {
     this.getCompletedJobData();
@@ -48,7 +50,6 @@ data:any;
       this.dataSource = new MatTableDataSource(data.clientDetails.resultCompletedJobsList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(data.clientDetails.resultCompletedJobsList[0].tranId,'getcompletedjobdata')
     });
   }
 
@@ -85,7 +86,9 @@ data:any;
 postdatabulk:any;
   bulkUpload(){
     this.http.get<any>(`https://localhost:7208/api/Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
-      this.postdatabulk = data.clientDetails.resultCompletedJobsList;
+    console.log("bulkdataemployee", data);
+      
+    this.postdatabulk = data.clientDetails.resultCompletedJobsList;
     });
     let bulkuploaddata={
       "id": 0,
@@ -200,5 +203,17 @@ postdatabulk:any;
      tab= this.getCompletedJobData();
      console.log(tab,"changetab");
      
+  }
+
+  getjobhistory(data){
+    const dialogRef = this.dialog.open(GetJobHistoryPopupComponent, {
+      width: '100vw',
+      data
+    });
+
+    // Subscribe to the afterClosed event to handle dialog close actions
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle any actions after the dialog is closed, if needed
+    });
   }
 }

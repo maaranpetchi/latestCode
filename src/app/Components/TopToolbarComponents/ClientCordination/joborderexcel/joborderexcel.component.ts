@@ -64,13 +64,13 @@ export class JoborderexcelComponent implements OnInit {
   ViewImportExcel = {};
   ViewImportExcelTrue = {};
   importExceFile() {
-    var employeeId = this.loginservice.getUsername();
+    let employeeId = this.loginservice.getUsername();
     var fd = new FormData();
     for (let i = 0; i < this.selectedFile.length; i++) {
       fd.append('FormCollection[]', this.selectedFile[i]);
     }
-    fd.append('Id', employeeId);
-    this.http.post<any>(`https://localhost:7208/JobOrder/PostImportExcel`, fd).subscribe(response => {
+    // fd.append('Id', employeeId);
+    this.http.post<any>(`https://localhost:7208/api/JobOrder/PostImportExcel?EmployeeId=${this.loginservice.getUsername()}`, fd).subscribe(response => {
       console.log(response, "FileImport");
       this.postBindFileInward();
       this.postFileInwardType();

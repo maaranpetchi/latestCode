@@ -12,12 +12,14 @@ import { AdvanceadjustmentComponent } from './Components/AccountsController/Adva
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
+import { GetJobHistoryPopupComponent } from './Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
+   
   ],
   imports: [
     BrowserModule,
