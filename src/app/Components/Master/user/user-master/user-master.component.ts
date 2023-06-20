@@ -56,6 +56,7 @@ export class UserMasterComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
+      
       error: (err) => {
         console.log(err);
       }
