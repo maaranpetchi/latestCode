@@ -88,15 +88,66 @@ export class JoborderexcelComponent implements OnInit {
 
   //submit
   InwardExcelDatas() {
-    var SaveInward =
-    {
-      ViewDatas: this.ViewImportExcelTrue,
-      CreatedBy: this.loginservice.getUsername(),
+    let payload ={
+      "id": 0,
+      "dateofReceived": "2023-06-21T11:58:24.045Z",
+      "clientName": "string",
+      "clientJobId": "string",
+      "fileName": "string",
+      "jobStatusDescription": "string",
+      "username": "string",
+      "salesPersonName": "string",
+      "clientSalesPerson": "string",
+      "customerName": "string",
+      "temp": "string",
+      "style": "string",
+      "projectCode": "string",
+      "teamCode": "string",
+      "schoolName": "string",
+      "ground": "string",
+      "gender": "string",
+      "fileInwardMode": "string",
+      "status": true,
+      "fileReceivedDate": "2023-06-21T11:58:24.045Z",
+      "jobDescription": "string",
+      "jobStatusId": 0,
+      "departmentId": 0,
+      "divisionId": 0,
+      "employeeId": 0,
+      "clientId": 0,
+      "remarks": "string",
+      "poNo": "string",
+      "fileInwardTypeId": 0,
+      "color": "string",
+      "logoDimensionWidth": "string",
+      "logoDimensionsLength": "string",
+      "apparelLogoLocation": "string",
+      "imprintColors1": "string",
+      "imprintColors2": "string",
+      "imprintColors3": "string",
+      "virtualProof": "string",
+      "dateofUpload": "2023-06-21T11:58:24.045Z",
+      "dateofClose": "2023-06-21T11:58:24.045Z",
+      "customerJobType": "string",
+      "jobDate": "2023-06-21T11:58:24.045Z",
+      "clientOrderId": 0,
+      "viewDatas":  this.ViewImportExcelTrue,
+      "createdBy": this.loginservice.getUsername(),
+      "poDate": "2023-06-21T11:58:24.045Z",
+      "ccId": 0,
+      "ccEmailId": "string",
+      "dateofDelivery": "2023-06-21T11:58:24.045Z",
+      "getAllValues": []
     }
+    // var SaveInward =
+    // {
+    //   ViewDatas: this.ViewImportExcelTrue,
+    //   CreatedBy: this.loginservice.getUsername(),
+    // }
     var viewdata = JSON.stringify(this.ViewImportExcelTrue);
     if (viewdata != "{}" && viewdata != "[]") {
 
-      this.clientcordinationservice.postexcelSubmit(SaveInward).subscribe(postdataresult => {
+      this.clientcordinationservice.postexcelSubmit(payload).subscribe(postdataresult => {
         this.ViewImportExcelFinal = postdataresult;
         console.log(this.ViewImportExcelFinal,"ViewImportExcelFinal");
         
