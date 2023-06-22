@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { state } from '@angular/animations';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { CustomerVSEmployeeService } from 'src/app/Services/CustomerVSEmployee/customer-vsemployee.service';
+import { environment } from 'src/Environments/environment';
 
 //customerClassification INTERFACE
 interface customerClassification {
@@ -54,7 +55,7 @@ private employeeservice:CustomerVSEmployeeService,
 
 
   ngOnInit(): void {
-    this.http.get<any>('https://localhost:7208/api/CustomerVsEmployee/GetAllddlList').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'CustomerVsEmployee/GetAllddlList').subscribe(data => {
       this.data = data;
       console.log(data);
 
@@ -68,7 +69,7 @@ private employeeservice:CustomerVSEmployeeService,
   //     console.log(this.myForm);
   //      console.log(this.data1?.id);
   //     if(num==1){
-  //     this.http.post('https://localhost:7208/api/CustomerVsEmployee/CreateCustomerVsEmployee', {
+  //     this.http.post(environment.apiURL+'CustomerVsEmployee/CreateCustomerVsEmployee', {
   //       Id :0,
   //       CustomerId:this.myForm.value.customer, 
   //      EmployeeId :this.myForm.value.employeeName,
@@ -89,7 +90,7 @@ private employeeservice:CustomerVSEmployeeService,
 
   //   }
   //   else{
-  //     this.http.post('https://localhost:7208/api/CustomerVsEmployee/EditCustomerVsEmployee', {
+  //     this.http.post(environment.apiURL+'CustomerVsEmployee/EditCustomerVsEmployee', {
   //       Id :0,
   //       CustomerId:this.myForm.value.customer, 
   //      EmployeeId :this.myForm.value.employeeName,
@@ -117,7 +118,7 @@ private employeeservice:CustomerVSEmployeeService,
     const Editid = this.myForm.getRawValue().id;
     if (Editid != '' && Editid != null) {
 
-      this.http.post('https://localhost:7208/api/CustomerVsEmployee/EditCustomerVsEmployee', {
+      this.http.post(environment.apiURL+'CustomerVsEmployee/EditCustomerVsEmployee', {
         Id: Editid,
         CustomerId: this.myForm.value.customer,
         EmployeeId: this.myForm.value.employeeName,
@@ -137,7 +138,7 @@ private employeeservice:CustomerVSEmployeeService,
 
       // console.log(this.myForm.value)
     } else {
-      this.http.post('https://localhost:7208/api/CustomerVsEmployee/CreateCustomerVsEmployee', {
+      this.http.post(environment.apiURL+'CustomerVsEmployee/CreateCustomerVsEmployee', {
         Id: 0,
         CustomerId: this.myForm.value.customer,
         EmployeeId: this.myForm.value.employeeName,

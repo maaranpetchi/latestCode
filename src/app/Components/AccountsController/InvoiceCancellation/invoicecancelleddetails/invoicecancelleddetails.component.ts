@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 @Component({
   selector: 'app-invoicecancelleddetails',
   templateUrl: './invoicecancelleddetails.component.html',
@@ -26,7 +27,7 @@ export class InvoicecancelleddetailsComponent implements OnInit {
       "invoiceNo": this.data.invoiceNo
     };
 
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetInvoiceTranforSalesCancel', request).subscribe(data => {
+    this.http.post<any>(environment.apiURL+'Invoice/GetInvoiceTranforSalesCancel', request).subscribe(data => {
       const invoicedata = data.invoicesc
     this.dataSource = new MatTableDataSource(invoicedata);
       this.dataSource.sort = this.sort;

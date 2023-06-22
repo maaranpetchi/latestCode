@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { QualitytableComponent } from '../qualitytable/qualitytable.component';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-quality',
@@ -106,7 +107,7 @@ showChildAlert() {
 
  BindPendingJobs() {
   console.log("2");
-  this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/1`).subscribe(response=> {
+  this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/1`).subscribe(response=> {
     this.QualitytableComponent.assigndatasource(response.getWorkflowDetails)
 
   });

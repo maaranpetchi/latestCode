@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoreService } from 'src/app/Services/AccountController/ScopeChange/Core/core.service';
 import { ScopechangeService } from 'src/app/Services/AccountController/ScopeChange/scopechange.service';
+import { environment } from 'src/Environments/environment';
 //MARTIAL INTERFACE
 interface Department {
   value: string;
@@ -74,7 +75,7 @@ export class ScopechangeComponent implements OnInit {
         "changeScope": []
       }
     })
-    this.http.post<any>('https://localhost:7208/api/ CustomerMapping/ChangeScopeAPI', {
+    this.http.post<any>(environment.apiURL+'CustomerMapping/ChangeScopeAPI', {
       "fromDate": this.empForm?.value.fromdate,
       "toDate": this.empForm?.value.todate,
       "departmentId": this.empForm?.value.department,
@@ -130,7 +131,7 @@ export class ScopechangeComponent implements OnInit {
   ngOnInit(): void {
 
     // customerdata dropdown fetch the values from the API
-    this.http.get<any[]>('https://localhost:7208/api/dropdown/getcustomers').subscribe(clientdata => {
+    this.http.get<any[]>(environment.apiURL+'dropdown/getcustomers').subscribe(clientdata => {
       this.Clientdropdownvalues = clientdata;
     });
 
@@ -146,7 +147,7 @@ export class ScopechangeComponent implements OnInit {
   }
 
   getScopeList() {
-    this.http.get(`https://localhost:7208/api/ CustomerMapping/DDLforScopeChange?departmentId=${this.empForm.value.department}&custId=${this.empForm.value.client}`).subscribe((data: any) => {
+    this.http.get(environment.apiURL+`CustomerMapping/DDLforScopeChange?departmentId=${this.empForm.value.department}&custId=${this.empForm.value.client}`).subscribe((data: any) => {
       this.Scopedropdownvalues = data;
     })
   }

@@ -11,6 +11,7 @@ import { AddEditEmployeecontrollerComponent } from '../add-edit-employeecontroll
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Output } from '@angular/core';
 import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
+import { environment } from 'src/Environments/environment';
 @Component({
   selector: 'app-employeecontroller',
   templateUrl: './employeecontroller.component.html',
@@ -123,7 +124,7 @@ export class EmployeecontrollerComponent implements OnInit {
       this.isResignInclude = event.checked;
     }
     if (this.isDeletedInclude || this.isResignInclude) {
-      this.http.get<any[]>(`https://localhost:7208/api/Employee/GetEmployeeWithDelete?IsDeleted=${this.isDeletedInclude ? 1 : 0}&IsResigned=${this.isResignInclude ? 1 : 0}`).subscribe(data => {
+      this.http.get<any[]>(environment.apiURL+`Employee/GetEmployeeWithDelete?IsDeleted=${this.isDeletedInclude ? 1 : 0}&IsResigned=${this.isResignInclude ? 1 : 0}`).subscribe(data => {
         this.dataSource.data = data;
       });
     } else {

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { environment } from 'src/Environments/environment';
 
 
 @Component({
@@ -34,21 +35,21 @@ export class PricingComponent implements OnInit {
 
   ngOnInit(): void {
     //department
-    this.http.get<any>('https://localhost:7208/api/Pricing/pricingList').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'Pricing/pricingList').subscribe(data => {
       this.departments = data.departments;
     });
 
     //pricingtypes
-    this.http.get<any>(`https://localhost:7208/api/Pricing/PricingTypesByDeptId?departmentId=1`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Pricing/PricingTypesByDeptId?departmentId=1`).subscribe(data => {
       this.pricingtypes = data;
     });
 
     //customers
-    this.http.get<any>(`https://localhost:7208/api/Pricing/PricingTypesByDeptId?departmentId=1`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Pricing/PricingTypesByDeptId?departmentId=1`).subscribe(data => {
       this.customers = data;
     });
     //scopes
-    this.http.get<any>(`https://localhost:7208/api/Pricing/PricingTypesByDeptId?departmentId=1`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Pricing/PricingTypesByDeptId?departmentId=1`).subscribe(data => {
       this.scopes = data;
     });
 

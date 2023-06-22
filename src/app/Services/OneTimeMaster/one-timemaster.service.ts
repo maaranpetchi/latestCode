@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,10 @@ export class OneTimemasterService {
 
   //  Create oneTimemasterService
   oneTimemasterService(id:any):Observable<any>{
-    return this.http.post(`https://localhost:7208/api/SingleEntry/postSingleEntryData`, id)
+    return this.http.post(environment.apiURL+`SingleEntry/postSingleEntryData`, id)
   }
   // getTable Value
   getTableValue(id:any):Observable<any>{
-    return this.http.get(`https://localhost:7208/api/SingleEntry/getTableValue?tableName=${id}`)
+    return this.http.get(environment.apiURL+`SingleEntry/getTableValue?tableName=${id}`)
   }
 }

@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EditadvanceadjustmentComponent } from '../../Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { AdvanceadjustmentService } from 'src/app/Services/AccountController/AdvanceAdjustment/advanceadjustment.service';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-advanceadjustment',
@@ -87,7 +88,7 @@ getcustomerid(){
 }
 
 loadData() {
-  this.http.get<any[]>(`https://localhost:7208/api/AdvanceAdjustment/GetAllCustomerAdvance?CustomerId=${this.selecteddepartmentOption}`).subscribe(data => {
+  this.http.get<any[]>(environment.apiURL+`AdvanceAdjustment/GetAllCustomerAdvance?CustomerId=${this.selecteddepartmentOption}`).subscribe(data => {
     this.dataSource = new MatTableDataSource(data);
     console.table(data);
     

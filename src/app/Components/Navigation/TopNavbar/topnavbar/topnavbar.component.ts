@@ -7,6 +7,7 @@ import { ChangepasswordComponent } from '../../ChangePass/changepassword/changep
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { environment } from 'src/Environments/environment';
 
 
 @Component({
@@ -82,7 +83,7 @@ isSidenavOpen = true;
 
 Processes:any[] = [];
   getProcesses(){
-this.http.get<any>(`https://localhost:7208/api/Account/getEmployeeProcess/${this.loginservice.getUsername()}`).subscribe(data => {
+this.http.get<any>(environment.apiURL+`Account/getEmployeeProcess/${this.loginservice.getUsername()}`).subscribe(data => {
   this.Processes = data.employeeProcess;
 });
   }

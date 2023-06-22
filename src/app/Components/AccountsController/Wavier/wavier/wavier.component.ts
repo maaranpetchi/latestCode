@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PopupwavierconfirmationComponent } from '../popupwavierconfirmation/popupwavierconfirmation.component';
+import { environment } from 'src/Environments/environment';
 declare var $: any;
 @Component({
   selector: 'app-wavier',
@@ -150,7 +151,7 @@ export class WavierComponent {
       this.fromDate = '';
       this.toDate = '';
 
-      this.http.get<any[]>('https://localhost:7208/api/Customer/GetCustomers').subscribe(clientdata => {
+      this.http.get<any[]>(environment.apiURL+'Customer/GetCustomers').subscribe(clientdata => {
         this.clients = clientdata;
       });
       // PricingBillingInvoiceFactory.GetCompletedJobs('getCustomers').$promise.then(function (result) {
@@ -206,7 +207,7 @@ export class WavierComponent {
         JobClosedUTC: this.fromDate,
         DateofUpload: this.toDate
       };
-      this.http.post<any>('https://localhost:7208/api/Invoice/GetWaiverJobWithclientIdfileName', jobOrder).subscribe(response => {
+      this.http.post<any>(environment.apiURL+'Invoice/GetWaiverJobWithclientIdfileName', jobOrder).subscribe(response => {
       console.log(response, "response");
         
       this.dataSource.data = response.waiverJobList;
@@ -227,7 +228,7 @@ export class WavierComponent {
   savechanges(){
     
     $('#myModal').modal('hide');
-    this.http.post<any>('https://localhost:7208/api/Invoice/AddWaiverJobList',this.selectedInvoices).subscribe(data => {
+    this.http.post<any>(environment.apiURL+'Invoice/AddWaiverJobList',this.selectedInvoices).subscribe(data => {
      this.onGoButtonClick();
     this.message=data.message;
       $('#myModal1').appendTo("body").modal('show');

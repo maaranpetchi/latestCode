@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-changepassword',
@@ -42,7 +43,7 @@ export class ChangepasswordComponent implements OnInit {
       const userId = 0;
       const oldPassword = this.passwordForm.value.oldPassword; 
 
-      this.http.post('https://localhost:7208/api/Account/ChangePassword', {
+      this.http.post(environment.apiURL+'Account/ChangePassword', {
         "userId": userId,
         "oldPassword": oldPassword,
         "latestPassword": this.passwordForm.value.newPassword,

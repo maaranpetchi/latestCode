@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 
 
 @Injectable({
@@ -10,16 +11,16 @@ export class CustomerreceiptsService {
   constructor(private _http: HttpClient) {}
 
   addEmployee(data: any): Observable<any> {
-    return this._http.post('https://localhost:7208/api/Employee/AddEmployee', data);
+    return this._http.post(environment.apiURL+'Employee/AddEmployee', data);
   }
 
   updateEmployee(employeeId: number, data: any): Observable<any> {
-    return this._http.put(`https://localhost:7208/api/Employee/EditEmployee/${employeeId}`, data);
+    return this._http.put(environment.apiURL+`Employee/EditEmployee/${employeeId}`, data);
   }
 
   getEmployeeList(): Observable<any> {
 
-     return this._http.get('https://localhost:7208/api/Receivable/GetAllReceivables');
+     return this._http.get(environment.apiURL+'Receivable/GetAllReceivables');
     // return fetch('https://localhost:7208/api/Employee/GetEmployeeList').then(res => res.json());
   }
 
@@ -27,6 +28,6 @@ export class CustomerreceiptsService {
   
 
   deleteEmployee(id: number): Observable<any> {
-    return this._http.delete(`https://localhost:7208/api/Employee/PostDeleteEmployee?data=${id}&data1=152`);
+    return this._http.delete(environment.apiURL+`Employee/PostDeleteEmployee?data=${id}&data1=152`);
   }
 }

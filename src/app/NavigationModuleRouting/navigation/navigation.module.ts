@@ -247,7 +247,9 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
     // job istory
     JobHistoryComponent,
     JobhistoryDetailsComponent,
+    // Job Transfer
     JobTransferComponent,
+    
 
   ],
   imports: [

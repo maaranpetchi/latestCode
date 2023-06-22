@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { ErrorCategoryService } from 'src/app/Services/Errorcategory/error-category.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
@@ -288,7 +289,7 @@ export class AddErrorcategoryComponent implements OnInit {
     };
     this.http
       .post(
-        'https://localhost:7208/api/ErrorCategory/CreateErrorCategory',
+        environment.apiURL+'ErrorCategory/CreateErrorCategory',
         saveErrorCategory
       )
       .subscribe({

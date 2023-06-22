@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { UserMasterService } from 'src/app/Services/Master/user-master.service';
@@ -166,7 +167,7 @@ onCancel():void {
           employee: null
         }
         //  This is for the Save Api Call.
-    this.http.post('https://localhost:7208/api/User/SaveUser?actionType=2', updateUserData).subscribe({
+    this.http.post(environment.apiURL+'User/SaveUser?actionType=2', updateUserData).subscribe({
       next: (data: any) =>{
         this._coreService.openSnackBar('User detail added!');
       },

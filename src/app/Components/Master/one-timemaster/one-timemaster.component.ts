@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { OneTimemasterService } from 'src/app/Services/OneTimeMaster/one-timemaster.service';
@@ -58,7 +59,7 @@ export class OneTimemasterComponent implements OnInit {
   getcustomername() {
     this.http
       .get<any>(
-        `https://localhost:7208/api/SingleEntry/getTableValue?tableName=${this.selectedOption}`
+        environment.apiURL+`SingleEntry/getTableValue?tableName=${this.selectedOption}`
       )
       .subscribe((CustomerContactName) => {
         this.CustomerContactName = CustomerContactName;

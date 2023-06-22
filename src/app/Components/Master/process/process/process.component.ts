@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { ProcessService } from 'src/app/Services/Process/process.service';
 
@@ -62,13 +63,13 @@ export class ProcessComponent implements OnInit{
 
 
   openViewForm(data:any){
-    this.http.get(`https://localhost:7208/api/Process/ProcessDetails?Id=${data.id}`).subscribe((response:any) =>{
+    this.http.get(environment.apiURL+`Process/ProcessDetails?Id=${data.id}`).subscribe((response:any) =>{
     this.route.navigate(['/topnavbar/process-view'], {state:{data:response}});
   })
 }
   openEditForm(id:any){
     this._service.setFormData(id);
-    this.http.get(`https://localhost:7208/api/Process/ProcessDetails?Id=${id}`).subscribe((response:any) =>{
+    this.http.get(environment.apiURL+`Process/ProcessDetails?Id=${id}`).subscribe((response:any) =>{
       this.route.navigate(['/topnavbar/process-addEdit'], {state:{data:response}});
   })
   }

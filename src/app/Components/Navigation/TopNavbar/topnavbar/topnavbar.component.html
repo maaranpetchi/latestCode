@@ -67,6 +67,15 @@
             <label class="labelname">Job History</label>
           </a>
         </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-icon>dashboard</mat-icon>
+            <span>Job Transfer</span>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLink="jobTransfer">
+            <label class="labelname">Job Transfer</label>
+          </a>
+        </mat-expansion-panel>
   
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -173,7 +182,7 @@
       <button mat-icon-button (click)="toggleSidenav()" style="float:left">
         <mat-icon>{{ isSidenavOpen ? 'menu_open' : 'menu' }}</mat-icon>
       </button>
-      <p style="height:100vh">
+      <p style="height: 75vh;">
         <router-outlet></router-outlet>
       </p>
     </mat-sidenav-content>

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 import { AddeditemployeevsdivisionComponent } from 'src/app/Components/EmployeeVSDivision/addeditemployeevsdivision/addeditemployeevsdivision.component';
 import { CreditnoteService } from 'src/app/Services/AccountController/CreditNote/creditnote.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
@@ -73,7 +74,7 @@ receivableAdjustment:any[] = [];
   adjustedAmount:number=0;
   amountToBeAdjusted:number=0;
   invoicenumberdetails(){
-    this.http.get<any>(`  https://localhost:7208/api/Receivable/GetInvoice?invoiceNo=${this.selectedinvoiceoption}&customerId=${this.selectedCustomerOption}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Receivable/GetInvoice?invoiceNo=${this.selectedinvoiceoption}&customerId=${this.selectedCustomerOption}`).subscribe(data => {
     console.log(data)  
     this.invoiceDate=new Date(data.invoiceDate).toLocaleDateString()
       this.invoiceValue=data.invoiceValue
@@ -84,7 +85,7 @@ receivableAdjustment:any[] = [];
   }
 
 onchangesubmit(){
-  this.http.get<any[]>(`https://localhost:7208/api/Receivable/GetCustomerInvoice?CustomerId=${this.selectedCustomerOption}`).subscribe(data => {
+  this.http.get<any[]>(environment.apiURL+`Receivable/GetCustomerInvoice?CustomerId=${this.selectedCustomerOption}`).subscribe(data => {
     this.invoicedropdownvalues = data;
   });
 
@@ -124,7 +125,7 @@ onchangesubmit(){
         AlreadyAdjusted: this.adjustedAmount1,
        
     };
-    this.http.post<any>(`https://localhost:7208/api/Receivable/CreateCreditNote`,receivable).subscribe(data => {
+    this.http.post<any>(environment.apiURL+`Receivable/CreateCreditNote`,receivable).subscribe(data => {
    console.log(data)
   });
   }

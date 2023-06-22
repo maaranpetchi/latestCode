@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Output, EventEmitter } from '@angular/core';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-productiontable',
@@ -49,7 +50,7 @@ export class ProductiontableComponent {
   }
   ScopeApiData: any[];
   fetchScope() {
-    this.http.get<any>('https://localhost:7208/api/Allocation/getScopeValues/152').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'Allocation/getScopeValues/152').subscribe(data => {
       this.ScopeApiData = data.ScopeDetails ;
     });
   }
@@ -104,28 +105,28 @@ export class ProductiontableComponent {
   }
 
   freshJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdata => {
+    this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdata => {
       this.dataSource =  new MatTableDataSource (freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
   revisionJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/0`).subscribe(freshdata => {
+    this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/0`).subscribe(freshdata => {
       this.dataSource =new MatTableDataSource  (freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
   reworkJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/3/0`).subscribe(freshdata => {
+    this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/3/0`).subscribe(freshdata => {
       this.dataSource =new MatTableDataSource (freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
   quoteJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/4/0`).subscribe(freshdata => {
+    this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/4/0`).subscribe(freshdata => {
       this.dataSource=new MatTableDataSource( freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -133,7 +134,7 @@ export class ProductiontableComponent {
   }
   scopeDisplay:boolean = false; // display a scope dropdown div
   bulkJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/6/0`).subscribe(freshdata => {
+    this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/6/0`).subscribe(freshdata => {
       this.dataSource =new MatTableDataSource(freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -141,7 +142,7 @@ export class ProductiontableComponent {
     });
   }
   bulkUploadJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/0`).subscribe(freshdata => {
+    this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/0`).subscribe(freshdata => {
       this.dataSource = new MatTableDataSource (freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

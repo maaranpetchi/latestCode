@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { InvoicecancelleddetailsComponent } from '../invoicecancelleddetails/invoicecancelleddetails.component';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-invoicecancellation',
@@ -78,13 +79,13 @@ export class InvoicecancellationComponent {
   ngOnInit(): void {
     this.invoicenumbers = [];
     //client dropdown
-    this.http.get<any>('https://localhost:7208/api/invoice/getdropclientforinvoicecancel').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'invoice/getdropclientforinvoicecancel').subscribe(data => {
       this.clientdata = data;
       console.log(data);
     });
 
     //invoicenumber dropdown
-    this.http.get<any>('https://localhost:7208/api/invoice/getallinvoicemasterdetails').subscribe(invoicedata => {
+    this.http.get<any>(environment.apiURL+'invoice/getallinvoicemasterdetails').subscribe(invoicedata => {
       this.invoicenumberdata = invoicedata;
       console.log(invoicedata);
     });
@@ -110,7 +111,7 @@ export class InvoicecancellationComponent {
 
   onOptionSelected(event: any, myform: FormGroup) {
     console.log(myform.value);
-    const apiUrl = "https://localhost:7208/api/Invoice/GetDropInvoiceforCancel"; // replace with your actual API URL
+    const apiUrl = environment.apiURL+"Invoice/GetDropInvoiceforCancel"; // replace with your actual API URL
     const requestData = {
       id: myform.value.ClientId
     };
@@ -123,7 +124,7 @@ export class InvoicecancellationComponent {
 
   onSubmit() {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetInvoiceMasterforSalesCancel', {
+    this.http.post<any>(environment.apiURL+'Invoice/GetInvoiceMasterforSalesCancel', {
       "Id": 0,
       "invoiceNo":this.myForm.value.invoicenumber
     }).subscribe((results: any) => {

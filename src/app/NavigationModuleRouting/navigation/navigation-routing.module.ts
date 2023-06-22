@@ -87,6 +87,7 @@ import { ViewProcessComponent } from 'src/app/Components/Master/process/view-pro
 import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/bench-status/bench-status.component';
 import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
+import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
 
 const routes: Routes = [
 
@@ -236,7 +237,10 @@ const routes: Routes = [
       // OneTime Master
       {path:'oneTimeMaster', component:OneTimemasterComponent}, 
       //  Job History
-      {path:'jobHistory', component:JobHistoryComponent}, 
+      {path:'jobHistory', component:JobHistoryComponent},
+      
+      // Job Transfer
+      {path:'jobTransfer', component:JobTransferComponent},
 
 
     ]

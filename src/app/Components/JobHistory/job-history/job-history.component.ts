@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { JobHistoryService } from 'src/app/Services/JobHistory/job-history.service';
 import { JobhistoryDetailsComponent } from '../jobhistory-details/jobhistory-details.component';
+import { SpinnerService } from '../../Spinner/spinner.service';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-job-history',
@@ -36,7 +38,8 @@ export class JobHistoryComponent implements OnInit{
     private _service:JobHistoryService,
     private router:Router,
     private http :HttpClient,
-    private dialog:MatDialog 
+    private dialog:MatDialog ,
+    private spinnerService: SpinnerService,
   ){}
 
   displayedColumns: string[] = [
@@ -93,7 +96,7 @@ export class JobHistoryComponent implements OnInit{
       this.toDate = '';
 
 
-      this.http.get<any[]>('https://localhost:7208/api/Customer/GetCustomers').subscribe(clientdata => {
+      this.http.get<any[]>(environment.apiURL+'Customer/GetCustomers').subscribe(clientdata => {
         this.clients = clientdata;
       });
 
@@ -118,6 +121,7 @@ export class JobHistoryComponent implements OnInit{
     }
   };
   onGoButtonClick() {
+    
     if (this.selectedClient != undefined || this.selectedFileName != undefined || this.selectedFilter != undefined || this.fromDate != undefined || this.toDate != undefined) {
       if ((this.selectedClient == undefined || this.selectedClient == null)) {
         this.selectedClient = 0;
@@ -136,20 +140,23 @@ export class JobHistoryComponent implements OnInit{
         fileName: this.selectedFileName,
         jobClosedUTC: new Date().toISOString(),
         dateofUpload: '0001-01-01T00:00:00.000Z',
-        // dateofUpload: this.toDate,
       };
-      this.http.post<any>('https://localhost:7208/api/Allocation/getJobMovementJobsWithclientIdfileName', jobOrder).subscribe(response => {
-      console.log(response, "data received");
-       
+      this.spinnerService.requestStarted();
+      this.http.post<any>(environment.apiURL+'Allocation/getJobMovementJobsWithclientIdfileName', jobOrder).subscribe({
+        next:(response) => {
+          console.log(response, "data received");
+       this.spinnerService.requestEnded();
       this.dataSource.data = response.jobMovement;
       this.recordCount = response.jobMovement.length;
-        // Sort dataSource based on MatSort
         this.dataSource.sort = this.sort;
-        // Paginate dataSource based on MatPaginator
         this.dataSource.paginator = this.paginator;
         console.log(response);
-
-      });
+        },
+        error: (err) => {
+          console.log(err);
+          this.spinnerService.resetSpinner();
+        }
+      })
     }
   };
   setAll(completed: boolean, item: any) {

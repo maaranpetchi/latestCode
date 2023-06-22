@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +19,20 @@ export class ProcessService {
 
   //  View Table List
   getProcessList():Observable<any>{
-    return this.http.get('https://localhost:7208/api/Process/ListProcess')
+    return this.http.get(environment.apiURL+'Process/ListProcess')
   }
 
   //  Delete Process
   deleteProcess(id:any):Observable<any>{
-   return this.http.get(`https://localhost:7208/api/Process/Delete-Process?id=${id}`)
+   return this.http.get(environment.apiURL+`Process/Delete-Process?id=${id}`)
   }
 
   // Create Process
   createProcess(id:any):Observable<any>{
-    return this.http.post(`https://localhost:7208/api/Process/CreateProcessFlow`,id)
+    return this.http.post(environment.apiURL+`Process/CreateProcessFlow`,id)
   }
   // update Process
   updateProcess(id:any):Observable<any>{
-    return this.http.post(`https://localhost:7208/api/Process/Update-Process`,id)
+    return this.http.post(environment.apiURL+`Process/Update-Process`,id)
   }
 }

@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { OnInit, ViewChild } from '@angular/core';
 import { PopupinvoicecancellistComponent } from '../popupinvoicecancellist/popupinvoicecancellist.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 @Component({
   selector: 'app-viewinvoicecancel',
   templateUrl: './viewinvoicecancel.component.html',
@@ -50,7 +51,7 @@ export class ViewinvoicecancelComponent  implements OnInit {
 
 
   getData() {
-    this.http.get('https://localhost:7208/api/Invoice/GetInvoiceMasterDetailforCancelled').subscribe((response: any) => {
+    this.http.get(environment.apiURL+'Invoice/GetInvoiceMasterDetailforCancelled').subscribe((response: any) => {
       if (response && response.invoicesc.length>0) {
         // transform the API response if needed to match the structure of your table's columns
         const data = response.invoicesc.map(item => {

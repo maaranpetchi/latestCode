@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/Environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class EmpvsdivService {
   }
 
   getEmployeeList(): Observable<any> {
-    return this._http.get('https://localhost:7208/api/EmployeeVsDivision/GetEmployeeVsDivision');
+    return this._http.get(environment.apiURL+'EmployeeVsDivision/GetEmployeeVsDivision');
   }
 
 

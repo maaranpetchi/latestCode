@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { ScopeService } from 'src/app/Services/Scope/scope.service';
 
@@ -61,13 +62,13 @@ export class ScopeComponent {
   }
   
   openViewForm(data:any){
-    this.http.get(`https://localhost:7208/api/Scope/GetScopeDetails?Id=${data.id}`).subscribe((response:any) =>{
+    this.http.get(environment.apiURL+`Scope/GetScopeDetails?Id=${data.id}`).subscribe((response:any) =>{
     this.router.navigate(['/topnavbar/master-scope/view'], {state:{data:response}});
   })
   }
   
   openEditForm(id:any){
-      this.http.get(`https://localhost:7208/api/Scope/GetScopeDetails?Id=${id}`).subscribe((response:any) =>{
+      this.http.get(environment.apiURL+`Scope/GetScopeDetails?Id=${id}`).subscribe((response:any) =>{
         this.router.navigate(["topnavbar/master-scope/edit"], {state:{data:response}});
     })
     //  Below method is used to get data from serice using behaviour subject

@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PricingcalculationService } from 'src/app/Services/AccountController/PricingCalculation/pricingcalculation.service';
 import { PopupinvoiceComponent } from '../popupinvoice/popupinvoice.component';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-details',
@@ -137,7 +138,7 @@ export class DetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.http.get<any>('https://localhost:7208/api/Invoice/GetClient').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'Invoice/GetClient').subscribe(data => {
       this.data = data;
       console.log(data);
     });
@@ -179,7 +180,7 @@ export class DetailsComponent implements OnInit {
   }
   onSubmit() {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetClientDetails', {
+    this.http.post<any>(environment.apiURL+'Invoice/GetClientDetails', {
       "clientId": this.myForm.value?.ClientId,
       "fromDate": this.myForm.value?.fromDate,
       "toDate": this.myForm.value?.toDate
@@ -196,7 +197,7 @@ export class DetailsComponent implements OnInit {
 
   onInvoiceCalculation(item: any) {
    // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GenerateInvoice', item).subscribe((results: any) => {
+    this.http.post<any>(environment.apiURL+'Invoice/GenerateInvoice', item).subscribe((results: any) => {
       // Set the search results in the data source
       const dialogRef = this.dialog.open(PopupinvoiceComponent, {
         width: '500px',

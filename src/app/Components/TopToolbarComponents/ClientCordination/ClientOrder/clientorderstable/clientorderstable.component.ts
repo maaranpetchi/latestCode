@@ -10,6 +10,7 @@ import { FileconvertComponent } from './fileconvert/fileconvert.component';
 import { ClientdetailspopupComponent } from '../clientdetailspopup/clientdetailspopup.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientorderviewComponent } from '../clientorderview/clientorderview.component';
+import { environment } from 'src/Environments/environment';
 @Component({
   selector: 'app-clientorderstable',
   templateUrl: './clientorderstable.component.html',
@@ -120,7 +121,7 @@ export class ClientorderstableComponent {
   }
 
   fetchdivision() {
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/nGetDivisionForJO').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/nGetDivisionForJO').subscribe(data => {
       this.DivisionApiData = data;
     });
   }
@@ -147,7 +148,7 @@ export class ClientorderstableComponent {
   }
 
   bindingjobs() {
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/ClientOrdersExts/1').subscribe(binddata => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/1').subscribe(binddata => {
       this.dataSource = binddata.data;
       this.displayedColumnsvisibility.fileCount = true;
       this.displayedColumnsvisibility.actionicon = true;
@@ -164,7 +165,7 @@ export class ClientorderstableComponent {
     });
   }
   quotationjobs() {
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/ClientOrdersExts/2').subscribe(quotation => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/2').subscribe(quotation => {
       this.dataSource = new MatTableDataSource(quotation.data),
         this.displayedColumnsvisibility.jobid = false;
       this.displayedColumnsvisibility.transactionType = true;
@@ -180,7 +181,7 @@ export class ClientorderstableComponent {
     });
   }
   convertedjobs() {
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/ClientOrdersExts/3').subscribe(converted => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/3').subscribe(converted => {
       this.dataSource = new MatTableDataSource(converted.data);
       this.displayedColumnsvisibility.actionicon = false;
       this.displayedColumnsvisibility.transactionType = true;
@@ -196,7 +197,7 @@ export class ClientorderstableComponent {
     });
   }
   deletedjobs() {
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/ClientOrdersExts/4').subscribe(deleted => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/4').subscribe(deleted => {
       this.dataSource = new MatTableDataSource(deleted.data)
       this.displayedColumnsvisibility.filecount = false;
       this.displayedColumnsvisibility.transactionType = true;
@@ -212,7 +213,7 @@ export class ClientorderstableComponent {
     });
   }
   quotenotapprovaljobs() {
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/ClientOrdersExts/5').subscribe(quotenotapproval => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/5').subscribe(quotenotapproval => {
       this.displayedColumnsvisibility.filecount = false;
       this.displayedColumnsvisibility.transactionType = true;
       this.displayedColumnsvisibility.jobid = false;
@@ -227,7 +228,7 @@ export class ClientorderstableComponent {
     });
   }
   queryforsp() {
-    this.http.get<any>('https://localhost:7208/api/CustomerQuery/GetNotApprovedQueryForSPJobsToCC').subscribe(queryforsp => {
+    this.http.get<any>(environment.apiURL+'CustomerQuery/GetNotApprovedQueryForSPJobsToCC').subscribe(queryforsp => {
       this.displayedColumnsvisibility.filecount = false;
       this.displayedColumnsvisibility.jobid = true;
       this.displayedColumnsvisibility.quoteparentid = false;
@@ -440,7 +441,7 @@ export class ClientorderstableComponent {
 
     console.log(senddata, "fileconvertdata");
 
-    this.http.post<any>('https://localhost:7208/api/JobOrder/DirectOrder', senddata).subscribe(convertdata => {
+    this.http.post<any>(environment.apiURL+'JobOrder/DirectOrder', senddata).subscribe(convertdata => {
       console.log("succesfully converted data");
 
     })
@@ -586,7 +587,7 @@ export class ClientorderstableComponent {
       "dateofDelivery": "2023-05-12T07:08:03.495Z",
       "getAllValues": Gridwithmultiplefilesname
     };
-    this.http.post<any>('https://localhost:7208/api/JobOrder/DirectOrder', senddata).subscribe(multiorder => {
+    this.http.post<any>(environment.apiURL+'JobOrder/DirectOrder', senddata).subscribe(multiorder => {
       this.showSnackBar("succesfully Bulk converted data");
  
     })

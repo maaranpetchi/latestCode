@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,25 +13,25 @@ export class ErrorCategoryService {
 
   // List of errorsCategoryService
   getErrorCategoryList(): Observable<any> {
-    return this.http.get('https://localhost:7208/api/ErrorCategory/ListErrorCategory')
+    return this.http.get(environment.apiURL+'ErrorCategory/ListErrorCategory')
   }
 
   // ErrorCategoryLists
   getCategoryList(): Observable<any> {
-    return this.http.get('https://localhost:7208/api/Scope/GetDropDownList')
+    return this.http.get(environment.apiURL+'Scope/GetDropDownList')
   }
 
   //  ErrorCategory Details 
   getErrorCategoryDetails(id:any): Observable<any>{
-    return this.http.get(`https://localhost:7208/api/ErrorCategory/GetErrorCategoryDetails?Id= ${id}`)
+    return this.http.get(environment.apiURL+`ErrorCategory/GetErrorCategoryDetails?Id= ${id}`)
   }
   // Update error category.
   updateErrorCategory(id:any):Observable<any>{
-    return this.http.post('https://localhost:7208/api/ErrorCategory/Update-ErrorCategory' , id)
+    return this.http.post(environment.apiURL+'ErrorCategory/Update-ErrorCategory' , id)
   }
 
    //Delete ErrorCategory
   deleteErrorCategoryDetails(id:any):Observable<any>{
-    return this.http.get(`https://localhost:7208/api/ErrorCategory/Delete-ErrorCategory?Id= ${id}`)
+    return this.http.get(environment.apiURL+`ErrorCategory/Delete-ErrorCategory?Id= ${id}`)
   }
 }

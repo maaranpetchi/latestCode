@@ -2,6 +2,7 @@ import { ClientorderstableComponent } from '../clientorderstable/clientorderstab
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { data } from 'jquery';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-clientorders',
@@ -18,7 +19,7 @@ export class ClientordersComponent implements OnInit {
   DivisionApiData: any[];
   ngOnInit(): void {
     //division dropdown
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/nGetDivisionForJO').subscribe(divisiondata => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/nGetDivisionForJO').subscribe(divisiondata => {
       this.DivisionApiData = divisiondata;
     })
   }

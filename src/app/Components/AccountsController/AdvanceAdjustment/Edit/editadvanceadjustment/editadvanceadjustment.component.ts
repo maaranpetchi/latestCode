@@ -6,6 +6,7 @@ import { AdvanceadjustmentService } from 'src/app/Services/AccountController/Adv
 import { AdvanceadjustmentComponent } from '../../Index/advanceadjustment/advanceadjustment.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
+import { environment } from 'src/Environments/environment';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class EditadvanceadjustmentComponent {
 
   ngOnInit(): void {
     // department dropdown fetch the values from the API
-    this.http.get<any>(`https://localhost:7208/api/Receivable/GetCustomerInvoice?CustomerId=${this.data.department}`).subscribe(invoicedata => {
+    this.http.get<any>(environment.apiURL+`Receivable/GetCustomerInvoice?CustomerId=${this.data.department}`).subscribe(invoicedata => {
       this.Invoicedropdownvalues = invoicedata;
     });
 
@@ -70,7 +71,7 @@ export class EditadvanceadjustmentComponent {
 
   advanceamount = this.data.availableAdvance;
   onSelectionChange() {
-    this.http.get<any>(`https://localhost:7208/api/Receivable/GetInvoice?invoiceNo=${this.selectedInvoiceOption}&customerId=${this.data.department}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Receivable/GetInvoice?invoiceNo=${this.selectedInvoiceOption}&customerId=${this.data.department}`).subscribe(data => {
       this.invoiceValue = data.invoiceValue;
       this.adjustmentAmount = data.adjustmentAmount;
       this.input3 = data.input3;
@@ -148,7 +149,7 @@ export class EditadvanceadjustmentComponent {
       "receivableAdjustments": temparray,
       "advanceId": this.data.id
     }
-      this.http.post<any>('https://localhost:7208/api/AdvanceAdjustment/CreateAdvanceAdjustment',data).subscribe(data=>{
+      this.http.post<any>(environment.apiURL+'AdvanceAdjustment/CreateAdvanceAdjustment',data).subscribe(data=>{
         console.log(data,"formsubmission");
         this._coreService.openSnackBar('Employee added successfully');
        this.dialogRef.close();
