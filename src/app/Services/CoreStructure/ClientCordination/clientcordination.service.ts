@@ -17,6 +17,7 @@ export class ClientcordinationService {
   getBindFileInward(): Observable<any> {
     return this.http.get(environment.apiURL+`JobOrder/GetImportExcel?employeeId=${parseInt(this.loginservice.getUsername())}`)
   }
+  //gettingvalues
   getBindFileInwardOnlyTrue():Observable<any>{
     return this.http.get(environment.apiURL+`JobOrder/GetImportExcelTrue?employeeId=${parseInt(this.loginservice.getUsername())}`)
   }
