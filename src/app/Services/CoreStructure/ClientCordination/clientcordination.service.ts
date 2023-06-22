@@ -25,5 +25,9 @@ export class ClientcordinationService {
 postexcelSubmit(data):Observable<any>{
   return this.http.post<any>(environment.apiURL+`JobOrder/ExcelOrder`,data)
 }
+//JOBORDERDELETE
+deletetempexcel():Observable<any>{
+  return   this.http.delete<any>(environment.apiURL+`JobOrder/CancelImportExcel`)
+}
 
 }

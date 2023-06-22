@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 
 
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
     private loginservice: LoginService,
     private router: Router,
     private cookieService: CookieService,
+    private spinnerService:SpinnerService,
   ) { }
 
   labelState = 'default';
@@ -47,11 +49,13 @@ export class LoginComponent implements OnInit {
   // showPasswordField = true;
 
   onSubmit() {
+    this.spinnerService.requestStarted();
     this.isSubmitted = true;
     this.showUsernameField = false;
     this.showPasswordField = false;
-    this.loginservice.login(this.username, this.password).subscribe(result => {
-      console.log(result,"login");
+    this.loginservice.login(this.username, this.password).subscribe({
+      next: (result) => {
+      this.spinnerService.requestEnded();
       if (result) {
         this.cookieService.set('token', result.user.employeeName);
         this.cookieService.set('username', result.user.employeeId);
@@ -59,6 +63,10 @@ export class LoginComponent implements OnInit {
         this.username = this.user;
         this.router.navigate(['/topnavbar/dashboard']);
       }
+    },
+    error:(err) =>{
+      this.spinnerService.resetSpinner();
+    }
     });
   }
 }

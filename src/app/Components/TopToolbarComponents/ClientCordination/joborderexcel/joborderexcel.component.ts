@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/Environments/environment';
 import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import * as XLSX from 'xlsx';
 
@@ -33,7 +34,7 @@ export class JoborderexcelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private loginservice: LoginService, private clientcordinationservice: ClientcordinationService) { }
+  constructor(private http: HttpClient, private loginservice: LoginService, private clientcordinationservice: ClientcordinationService,private _coreService:CoreService) { }
 
   ngOnInit(): void {
 
@@ -151,15 +152,8 @@ export class JoborderexcelComponent implements OnInit {
       this.clientcordinationservice.postexcelSubmit(payload).subscribe(postdataresult => {
         this.ViewImportExcelFinal = postdataresult;
         console.log(this.ViewImportExcelFinal,"ViewImportExcelFinal");
-        
-        // if (this.ViewImportExcelFinal.Message == "Client Sales Person Name does not Exists / File Name Already Exist") {
-        //   alert(this.ViewImportExcelFinal.Message);
-        // }
-        // else {
-        //   //alert('File Inward Successfully.');
-        //   alert(this.ViewImportExcelFinal.Message);
-        // }
          this.clientcordinationservice.getBindFileInward();
+         this._coreService.openSnackBar('File Inward Successfully.');
       });
       
     }
@@ -167,6 +161,15 @@ export class JoborderexcelComponent implements OnInit {
       alert("No Success file imported.");
     }
   };
+
+  //deletetemptable
+  CancelInward(){
+    this.clientcordinationservice.deletetempexcel().subscribe(data=>{
+      this._coreService.openSnackBar('Inward File Cancelled Successfully.');
+      this.clientcordinationservice.getBindFileInward();
+      this.clientcordinationservice.getBindFileInwardOnlyTrue();  
+    });
+  }
 
 }
 
