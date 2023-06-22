@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-tally',
@@ -82,7 +83,7 @@ setExchangeHeader() {
 }
 
   ngOnInit(): void {
-    this.http.get<any>('https://localhost:7208/api/Invoice/GetClient').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'Invoice/GetClient').subscribe(data => {
       this.data = data;
       console.log(data);
     });
@@ -190,7 +191,7 @@ setExchangeHeader() {
   }
   onSubmit() {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetInvoiceIntegrationMaster', {
+    this.http.post<any>(environment.apiURL+'Invoice/GetInvoiceIntegrationMaster', {
       "clientId": this.myForm.value?.ClientId,
       "fromDate": this.myForm.value?.fromDate,
       "toDate": this.myForm.value?.toDate
@@ -207,7 +208,7 @@ setExchangeHeader() {
 
   // onInvoiceCalculation(item: any) {
   //   // Call the API to get the search results
-  //   this.http.post<any>('https://localhost:7208/api/Invoice/GetCalculatedInvoice', item).subscribe((results: any) => {
+  //   this.http.post<any>(environment.apiURL+'Invoice/GetCalculatedInvoice', item).subscribe((results: any) => {
   //     // Set the search results in the data source
   //     const dialogRef = this.dialog.open(InformationpopupComponent, {
   //       width: '500px',
@@ -234,7 +235,7 @@ var data={
   "exchangeRate": 0,
   "invintigxchange": invintigxchange
 }
-this.http.post<any>('https://localhost:7208/api/Invoice/GetExchangeRatetoInvoice',data).subscribe(data => {
+this.http.post<any>(environment.apiURL+'Invoice/GetExchangeRatetoInvoice',data).subscribe(data => {
   console.log(data, "updateinvooice");
   this.selectedInvoices = [];
   this.onSubmit();
@@ -308,7 +309,7 @@ movetointegration(){
     "transactionId": 0,
     "exchangeRate": 0
   }
-  this.http.post<any>('https://localhost:7208/api/Invoice/GetCopytoIntegration',data).subscribe(data =>{
+  this.http.post<any>(environment.apiURL+'Invoice/GetCopytoIntegration',data).subscribe(data =>{
     console.log(data,"movedata");
     this.selectedInvoices = [];
     this.onSubmit();

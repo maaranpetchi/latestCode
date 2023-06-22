@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/Environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private apiUrl = 'https://localhost:7208/api/Account/externalLogin';
+  private apiUrl =environment.apiURL+ '/Account/externalLogin';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 

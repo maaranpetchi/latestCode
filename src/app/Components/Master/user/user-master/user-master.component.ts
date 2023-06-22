@@ -35,7 +35,7 @@ export class UserMasterComponent implements OnInit {
     private _dialog: MatDialog,
     private _empService: UserMasterService,
     private _coreService: CoreService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
   ) {}
   myForm = new FormGroup({
     name:new FormControl('', Validators.required),
@@ -49,9 +49,10 @@ export class UserMasterComponent implements OnInit {
   }
 
   getMasterUsers(){
+    this.spinnerService.requestStarted();
     this._empService.getAllMasterUsers().subscribe({
       next: (data) => {
-        this.spinnerService.requestStarted()
+        this.spinnerService.requestEnded();
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

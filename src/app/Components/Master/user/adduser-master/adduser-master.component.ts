@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { UserMasterService } from 'src/app/Services/Master/user-master.service';
@@ -195,7 +196,7 @@ export class AdduserMasterComponent implements OnInit {
               employee: null
             }
         console.log(saveUserData, 'data saved successfully');
-       this.http.post('https://localhost:7208/api/User/SaveUser?actionType=1',saveUserData).subscribe({
+       this.http.post(environment.apiURL+'User/SaveUser?actionType=1',saveUserData).subscribe({
           next: (val: any) => {
             this._coreService.openSnackBar('User detail added!');
             console.log(val);

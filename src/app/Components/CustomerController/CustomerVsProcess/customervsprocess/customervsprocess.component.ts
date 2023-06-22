@@ -12,6 +12,7 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { EmployeevsprocessService } from 'src/app/Services/CustomerVSProcess/employeevsprocess.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-customervsprocess',
@@ -84,13 +85,13 @@ export class CustomervsprocessComponent implements OnInit {
         this.departmentList = options;
       });
 
-    this.http.get<any>('https://localhost:7208/api/CustomerVsProcess/GetAllddlList').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'CustomerVsProcess/GetAllddlList').subscribe(data => {
       this.data = data;
       console.log(data);
 
     });
 
-    this.http.get<any[]>('https://localhost:7208/api/user/getallcustomers')
+    this.http.get<any[]>(environment.apiURL+'user/getallcustomers')
       .subscribe(customers => {
         this.customers = customers.sort((a, b) => a.name.localeCompare(b.name));
       });
@@ -197,7 +198,7 @@ export class CustomervsprocessComponent implements OnInit {
   onSubmit() {
     console.log(this.myForm);
     this.submitted = true;
-    this.http.post('https://localhost:7208/api/CustomerVsProcess/AddProcessworkflow', {
+    this.http.post(environment.apiURL+'CustomerVsProcess/AddProcessworkflow', {
       "selectedScopes": this.myForm.value.scopeName,
       "departmentId": this.myForm.value.departmentList,
       "customerId": this.myForm.value.customer,

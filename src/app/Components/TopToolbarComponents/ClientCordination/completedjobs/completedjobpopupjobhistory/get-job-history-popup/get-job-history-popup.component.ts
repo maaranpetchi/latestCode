@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-get-job-history-popup',
@@ -25,7 +26,7 @@ export class GetJobHistoryPopupComponent implements OnInit {
  copyPreviousTrayFiles:boolean = false;
   ngOnInit() {
     // Fetch data from the REST API and populate the table job history
-    this.http.post<any>('https://localhost:7208/api/JobOrder/getJobHistory',this.data.jid).subscribe(data => {
+    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
       this.dataJobSource = data.jobHistory;
       console.log(data,"JobDetails");
       

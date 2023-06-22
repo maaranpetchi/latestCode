@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
@@ -95,21 +96,21 @@ export class JoborderComponent implements OnInit {
     console.log(this.selectedCustomerContactName, "selectedCustomerContactName");
 
     //JOb status dropdown
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/getJobStatusForJO').subscribe(statuses => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/getJobStatusForJO').subscribe(statuses => {
       this.jobStatuses = statuses;
     });
     //DEPARTMENT status dropdown
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/getDepartmentsForJO').subscribe(Departmentstatus => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/getDepartmentsForJO').subscribe(Departmentstatus => {
       this.Department = Departmentstatus;
     });
     // ClientNamedropdown
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/getCustomersForJO').subscribe(clientname => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/getCustomersForJO').subscribe(clientname => {
       this.ClientName = clientname;
     });
     // CustomerContactName
 
     //Division
-    this.http.get<any>('https://localhost:7208/api/ClientOrderService/nGetDivisionForJO').subscribe(Divisionstatus => {
+    this.http.get<any>(environment.apiURL+'ClientOrderService/nGetDivisionForJO').subscribe(Divisionstatus => {
       this.Division = Divisionstatus;
     })
 
@@ -129,7 +130,7 @@ export class JoborderComponent implements OnInit {
 
   //Selectionchange method to get customer contact
   getcustomername() {
-    this.http.get<any>(`https://localhost:7208/api/ClientOrderService/CCByCusId?custId=${this.selectedClientName.id}`).subscribe(CustomerContactName => {
+    this.http.get<any>(environment.apiURL+`ClientOrderService/CCByCusId?custId=${this.selectedClientName.id}`).subscribe(CustomerContactName => {
       this.CustomerContactName = CustomerContactName;
       console.log(this.CustomerContactName = CustomerContactName, "GetCustomer")
     });
@@ -268,7 +269,7 @@ console.log(this.selectedFile ,"selected file");
     }
     console.log( "ccId", this.joborder.value.clientSalesperson);
     
-    this.http.post<any>(`https://localhost:7208/api/JobOrder/InternalOrder`, jobordervalues).subscribe(data => {
+    this.http.post<any>(environment.apiURL+`JobOrder/InternalOrder`, jobordervalues).subscribe(data => {
       const orderId = data.orderId;
       const processId = data.processId;
       const statusId = data.statusId;
@@ -277,7 +278,7 @@ console.log(this.selectedFile ,"selected file");
       for (let i = 0; i < this.selectedFile.length; i++) {
         fd.append('FormCollection[]', this.selectedFile[i]);
       }
-      this.http.post<any>(`https://localhost:7208/api/File/uploadFiles/${orderId}/0/${processId}/${statusId}/1/${processId}/${statusId}`, fd).subscribe(filedata => {
+      this.http.post<any>(environment.apiURL+`File/uploadFiles/${orderId}/0/${processId}/${statusId}/1/${processId}/${statusId}`, fd).subscribe(filedata => {
         let submitted = false;
         let orderDetails: any = {};
         this.selectedFile = [];

@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { GetJobHistoryPopupComponent } from './completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-completedjobs',
@@ -46,7 +47,7 @@ data:any;
   }
 
   getCompletedJobData(): void {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
       this.dataSource = new MatTableDataSource(data.clientDetails.resultCompletedJobsList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -85,7 +86,7 @@ data:any;
   }
 postdatabulk:any;
   bulkUpload(){
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
     console.log("bulkdataemployee", data);
       
     this.postdatabulk = data.clientDetails.resultCompletedJobsList;
@@ -190,7 +191,7 @@ postdatabulk:any;
     //   }],
     //   "isJobFilesNotTransfer": true
     // }
-    this.http.post<any>(`https://localhost:7208/api/Allocation/processMovement`,bulkuploaddata).subscribe(data => {
+    this.http.post<any>(environment.apiURL+`Allocation/processMovement`,bulkuploaddata).subscribe(data => {
       console.log(data,"dataprocess");
   });
   }

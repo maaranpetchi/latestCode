@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { environment } from 'src/Environments/environment';
 import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import * as XLSX from 'xlsx';
@@ -70,7 +71,7 @@ export class JoborderexcelComponent implements OnInit {
       fd.append('FormCollection[]', this.selectedFile[i]);
     }
     // fd.append('Id', employeeId);
-    this.http.post<any>(`https://localhost:7208/api/JobOrder/PostImportExcel?EmployeeId=${this.loginservice.getUsername()}`, fd).subscribe(response => {
+    this.http.post<any>(environment.apiURL+`JobOrder/PostImportExcel?EmployeeId=${this.loginservice.getUsername()}`, fd).subscribe(response => {
       console.log(response, "FileImport");
       this.postBindFileInward();
       this.postFileInwardType();

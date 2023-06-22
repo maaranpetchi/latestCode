@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogoutService {
 
-  private currentUserUrl = 'https://localhost:7208/api/Employee/GetEmployeeList';
+  private currentUserUrl = environment.apiURL+'Employee/GetEmployeeList';
 
-  private userchangepassword ='https://localhost:7208/api/Account/ChangePassword';
+  private userchangepassword =environment.apiURL+'Account/ChangePassword';
 
   constructor(private http: HttpClient) { }
 

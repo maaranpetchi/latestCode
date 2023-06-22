@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from 'src/Environments/environment';
 
 //receiptmode dropdown INTERFACE
 interface RECEIPTMODE {
@@ -111,12 +112,12 @@ invoicenumberdropdownvalue:any[] = [];
   }
   ngOnInit() {
     // customername dropdown fetch the values from the API
-    this.http.get<any>('https://localhost:7208/api/Invoice/getCustomers').subscribe(customernamedata => {
+    this.http.get<any>(environment.apiURL+'Invoice/getCustomers').subscribe(customernamedata => {
       this.CustomerNamedropdownvalues = customernamedata.stringList;
     });
 
     //invoicenumber
-    this.http.get<any>('https://localhost:7208/api/Receivable/GetCustomerInvoice?CustomerId=4141')
+    this.http.get<any>(environment.apiURL+'Receivable/GetCustomerInvoice?CustomerId=4141')
     .subscribe(invoicenumberdata => {
       this.invoicenumberdropdownvalue = invoicenumberdata;
     });

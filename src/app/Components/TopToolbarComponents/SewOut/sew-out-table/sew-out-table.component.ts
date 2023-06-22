@@ -12,6 +12,7 @@ import { SewOutComponent } from '../sew-out/sew-out.component';
 import { SewoutworkflowComponent } from '../SewOut-JobDetailsPopup/sewoutworkflow/sewoutworkflow.component';
 import { Router } from '@angular/router';
 import { data } from 'jquery';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-sew-out-table',
@@ -210,7 +211,7 @@ export class SewOutTableComponent implements OnInit {
   workFlowConversion() {
 
     if (this.getTabValue() !== 5) {
-      const apiUrl = `https://localhost:7208/api/Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
+      const apiUrl = environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
       this.http.get(apiUrl).subscribe(
         (response: any) => {
           console.log(response,"getworkflow");

@@ -99,6 +99,8 @@ import { ProcessComponent } from 'src/app/Components/Master/process/process/proc
 import { ViewProcessComponent } from 'src/app/Components/Master/process/view-process/view-process.component';
 import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/bench-status/bench-status.component';
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
+import { JobhistoryDetailsComponent } from 'src/app/Components/JobHistory/jobhistory-details/jobhistory-details.component';
+import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
 
 @NgModule({
   declarations: [
@@ -243,7 +245,11 @@ import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/j
     // oneTime Master 
     OneTimemasterComponent,
     // job istory
-    JobHistoryComponent
+    JobHistoryComponent,
+    JobhistoryDetailsComponent,
+    // Job Transfer
+    JobTransferComponent,
+    
 
   ],
   imports: [

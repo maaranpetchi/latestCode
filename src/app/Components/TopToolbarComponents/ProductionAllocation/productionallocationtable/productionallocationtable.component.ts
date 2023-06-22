@@ -7,6 +7,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 import { ProductionAllocationService } from 'src/app/Services/CoreStructure/ProductionAllocation/production-allocation.service';
 import { JobAssignedDetailsPopupComponent } from '../job-assigned-details-popup/job-assigned-details-popup.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 
 
 @Component({
@@ -72,7 +73,7 @@ export class ProductionallocationtableComponent implements OnInit {
 
 
   fetchScopes() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getScopeValues/${this.loginservice.getUsername()}`).subscribe(scopedata => {
+    this.http.get<any>(environment.apiURL+`Allocation/getScopeValues/${this.loginservice.getUsername()}`).subscribe(scopedata => {
       this.scopes = scopedata.scopeDetails;
       this.scopes.sort((a, b) => a.name.localeCompare(b.name)); // Sort the scopes based on the 'name' property
     });
@@ -170,7 +171,7 @@ export class ProductionallocationtableComponent implements OnInit {
 
 
   freshJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/1/0`).subscribe(freshJobs => {
+    this.http.get<any>(environment.apiURL+`Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/1/0`).subscribe(freshJobs => {
       this.dataSource =new MatTableDataSource(freshJobs.allocationJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -179,7 +180,7 @@ export class ProductionallocationtableComponent implements OnInit {
 
   }
   revisionJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/2/0`).subscribe(revisionJobs => {
+    this.http.get<any>(environment.apiURL+`Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/2/0`).subscribe(revisionJobs => {
       this.dataSource =new MatTableDataSource(revisionJobs.allocationJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -187,7 +188,7 @@ export class ProductionallocationtableComponent implements OnInit {
     });
   }
   reworkJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/3/0`).subscribe(reworkJobs => {
+    this.http.get<any>(environment.apiURL+`Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/3/0`).subscribe(reworkJobs => {
       this.dataSource = new MatTableDataSource(reworkJobs.allocationJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -195,7 +196,7 @@ export class ProductionallocationtableComponent implements OnInit {
     });
   }
   allocaetdJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/4/0`).subscribe(allocaetdJobs => {
+    this.http.get<any>(environment.apiURL+`Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/4/0`).subscribe(allocaetdJobs => {
       this.dataSource = new MatTableDataSource(allocaetdJobs.allocationJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -203,7 +204,7 @@ export class ProductionallocationtableComponent implements OnInit {
     });
   }
   queries() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getQueryPendingJobs/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/0`).subscribe(queries => {
+    this.http.get<any>(environment.apiURL+`Allocation/getQueryPendingJobs/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/0`).subscribe(queries => {
       this.dataSource = new MatTableDataSource(queries.allocationJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -211,7 +212,7 @@ export class ProductionallocationtableComponent implements OnInit {
     });
   }
   queryResposne() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getQueryResponseJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/0`).subscribe(queryResposne => {
+    this.http.get<any>(environment.apiURL+`Allocation/getQueryResponseJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/0`).subscribe(queryResposne => {
       this.dataSource = new MatTableDataSource(queryResposne.allocationJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -220,7 +221,7 @@ export class ProductionallocationtableComponent implements OnInit {
   }
   errorJobs() {
     this.http.get<any>(`
-    https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/5/0`).subscribe(errorJobs => {
+   environment.apiURL+ Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/5/0`).subscribe(errorJobs => {
       this.dataSource =new MatTableDataSource( errorJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -228,7 +229,7 @@ export class ProductionallocationtableComponent implements OnInit {
     });
   }
   quotationJobs() {
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/7/0`).subscribe(quotationJobs => {
+    this.http.get<any>(environment.apiURL+`Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/7/0`).subscribe(quotationJobs => {
       this.dataSource =new MatTableDataSource(quotationJobs);
       this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
@@ -237,7 +238,7 @@ export class ProductionallocationtableComponent implements OnInit {
   }
 
 getAssignedtable(){
-  this.http.get<any>(`https://localhost:7208/api/Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/1/0`).subscribe(data => {
+  this.http.get<any>(environment.apiURL+`Allocation/getPendingAllocationJobsAndEmployees/${parseInt(this.loginservice.getUsername())}/${parseInt(this.loginservice.getProcessId())}/1/0`).subscribe(data => {
     // this.dataEmployeeSource = ;
     this.dataEmployeeSource = new MatTableDataSource(data.employees);
     this.dataEmployeeSource.sort = this.sort;

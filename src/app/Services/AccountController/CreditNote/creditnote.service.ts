@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 
 
 @Injectable({
@@ -14,21 +15,21 @@ export class CreditnoteService {
 
   getcustomerdropdown():Observable<any>{
 
-    return this._http.get('https://localhost:7208/api/Customer/GetCustomers')
+    return this._http.get(environment.apiURL+'Customer/GetCustomers')
   }
   addEmployee(data: any): Observable<any> {
-    return this._http.post('https://localhost:7208/api/Employee/AddEmployee', data);
+    return this._http.post(environment.apiURL+'Employee/AddEmployee', data);
   }
 
   updateEmployee(data: any): Observable<any> {
-    return this._http.post(`https://localhost:7208/api/Employee/EditEmployee`, data);
+    return this._http.post(environment.apiURL+`Employee/EditEmployee`, data);
   }
 
   getEmployeeList(): Observable<any> {
-     return this._http.get('https://localhost:7208/api/Receivable/GetAllCreditNotes');
+     return this._http.get(environment.apiURL+'Receivable/GetAllCreditNotes');
   }
 
   deleteEmployee(id: number): Observable<any> {
-    return this._http.delete(`https://localhost:7208/api/Employee/PostDeleteEmployee?data=${id}&data1=152`);
+    return this._http.delete(environment.apiURL+`Employee/PostDeleteEmployee?data=${id}&data1=152`);
   }
 }

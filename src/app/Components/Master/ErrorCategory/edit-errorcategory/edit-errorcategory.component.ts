@@ -304,21 +304,6 @@ export class EditErrorcategoryComponent implements OnInit {
       }
 
     })
-    // this._service.updateErrorCategory(updateData).subscribe({
-    //   next: (response: any) => {
-    //     if (this.data) {
-    //       this._coreService.openSnackBar('Error Category updated!');
-    //       console.log(response);
-    //     }
-    //      if(response === "true") {
-    //       this.route.navigate(['/topnavbar/errorCategory']);
-    //       this._coreService.openSnackBar('Error Category updated!');
-    //     }
-    //   },
-    //   error: (err: any) => {
-    //     throw new Error('API Error', err);
-    //   },
-    // });
   }
 
   onCancel() {

@@ -15,9 +15,6 @@ import { UpdateExchangeRateComponent } from './Components/AccountsController/Tal
 
 import { SpinnerComponent } from './Components/Spinner/spinner/spinner.component';
 
-import { GetJobHistoryPopupComponent } from './Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
-import { JobhistoryDetailsComponent } from './Components/JobHistory/jobhistory-details/jobhistory-details.component';
-import { JobTransferComponent } from './Components/JobTransfer/job-transfer/job-transfer.component';
 
 @NgModule({
   declarations: [
@@ -25,11 +22,9 @@ import { JobTransferComponent } from './Components/JobTransfer/job-transfer/job-
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
     SpinnerComponent,
+    
 
    
-    JobhistoryDetailsComponent,
-    JobTransferComponent,
-    
    
   
 

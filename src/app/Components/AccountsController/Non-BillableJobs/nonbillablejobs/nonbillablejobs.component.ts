@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/AccountController/NonBillablejobs/Core/core.service';
 import { NonbillablejobsService } from 'src/app/Services/AccountController/NonBillablejobs/nonbillablejobs.service';
 
@@ -59,7 +60,7 @@ export class NonbillablejobsComponent implements OnInit {
   ngOnInit(): void {
 
      // customerdata dropdown fetch the values from the API
-     this.http.get<any[]>('https://localhost:7208/api/Dropdown/GetCustomers').subscribe(customerdata => {
+     this.http.get<any[]>(environment.apiURL+'Dropdown/GetCustomers').subscribe(customerdata => {
       this.Customerdropdownvalues = customerdata;
   // Sort the array by a specific property
   this.Customerdropdownvalues.sort((a, b) => {
@@ -74,12 +75,12 @@ export class NonbillablejobsComponent implements OnInit {
 
     });
      // Departmentdropdownvalues  dropdown fetch the values from the API
-     this.http.get<any>('https://localhost:7208/api/Employee/GetDropDownList').subscribe(departmentdata => {
+     this.http.get<any>(environment.apiURL+'Employee/GetDropDownList').subscribe(departmentdata => {
       this.Departmentdropdownvalues = departmentdata.designationList;
     });
 
     //Nonbillable
-    this.http.get<any>('https://localhost:7208/api/JobOrder/nGetNonBillable').subscribe(nonbillabledata => {
+    this.http.get<any>(environment.apiURL+'JobOrder/nGetNonBillable').subscribe(nonbillabledata => {
       this.Nonbillabledropdownvalues = nonbillabledata.getDDLNBList;
     });
 
@@ -133,7 +134,7 @@ selectedInvoices:any[]=[];
       "clientId": this.empForm.value.customer,
       "departmentId":  this.empForm.value.department
     };
-        this.http.post<any>('https://localhost:7208/api/JobOrder/nGetNonBillableData',data).subscribe(response => {
+        this.http.post<any>(environment.apiURL+'JobOrder/nGetNonBillableData',data).subscribe(response => {
           this.dataSource.data = response.getNonBList;
           // Sort dataSource based on MatSort
           this.dataSource.sort = this.sorttable;
@@ -162,7 +163,7 @@ selectedInvoices:any[]=[];
             "getNBPara": temparray
           }
   
-          this.http.post<any>('https://localhost:7208/api/JobOrder/nUpdateNonBillable',data).subscribe(data=>{
+          this.http.post<any>(environment.apiURL+'JobOrder/nUpdateNonBillable',data).subscribe(data=>{
             console.log(data,"NOnbillable");
             this.selectedInvoices=[];
             this. onGoButtonClick();

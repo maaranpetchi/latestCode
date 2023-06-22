@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { JobDetailsClientIndexComponent } from './job-details-client-index/job-details-client-index.component';
+import { environment } from 'src/Environments/environment';
 
 
 @Component({
@@ -134,7 +135,7 @@ queriesToClient(){
   });  
 }
 queryResponse(){
-  this.http.get<any>(`http://localhost:7208/api/Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+  this.http.get<any>(environment.apiURL+`Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.dataSource = data.quotationJobs;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -143,7 +144,7 @@ queryResponse(){
   });  
 }
 cancelledJobs(){
-  this.http.get<any>(`http://localhost:7208/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+  this.http.get<any>(environment.apiURL+`Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.dataSource = data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -152,7 +153,7 @@ cancelledJobs(){
   });  
 }
 quotationJobs(){
-  this.http.get<any>(`http://localhost:7208/api/Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+  this.http.get<any>(environment.apiURL+`Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.dataSource = data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

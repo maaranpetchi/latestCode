@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ClientorderstableComponent } from '../clientorderstable/clientorderstable.component';
+import { environment } from 'src/Environments/environment';
 
 export interface TableData {
   amount: number;
@@ -28,7 +29,7 @@ export class ClientdetailspopupComponent implements OnInit {
 
   fetchTableData(id) {
     let a:any[] = [];
-    this.http.get<any>(`https://localhost:7208/api/ClientOrderService/GetJobOrderByJobId?JobId=${id}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`ClientOrderService/GetJobOrderByJobId?JobId=${id}`).subscribe(data => {
     a.push(data);  
     this.dataSource = a;
       console.log(a,'details')

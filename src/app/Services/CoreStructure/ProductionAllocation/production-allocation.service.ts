@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginService } from '../../Login/login.service';
+import { environment } from 'src/Environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +11,6 @@ export class ProductionAllocationService {
 
 
   getJobCategoryStatusMessage(){
-   return this.http.get<any[]>(`https://localhost:7208/api/allocation/getjobcategory`)
+   return this.http.get<any[]>(environment.apiURL+`allocation/getjobcategory`)
   }
 }

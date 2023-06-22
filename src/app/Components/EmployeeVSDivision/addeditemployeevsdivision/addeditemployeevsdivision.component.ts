@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { log } from 'console';
+import { environment } from 'src/Environments/environment';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
     // });
     this.myForm = new FormGroup({ selectedValues: this.fb.array([]) });
 
-    this.http.get<any>('https://localhost:7208/api/EmployeeVsDivision/GetEmployee').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'EmployeeVsDivision/GetEmployee').subscribe(data => {
 
       // this.table1Data =data.eEvDList ;
       this.table1Data = new MatTableDataSource(data.eEvDList);
@@ -50,7 +51,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
 
     });
 
-    this.http.get<any>('https://localhost:7208/api/EmployeeVsDivision/GetDivision').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'EmployeeVsDivision/GetDivision').subscribe(data => {
       // this.table2Data = data.dEvDList;
       this.table2Data = new MatTableDataSource(data.dEvDList);
       this.table2Data.data.forEach(row => {
@@ -62,14 +63,14 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
   onPageChange(event: any) {
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
-    this.http.get<any>(`https://localhost:7208/api/EmployeeVsDivision/GetEmployee?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetEmployee?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
       this.table1Data.data = data.eEvDList;
     });
   }
   onPageChange2(event: any) {
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
-    this.http.get<any>(`https://localhost:7208/api/EmployeeVsDivision/GetDivision?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetDivision?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
       this.table2Data.data = data.dEvDList;
     });
   }
@@ -85,7 +86,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
 
       // Submit the selected values to the REST API using HttpClient
 
-      this.http.post('https://localhost:7208/api/EmployeeVsDivision/SetEmployeeVsDivision', {
+      this.http.post(environment.apiURL+'EmployeeVsDivision/SetEmployeeVsDivision', {
         "selectedEmployee": this.table1selectedarray,
         "selectedDivision": this.table2selectedarray,
         "createdBy": 152,

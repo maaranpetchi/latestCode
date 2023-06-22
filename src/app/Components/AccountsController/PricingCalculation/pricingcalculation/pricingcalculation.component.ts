@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PricingcalculationService } from 'src/app/Services/AccountController/PricingCalculation/pricingcalculation.service';
 import { InformationpopupComponent } from '../Dialogpop/informationpopup/informationpopup.component';
 import { log } from 'console';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-pricingcalculation',
@@ -69,7 +70,7 @@ export class PricingcalculationComponent implements OnInit {
   ngOnInit(): void {
 
     //client name dropdown
-    this.http.get<any>('https://localhost:7208/api/Invoice/GetClient').subscribe(data => {
+    this.http.get<any>(environment.apiURL+'Invoice/GetClient').subscribe(data => {
       this.data = data;
       console.log(data);
     });
@@ -178,7 +179,7 @@ export class PricingcalculationComponent implements OnInit {
   }
   onSubmit() {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetClientDetails', {
+    this.http.post<any>(environment.apiURL+'Invoice/GetClientDetails', {
       "clientId": this.myForm.value?.ClientId,
       "fromDate": this.myForm.value?.fromDate,
       "toDate": this.myForm.value?.toDate
@@ -195,7 +196,7 @@ export class PricingcalculationComponent implements OnInit {
 
   onInvoiceCalculation(item: any) {
     // Call the API to get the search results
-    this.http.post<any>('https://localhost:7208/api/Invoice/GetCalculatedInvoice', item).subscribe((results: any) => {
+    this.http.post<any>(environment.apiURL+'Invoice/GetCalculatedInvoice', item).subscribe((results: any) => {
       // Set the search results in the data source
       const dialogRef = this.dialog.open(InformationpopupComponent, {
         width: '500px',

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 
@@ -49,7 +50,7 @@ export class AddScopeComponent implements OnInit {
       // },
     };
     this.http
-      .post('https://localhost:7208/api/Scope/CreateScope', SaveScope)
+      .post(environment.apiURL+'Scope/CreateScope', SaveScope)
       .subscribe({
         next: (response: any) => {
           // const departmentId = response.department?.departmentId;

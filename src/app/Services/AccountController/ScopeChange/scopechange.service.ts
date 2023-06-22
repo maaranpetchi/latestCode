@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,13 +18,13 @@ export class ScopechangeService {
   }
 
   getEmployeeList(): Observable<any> {
-    return this._http.get('https://localhost:7208/api/Report/GetJobOrderDetailsList');
+    return this._http.get(environment.apiURL+'Report/GetJobOrderDetailsList');
   }
 
   deleteEmployee(id: number): Observable<any> {
     return this._http.delete(`http://localhost:3000/employees/${id}`);
   }
   getJobOrderList(data:any):Observable<any>{
-    return this._http.post('https://localhost:7208/api/Report/GetJobOrderDetailsList', data);
+    return this._http.post(environment.apiURL+'Report/GetJobOrderDetailsList', data);
   }
 }

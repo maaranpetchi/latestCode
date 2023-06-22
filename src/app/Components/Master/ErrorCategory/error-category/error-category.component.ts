@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { ErrorCategoryService } from 'src/app/Services/Errorcategory/error-category.service';
 
@@ -59,12 +60,12 @@ export class ErrorCategoryComponent implements OnInit{
   }
 
   openViewForm(data:any){
-    this.http.get(`https://localhost:7208/api/ErrorCategory/GetErrorCategoryDetails?Id=${data.id}`).subscribe((response:any) =>{
+    this.http.get(environment.apiURL+`ErrorCategory/GetErrorCategoryDetails?Id=${data.id}`).subscribe((response:any) =>{
     this.router.navigate(['/topnavbar/error-Categoryview'], {state:{data:response}});
   })
   }
   openEditForm(id:any){
-    this.http.get(`https://localhost:7208/api/ErrorCategory/GetErrorCategoryDetails?Id=${id}`).subscribe((response:any) =>{
+    this.http.get(environment.apiURL+`ErrorCategory/GetErrorCategoryDetails?Id=${id}`).subscribe((response:any) =>{
     this.router.navigate(['/topnavbar/error-Categoryedit'], {state:{data:response}});
   })
   }

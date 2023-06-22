@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/Environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,6 @@ export class NonbillablejobsService {
     return this._http.delete(`http://localhost:3000/employees/${id}`);
   }
   getJobOrderList(data:any):Observable<any>{
-    return this._http.post('https://localhost:7208/api/Report/GetJobOrderDetailsList', data);
+    return this._http.post(environment.apiURL+'Report/GetJobOrderDetailsList', data);
   }
 }

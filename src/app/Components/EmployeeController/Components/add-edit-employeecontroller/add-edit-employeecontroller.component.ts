@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms"
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
 import { CoreService } from 'src/app/Services/EmployeeController/Core/core.service';
 import { EmployeeService } from 'src/app/Services/EmployeeController/employee.service';
@@ -199,36 +200,36 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
  
     this.Empregister.patchValue(this.data);
     // department dropdown fetch the values from the API
-    this.http.get<any>('https://localhost:7208/api/Employee/GetDropDownList').subscribe(departmentdata => {
+    this.http.get<any>(environment.apiURL+'Employee/GetDropDownList').subscribe(departmentdata => {
       this.Departmentdropdownvalues = departmentdata.departmentList;
     });
 
     //destination dropdown fetch the api value to show it in dropdown
-    this.http.get<any>('https://localhost:7208/api/Employee/GetDropDownList').subscribe(departmentdata => {
+    this.http.get<any>(environment.apiURL+'Employee/GetDropDownList').subscribe(departmentdata => {
       this.destinationoptions = departmentdata.designationList;
     });
 
     //Employee Hierarchy dropdown fetch the api value to show it in dropdown
-    this.http.get<any>('https://localhost:7208/api/Employee/GetEmployeeList').subscribe(departmentdata => {
+    this.http.get<any>(environment.apiURL+'Employee/GetEmployeeList').subscribe(departmentdata => {
       this.EmployeeHierarchyOptions = departmentdata;
       this.sortData();
     });
 
  // resign reason dropdown fetch the values from the API
-    this.http.get<any>('https://localhost:7208/api/Employee/getresignresaonslist').subscribe(resignreasons => {
+    this.http.get<any>(environment.apiURL+'Employee/getresignresaonslist').subscribe(resignreasons => {
       this.Resigndropdownvalues = resignreasons;
     });
 
     //Employee Process dropdown fetch the api value to show it in dropdown
-    this.http.get('https://localhost:7208/api/Process/ListProcess').subscribe(employeeprocessdata => {
+    this.http.get(environment.apiURL+'Process/ListProcess').subscribe(employeeprocessdata => {
       this.employeeprocessOptions = employeeprocessdata;
     });
     //proficiency dropdown fetch the api value to show it in dropdown
-    this.http.get<any>('https://localhost:7208/api/Employee/GetDropDownList').subscribe(departmentdata => {
+    this.http.get<any>(environment.apiURL+'Employee/GetDropDownList').subscribe(departmentdata => {
       this.proficiencyoptions = departmentdata.proficiencyList;
     });
     //EmployeeRoles dropdown fetch the api value to show it in dropdown
-    this.http.get('https://localhost:7208/api/Employee/GetRolesList')
+    this.http.get(environment.apiURL+'Employee/GetRolesList')
       .subscribe(data => {
         this.EmployeeRolesoptions = data as any[];
       });
@@ -236,7 +237,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
     // this.http.get('https://api.example.com/options').subscribe(reportingmanager1options => {
     //   this.rm1options = reportingmanager1options;
     // });
-    this.http.get<any>('https://localhost:7208/api/Employee/GetEmployeeList').subscribe(departmentdata => {
+    this.http.get<any>(environment.apiURL+'Employee/GetEmployeeList').subscribe(departmentdata => {
       this.rm1options = departmentdata;
       this.rm2options = departmentdata;
       this.rl1options = departmentdata;
