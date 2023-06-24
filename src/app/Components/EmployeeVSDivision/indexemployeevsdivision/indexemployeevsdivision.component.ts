@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoreService } from 'src/app/Services/EmployeeVSDivision/Core/core.service'; 
 import { AddeditemployeevsdivisionComponent } from '../addeditemployeevsdivision/addeditemployeevsdivision.component';
+import { SpinnerService } from '../../Spinner/spinner.service';
 
 @Component({
   selector: 'app-indexemployeevsdivision',
@@ -28,6 +29,7 @@ export class indexemployeevsdivisionComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
+    private spinnerService: SpinnerService,
     private _dialog: MatDialog,
     private _empService: EmpvsdivService,
     private _coreService: CoreService
@@ -52,8 +54,12 @@ export class indexemployeevsdivisionComponent implements OnInit {
   }
 
   getEmployeeList() {
+    this.spinnerService.requestStarted();
+
     this._empService.getEmployeeList().subscribe({
       next: (res) => {
+        this.spinnerService.requestEnded();
+
         this.dataSource = new MatTableDataSource(res.gEvDList);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -72,8 +78,11 @@ export class indexemployeevsdivisionComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
+    this.spinnerService.requestStarted();
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
+        this.spinnerService.requestStarted();
+
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this.getEmployeeList();
       },

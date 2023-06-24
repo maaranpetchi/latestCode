@@ -13,6 +13,7 @@ import { EmployeevsprocessService } from 'src/app/Services/CustomerVSProcess/emp
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-customervsprocess',
@@ -55,6 +56,7 @@ export class CustomervsprocessComponent implements OnInit {
   ];
 
   constructor(private _dialog: MatDialog,
+    private spinnerService:SpinnerService,
     private _empService: EmployeevsprocessService,
     private _coreService: CoreService,
     private router: Router,
@@ -79,9 +81,9 @@ export class CustomervsprocessComponent implements OnInit {
   });
   ngOnInit(): void {
     this.getEmployeeList();
-
     this._empService.getOptions()
       .subscribe(options => {
+        this.spinnerService.requestEnded();
         this.departmentList = options;
       });
 
@@ -117,9 +119,11 @@ export class CustomervsprocessComponent implements OnInit {
   }
 
   getEmployeeList() {
+    this.spinnerService.requestStarted();
     this._empService.getEmployeeList().subscribe({
 
       next: (res) => {
+        this.spinnerService.requestEnded();
 
         this.dataSource = new MatTableDataSource(res);
 
@@ -144,8 +148,10 @@ export class CustomervsprocessComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
+    this.spinnerService.requestStarted();
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
+        this.spinnerService.requestEnded();
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this._empService.changeapi({
           "customerId": this.myForm.value.customer == '' ? 0 : this.myForm.value.customer,
@@ -196,6 +202,8 @@ export class CustomervsprocessComponent implements OnInit {
   }
 
   onSubmit() {
+    this.spinnerService.requestStarted();
+
     console.log(this.myForm);
     this.submitted = true;
     this.http.post(environment.apiURL+'CustomerVsProcess/AddProcessworkflow', {
@@ -210,6 +218,7 @@ export class CustomervsprocessComponent implements OnInit {
       "createdBy": parseInt(this.loginservice.getUsername())
     }).subscribe(() => {
       // clear form fields
+      this.spinnerService.requestEnded();
       this.snackBar.open('Data added Successfully!', 'Close',{
         duration: 3000,
         horizontalPosition: 'center',

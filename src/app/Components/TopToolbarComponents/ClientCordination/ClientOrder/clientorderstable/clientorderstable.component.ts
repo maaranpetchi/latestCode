@@ -345,7 +345,7 @@ export class ClientorderstableComponent {
       imprintColors1: "string",
       imprintColors2: "string",
       imprintColors3: "string",
-      virtualProof: "string",
+      virtualProof: "st",
 
       customerJobType: "string",
 

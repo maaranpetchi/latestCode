@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { JobDetailsClientIndexComponent } from './job-details-client-index/job-details-client-index.component';
 import { environment } from 'src/Environments/environment';
 import * as e from 'cors';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 
 @Component({
@@ -77,7 +78,7 @@ export class QueryToClientComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice:LoginService, private dialog:MatDialog ) {}
+  constructor(private http: HttpClient,private loginservice:LoginService, private dialog:MatDialog ,private spinnerService:SpinnerService) {}
 
   ngOnInit(): void {
     //to get the data and show it in table
@@ -119,23 +120,18 @@ export class QueryToClientComponent implements OnInit {
 
   convertedDate:string;
 queriesToClient(){
+  this.spinnerService.requestStarted();
   this.http.get<any>( environment.apiURL+ `Allocation/getQueryPendingJobs/${this.loginservice.getUsername()}/1/0`).subscribe(data => {
+    this.spinnerService.requestEnded();
     this.dataSource = data.queryPendingJobs;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = true;
     const apiDate = data.date; // Assuming the API response has a 'date' property
-      
-    // // Convert the API date to dd/mm/yyyy format
-    // const dateParts = apiDate.split('-');
-    // const year = dateParts[0];
-    // const month = dateParts[1];
-    // const day = dateParts[2].substr(0, 2);
-    // this.convertedDate = `${day}/${month}/${year}`;
-    // console.log("Queries to client")
   });  
 }
 queryResponse(){
+  this.spinnerService.requestStarted();
   this.http.get<any>(environment.apiURL+`Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.dataSource = data.quotationJobs;
     this.dataSource.paginator = this.paginator;
@@ -145,7 +141,9 @@ queryResponse(){
   });  
 }
 cancelledJobs(){
+  this.spinnerService.requestStarted();
   this.http.get<any>(environment.apiURL+`Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+    this.spinnerService.requestEnded();
     this.dataSource = data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -154,7 +152,9 @@ cancelledJobs(){
   });  
 }
 quotationJobs(){
+  this.spinnerService.requestStarted();
   this.http.get<any>(environment.apiURL+`Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+    this.spinnerService.requestEnded();
     this.dataSource = data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

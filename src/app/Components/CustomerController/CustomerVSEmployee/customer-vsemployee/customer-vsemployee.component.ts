@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { CustomerVSEmployeeService } from 'src/app/Services/CustomerVSEmployee/customer-vsemployee.service';
 import { AddEditCustomerVSEmployeeComponent } from '../add-edit-customer-vsemployee/add-edit-customer-vsemployee.component';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-customer-vsemployee',
@@ -34,6 +35,7 @@ export class CustomerVSEmployeeComponent implements OnInit{
 
 
 constructor( private _dialog: MatDialog,
+  private spinnerService: SpinnerService,
   private _empService: CustomerVSEmployeeService,
   private _coreService: CoreService,
   private router: Router,
@@ -62,10 +64,13 @@ constructor( private _dialog: MatDialog,
   }
 
   getEmployeeList() {
+    this.spinnerService.requestStarted();
+
     this._empService.getEmployeeList().subscribe({
      
       next: (res) => {
-      
+        this.spinnerService.requestEnded();
+
         this.dataSource = new MatTableDataSource(res);
         
         this.dataSource.sort = this.sort;
@@ -89,8 +94,11 @@ constructor( private _dialog: MatDialog,
   }
 
   deleteEmployee(id: number) {
+    this.spinnerService.requestStarted();
+
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
+        this.spinnerService.requestEnded();
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this.getEmployeeList();
         console.log(id);
@@ -119,10 +127,6 @@ constructor( private _dialog: MatDialog,
         }
       },
     });
-
-    
   }
-
-
- 
+   
 }

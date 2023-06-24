@@ -7,6 +7,7 @@ import { AdvanceadjustmentComponent } from '../../Index/advanceadjustment/advanc
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class EditadvanceadjustmentComponent {
   InvoiceAmount: any;
   input6: any;
 
-  constructor(
+  constructor(private spinnerService : SpinnerService,
     private index:AdvanceadjustmentComponent,private _coreService:CoreService,private advanceservice:AdvanceadjustmentService,private formBuilder: FormBuilder,private http: HttpClient,
     public dialogRef: MatDialogRef<EditadvanceadjustmentComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -47,7 +48,9 @@ export class EditadvanceadjustmentComponent {
 
   ngOnInit(): void {
     // department dropdown fetch the values from the API
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL+`Receivable/GetCustomerInvoice?CustomerId=${this.data.department}`).subscribe(invoicedata => {
+      this.spinnerService.requestEnded();
       this.Invoicedropdownvalues = invoicedata;
     });
 
@@ -71,7 +74,9 @@ export class EditadvanceadjustmentComponent {
 
   advanceamount = this.data.availableAdvance;
   onSelectionChange() {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL+`Receivable/GetInvoice?invoiceNo=${this.selectedInvoiceOption}&customerId=${this.data.department}`).subscribe(data => {
+      this.spinnerService.requestEnded();
       this.invoiceValue = data.invoiceValue;
       this.adjustmentAmount = data.adjustmentAmount;
       this.input3 = data.input3;
@@ -137,6 +142,7 @@ export class EditadvanceadjustmentComponent {
       this.items.splice(index, 1);
     }
     onFormSubmit(){
+      this.spinnerService.requestStarted();
     console.log(this.items,"Advanceadjustemnt");
   let temparray=this.items.map(x =>{
     return  {
@@ -150,7 +156,7 @@ export class EditadvanceadjustmentComponent {
       "advanceId": this.data.id
     }
       this.http.post<any>(environment.apiURL+'AdvanceAdjustment/CreateAdvanceAdjustment',data).subscribe(data=>{
-        console.log(data,"formsubmission");
+        this.spinnerService.requestEnded();
         this._coreService.openSnackBar('Employee added successfully');
        this.dialogRef.close();
       })

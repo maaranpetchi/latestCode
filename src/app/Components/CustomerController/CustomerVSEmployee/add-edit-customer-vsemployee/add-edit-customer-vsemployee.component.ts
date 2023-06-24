@@ -6,6 +6,7 @@ import { state } from '@angular/animations';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { CustomerVSEmployeeService } from 'src/app/Services/CustomerVSEmployee/customer-vsemployee.service';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 //customerClassification INTERFACE
 interface customerClassification {
@@ -45,8 +46,9 @@ export class AddEditCustomerVSEmployeeComponent implements OnInit {
 
   constructor(private http: HttpClient,
     private _dialogRef: MatDialogRef<AddEditCustomerVSEmployeeComponent>,
-private _coreService:CoreService,
-private employeeservice:CustomerVSEmployeeService,
+    private _coreService: CoreService,
+    private spinnerService: SpinnerService,
+    private employeeservice: CustomerVSEmployeeService,
     @Inject(MAT_DIALOG_DATA)
 
     public data1: any,
@@ -55,7 +57,10 @@ private employeeservice:CustomerVSEmployeeService,
 
 
   ngOnInit(): void {
-    this.http.get<any>(environment.apiURL+'CustomerVsEmployee/GetAllddlList').subscribe(data => {
+    this.spinnerService.requestStarted();
+
+    this.http.get<any>(environment.apiURL + 'CustomerVsEmployee/GetAllddlList').subscribe(data => {
+      this.spinnerService.requestEnded();
       this.data = data;
       console.log(data);
 
@@ -64,61 +69,12 @@ private employeeservice:CustomerVSEmployeeService,
 
 
 
-
-  //   onSubmit(num:number) {
-  //     console.log(this.myForm);
-  //      console.log(this.data1?.id);
-  //     if(num==1){
-  //     this.http.post(environment.apiURL+'CustomerVsEmployee/CreateCustomerVsEmployee', {
-  //       Id :0,
-  //       CustomerId:this.myForm.value.customer, 
-  //      EmployeeId :this.myForm.value.employeeName,
-  //       IsDeleted :0,
-  //       CreatedUTC :new Date(),
-  //       UpdatedUTC :new Date(),
-  //        CreatedBy : 152,
-  //        UpdatedBy : 0,
-  //       ClassId : this.myForm.value.classificationList
-
-
-  //     }).subscribe(
-  //       result => console.log("Data update succesfully"),
-  //       error => console.log('Error:', error)
-  //     );
-  //     // console.log(this.myForm.value)
-
-
-  //   }
-  //   else{
-  //     this.http.post(environment.apiURL+'CustomerVsEmployee/EditCustomerVsEmployee', {
-  //       Id :0,
-  //       CustomerId:this.myForm.value.customer, 
-  //      EmployeeId :this.myForm.value.employeeName,
-  //       IsDeleted :0,
-  //       CreatedUTC :new Date(),
-  //       UpdatedUTC :new Date(),
-  //        CreatedBy : 152,
-  //        UpdatedBy : 0,
-  //       ClassId : this.myForm.value.classificationList
-
-  //     }).subscribe(
-  //       result => console.log("Data update succesfully"),
-  //       error => console.log('Error:', error)
-  //     );
-  //     // console.log(this.myForm.value)
-
-
-
-  //   }
-  // }
-
-
   onSubmit(num: number) {
-
+this.spinnerService.requestStarted();
     const Editid = this.myForm.getRawValue().id;
     if (Editid != '' && Editid != null) {
 
-      this.http.post(environment.apiURL+'CustomerVsEmployee/EditCustomerVsEmployee', {
+      this.http.post(environment.apiURL + 'CustomerVsEmployee/EditCustomerVsEmployee', {
         Id: Editid,
         CustomerId: this.myForm.value.customer,
         EmployeeId: this.myForm.value.employeeName,
@@ -129,16 +85,16 @@ private employeeservice:CustomerVSEmployeeService,
         UpdatedBy: 152,
         ClassId: this.myForm.value.classificationList
 
-      }).subscribe(
-        res=> alert("Data update succesfully") ,
-
-        error => console.log('Error:', error)
-        
-      );
-
+      }).subscribe({
+        next:(result) =>{
+          this.spinnerService.requestEnded();
+          this._coreService.openSnackBar("Created data successfully");
+        }
+      })
       // console.log(this.myForm.value)
     } else {
-      this.http.post(environment.apiURL+'CustomerVsEmployee/CreateCustomerVsEmployee', {
+      this.spinnerService.requestStarted();
+      this.http.post(environment.apiURL + 'CustomerVsEmployee/CreateCustomerVsEmployee', {
         Id: 0,
         CustomerId: this.myForm.value.customer,
         EmployeeId: this.myForm.value.employeeName,
@@ -150,18 +106,20 @@ private employeeservice:CustomerVSEmployeeService,
         ClassId: this.myForm.value.classificationList
       }).subscribe({
         next: (res) => {
+          this.spinnerService.requestEnded();
+
           this._coreService.openSnackBar('Employee Added!', 'done');
           this._dialogRef.close();
           this.employeeservice.getEmployeeList();
-  
+
         },
         error: console.log,
       });
-      }
-        
-    
-      // console.log(this.myForm.value)
     }
 
 
+    // console.log(this.myForm.value)
   }
+
+
+}
