@@ -11,6 +11,7 @@ import { ClientdetailspopupComponent } from '../clientdetailspopup/clientdetails
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientorderviewComponent } from '../clientorderview/clientorderview.component';
 import { environment } from 'src/Environments/environment';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 @Component({
   selector: 'app-clientorderstable',
   templateUrl: './clientorderstable.component.html',
@@ -111,7 +112,7 @@ export class ClientorderstableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, public dialog: MatDialog, private snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient, public dialog: MatDialog, private snackBar: MatSnackBar, private coreService: CoreService) { }
 
   ngOnInit(): void {
     // //DivisionApiDatadropdown
@@ -121,7 +122,7 @@ export class ClientorderstableComponent {
   }
 
   fetchdivision() {
-    this.http.get<any>(environment.apiURL+'ClientOrderService/nGetDivisionForJO').subscribe(data => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/nGetDivisionForJO').subscribe(data => {
       this.DivisionApiData = data;
     });
   }
@@ -148,7 +149,7 @@ export class ClientorderstableComponent {
   }
 
   bindingjobs() {
-    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/1').subscribe(binddata => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/ClientOrdersExts/1').subscribe(binddata => {
       this.dataSource = binddata.data;
       this.displayedColumnsvisibility.fileCount = true;
       this.displayedColumnsvisibility.actionicon = true;
@@ -165,13 +166,13 @@ export class ClientorderstableComponent {
     });
   }
   quotationjobs() {
-    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/2').subscribe(quotation => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/ClientOrdersExts/2').subscribe(quotation => {
       this.dataSource = new MatTableDataSource(quotation.data),
         this.displayedColumnsvisibility.jobid = false;
       this.displayedColumnsvisibility.transactionType = true;
       this.displayedColumnsvisibility.quoteparentid = true;
-      this.displayedColumnsvisibility.action=true;
-      this.displayedColumnsvisibility.actionicon=true;
+      this.displayedColumnsvisibility.action = true;
+      this.displayedColumnsvisibility.actionicon = true;
       this.displayedColumnsvisibility.transactiontype = true;
       this.displayedColumnsvisibility.fileInwardMode = false;
       this.dataSource.paginator = this.paginator;
@@ -181,13 +182,13 @@ export class ClientorderstableComponent {
     });
   }
   convertedjobs() {
-    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/3').subscribe(converted => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/ClientOrdersExts/3').subscribe(converted => {
       this.dataSource = new MatTableDataSource(converted.data);
       this.displayedColumnsvisibility.actionicon = false;
       this.displayedColumnsvisibility.transactionType = true;
       this.displayedColumnsvisibility.jobid = false;
       this.displayedColumnsvisibility.quoteparentid = true;
-      this.displayedColumnsvisibility.action=true;
+      this.displayedColumnsvisibility.action = true;
       this.displayedColumnsvisibility.transactiontype = true;
       this.displayedColumnsvisibility.fileInwardMode = false;
       this.displayedColumnsvisibility.filecount = false;
@@ -197,14 +198,14 @@ export class ClientorderstableComponent {
     });
   }
   deletedjobs() {
-    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/4').subscribe(deleted => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/ClientOrdersExts/4').subscribe(deleted => {
       this.dataSource = new MatTableDataSource(deleted.data)
       this.displayedColumnsvisibility.filecount = false;
       this.displayedColumnsvisibility.transactionType = true;
       this.displayedColumnsvisibility.jobid = false;
       this.displayedColumnsvisibility.quoteparentid = true;
-      this.displayedColumnsvisibility.action=true;
-      this.displayedColumnsvisibility.actionicon=false;
+      this.displayedColumnsvisibility.action = true;
+      this.displayedColumnsvisibility.actionicon = false;
       this.displayedColumnsvisibility.transactiontype = true;
       this.displayedColumnsvisibility.fileInwardMode = false;
       this.dataSource.paginator = this.paginator;
@@ -213,13 +214,13 @@ export class ClientorderstableComponent {
     });
   }
   quotenotapprovaljobs() {
-    this.http.get<any>(environment.apiURL+'ClientOrderService/ClientOrdersExts/5').subscribe(quotenotapproval => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/ClientOrdersExts/5').subscribe(quotenotapproval => {
       this.displayedColumnsvisibility.filecount = false;
       this.displayedColumnsvisibility.transactionType = true;
       this.displayedColumnsvisibility.jobid = false;
       this.displayedColumnsvisibility.fileInwardMode = false;
-      this.displayedColumnsvisibility.action=true;
-      this.displayedColumnsvisibility.actionicon=false;
+      this.displayedColumnsvisibility.action = true;
+      this.displayedColumnsvisibility.actionicon = false;
       this.dataSource = new MatTableDataSource(quotenotapproval.data)
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -228,7 +229,7 @@ export class ClientorderstableComponent {
     });
   }
   queryforsp() {
-    this.http.get<any>(environment.apiURL+'CustomerQuery/GetNotApprovedQueryForSPJobsToCC').subscribe(queryforsp => {
+    this.http.get<any>(environment.apiURL + 'CustomerQuery/GetNotApprovedQueryForSPJobsToCC').subscribe(queryforsp => {
       this.displayedColumnsvisibility.filecount = false;
       this.displayedColumnsvisibility.jobid = true;
       this.displayedColumnsvisibility.quoteparentid = false;
@@ -441,9 +442,14 @@ export class ClientorderstableComponent {
 
     console.log(senddata, "fileconvertdata");
 
-    this.http.post<any>(environment.apiURL+'JobOrder/DirectOrder', senddata).subscribe(convertdata => {
-      console.log("succesfully converted data");
-
+    this.http.post<any>(environment.apiURL + 'JobOrder/DirectOrder', senddata).subscribe(convertdata => {
+      let JobId = convertdata.jobId;
+      if (JobId == `File Name Already Exist!,${GetAllvalues.fileName}` || JobId == "Previous Job is not closed for the File Name and Client!") {
+        alert(JobId);
+      }
+      else {
+        this.coreService.openSnackBar("data added successfully");
+      }
     })
 
   } // added co if ends
@@ -587,9 +593,9 @@ export class ClientorderstableComponent {
       "dateofDelivery": "2023-05-12T07:08:03.495Z",
       "getAllValues": Gridwithmultiplefilesname
     };
-    this.http.post<any>(environment.apiURL+'JobOrder/DirectOrder', senddata).subscribe(multiorder => {
+    this.http.post<any>(environment.apiURL + 'JobOrder/DirectOrder', senddata).subscribe(multiorder => {
       this.showSnackBar("succesfully Bulk converted data");
- 
+
     })
   }
 

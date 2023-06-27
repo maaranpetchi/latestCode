@@ -70,6 +70,8 @@ export class EmployeecontrollerComponent implements OnInit {
       next: (res) => {
         this.spinnerService.requestEnded();
         this.dataSource = new MatTableDataSource(res);
+        console.log(res,"employeelist");
+        
 
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

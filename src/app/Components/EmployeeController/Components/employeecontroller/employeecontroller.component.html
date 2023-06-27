@@ -6,14 +6,14 @@
 </mat-toolbar> -->
 
  <div class="main-body">
-  <h1 style="font-family: 'Times New Roman', Times, serif;color:#186be9;text-align: center;">Employee Controller</h1>
+  <h1 style="font-family: 'Times New Roman', Times, serif;color:#186be9;text-align: center;">Employee </h1>
  
     <button mat-raised-button (click)="openAddEditEmpForm()">
       ADD EMPLOYEE
     </button>
     <mat-form-field>
       <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="ex.prasana" #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
     <mat-checkbox (change)="onCheckboxChange($event,1)">Include Delete Employee</mat-checkbox>
     <mat-checkbox (change)="onCheckboxChange($event,2)">Include Resign Employee</mat-checkbox>
@@ -34,27 +34,27 @@
 
         <ng-container matColumnDef="departmentId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
-          <td mat-cell *matCellDef="let row"> {{row.departmentId}}</td>
+          <td mat-cell *matCellDef="let row"> {{row.departmentDesc}}</td>
         </ng-container>
 
         <ng-container matColumnDef="designationId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
-          <td mat-cell *matCellDef="let row"> {{row.designationId}}</td>
+          <td mat-cell *matCellDef="let row"> {{row.designationDesc}}</td>
         </ng-container>
 
         <ng-container matColumnDef="profiencyId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Proficiency </th>
-          <td mat-cell *matCellDef="let row"> {{row.profiencyId}}</td>
+          <td mat-cell *matCellDef="let row"> {{row.profiencyDesc}}</td>
         </ng-container>
 
         <ng-container matColumnDef="reportingManager1">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> ReportingManager </th>
-          <td mat-cell *matCellDef="let row"> {{row.reportingManager1}}</td>
+          <td mat-cell *matCellDef="let row"> {{row.managerName1}}</td>
         </ng-container>
 
         <ng-container matColumnDef="reportLeader1">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> ReportingLeader </th>
-          <td mat-cell *matCellDef="let row"> {{row.reportLeader1}}</td>
+          <td mat-cell *matCellDef="let row"> {{row.leaderName1}}</td>
         </ng-container>
 
         <ng-container matColumnDef="action">

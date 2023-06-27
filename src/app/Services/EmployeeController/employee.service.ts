@@ -28,7 +28,7 @@ export class EmployeeService {
 
   getEmployeeList(): Observable<any> {
 
-     return this._http.get(environment.apiURL+'Employee/GetEmployeeList');
+     return this._http.get(environment.apiURL+'Employee/GetEmployee');
     // return fetch('https://localhost:7208/api/Employee/GetEmployeeList').then(res => res.json());
   }
 
