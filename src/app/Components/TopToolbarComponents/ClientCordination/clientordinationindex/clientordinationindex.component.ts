@@ -101,7 +101,6 @@ getquerytoclientcount(){
  return this.http.get<any>(environment.apiURL+`Allocation/getcountforcc/${this.loginservice.getUsername()}/1`).subscribe(getquerycount =>{
     this.QueryJobCount = getquerycount.queriesJobsCount;
     console.log(this.QueryJobCount,"getquerytoclientcount");
-
   });
 }
 

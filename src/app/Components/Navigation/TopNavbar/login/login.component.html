@@ -13,7 +13,7 @@
       <br>
       <br>
       <br>
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
         <div class="mb-3" [@slideInOut]>
           <mat-form-field class="example-full-width">
             <mat-label>Username</mat-label>
@@ -28,7 +28,7 @@
         </div>
 
         <p>{{user}}</p>
-        <button class="btn btn-primary" role="button" type="submit">Login</button>
+        <button id="loginButton" class="btn btn-primary" role="button" type="submit">Login</button>
       </form>
     </div>
   </div>
