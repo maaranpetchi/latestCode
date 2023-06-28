@@ -31,23 +31,29 @@ export class CompletedjobsComponent implements OnInit {
     'jobcloseddate',
     'commentstoclient'
   ];
-  
+
   dataSource: MatTableDataSource<any>;
 
-data:any;
+  data: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice:LoginService,private dialog:MatDialog) {}
+  constructor(private http: HttpClient, private loginservice: LoginService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getCompletedJobData();
 
   }
-
+  //getting count
+  CompletedJobsCount: number;
+  getcompleteordercount() {
+    this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(response => {
+      this.CompletedJobsCount = response.clientDetails.resultForCompletedList;
+    });
+  }
   getCompletedJobData(): void {
-    this.http.get<any>(environment.apiURL+`Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
       this.dataSource = new MatTableDataSource(data.clientDetails.resultCompletedJobsList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -63,9 +69,9 @@ data:any;
     }
   }
 
-  remarkValue:string='';
+  remarkValue: string = '';
   //to save the checkbox value
-  selectedQuery:any[]=[];
+  selectedQuery: any[] = [];
 
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedQuery)
@@ -84,14 +90,14 @@ data:any;
     }
     console.log("after", this.selectedQuery)
   }
-postdatabulk:any;
-  bulkUpload(){
-    this.http.get<any>(environment.apiURL+`Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
-    console.log("bulkdataemployee", data);
-      
-    this.postdatabulk = data.clientDetails.resultCompletedJobsList;
+  postdatabulk: any;
+  bulkUpload() {
+    this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
+      console.log("bulkdataemployee", data);
+
+      this.postdatabulk = data.clientDetails.resultCompletedJobsList;
     });
-    let bulkuploaddata={
+    let bulkuploaddata = {
       "id": 0,
       "processId": 1,
       "statusId": 12,
@@ -191,22 +197,22 @@ postdatabulk:any;
     //   }],
     //   "isJobFilesNotTransfer": true
     // }
-    this.http.post<any>(environment.apiURL+`Allocation/processMovement`,bulkuploaddata).subscribe(data => {
-      console.log(data,"dataprocess");
-  });
+    this.http.post<any>(environment.apiURL + `Allocation/processMovement`, bulkuploaddata).subscribe(data => {
+      console.log(data, "dataprocess");
+    });
   }
 
 
-  getRemarkValue(event:Event){
-     this.remarkValue = (event.target as HTMLInputElement).value;
+  getRemarkValue(event: Event) {
+    this.remarkValue = (event.target as HTMLInputElement).value;
   }
   onChange(tab) {
-     tab= this.getCompletedJobData();
-     console.log(tab,"changetab");
-     
+    tab = this.getCompletedJobData();
+    console.log(tab, "changetab");
+
   }
 
-  getjobhistory(data){
+  getjobhistory(data) {
     const dialogRef = this.dialog.open(GetJobHistoryPopupComponent, {
       width: '100vw',
       data
@@ -217,4 +223,6 @@ postdatabulk:any;
       // Handle any actions after the dialog is closed, if needed
     });
   }
+
+
 }
