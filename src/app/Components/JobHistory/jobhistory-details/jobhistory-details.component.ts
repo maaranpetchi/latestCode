@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { JobHistoryComponent } from '../job-history/job-history.component';
+import { environment } from 'src/Environments/environment';
 
 @Component({
   selector: 'app-jobhistory-details',
@@ -28,7 +29,7 @@ export class JobhistoryDetailsComponent implements OnInit {
   }
 
   getJobHistoryDetails(data:any){
-    this.http.post<any>('https://localhost:7208/api/JobOrder/getJobHistory',this.data.jId).subscribe(data => {
+    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jId).subscribe(data => {
       this.dataJobSource = data.jobHistory; 
   })
   }

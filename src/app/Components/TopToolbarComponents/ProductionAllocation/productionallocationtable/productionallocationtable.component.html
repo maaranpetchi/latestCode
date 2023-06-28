@@ -29,7 +29,7 @@
                 <!-- Job ID Column -->
                 <ng-container matColumnDef="jobId">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Job ID </th>
-                    <td mat-cell *matCellDef="let job">  <a (click)="getProductionJob(job)"> {{ job.jobId }} </a>  </td>
+                    <td mat-cell *matCellDef="let job">  <a  class="text-primary" (click)="getProductionJob(job)"> {{ job.jobId }} </a>  </td>
                 </ng-container>
 
                 <!-- Job Name Column -->
@@ -106,7 +106,7 @@
                             <ng-container matColumnDef="selected">
                                 <th mat-sort-header mat-header-cell *matHeaderCellDef> Select </th>
                                 <td mat-cell *matCellDef="let element"> <mat-checkbox
-                                        (change)="setAll($event.checked,element)"></mat-checkbox> </td>
+                                        (change)="setEmployeeAll($event.checked,element)"></mat-checkbox> </td>
 
                             </ng-container>
                             <!-- Job ID Column -->
@@ -145,6 +145,8 @@
                             <!-- Table Rows -->
                             <tr mat-row *matRowDef="let job; columns: displayedEmployeeColumns;"></tr>
                         </table>
+
+
                         <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                     </div>
 
@@ -163,7 +165,7 @@
 
                     <mat-checkbox matInput [(ngModel)]="benchChecked" (change)="onBenchCheckboxChange($event)">
                         BenchBox
-                    </mat-checkbox>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success">Submit</button>
+                    </mat-checkbox>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-success" (click)="onSubmit()">Submit</button>
 
                 </div>
             </div>

@@ -14,11 +14,12 @@ import { JobTransferService } from 'src/app/Services/JobTransfer/job-transfer.se
 export class JobTransferComponent implements OnInit {
   //  Declare properties
   selectedFilter: number;
-  selectedClient: number;
-  selectedJobNumber: string;
-  selectedFileName: string;
+  selectedClientId: number;
+  selectedJobNumber: string | null;
+  selectedFileName: string | null;
+  selectedfromDate:string | null;
 
-  fromDate: string;
+  fromDate: string | null;
   clients: any[];
 
   //  ng if condition declarations
@@ -48,10 +49,9 @@ export class JobTransferComponent implements OnInit {
   myForm = new FormGroup({
     selectdropdown: new FormControl('', Validators.required),
     client: new FormControl('', Validators.required),
-    ClientId: new FormControl('', Validators.required),
     jobNumber: new FormControl(''),
     fromDate: new FormControl(''),
-    toDate: new FormControl(''),
+    file:new FormControl(''),
   });
 
   onFilterChange() {
@@ -93,32 +93,34 @@ export class JobTransferComponent implements OnInit {
     }
   }
   onSearchClick() {
-
-    if (this.selectedClient != undefined || this.selectedFileName != undefined || this.selectedFilter != undefined || this.fromDate != undefined ) {
-      if ((this.selectedClient == undefined || this.selectedClient == null)) {
-        this.selectedClient = 0;
+    console.log(this.selectedFileName, "selected");
+    
+    if (this.selectedClientId != undefined || this.selectedFileName != undefined || this.selectedFilter != undefined || this.fromDate != undefined ) {
+      if ((this.selectedClientId == undefined || this.selectedClientId == null)) {
+        this.selectedClientId = 0;
       }
       if ((this.selectedFileName == undefined || this.selectedFileName == null || this.selectedFileName == '')) {
-        this.selectedFileName = '';
+        this.selectedFileName = null;
       }
       var departmentId = this.selectedFilter;
       if (departmentId == 3 || departmentId == 2 || departmentId == 1 ) {
         departmentId = 0;
       }
     var jobOrder = {
-      jobId: this.jobNumber,
-      fileName: this.fileName,
-      clientId: this.Selectclient,
-      fileReceivedDate: this.fromDate,
+      
+      jobId: this.selectedJobNumber,
+      fileName: this.selectedFileName,
+      clientId: this.selectedClientId,
+      fileReceivedDate: this.selectedfromDate,
     };
     this.spinnerService.requestStarted();
     this._service.jobOrderDetails(jobOrder).subscribe({
-      next: (response: any) => {
+      next: (response) => {
         this.spinnerService.requestEnded();
-        this.dataSource.data = response.jobMovement;
+        this.dataSource = response.jobs;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        console.log(response);
+        console.log(response.jobs);
       },
       error: (err: any) => {
         console.log(err);

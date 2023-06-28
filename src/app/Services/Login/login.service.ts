@@ -8,7 +8,7 @@ import { environment } from 'src/Environments/environment';
 })
 export class LoginService {
 
-  private apiUrl =environment.apiURL+ '/Account/externalLogin';
+  private apiUrl =environment.apiURL+'Account/externalLogin';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
@@ -31,5 +31,8 @@ export class LoginService {
 
   getProcessId() {
     return this.cookieService.get('processId');
+  }
+  getProcessName() {
+    return this.cookieService.get('processName');
   }
 }

@@ -7,6 +7,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { JobDetailsClientIndexComponent } from './job-details-client-index/job-details-client-index.component';
 import { environment } from 'src/Environments/environment';
+import * as e from 'cors';
 
 
 @Component({
@@ -118,7 +119,7 @@ export class QueryToClientComponent implements OnInit {
 
   convertedDate:string;
 queriesToClient(){
-  this.http.get<any>(`https://localhost:7208/api/Allocation/getQueryPendingJobs/${this.loginservice.getUsername()}/1/0`).subscribe(data => {
+  this.http.get<any>( environment.apiURL+ `Allocation/getQueryPendingJobs/${this.loginservice.getUsername()}/1/0`).subscribe(data => {
     this.dataSource = data.queryPendingJobs;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

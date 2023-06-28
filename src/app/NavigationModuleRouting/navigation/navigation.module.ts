@@ -9,7 +9,7 @@ import { EmployeecontrollerComponent } from 'src/app/Components/EmployeeControll
 import { AddEditEmployeecontrollerComponent } from 'src/app/Components/EmployeeController/Components/add-edit-employeecontroller/add-edit-employeecontroller.component';
 import { DashboardComponent } from 'src/app/Components/dashboard/dashboard.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatIconModule} from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon'
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddeditemployeevsdivisionComponent } from 'src/app/Components/EmployeeVSDivision/addeditemployeevsdivision/addeditemployeevsdivision.component';
@@ -109,10 +109,10 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
     LoginComponent,
     //changepassword
     ChangepasswordComponent,
-                                                             //TOPNAVBARCOMPONENTS
-                                                //1.ClientordinationindexComponent
-   
-                                                ClientordinationindexComponent,
+    //TOPNAVBARCOMPONENTS
+    //1.ClientordinationindexComponent
+
+    ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
     ProductionallocationComponent,
     GetJobHistoryPopupComponent,
@@ -125,12 +125,12 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
     ClientdetailspopupComponent,
     FileconvertComponent,
     JobDetailsClientIndexComponent,
-  
+
     //JoborderComponent
     JoborderComponent,
     JoborderexcelComponent,
 
-                                            //1.QueryToClientComponentfortableComponent
+    //1.QueryToClientComponentfortableComponent
     QueryToClientComponent,
     //ProductionmainComponent
     ProductionComponent,
@@ -214,27 +214,27 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
     //SALES CONTROLLER
     //  1.PRICING
     PricingComponent,
-    
+
     // Master.
     UserMasterComponent,
     AddEditUsermasterComponent,
     AdduserMasterComponent,
 
     // Scope
-    
+
     ScopeComponent,
     AddScopeComponent,
     ViewScopeComponent,
     ViewEditScopeComponent,
 
     // Error Category
-    
+
     ErrorCategoryComponent,
     AddErrorcategoryComponent,
     EditErrorcategoryComponent,
 
     // process
-    
+
     ProcessComponent,
     AddEditprocessComponent,
     ViewProcessComponent,
@@ -265,9 +265,9 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
     MatDialogModule,
     MatIconModule,
     MatSelectModule
-    
+
   ],
-  providers:[
+  providers: [
     FileconvertComponent
   ]
 })

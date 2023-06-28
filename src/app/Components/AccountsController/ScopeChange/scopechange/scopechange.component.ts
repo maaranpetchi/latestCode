@@ -131,7 +131,7 @@ export class ScopechangeComponent implements OnInit {
   ngOnInit(): void {
 
     // customerdata dropdown fetch the values from the API
-    this.http.get<any[]>('https://localhost:7208/api/dropdown/getcustomers').subscribe(clientdata => {
+    this.http.get<any[]>(environment.apiURL+'dropdown/getcustomers').subscribe(clientdata => {
       this.Clientdropdownvalues = clientdata;
     });
 

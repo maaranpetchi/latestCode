@@ -550,7 +550,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
   newRoleSubmit() {
     // Send the form data to the backend to store in the database
     // For example, using Angular's HttpClient module:
-    this.http.post('https://localhost:7208/api/Employee/AddEmpNewRoles', this.formData).subscribe(() => {
+    this.http.post(environment.apiURL+'Employee/AddEmpNewRoles', this.formData).subscribe(() => {
       // Show a success message to the user
       alert('Data saved successfully!');
       // Close the form

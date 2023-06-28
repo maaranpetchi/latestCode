@@ -53,24 +53,16 @@ export class JoborderexcelComponent implements OnInit {
     this.selectedFile = event.target.files;
 
   }
-
-  importExcel() {
-    // Perform any additional processing or validation here
-  }
-
-  ngAfterViewInit() {
-
-  }
-
+  ViewImportExcelFinal = {};
   ViewImportExcel = {};
   ViewImportExcelTrue = {};
   importExceFile() {
     let employeeId = this.loginservice.getUsername();
     var fd = new FormData();
     for (let i = 0; i < this.selectedFile.length; i++) {
-      fd.append('FormCollection[]', this.selectedFile[i]);
+      fd.append('Files', this.selectedFile[i]);
     }
-    // fd.append('Id', employeeId);
+     fd.append('Id', employeeId);
     this.http.post<any>(environment.apiURL+`JobOrder/PostImportExcel?EmployeeId=${this.loginservice.getUsername()}`, fd).subscribe(response => {
       console.log(response, "FileImport");
       this.postBindFileInward();
@@ -82,15 +74,99 @@ export class JoborderexcelComponent implements OnInit {
     this.clientcordinationservice.getBindFileInward().subscribe(fileinwarddata => {
       this.ViewImportExcel = fileinwarddata;
       this.dataSource = fileinwarddata;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      console.log(fileinwarddata, "postbindfile");
+
     });
   }
 
   postFileInwardType() {
-    this.clientcordinationservice.getFileInwardType().subscribe(inwarddata => {
+    this.clientcordinationservice.getBindFileInwardOnlyTrue().subscribe(inwarddata => {
       this.ViewImportExcelTrue = inwarddata;
+      console.log(inwarddata, "postbindfile");
     });
   }
+
+
+  //submit
+  InwardExcelDatas() {
+    let payload ={
+      "id": 0,
+      "dateofReceived": "2023-06-21T11:58:24.045Z",
+      "clientName": "string",
+      "clientJobId": "string",
+      "fileName": "string",
+      "jobStatusDescription": "string",
+      "username": "string",
+      "salesPersonName": "string",
+      "clientSalesPerson": "string",
+      "customerName": "string",
+      "temp": "string",
+      "style": "string",
+      "projectCode": "string",
+      "teamCode": "string",
+      "schoolName": "string",
+      "ground": "string",
+      "gender": "string",
+      "fileInwardMode": "string",
+      "status": true,
+      "fileReceivedDate": "2023-06-21T11:58:24.045Z",
+      "jobDescription": "string",
+      "jobStatusId": 0,
+      "departmentId": 0,
+      "divisionId": 0,
+      "employeeId": 0,
+      "clientId": 0,
+      "remarks": "string",
+      "poNo": "string",
+      "fileInwardTypeId": 0,
+      "color": "string",
+      "logoDimensionWidth": "string",
+      "logoDimensionsLength": "string",
+      "apparelLogoLocation": "string",
+      "imprintColors1": "string",
+      "imprintColors2": "string",
+      "imprintColors3": "string",
+      "virtualProof": "string",
+      "dateofUpload": "2023-06-21T11:58:24.045Z",
+      "dateofClose": "2023-06-21T11:58:24.045Z",
+      "customerJobType": "string",
+      "jobDate": "2023-06-21T11:58:24.045Z",
+      "clientOrderId": 0,
+      "viewDatas":  this.ViewImportExcelTrue,
+      "createdBy": this.loginservice.getUsername(),
+      "poDate": "2023-06-21T11:58:24.045Z",
+      "ccId": 0,
+      "ccEmailId": "string",
+      "dateofDelivery": "2023-06-21T11:58:24.045Z",
+      "getAllValues": []
+    }
+    // var SaveInward =
+    // {
+    //   ViewDatas: this.ViewImportExcelTrue,
+    //   CreatedBy: this.loginservice.getUsername(),
+    // }
+    var viewdata = JSON.stringify(this.ViewImportExcelTrue);
+    if (viewdata != "{}" && viewdata != "[]") {
+
+      this.clientcordinationservice.postexcelSubmit(payload).subscribe(postdataresult => {
+        this.ViewImportExcelFinal = postdataresult;
+        console.log(this.ViewImportExcelFinal,"ViewImportExcelFinal");
+        
+        // if (this.ViewImportExcelFinal.Message == "Client Sales Person Name does not Exists / File Name Already Exist") {
+        //   alert(this.ViewImportExcelFinal.Message);
+        // }
+        // else {
+        //   //alert('File Inward Successfully.');
+        //   alert(this.ViewImportExcelFinal.Message);
+        // }
+         this.clientcordinationservice.getBindFileInward();
+      });
+      
+    }
+    else {
+      alert("No Success file imported.");
+    }
+  };
+
 }
 
