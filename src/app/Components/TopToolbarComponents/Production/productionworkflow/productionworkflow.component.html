@@ -32,6 +32,12 @@
                     </div>
                     <div class="col">
                         <p>Stitich Count:&nbsp;&nbsp;</p>
+
+                        <label for="txtbpsoStitchCount" class="col-sm-3 control-label">Stitch Count</label>
+                        <div class="col-sm-9">
+                            <p id="txtbpsoStitchCount" name="txtbpsoStitchCount" class="form-control"> </p>
+                        </div>
+
                     </div>
                     <div class="col">
                         <p>Assigned Date & Time :</p>
@@ -79,7 +85,9 @@
                 <div class="row">
                     <div class="col">
                         <p>Work File Folder:
-                            <button type="button" class="btn btn-primary">WorkFiles</button>&nbsp; <button type="button" class="btn btn-primary">Zip</button>&nbsp;  <button class="btn btn-primary">CopyPath</button>
+                            <button type="button" class="btn btn-primary">WorkFiles</button>&nbsp; <button type="button"
+                                class="btn btn-primary">Zip</button>&nbsp; <button
+                                class="btn btn-primary">CopyPath</button>
                         </p>
                     </div>
                 </div>
@@ -206,7 +214,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="comremark">
-                          
+
                             <mat-form-field class="example-full-width">
                                 <textarea matInput placeholder="Leave a remark"></textarea>
                             </mat-form-field>
@@ -242,7 +250,8 @@
                         <mat-form-field>
                             <mat-label>Scope</mat-label>
                             <mat-select [(value)]="selectedScopeValue">
-                                <mat-option *ngFor="let value of scopeApiValues" [value]="value.id">{{ value.name }}</mat-option>
+                                <mat-option *ngFor="let value of scopeApiValues" [value]="value.id">{{ value.name
+                                    }}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>

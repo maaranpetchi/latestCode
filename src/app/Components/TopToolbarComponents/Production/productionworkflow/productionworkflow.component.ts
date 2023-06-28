@@ -15,6 +15,11 @@ import { LoginService } from 'src/app/Services/Login/login.service';
   providers: [DatePipe]
 })
 export class ProductionworkflowComponent {
+
+  processTransaction = {
+    stitchCountUpdate: null
+  };
+
   responseData: any;
   constructor(private route: ActivatedRoute, private datePipe: DatePipe, private http: HttpClient, private loginservice: LoginService) { }
   displayedColumns: string[] = ['startDate', 'endDate', 'timeTaken', 'status'];
@@ -23,14 +28,8 @@ export class ProductionworkflowComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    // const data = history.state.data;
-    // // Use the retrieved data as needed
-    // console.log(data, "datapassed"),
-    //   this.responseData = data;
-
     this.fetchJobHistory();
     this.getscopevalues();
-
   }
   fetchJobHistory(): void {
 
@@ -196,4 +195,117 @@ export class ProductionworkflowComponent {
     //   this.scopeApiValues = data.scopeDetails;
     // });
   }
+
+  
+
+
+
+  ChangeWorkflow(workType) {
+    let ProcessCheck = localStorage.getItem('processid');
+    if (ProcessCheck === '3' || ProcessCheck === '5' || ProcessCheck === '9' || ProcessCheck === '11') {
+      if (this.ProcessTransaction.StitchCountUpdate === undefined) {
+        this.ProcessTransaction.StitchCountUpdate = $("#txtbpsoStitchCount").val();
+      }
+    }
+    
+    else {
+      this.ProcessTransaction.StitchCountUpdate = this.ProcessTransaction.StitchCount;
+    }
+
+    // if (workFlowForm.RbnError == 'No Error') {
+    //     $scope.workFlowForm.errorId = null;
+    // }
+    // var processTransaction = {
+    //     WFTId: $scope.ProcessTransaction.WFTId,
+    //     WFMId: $scope.ProcessTransaction.WFMId,
+    //     ScopeId: $scope.ProcessTransaction.ScopeId,
+    //     ProcessId: $scope.ProcessTransaction.ProcessId,
+    //     WorkType: workType,
+    //     Status: $scope.workFlowForm.Status,
+    //     CommentsToClient: $scope.ProcessTransaction.CommentsToClient,
+    //     Remarks: $scope.workFlowForm.Remarks,
+    //     EmployeeId: $scope.EmployeeId,
+    //     CopyFiles: $scope.workFlowForm.CopyPreviousFiles,
+    //     StitchCount: $scope.ProcessTransaction.StitchCountUpdate,
+    //     ErrorCategoryId: $scope.workFlowForm.errorId,
+    //     Value: $scope.ProcessTransaction.EstimatedTime
+    // };
+   
+    // var fd = new FormData();
+
+    // if (workType == 'End') {
+    //     for (i = 0; i < $scope.AttachedFiles.length; i++) {
+    //         fd.append('file', $scope.AttachedFiles[i]);              
+    //     }
+
+    //     if ($scope.AttachedFiles.length > 0) {
+    //         $scope.workFlowForm.CopyPreviousFiles = false;
+    //     }
+    //     if (($scope.AttachedFiles.length > 0 && $scope.workFlowForm.CopyPreviousFiles == false) || ($scope.AttachedFiles1.length > 0)) {
+
+    //         if ($scope.AttachedFiles1.length > 0) {
+    //             processTransaction = {
+    //                 WFTId: $scope.ProcessTransaction.WFTId,
+    //                 WFMId: $scope.ProcessTransaction.WFMId,
+    //                 ScopeId: $scope.ProcessTransaction.ScopeId,
+    //                 ProcessId: $scope.ProcessTransaction.ProcessId,
+    //                 WorkType: workType,
+    //                 Status: $scope.workFlowForm.Status,
+    //                 CommentsToClient: $scope.ProcessTransaction.CommentsToClient,
+    //                 Remarks: $scope.workFlowForm.Remarks,
+    //                 EmployeeId: $scope.EmployeeId,
+    //                 CopyFiles: $scope.workFlowForm.CopyPreviousFiles,
+    //                 StitchCount: $scope.ProcessTransaction.StitchCountUpdate,
+    //                 ErrorCategoryId: $scope.workFlowForm.errorId,
+    //                 Value: $scope.ProcessTransaction.EstimatedTime,
+    //                 files: $scope.AttachedFiles1,
+    //             };
+
+    //             fd.append('data', JSON.stringify(processTransaction));
+    //             $scope.$parent.loader = true; 
+    //             WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
+    //                 $scope.BindWorkDetails();
+    //                 $scope.confirmationMessage = ChangeWorkflowResult.Message;
+    //                 $('#confirmedPopup').modal('show');
+    //                 $scope.$parent.loader = false;
+    //             });
+    //         }
+    //         else {
+    //             $scope.$parent.loader = true;
+    //             fd.append('data', JSON.stringify(processTransaction));                   
+    //             WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
+    //                 $scope.BindWorkDetails();
+    //                 $scope.confirmationMessage = ChangeWorkflowResult.Message;
+    //                 $('#confirmedPopup').modal('show');
+    //                 $scope.$parent.loader = false;
+    //             });
+    //         }
+    //     }
+    //     else {
+    //         $scope.$parent.loader = true;
+    //         fd.append('data', JSON.stringify(processTransaction));              
+    //         WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
+    //             $scope.BindWorkDetails();
+    //             $scope.confirmationMessage = ChangeWorkflowResult.Message;
+    //             $('#confirmedPopup').modal('show');
+    //             $scope.$parent.loader = false;
+    //         });
+    //     }
+    // }
+    // else {
+    //     fd.append('data', JSON.stringify(processTransaction));         
+    //     WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
+    //         if (workType == 'End') {
+    //             $scope.BindWorkDetails();
+    //             $scope.confirmationMessage = ChangeWorkflowResult.Message;
+    //             $('#confirmedPopup').modal('show');
+    //         }
+    //         else {
+    //             $scope.BindWorkDetails();
+    //         }
+    //     });
+    // }
+     
+};
+
 }
