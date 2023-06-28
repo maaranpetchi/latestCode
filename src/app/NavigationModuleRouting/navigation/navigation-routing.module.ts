@@ -88,6 +88,8 @@ import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/benc
 import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
+import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
+import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
 
 const routes: Routes = [
 
@@ -136,6 +138,8 @@ const routes: Routes = [
       //Productionmaincomponent
       { path: 'productionmain', component: ProductionComponent },
       { path: 'productionmaintable', component: ProductiontableComponent },
+      { path: 'prodjobpopup', component: ProdjobpopupComponent },
+      { path: 'prodworkflow', component: ProductionworkflowComponent },
 
       //ProofReadingAllocation
       { path: 'proofreadingallocation', component: ProofReadingAllocationComponent },

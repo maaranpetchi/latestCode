@@ -217,11 +217,6 @@ export class CompletedjobsComponent implements OnInit {
       width: '100vw',
       data
     });
-
-    // Subscribe to the afterClosed event to handle dialog close actions
-    dialogRef.afterClosed().subscribe(result => {
-      // Handle any actions after the dialog is closed, if needed
-    });
   }
 
 

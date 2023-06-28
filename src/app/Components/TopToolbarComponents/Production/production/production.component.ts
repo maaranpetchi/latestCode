@@ -4,6 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductiontableComponent } from '../productiontable/productiontable.component';
+import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 @Component({
   selector: 'app-production',
@@ -13,11 +15,10 @@ import { ProductiontableComponent } from '../productiontable/productiontable.com
 export class ProductionComponent implements OnInit{
   @ViewChild(ProductiontableComponent) ProductiontableComponent: ProductiontableComponent;
 
- constructor(private http:HttpClient){}
+ constructor(private http:HttpClient,private loginservice:LoginService){}
   ngOnInit(): void {
-  
-
-    
+  this.getCount();
+  this.freshJobs();
   }
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
@@ -71,6 +72,31 @@ bulkUploadJobs(){
   this.ProductiontableComponent.tab('6');
 }
 
-
+freshJobsCount:number;
+RevisionJobsCount:number;
+ReworkJobsCount:number;
+QuoteJobsCount:number;
+BulkJobsCount:number;
+BulkUploadJobsCount:number;
+getCount(){
+this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+this.freshJobsCount = freshdataCount.freshJobsCount
+});
+this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+this.RevisionJobsCount = freshdataCount.revisionJobsCount
+});
+this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+this.ReworkJobsCount = freshdataCount.reworkJobsCount
+});
+this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+this.QuoteJobsCount = freshdataCount.quoteJobsCount
+});
+this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+this.BulkJobsCount = freshdataCount.quoteJobsCount
+});
+this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+this.BulkUploadJobsCount = freshdataCount.bulkUploadJobsCount
+});
+}
  };
 

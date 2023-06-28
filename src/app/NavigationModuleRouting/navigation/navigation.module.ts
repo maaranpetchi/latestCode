@@ -101,6 +101,8 @@ import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/benc
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 import { JobhistoryDetailsComponent } from 'src/app/Components/JobHistory/jobhistory-details/jobhistory-details.component';
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
+import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
+import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +137,8 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
     //ProductionmainComponent
     ProductionComponent,
     ProductiontableComponent,
+    ProdjobpopupComponent,
+    ProductionworkflowComponent,
     //QualityAllocation
     QualityallocationComponent,
     QualityallocationtableComponent,

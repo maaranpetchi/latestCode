@@ -6,6 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Output, EventEmitter } from '@angular/core';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { environment } from 'src/Environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { ProdjobpopupComponent } from '../prodjobpopup/prodjobpopup.component';
+import { ProductionworkflowComponent } from '../productionworkflow/productionworkflow.component';
 
 @Component({
   selector: 'app-productiontable',
@@ -39,7 +42,7 @@ export class ProductiontableComponent {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice: LoginService) { }
+  constructor(private http: HttpClient,private loginservice: LoginService,private dialog:MatDialog) { }
 
   ngOnInit(): void {
     // //ScopeDropdown
@@ -106,6 +109,7 @@ export class ProductiontableComponent {
 
   freshJobs() {
     this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdata => {
+      console.log(freshdata,"freshdata");
       this.dataSource =  new MatTableDataSource (freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -149,7 +153,30 @@ export class ProductiontableComponent {
     });
   }
 
- 
+passingdata(){
+  this.http.get('https://api.example.com/job-details').subscribe(
+    (response: any) => {
+      // Pass the API response data to the dialog component
+      this.openJobDetailsDialog(response);
+    },
+    (error) => {
+      console.log('Error occurred while fetching job details:', error);
+    }
+  );
+}
 
+openJobDetailsDialog(data){
+    this.dialog.open(ProdjobpopupComponent,{
+      width:'80vw',
+      data
+    })
+    }
+
+    workflow(data){
+      this.dialog.open(ProductionworkflowComponent,{
+        width:'80vw',
+        data
+      })
+    }
 
 }
