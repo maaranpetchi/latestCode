@@ -1,8 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { ProductiontableComponent } from '../productiontable/productiontable.component';
 import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
@@ -79,24 +76,14 @@ QuoteJobsCount:number;
 BulkJobsCount:number;
 BulkUploadJobsCount:number;
 getCount(){
-this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
-this.freshJobsCount = freshdataCount.freshJobsCount
-});
-this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
-this.RevisionJobsCount = freshdataCount.revisionJobsCount
-});
-this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
-this.ReworkJobsCount = freshdataCount.reworkJobsCount
-});
-this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
-this.QuoteJobsCount = freshdataCount.quoteJobsCount
-});
-this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
-this.BulkJobsCount = freshdataCount.quoteJobsCount
-});
-this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
-this.BulkUploadJobsCount = freshdataCount.bulkUploadJobsCount
-});
+  this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+    this.freshJobsCount = freshdataCount.freshJobsCount;
+    this.RevisionJobsCount = freshdataCount.revisionJobsCount;
+    this.ReworkJobsCount = freshdataCount.reworkJobsCount;
+    this.QuoteJobsCount = freshdataCount.quoteJobsCount;
+    this.BulkJobsCount = freshdataCount.bulkJobsCount;
+    this.BulkUploadJobsCount = freshdataCount.bulkUploadJobsCount;
+  });
 }
  };
 

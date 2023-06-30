@@ -11,7 +11,7 @@
     <div class="main-body">
         <div class="container">
             <div class="productionmain">
-                <h3 style="font-family:'Times New Roman', Times, serif">Production ({{freshJobsCount ? freshJobsCount:0 +  RevisionJobsCount ? RevisionJobsCount:0   +ReworkJobsCount ? ReworkJobsCount:0 + QuoteJobsCount ? QuoteJobsCount:0 + BulkJobsCount ? BulkJobsCount:0 + BulkUploadJobsCount ? BulkUploadJobsCount:0 }})</h3>
+                <h3 style="font-family:'Times New Roman', Times, serif">Production ({{freshJobsCount ? freshJobsCount:0 +  RevisionJobsCount ? RevisionJobsCount:0   + ReworkJobsCount ? ReworkJobsCount:0 + QuoteJobsCount ? QuoteJobsCount:0 + BulkJobsCount ? BulkJobsCount:0 + BulkUploadJobsCount ? BulkUploadJobsCount:0 }})</h3>
                 <mat-tab-group  dynamicHeight (selectedTabChange)="onTabChange($event)">
                     <mat-tab label="{{ 'Queries To Client (' + (freshJobsCount ? freshJobsCount:0) + ')' }}" >
                     </mat-tab>

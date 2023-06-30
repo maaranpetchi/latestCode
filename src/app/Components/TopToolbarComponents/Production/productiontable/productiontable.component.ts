@@ -175,6 +175,7 @@ openJobDetailsDialog(data){
     workflow(data){
       this.dialog.open(ProductionworkflowComponent,{
         width:'80vw',
+        height:'80vh',
         data
       })
     }

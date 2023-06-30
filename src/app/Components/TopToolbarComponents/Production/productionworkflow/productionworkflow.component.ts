@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Inject, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -22,12 +22,19 @@ export class ProductionworkflowComponent {
     stitchCountUpdate: null
   };
   workFlowForm = { RbnError: null, errorId: null }
+  jobWorkDetails = {
+    data: null
+  }
   responseData: any;
 
   copyFiles = false;
   disableCopyFiles = true;
-
-  constructor(private route: ActivatedRoute, private datePipe: DatePipe, private http: HttpClient, private loginservice: LoginService, @Inject(MAT_DIALOG_DATA) public data: any,private modalService: NgbModal) {
+  showConfirmedPopup = false;
+  History: any;
+  SummaryHistory: any;
+  employeeSummaryHistory: any;
+  showFiles: boolean;
+  constructor(private route: ActivatedRoute, private datePipe: DatePipe, private http: HttpClient, private loginservice: LoginService, @Inject(MAT_DIALOG_DATA) public data: any) {
     console.log(data, "Popworkflowdata");
   }
   displayedColumns: string[] = ['startDate', 'endDate', 'timeTaken', 'status'];
@@ -88,112 +95,6 @@ export class ProductionworkflowComponent {
 
   ProcessTransaction: any;
 
-  //   ChangeWorkflow(workType) {
-  //     let ProcessCheck = parseInt(this.loginservice.getProcessId());
-  //     if (ProcessCheck == 3 || ProcessCheck == 5 || ProcessCheck == 9 || ProcessCheck == 11) {
-  //         if (this.ProcessTransaction.StitchCountUpdate == undefined) {
-  //             this.ProcessTransaction.StitchCountUpdate = this.responseData.stitchCount;
-  //         }
-  //     }
-  //     else {
-  //         this.ProcessTransaction.StitchCountUpdate = this.ProcessTransaction.StitchCount;
-  //     }
-
-  //     if (workFlowForm.RbnError == 'No Error') {
-  //         $scope.workFlowForm.errorId = null;
-  //     }
-  //     var processTransaction = {
-  //         WFTId: $scope.ProcessTransaction.WFTId,
-  //         WFMId: $scope.ProcessTransaction.WFMId,
-  //         ScopeId: $scope.ProcessTransaction.ScopeId,
-  //         ProcessId: $scope.ProcessTransaction.ProcessId,
-  //         WorkType: workType,
-  //         Status: $scope.workFlowForm.Status,
-  //         CommentsToClient: $scope.ProcessTransaction.CommentsToClient,
-  //         Remarks: $scope.workFlowForm.Remarks,
-  //         EmployeeId: $scope.EmployeeId,
-  //         CopyFiles: $scope.workFlowForm.CopyPreviousFiles,
-  //         StitchCount: $scope.ProcessTransaction.StitchCountUpdate,
-  //         ErrorCategoryId: $scope.workFlowForm.errorId,
-  //         Value: $scope.ProcessTransaction.EstimatedTime
-  //     };
-
-  //     var fd = new FormData();
-
-  //     if (workType == 'End') {
-  //         for (i = 0; i < $scope.AttachedFiles.length; i++) {
-  //             fd.append('file', $scope.AttachedFiles[i]);              
-  //         }
-
-  //         if ($scope.AttachedFiles.length > 0) {
-  //             $scope.workFlowForm.CopyPreviousFiles = false;
-  //         }
-  //         if (($scope.AttachedFiles.length > 0 && $scope.workFlowForm.CopyPreviousFiles == false) || ($scope.AttachedFiles1.length > 0)) {
-
-  //             if ($scope.AttachedFiles1.length > 0) {
-  //                 processTransaction = {
-  //                     WFTId: $scope.ProcessTransaction.WFTId,
-  //                     WFMId: $scope.ProcessTransaction.WFMId,
-  //                     ScopeId: $scope.ProcessTransaction.ScopeId,
-  //                     ProcessId: $scope.ProcessTransaction.ProcessId,
-  //                     WorkType: workType,
-  //                     Status: $scope.workFlowForm.Status,
-  //                     CommentsToClient: $scope.ProcessTransaction.CommentsToClient,
-  //                     Remarks: $scope.workFlowForm.Remarks,
-  //                     EmployeeId: $scope.EmployeeId,
-  //                     CopyFiles: $scope.workFlowForm.CopyPreviousFiles,
-  //                     StitchCount: $scope.ProcessTransaction.StitchCountUpdate,
-  //                     ErrorCategoryId: $scope.workFlowForm.errorId,
-  //                     Value: $scope.ProcessTransaction.EstimatedTime,
-  //                     files: $scope.AttachedFiles1,
-  //                 };
-
-  //                 fd.append('data', JSON.stringify(processTransaction));
-  //                 $scope.$parent.loader = true; 
-  //                 WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-  //                     $scope.BindWorkDetails();
-  //                     $scope.confirmationMessage = ChangeWorkflowResult.Message;
-  //                     $('#confirmedPopup').modal('show');
-  //                     $scope.$parent.loader = false;
-  //                 });
-  //             }
-  //             else {
-  //                 $scope.$parent.loader = true;
-  //                 fd.append('data', JSON.stringify(processTransaction));                   
-  //                 WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-  //                     $scope.BindWorkDetails();
-  //                     $scope.confirmationMessage = ChangeWorkflowResult.Message;
-  //                     $('#confirmedPopup').modal('show');
-  //                     $scope.$parent.loader = false;
-  //                 });
-  //             }
-  //         }
-  //         else {
-  //             $scope.$parent.loader = true;
-  //             fd.append('data', JSON.stringify(processTransaction));              
-  //             WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-  //                 $scope.BindWorkDetails();
-  //                 $scope.confirmationMessage = ChangeWorkflowResult.Message;
-  //                 $('#confirmedPopup').modal('show');
-  //                 $scope.$parent.loader = false;
-  //             });
-  //         }
-  //     }
-  //     else {
-  //         fd.append('data', JSON.stringify(processTransaction));         
-  //         WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-  //             if (workType == 'End') {
-  //                 $scope.BindWorkDetails();
-  //                 $scope.confirmationMessage = ChangeWorkflowResult.Message;
-  //                 $('#confirmedPopup').modal('show');
-  //             }
-  //             else {
-  //                 $scope.BindWorkDetails();
-  //             }
-  //         });
-  //     }
-
-  // };
 
 
   //Dropdowns
@@ -213,9 +114,10 @@ export class ProductionworkflowComponent {
 
 
   changeWorkType(workType) {
-
+    if (workType == 'Start') {
+      this.ChangeWorkflow(workType);
+    }
   }
-
 
 
   ChangeWorkflow(workType) {
@@ -224,10 +126,8 @@ export class ProductionworkflowComponent {
       if (this.ProcessTransaction.StitchCountUpdate === undefined) {
         this.ProcessTransaction.StitchCountUpdate = this.data.stitchCount;
       }
-    }
-
-    else {
-      this.ProcessTransaction.StitchCountUpdate = this.ProcessTransaction.StitchCount;
+    } else {
+      this.ProcessTransaction.StitchCountUpdate = this.data.stitchCount;
     }
 
     if (this.workFlowForm.RbnError == 'No Error') {
@@ -260,7 +160,6 @@ export class ProductionworkflowComponent {
         this.copyFiles = false;
       }
       if ((this.AttachedFiles.length > 0 && this.copyFiles == false) || (this.AttachedFiles1.length > 0)) {
-
         if (this.AttachedFiles1.length > 0) {
           let processTransaction = {
             WFTId: this.data.wftid,
@@ -280,85 +179,224 @@ export class ProductionworkflowComponent {
           };
 
           fd.append('data', JSON.stringify(processTransaction));
-          //             $scope.$parent.loader = true; 
-          //             WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-          //                 $scope.BindWorkDetails();
-          //                 $scope.confirmationMessage = ChangeWorkflowResult.Message;
-          //                 $('#confirmedPopup').modal('show');
-          //                 $scope.$parent.loader = false;
-          //             });
-          //         }
-          //         else {
-          //             $scope.$parent.loader = true;
-          //             fd.append('data', JSON.stringify(processTransaction));                   
-          //             WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-          //                 $scope.BindWorkDetails();
-          //                 $scope.confirmationMessage = ChangeWorkflowResult.Message;
-          //                 $('#confirmedPopup').modal('show');
-          //                 $scope.$parent.loader = false;
-          //             });
-          //         }
-          //     }
-          //     else {
-          //         $scope.$parent.loader = true;
-          //         fd.append('data', JSON.stringify(processTransaction));              
-          //         WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-          //             $scope.BindWorkDetails();
-          //             $scope.confirmationMessage = ChangeWorkflowResult.Message;
-          //             $('#confirmedPopup').modal('show');
-          //             $scope.$parent.loader = false;
-          //         });
-          //     }
-          // }
-          // else {
-          //     fd.append('data', JSON.stringify(processTransaction));         
-          //     WorkflowFactory.ChangeWorkflow('ChangeWorkflow', $scope.ProcessTransaction.WFTId, fd).$promise.then(function (ChangeWorkflowResult) {
-          //         if (workType == 'End') {
-          //             $scope.BindWorkDetails();
-          //             $scope.confirmationMessage = ChangeWorkflowResult.Message;
-          //             $('#confirmedPopup').modal('show');
-          //         }
-          //         else {
-          //             $scope.BindWorkDetails();
-          //         }
-          //     });
-          // }
 
-        };
+          this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
+            console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
 
-
-
-        ///Demo
-
-
-        buttonStart() {
-
-
-        }
-
-        onScopeChange() {
-          if (this.selectedStatus === 'Completed') {
-            this.showCopyFilesCheckbox = false;
-            this.getscopevalues();
-          }
-          else {
-            this.showCopyFilesCheckbox = true;
-            this.getscopevalues();
-          }
-
-        }
-
-
-        //method to implement from exisiting appliacation
-        ChangeWorkflowFactory(){
-          this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${data.wftid}`).subscribe(ChangeWorkflowResult => {
             this.BindWorkDetails();
             let confirmationMessage = ChangeWorkflowResult;
+            this.showPopup();
+          });
+        } else {
+          fd.append('data', JSON.stringify(processTransaction));
+          this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
+            console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
+            this.BindWorkDetails();
+            let confirmationMessage = ChangeWorkflowResult;
+            this.showPopup();
           });
         }
-
-        openModal() {
-          this.modalService.open('#confirmedPopup');
-        }
-        
+      } else {
+        fd.append('data', JSON.stringify(processTransaction));
+        this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
+          console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
+          this.BindWorkDetails();
+          let confirmationMessage = ChangeWorkflowResult;
+          this.showPopup();
+        });
       }
+    }
+  }
+
+
+
+  ///Demo
+
+
+
+  onScopeChange() {
+    if (this.selectedStatus === 'Completed') {
+      this.showCopyFilesCheckbox = false;
+      this.getscopevalues();
+    }
+    else {
+      this.showCopyFilesCheckbox = true;
+      this.getscopevalues();
+    }
+
+  }
+
+
+  //method to implement from exisiting appliacation
+
+
+
+  showPopup() {
+    this.showConfirmedPopup = true;
+  }
+  BindWorkDetails() {
+    let processTransaction = {
+      "wftid": this.data.wftid,
+      "wfmid": this.data.wfmid,
+      "workType": "string",
+      "status": "string",
+      "remarks": "string",
+      "employeeId": this.loginservice.getUsername(),
+      "copyFiles": true,
+      "errorCategoryId": 0,
+      "value": 0,
+      "scopeId": 0,
+      "processId": this.loginservice.getProcessId(),
+      "stitchCount": 0,
+      "orderId": 0,
+      "isClientOrder": 0,
+      "statusId": 0,
+      "sourcePath": "string",
+      "dynamicFolderPath": "string",
+      "folderPath": "string",
+      "fileName": "string",
+      "fileCount": 0,
+      "orignalPath": "string",
+      "orignalDynamicPath": "string",
+      "jobId": "string",
+      "isProcessWorkFlowTranInserted": 0,
+      "isCopyFiles": 0,
+      "pid": 0,
+      "fakeProcessId": 0,
+      "fakeStatusId": 0,
+      "fakeDynamicFolderPath": "string",
+      "jobFileName": "string",
+      "files": [
+        "string"
+      ],
+      "commentsToClient": "string",
+      "tranFileUploadPath": "string",
+      "selectedRows": [
+        "string"
+      ]
+    }
+    this.http.post<any>(environment.apiURL + "/Workflow/GetProductionWorkList", processTransaction).subscribe((result) => {
+      this.jobWorkDetails.data = result.jobHistory;
+      this.History = result.Summary.SummaryHistory;
+      this.SummaryHistory = this.History[0];
+      this.employeeSummaryHistory = this.History.splice(1, this.History.length);
+      if (result.jobHistory.length > 0) {
+        this.showFiles = true;
+      }
+    });
+  }
+
+
+  //Tring second
+  startButton(Start: string) {
+    var fd = new FormData();
+    if ((this.AttachedFiles.length > 0 && this.copyFiles == false) || (this.AttachedFiles1.length > 0)) {
+      if (this.AttachedFiles1.length > 0) {
+        let processTransaction = {
+          WFTId: this.data.wftid,
+          WFMId: this.data.wfmid,
+          ScopeId: this.data.scopeId,
+          ProcessId: this.data.processId,
+          WorkType: Start,
+          Status: this.selectedStatus,
+          CommentsToClient: this.data.commentsToClient,
+          Remarks: this.remarks,
+          EmployeeId: this.loginservice.getUsername(),
+          CopyFiles: this.copyFiles,
+          StitchCount: this.data.stitchCount,
+          ErrorCategoryId: this.workFlowForm.errorId,
+          Value: this.data.estimatedTime,
+          files: this.AttachedFiles1,
+        };
+
+        fd.append('data', JSON.stringify(processTransaction));
+
+        this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
+          console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
+
+          this.BindWorkDetails();
+          let confirmationMessage = ChangeWorkflowResult;
+          this.showPopup();
+        });
+      }
+    }
+  }
+  sample(workType: string) {
+    console.log("success");
+    var fd = new FormData();
+    let processTransaction = {
+      WFTId: this.data.wftid,
+      WFMId: this.data.wfmid,
+      ScopeId: this.data.scopeId,
+      ProcessId: this.data.processId,
+      WorkType: workType, // Pass the workType parameter
+      Status: this.selectedStatus,
+      CommentsToClient: this.data.commentsToClient,
+      Remarks: this.remarks,
+      EmployeeId: this.loginservice.getUsername(),
+      CopyFiles: this.copyFiles,
+      StitchCount: this.data.stitchCount ? this.data.stitchCount : 0,
+      ErrorCategoryId: this.workFlowForm.errorId,
+      Value: this.data.estimatedTime,
+      files: this.AttachedFiles1,
+    };
+  
+    this.http.post<any>(
+      environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`,
+      null,
+      {
+        headers: new HttpHeaders().set('Content-Type', 'multipart/form-data').append("data", JSON.stringify(processTransaction)),
+      }
+    ).subscribe(ChangeWorkflowResult => {
+      this.getProductionWorkList();
+      console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
+    });
+  }
+  
+
+
+  getProductionWorkList() {
+    let payload = {
+      "wftid": this.data.wftid,
+      "wfmid": this.data.wfmid,
+      "workType": "string",
+      "status": "string",
+      "remarks": "string",
+      "employeeId": this.loginservice.getUsername(),
+      "copyFiles": true,
+      "errorCategoryId": 0,
+      "value": 0,
+      "scopeId": 0,
+      "processId": this.loginservice.getProcessId(),
+      "stitchCount": 0,
+      "orderId": 0,
+      "isClientOrder": 0,
+      "statusId": 0,
+      "sourcePath": "string",
+      "dynamicFolderPath": "string",
+      "folderPath": "string",
+      "fileName": "string",
+      "fileCount": 0,
+      "orignalPath": "string",
+      "orignalDynamicPath": "string",
+      "jobId": "string",
+      "isProcessWorkFlowTranInserted": 0,
+      "isCopyFiles": 0,
+      "pid": 0,
+      "fakeProcessId": 0,
+      "fakeStatusId": 0,
+      "fakeDynamicFolderPath": "string",
+      "jobFileName": "string",
+      "files": [
+        "string"
+      ],
+      "commentsToClient": "string",
+      "tranFileUploadPath": "string",
+      "selectedRows": []
+    }
+    this.http.post<any>(environment.apiURL + `Workflow/GetProductionWorkList`, payload).subscribe(getProductionResult => {
+      this.dataSource = new MatTableDataSource([getProductionResult.jobHistory[0]]);
+      console.log(getProductionResult, "getPRoductionResult");
+    });
+  }
+}

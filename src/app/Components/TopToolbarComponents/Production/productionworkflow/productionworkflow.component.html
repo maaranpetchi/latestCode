@@ -61,13 +61,12 @@
                     </div>
                     <div class="buttons">
                         <div class="col" style="display: flex;gap:5px;justify-content: center;">
-                            <button class="btn btn-success btn-block" (click)="buttonStart()">Start</button>
-                            <button class="btn btn-warning btn-block" (click)="changeWorkType('Break')">Break</button>
-                            <button class="btn btn-primary btn-block"
-                                (click)="changeWorkType('Training/Meeting')">Training/Meeting</button>
-                            <button class="btn btn-warning btn-block" (click)="changeWorkType('Hold')">Hold</button>
-                            <button class="btn btn-danger btn-block" (click)="changeWorkType('Others')"
-                                id="others">Others</button>
+                            <button class="btn btn-success btn-block" (click)="sample('start')">Start</button>
+                            <button class="btn btn-warning btn-block" (click)="sample('Break')">Break</button>
+                            <button class="btn btn-primary btn-block" (click)="sample('Training/Meeting')">Training/Meeting</button>
+                            <button class="btn btn-warning btn-block" (click)="sample('Hold')">Hold</button>
+                            <button class="btn btn-danger btn-block" (click)="sample('Others')" id="others">Others</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -108,7 +107,7 @@
                             <ng-container matColumnDef="timeTaken">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Time Taken in
                                     Minutes</mat-header-cell>
-                                <mat-cell *matCellDef="let job">{{ job.timeTaken }}</mat-cell>
+                                <mat-cell *matCellDef="let job">{{ job.totalTimeTaken }}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="status">
@@ -119,9 +118,7 @@
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                         </mat-table>
-
                         <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
-
                     </div>
                     <div class="col-4">
 
@@ -248,7 +245,7 @@
                     </div>
                     <div class="col" *ngIf="showCopyFilesCheckbox">
                         <mat-label>Copy Files</mat-label>
-                        <mat-checkbox [(ngModel)]="copyFiles" [disabled]="disableCopyFiles"><span>Copy Previous Tray Files</span></mat-checkbox>                        
+                        <mat-checkbox [(ngModel)]="copyFiles" [disabled]="disableCopyFiles" checked><span>Copy Previous Tray Files</span></mat-checkbox>                        
                     </div>
                 </div>
 
@@ -282,3 +279,9 @@
         </form>
     </div>
 </div>
+
+<div id="confirmedPopup" [class.hidden]="!showConfirmedPopup">
+    <!-- Your content here -->
+    <p>HI</p>
+  </div>
+  
