@@ -6,62 +6,52 @@
             <div class="jobhistory">
                 <div class="row">
                     <div class="col">
-                        <p class="control-label font-bold">Job Id:</p>
+                        <p class="control-label font-bold">Job Id: &nbsp;{{data.jobId}}</p>
                     </div>
                     <div class="col">
-                        <p>Job Date:</p>
+                        <p>Job Date: &nbsp;{{data.jobDate}}</p>
                     </div>
                     <div class="col">
-                        <p>Sales Person:</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p>Department:</p>
-                    </div>
-                    <div class="col">
-                        <p>Estimated Time:</p>
-                    </div>
-                    <div class="col">
-                        <p>PO#:</p>
+                        <p>Sales Person:&nbsp; {{data.salesPersonName}}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p>Client:&nbsp;&nbsp;</p>
+                        <p>Department:&nbsp;{{data.department}}</p>
                     </div>
                     <div class="col">
-                        <p>Stitich Count:&nbsp;&nbsp;</p>
+                        <p>Estimated Time:&nbsp;{{data.estimatedTime?data.estimatedTime:0 + "Minutes"}}</p>
+                    </div>
+                    <div class="col">
+                        <p>PO#:&nbsp;{{data.poNo}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>Client:&nbsp;&nbsp;{{data.shortName}}</p>
+                    </div>
+                    <div class="col">
+                        <p>Assigned Date & Time :&nbsp;{{data.jobDateEst}}</p>
+                    </div>
+                    <div class="col">
+                        <p>Job Status:&nbsp;{{data.jobStatusDescription}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>Job Desc:&nbsp;{{data.jobDescription}}</p>
+                    </div>
+                    <div class="col">
+                        <p>File Name:&nbsp;{{data.fileName}}</p>
+                    </div>
+                </div>
 
-                        <label for="txtbpsoStitchCount" class="col-sm-3 control-label">Stitch Count</label>
-                        <div class="col-sm-9">
-                            <p id="txtbpsoStitchCount" name="txtbpsoStitchCount" class="form-control"> </p>
-                        </div>
-
-                    </div>
-                    <div class="col">
-                        <p>Assigned Date & Time :</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p>Job Status:&nbsp;</p>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-6">
-                        <p>Job Desc:</p>
+                        <p>Instructions:&nbsp;{{data.instruction}}</p>
                     </div>
                     <div class="col-6">
-                        <p>File Name:</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p>Instructions:</p>
-                    </div>
-                    <div class="col-6">
-                        <p>Garment Color:</p>
+                        <p>Garment Color: &nbsp;{{data.color}}</p>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -71,11 +61,13 @@
                     </div>
                     <div class="buttons">
                         <div class="col" style="display: flex;gap:5px;justify-content: center;">
-                            <button class="btn btn-success btn-block">Start</button>
-                            <button class="btn btn-warning btn-block">Break</button>
-                            <button class="btn btn-primary btn-block">Training/Meeting</button>
-                            <button class="btn btn-warning btn-block">Hold</button>
-                            <button class="btn btn-danger btn-block" id="others">Others</button>
+                            <button class="btn btn-success btn-block" (click)="buttonStart()">Start</button>
+                            <button class="btn btn-warning btn-block" (click)="changeWorkType('Break')">Break</button>
+                            <button class="btn btn-primary btn-block"
+                                (click)="changeWorkType('Training/Meeting')">Training/Meeting</button>
+                            <button class="btn btn-warning btn-block" (click)="changeWorkType('Hold')">Hold</button>
+                            <button class="btn btn-danger btn-block" (click)="changeWorkType('Others')"
+                                id="others">Others</button>
                         </div>
                     </div>
                 </div>
@@ -86,17 +78,15 @@
                     <div class="col">
                         <p>Work File Folder:
                             <button type="button" class="btn btn-primary">WorkFiles</button>&nbsp; <button type="button"
-                                class="btn btn-primary">Zip</button>&nbsp; <button
-                                class="btn btn-primary">CopyPath</button>
+                                class="btn btn-primary">Zip</button>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <p>Input File Folder:&nbsp;&nbsp;
-                            <button class="btn btn-primary">WorkFiles</button>
-                            <button class="btn btn-primary">Zip</button>
-                            <button class="btn btn-primary">CopyPath</button>
+                            <button type="button" class="btn btn-primary">WorkFiles</button>&nbsp; <button type="button"
+                                class="btn btn-primary">Zip</button>
                         </p>
                     </div>
                 </div>
@@ -171,7 +161,7 @@
             <br>
             <div class="dropdowns">
                 <!--!st row in dropdown-->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <mat-form-field>
                             <mat-label>Process Status</mat-label>
@@ -194,9 +184,9 @@
                             </mat-checkbox>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--2ND ROW-->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <div class="completedtextarea">
                             <mat-form-field class="example-full-width">
@@ -209,9 +199,9 @@
                             <input type="file" (change)="onFileSelected($event)" />
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--3rd row-->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <div class="comremark">
 
@@ -227,9 +217,9 @@
                             <button class="btn btn-primary">Files</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--4th row-->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <div class="comstitch">
                             <mat-form-field>
@@ -243,19 +233,50 @@
                             <button class="btn btn-danger">End</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--5th row-->
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Process Status</mat-label>
+                            <mat-select [(ngModel)]="selectedStatus" name="status" (selectionChange)="onScopeChange()">
+                                <mat-option *ngFor="let status of processStatuses" [value]="status">{{ status }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col" *ngIf="showCopyFilesCheckbox">
+                        <mat-label>Copy Files</mat-label>
+                        <mat-checkbox [(ngModel)]="copyFiles" [disabled]="disableCopyFiles"><span>Copy Previous Tray Files</span></mat-checkbox>                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <textarea matInput placeholder="Remarks" [(ngModel)]="remarks" name="remarks"></textarea>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col">
+                        <input type="file" (change)="onFileSelected($event)" >
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="col">
                         <mat-form-field>
                             <mat-label>Scope</mat-label>
                             <mat-select [(value)]="selectedScopeValue">
-                                <mat-option *ngFor="let value of scopeApiValues" [value]="value.id">{{ value.name
-                                    }}</mat-option>
+                                <mat-option *ngFor="let value of scopeApiValues" [value]="value.id">{{value.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
-
+                    <div class="col">
+                        <button type="button" class="btn btn-danger">End</button>
+                    </div>
                 </div>
             </div>
         </form>
