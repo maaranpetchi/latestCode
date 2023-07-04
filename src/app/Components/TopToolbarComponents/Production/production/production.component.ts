@@ -12,7 +12,9 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 export class ProductionComponent implements OnInit{
   @ViewChild(ProductiontableComponent) ProductiontableComponent: ProductiontableComponent;
 
- constructor(private http:HttpClient,private loginservice:LoginService){}
+ constructor(private http:HttpClient,private loginservice:LoginService){
+  
+ }
   ngOnInit(): void {
   this.getCount();
   this.freshJobs();

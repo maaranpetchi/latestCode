@@ -34,6 +34,9 @@ export class ProductionworkflowComponent {
   SummaryHistory: any;
   employeeSummaryHistory: any;
   showFiles: boolean;
+
+  //2nd attemplt
+  dates: any[] = [];
   constructor(private route: ActivatedRoute, private datePipe: DatePipe, private http: HttpClient, private loginservice: LoginService, @Inject(MAT_DIALOG_DATA) public data: any) {
     console.log(data, "Popworkflowdata");
   }
@@ -106,8 +109,9 @@ export class ProductionworkflowComponent {
 
   getscopevalues() {
     // // Fetch data from the REST API
-    this.http.get<any>(`https://localhost:7208/api/Allocation/getCustomerScopeValues/${this.responseData.departmentId}/${this.responseData.clientId}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL+`Allocation/getCustomerScopeValues/1/${this.data.clientId}`).subscribe(data => {
       this.scopeApiValues = data.scopeDetails[0];
+      console.log(data.scopeDetails[0] ,"getscopevalues");
     });
   }
 
@@ -350,6 +354,7 @@ export class ProductionworkflowComponent {
     ).subscribe(ChangeWorkflowResult => {
       this.getProductionWorkList();
       console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
+      console.log(processTransaction, "ChangeWorkflowResultPayload");
     });
   }
   
@@ -378,7 +383,7 @@ export class ProductionworkflowComponent {
       "fileName": "string",
       "fileCount": 0,
       "orignalPath": "string",
-      "orignalDynamicPath": "string",
+      "orignalDynamicPath": "string", 
       "jobId": "string",
       "isProcessWorkFlowTranInserted": 0,
       "isCopyFiles": 0,
@@ -399,4 +404,7 @@ export class ProductionworkflowComponent {
       console.log(getProductionResult, "getPRoductionResult");
     });
   }
+
+
+  
 }

@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
   // showUsernameField = true;
   // showPasswordField = true;
 
-  onSubmit() {
+    onSubmit() {
     this.spinnerService.requestStarted();
     this.isSubmitted = true;
     this.showUsernameField = false;

@@ -33,7 +33,6 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     // Fetch data from the REST API and populate the table
     this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
       this.dataQuerySource = data.jobQueryHistory;
-      
     });
   }
 }

@@ -153,17 +153,17 @@ export class ProductiontableComponent {
     });
   }
 
-passingdata(){
-  this.http.get('https://api.example.com/job-details').subscribe(
-    (response: any) => {
-      // Pass the API response data to the dialog component
-      this.openJobDetailsDialog(response);
-    },
-    (error) => {
-      console.log('Error occurred while fetching job details:', error);
-    }
-  );
-}
+// passingdata(){
+//   this.http.get('https://api.example.com/job-details').subscribe(
+//     (response: any) => {
+//       // Pass the API response data to the dialog component
+//       this.openJobDetailsDialog(response);
+//     },
+//     (error) => {
+//       console.log('Error occurred while fetching job details:', error);
+//     }
+//   );
+// }
 
 openJobDetailsDialog(data){
     this.dialog.open(ProdjobpopupComponent,{

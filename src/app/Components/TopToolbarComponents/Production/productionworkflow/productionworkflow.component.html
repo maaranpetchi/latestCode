@@ -66,7 +66,6 @@
                             <button class="btn btn-primary btn-block" (click)="sample('Training/Meeting')">Training/Meeting</button>
                             <button class="btn btn-warning btn-block" (click)="sample('Hold')">Hold</button>
                             <button class="btn btn-danger btn-block" (click)="sample('Others')" id="others">Others</button>
-                            
                         </div>
                     </div>
                 </div>
@@ -93,33 +92,34 @@
             <div class="jobtable">
                 <div class="row">
                     <div class="col-6">
-                        <mat-table [dataSource]="dataSource" matSort>
+                        <mat-table [dataSource]="dataSource" matSort matSortActive="startDate" matSortDirection="asc">
                             <ng-container matColumnDef="startDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date & Time</mat-header-cell>
-                                <mat-cell *matCellDef="let job">{{ job.startDate }}</mat-cell>
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date & Time</mat-header-cell>
+                              <mat-cell *matCellDef="let row">{{ row.startDate | date:'MM-dd-yyyy hh:mm:ss' }}</mat-cell>
                             </ng-container>
-
+                          
                             <ng-container matColumnDef="endDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>End Date & Time</mat-header-cell>
-                                <mat-cell *matCellDef="let job">{{ job.endDate }}</mat-cell>
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>End Date & Time</mat-header-cell>
+                              <mat-cell *matCellDef="let row" [ngClass]="{'text-color-red': row.endDate === null}">
+                                {{ row.endDate || dates[0]?.date1 | date:'MM-dd-yyyy HH:mm:ss' }}
+                              </mat-cell>
                             </ng-container>
-
+                          
                             <ng-container matColumnDef="timeTaken">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Time Taken in
-                                    Minutes</mat-header-cell>
-                                <mat-cell *matCellDef="let job">{{ job.totalTimeTaken }}</mat-cell>
+                              <mat-header-cell *matHeaderCellDef>Time Taken in Mins</mat-header-cell>
+                              <mat-cell *matCellDef="let row">{{ row.totalTimeTaken }}</mat-cell>
                             </ng-container>
-
+                          
                             <ng-container matColumnDef="status">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-                                <mat-cell *matCellDef="let job">{{ job.status }}</mat-cell>
+                              <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                              <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
                             </ng-container>
-
+                          
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                        </mat-table>
+                            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                          </mat-table>
                         <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
-                    </div>
+                      </div>
                     <div class="col-4">
 
                         <table>
@@ -279,9 +279,4 @@
         </form>
     </div>
 </div>
-
-<div id="confirmedPopup" [class.hidden]="!showConfirmedPopup">
-    <!-- Your content here -->
-    <p>HI</p>
-  </div>
   
