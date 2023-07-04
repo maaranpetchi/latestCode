@@ -17,7 +17,7 @@ export class ProofReadingService {
   }
 
   getTabValue1():Observable<any> {
-  return this.http.get(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/1`)
+  return this.http.get(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`)
   }
   getTabValue2():Observable<any> {
   return this.http.get(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/1`)

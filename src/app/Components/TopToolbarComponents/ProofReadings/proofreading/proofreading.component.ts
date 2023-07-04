@@ -11,21 +11,29 @@ import { ProofworkflowComponent } from '../proofworkflow/proofworkflow.component
   templateUrl: './proofreading.component.html',
   styleUrls: ['./proofreading.component.scss']
 })
-export class ProofreadingComponent implements OnInit{
+export class ProofreadingComponent implements OnInit {
   @ViewChild(ProofReadingTableComponent) ProofReadingTableComponent: ProofReadingTableComponent;
 
- constructor(private http:HttpClient,public dialog:MatDialog){}
-  ngOnInit(): void {
-  
+  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  ngOnInit() {
+    this.freshJobs();
+  }
 
-    
+  
+  currentTab = 1;
+
+  getCurrentTab() {
+    return this.currentTab;
+
   }
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
+    this.currentTab = event.index + 1;
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
-        this.freshJobs();        break;
+        this.freshJobs(); 
+        break;
       case 1: // Revision Jobs tab
         // Call your REST API for Revision Jobs
         this.revisionJobs();
@@ -55,50 +63,25 @@ export class ProofreadingComponent implements OnInit{
   }
 
 
-  freshJobs(){
+  freshJobs() {
     this.ProofReadingTableComponent.tab('1');
   }
-revisionJobs(){
-this.ProofReadingTableComponent.tab('2');
-}
-reworkJobs(){
-this.ProofReadingTableComponent.tab('3');
-}
-quoteJobs(){
-this.ProofReadingTableComponent.tab('4');
-}
-sewOut(){
-  this.ProofReadingTableComponent.tab('5');
-}
-bulkJobs(){
-  this.ProofReadingTableComponent.tab('6');
-}
-bulkUploadJobs(){
-  this.ProofReadingTableComponent.tab('7');
-}
-
-
-
-
-  openproofdetailpop(){
-    const dialogRef = this.dialog.open(ProofjobdetailpopupComponent, {
-      width: '2000px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  revisionJobs() {
+    this.ProofReadingTableComponent.tab('2');
+  }
+  reworkJobs() {
+    this.ProofReadingTableComponent.tab('3');
+  }
+  quoteJobs() {
+    this.ProofReadingTableComponent.tab('4');
   }
 
-  openproofworkflowpop(){
-    const dialogRef = this.dialog.open(ProofworkflowComponent, {
-      width: '2000px',
-    
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      
-    });
+  bulkJobs() {
+    this.ProofReadingTableComponent.tab('6');
   }
+  bulkUploadJobs() {
+    this.ProofReadingTableComponent.tab('7');
+  }
+
 };
 

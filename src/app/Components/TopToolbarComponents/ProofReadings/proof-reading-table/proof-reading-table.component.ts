@@ -5,6 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Output, EventEmitter } from '@angular/core';
 import { ProofReadingService } from 'src/app/Services/CoreStructure/ProofReading/proof-reading.service';
+import { ProofreadingComponent } from '../proofreading/proofreading.component';
+import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 
 @Component({
@@ -128,13 +131,13 @@ export class ProofReadingTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private proofReadingService: ProofReadingService) { }
+  constructor(private loginservice: LoginService, private http: HttpClient, private proofReadingService: ProofReadingService, private proofreadingcomponent: ProofreadingComponent) { }
 
   ngOnInit(): void {
     // //ScopeDropdown
-
+    this.freshJobs()
   }
-
+  selectedValue: number = 0; // to save the radio button values 
 
   //to save the checkbox values
   selectedproduction: any[] = [];
@@ -156,7 +159,10 @@ export class ProofReadingTableComponent implements OnInit {
     console.log("after", this.selectedproduction)
   }
 
-
+  getTabValue() {
+    console.log("Inside table", this.proofreadingcomponent.getCurrentTab());
+    return this.proofreadingcomponent.getCurrentTab();
+  }
 
   tab(action) {
     if (action == '1') {
@@ -172,10 +178,10 @@ export class ProofReadingTableComponent implements OnInit {
       this.quoteJobs();
     }
 
-    else if (action == '5') {
+    else if (action == '6') {
       this.bulkJobs();
     }
-    else if (action == '6') {
+    else if (action == '7') {
       this.bulkUploadJobs();
     }
   }
@@ -186,8 +192,13 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.proofReadingService.getTabValue1().subscribe(freshJobs => {
-      this.dataSource = new MatTableDataSource(freshJobs.GetWorkflowDetails);
+    console.log(localStorage.getItem('selectedRadioValue'), "radioValue");
+
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/${this.selectedValue}`).subscribe(freshJobs => {
+      console.log(freshJobs.getWorkflowDetails[0], "proofreadingvalues"),
+        console.log(freshJobs.getWorkflowDetails, "proofreadingvalues1"),
+
+        this.dataSource = new MatTableDataSource(freshJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
@@ -199,8 +210,8 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.proofReadingService.getTabValue2().subscribe(revisionJobs => {
-      this.dataSource = new MatTableDataSource(revisionJobs.GetWorkflowDetails);
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/${this.selectedValue}`).subscribe(revisionJobs => {
+      this.dataSource = new MatTableDataSource(revisionJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -210,8 +221,8 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.proofReadingService.getTabValue3().subscribe(reworkJobs => {
-      this.dataSource = new MatTableDataSource(reworkJobs.GetWorkflowDetails);
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/3/${this.selectedValue}`).subscribe(reworkJobs => {
+      this.dataSource = new MatTableDataSource(reworkJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -221,8 +232,8 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.proofReadingService.getTabValue4().subscribe(quoteJobs => {
-      this.dataSource = new MatTableDataSource(quoteJobs.GetWorkflowDetails);
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/4/${this.selectedValue}`).subscribe(quoteJobs => {
+      this.dataSource = new MatTableDataSource(quoteJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -230,15 +241,15 @@ export class ProofReadingTableComponent implements OnInit {
 
 
   displayScopeDropdown: boolean = false; // hide a scope 
-  
+
   bulkJobs() {
     this.displayScopeDropdown = true;
     this.displayedColumnsVisibility.start = true;
     this.displayedColumnsVisibility.workfiles = true;
     this.displayedColumnsVisibility.end = true;
     this.displayedColumnsVisibility.bulkupload = true;
-    this.proofReadingService.getTabValue6().subscribe(bulkJobs => {
-      this.dataSource = new MatTableDataSource(bulkJobs.GetWorkflowDetails);
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/6/${this.selectedValue}`).subscribe(bulkJobs => {
+      this.dataSource = new MatTableDataSource(bulkJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -248,8 +259,8 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.proofReadingService.getTabValue7().subscribe(bulkUploadJobs => {
-      this.dataSource = new MatTableDataSource(bulkUploadJobs.GetWorkflowDetails);
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/${this.selectedValue}`).subscribe(bulkUploadJobs => {
+      this.dataSource = new MatTableDataSource(bulkUploadJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });

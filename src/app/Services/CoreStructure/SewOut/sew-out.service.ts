@@ -41,11 +41,11 @@ export class SewOutService {
 
   //naviage to jobdetail page from index
   navJobDetails(data): Observable<any> {
-    return this.http.post(`https://localhost:7208/api/JobOrder/getJobHistory`, data)
+    return this.http.post(environment.apiURL+`JobOrder/getJobHistory`, data)
   }
 
 getprocessmovement(data:any): Observable<any>{
-return  this.http.post('https://localhost:7208/api/allocation/processMovement',data)
+return  this.http.post(environment.apiURL+'allocation/processMovement',data)
 }
 
 getWftIdFromLocalStorage() {

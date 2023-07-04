@@ -1,7 +1,14 @@
 <div class="main-body">
     <div class="container">
         <div class="mat-elevation-z8">
-
+            <div layout="row" layout-align="center center">
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedValue">
+                    <mat-radio-button [value]="0" checked>Both</mat-radio-button>
+                    <mat-radio-button [value]="1">Artwork</mat-radio-button>
+                    <mat-radio-button [value]="2">Digitizing</mat-radio-button>
+                  </mat-radio-group>
+              </div>
+              
             <table mat-table [dataSource]="dataSource" matSort class="table table-sm" style="width:50vw">
                 <!--Checkbox to select the values-->
                 <ng-container matColumnDef="selected">
