@@ -5,6 +5,9 @@ import { ProofReadingTableComponent } from '../proof-reading-table/proof-reading
 import { MatDialog } from '@angular/material/dialog';
 import { ProofjobdetailpopupComponent } from '../proofjobdetailpopup/proofjobdetailpopup.component';
 import { ProofworkflowComponent } from '../proofworkflow/proofworkflow.component';
+import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-proofreading',
@@ -13,13 +16,20 @@ import { ProofworkflowComponent } from '../proofworkflow/proofworkflow.component
 })
 export class ProofreadingComponent implements OnInit {
   @ViewChild(ProofReadingTableComponent) ProofReadingTableComponent: ProofReadingTableComponent;
+  freshJobsCount: any;
+  revisionJobsCount: number;
+  reworkJobsCount: number;
+  bulkJobsCount: number;
+  quoteJobsCount: number;
+  bulkUploadJobsCount: number;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  constructor(private http: HttpClient, public dialog: MatDialog, private loginService: LoginService, private spinnerService: SpinnerService) {  this.getCount();
+  }
   ngOnInit() {
     this.freshJobs();
   }
 
-  
+
   currentTab = 1;
 
   getCurrentTab() {
@@ -32,7 +42,7 @@ export class ProofreadingComponent implements OnInit {
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
-        this.freshJobs(); 
+        this.freshJobs();
         break;
       case 1: // Revision Jobs tab
         // Call your REST API for Revision Jobs
@@ -83,5 +93,19 @@ export class ProofreadingComponent implements OnInit {
     this.ProofReadingTableComponent.tab('7');
   }
 
-};
+
+  getCount() {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginService.getUsername()}/${this.loginService.getProcessId()}/1/0`).subscribe(getcount => {
+      console.log(getcount.freshJobsCount, "freshjobscount");
+      this.spinnerService.requestEnded();
+      this.freshJobsCount = getcount.freshJobsCount,
+        this.revisionJobsCount = getcount.revisionJobsCount,
+        this.reworkJobsCount = getcount.reworkJobsCount,
+        this.quoteJobsCount = getcount.quoteJobsCount,
+        this.bulkJobsCount = getcount.bulkJobsCount,
+        this.bulkUploadJobsCount = getcount.bulkUploadJobsCount
+    })
+  }
+}
 

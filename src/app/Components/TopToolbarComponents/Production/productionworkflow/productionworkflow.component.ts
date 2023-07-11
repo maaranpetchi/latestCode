@@ -1,14 +1,13 @@
-import { DatePipe } from '@angular/common';
-import { Component, Inject, TemplateRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { LoginService } from 'src/app/Services/Login/login.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { ProofReadingService } from 'src/app/Services/proof-reading.service';
+import { JobhistorypopuptableComponent } from '../../Quality/jobhistorypopuptable/jobhistorypopuptable.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-productionworkflow',
@@ -16,126 +15,257 @@ import { environment } from 'src/Environments/environment';
   styleUrls: ['./productionworkflow.component.scss'],
   providers: [DatePipe]
 })
-export class ProductionworkflowComponent {
+export class ProductionworkflowComponent  implements OnInit {
 
-  processTransaction = {
-    stitchCountUpdate: null
-  };
-  workFlowForm = { RbnError: null, errorId: null }
-  jobWorkDetails = {
-    data: null
-  }
-  responseData: any;
-
-  copyFiles = false;
-  disableCopyFiles = true;
-  showConfirmedPopup = false;
-  History: any;
+  //grid big table
+  // jobWorkDetails = {
+  //   dataSource: new MatTableDataSource([]),
+  //   displayedColumns: ['Id', 'StartDate', 'EndDate', 'TotalTimeTaken', 'Status'],
+  //   columnDefs: [
+  //     { matColumnDef: 'Id', matHeaderCellDef: 'Id', matCellDef: 'Id', hide: true },
+  //     { matColumnDef: 'StartDate', matHeaderCellDef: 'Start Date & Time', matCellDef: 'StartDate', type: 'date', cellFilter: 'date:"MM-dd-yyyy hh:mm:ss"', width: '28%' },
+  //     { matColumnDef: 'EndDate', matHeaderCellDef: 'End Date & Time', matCellDef: 'EndDate', type: 'date', cellFilter: 'date:"MM-dd-yyyy hh:mm:ss"', width: '28%' },
+  //     { matColumnDef: 'TotalTimeTaken', matHeaderCellDef: 'Time Taken in Mins', matCellDef: 'TotalTimeTaken', width: '30%' },
+  //     { matColumnDef: 'Status', matHeaderCellDef: 'Status', matCellDef: 'Status' },
+  //   ],
+  // };
+  jobWorkDetails: MatTableDataSource<any>;
+  displayedColumns: string[] = ['StartDate', 'EndDate', 'TotalTimeTaken', 'Status'];
+  dates: any[];
   SummaryHistory: any;
-  employeeSummaryHistory: any;
+  TotalTimeWorked: any;
+  Break: any;
+  Training: any;
+  Hold: any;
+  Others: any;
+  TotalTimeTaken: any;
+  Estimatedtime: any;
+  Deviation: any;
+  isHold: any;
+  SameEmp: any;
+
+
+
+getHoldvalue(){
+this.http.get<any>(environment.apiURL + `Workflow/GetProcessTransaction/${localStorage.getItem('WFTId')}/${this.loginService.getUsername()}`).subscribe( data => {
+  this.isHold =  data.isHold;
+  this.SameEmp = data.sameEmp;
+});
+}
+
   showFiles: boolean;
-
-  //2nd attemplt
-  dates: any[] = [];
-  constructor(private route: ActivatedRoute, private datePipe: DatePipe, private http: HttpClient, private loginservice: LoginService, @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data, "Popworkflowdata");
-  }
-  displayedColumns: string[] = ['startDate', 'endDate', 'timeTaken', 'status'];
-  dataSource: MatTableDataSource<any>;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngOnInit() {
-    this.fetchJobHistory();
-    this.getscopevalues();
-  }
-  fetchJobHistory(): void {
+  disableWorkType: boolean;
+  alertMessage: string;
 
 
-  }
-  goBack() {
-    window.history.back();
-  }
-  processStatuses = ['Select Status', 'Completed', 'Query', 'Queryforspecialpricing', 'Workincomplete'];
-  selectedStatus: string;
+  selectedStatus: string; //to store the first dropdown status
   AttachedFiles: File[] = [];
   AttachedFiles1: File[] = [];
   showCopyFilesCheckbox: boolean = true;
+  disableCopyFiles = true;
+  remarks = '';
+  copyFiles = false;
+  selectedScopeValue: any; //to hold the scope value
+  confirmationMessage: any;
+  RbnError: any = null;;
+  errorId: null;
+  constructor(private dialog:MatDialog,private checklistService: ProofReadingService, private http: HttpClient, private loginService: LoginService, @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log(data, "processdata");
+  }
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.AttachedFiles = [event.target.files[0], ...this.AttachedFiles];//store the selected file in selectdfile;
     this.AttachedFiles1 = [event.target.files[0], ...this.AttachedFiles1];//store the selected file in selectdfile;
   }
-  remarks = '';
 
-  applyFilter(event: Event, column: string): void {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      return data[column].toLowerCase().includes(filter);
-    };
-    this.dataSource.filter = filterValue;
+  ngOnInit() {
   }
+  processStatuses = ['Select Status', 'Completed', 'Query', 'Queryforspecialpricing', 'Workincomplete'];
 
-  //small table
-  totalWorked: string;
-  breakTime: string;
-  trainingMeeting: string;
-  holdTime: string;
-  othersTime: string;
-  totalTime: string;
-
-  fetchSmallTableData() {
-    // this.apiService.getData().subscribe((data: any) => {
-    //   // Assign the REST API values to the corresponding variables
-    //   this.totalWorked = data.totalWorked;
-    //   this.breakTime = data.breakTime;
-    //   this.trainingMeeting = data.trainingMeeting;
-    //   this.holdTime = data.holdTime;
-    //   this.othersTime = data.othersTime;
-    //   this.totalTime = data.totalTime;
-    // });
-  }
-
-  ProcessTransaction: any;
-
-
-
-  //Dropdowns
-  copyPreviousTrayFiles: boolean = false;
-  stitchCount: number;
 
   scopeApiValues: any[] = []; // Holds the values from the REST API
-  selectedScopeValue: any; // Holds the selected value
 
   getscopevalues() {
     // // Fetch data from the REST API
-    this.http.get<any>(environment.apiURL+`Allocation/getCustomerScopeValues/1/${this.data.clientId}`).subscribe(data => {
+    this.http.get<any>(environment.apiURL + `Allocation/getCustomerScopeValues/1/${this.data.clientId}`).subscribe(data => {
       this.scopeApiValues = data.scopeDetails[0];
-      console.log(data.scopeDetails[0] ,"getscopevalues");
+      console.log(data.scopeDetails[0], "getscopevalues");
     });
   }
+  onScopeChange() {
+    if (this.selectedStatus === 'Completed') {
+      this.showCopyFilesCheckbox = false;
+      this.getscopevalues();
+    }
+    else {
+      this.showCopyFilesCheckbox = true;
+      this.getscopevalues();
+    }
 
+  }
+  /////////////////<------MAIN METHOD TO FUNCTIONALITY IN BUTTON---->////////////////////
 
 
   changeWorkType(workType) {
     if (workType == 'Start') {
+      this.disableWorkType = false;
+      this.showFiles = true;
       this.ChangeWorkflow(workType);
     }
   }
 
+  changeWorkType1(workType) {
+    if (workType == 'Start') {
+      this.disableWorkType = false;
+      this.showFiles = true;
+      this.ChangeWorkflow(workType);
+    }
+    else if (workType == 'End') {
+      this.http.get<any>(environment.apiURL + `Workflow/ChecklistPopup?WFMId=${this.data.WFMId}`).subscribe(result => {
+        this.checklistService.checklist = result.check;
+      });
+      if (this.checklistService.checklist != "") {
+        // $('#checklistPopupup').modal('show');
+        let popupSubmit1 = (value: string) => {
+          if (value === 'Ok') {
+            // $('#checklistPopupup').modal('hide');
+            if (this.data.processName === 'Production') {
+              if (
+                this.selectedStatus === 'Query' ||
+                this.selectedStatus === 'Query for Special Pricing'
+              ) {
+                if (
+                  this.AttachedFiles.length === 0 &&
+                  !this.copyFiles
+                ) {
+                  alert('Please Copy Previous Files (or) Upload Files!');
+                  // $('#alertPopup').modal('show');
+                } else {
+                  this.disableWorkType = true;
+                  this.ChangeWorkflow(workType);
+                }
+              } else if (this.AttachedFiles.length === 0) {
+                alert('Please Upload Files!');
+                // $('#alertPopup').modal('show');
+              } else {
+                this.disableWorkType = true;
+                this.ChangeWorkflow(workType);
+              }
+            } else if (
+              this.data.processName === 'Quality' ||
+              this.data.processName === 'Sew Out' ||
+              this.data.processName === 'Buddy Proof'
+            ) {
+              if (
+                this.AttachedFiles.length === 0 &&
+                !this.copyFiles &&
+                this.AttachedFiles1.length === 0
+              ) {
+                alert('Please Copy Previous Files (or) Upload Files!');
+                // $('#alertPopup').modal('show');
+              } else {
+                this.disableWorkType = true;
+                this.ChangeWorkflow(workType);
+              }
+            } else if (this.data.processName === 'Proof Reading') {
+              if (!this.copyFiles) {
+                this.alertMessage = 'Please Copy Previous Files!';
+                // $('#alertPopup').modal('show');
+              } else {
+                this.disableWorkType = true;
+                this.ChangeWorkflow(workType);
+              }
+            } else {
+              this.disableWorkType = true;
+              this.ChangeWorkflow(workType);
+            }
+          } else if (value === 'cancel') {
+            // $('#checklistPopupup').modal('hide');
+          }
+        };
+        //submit end
+        popupSubmit1('Ok');
+
+      }
+      else {
+        if (this.data.processName == 'Production') {         //the below code 154 to 193 STARTS          
+          if (this.selectedStatus == 'Query' || this.selectedStatus == 'Query for Special Pricing') {
+            if (this.AttachedFiles.length == 0 && this.copyFiles == false) {
+              this.alertMessage = 'Please Copy Previous Files (or) Upload Files!';
+              // $('#alertPopup').modal('show');
+            }
+            else {
+              this.disableWorkType = true;
+              this.ChangeWorkflow(workType);
+            }
+          }
+          else if (this.AttachedFiles.length == 0) {
+            this.alertMessage = 'Please Upload Files!';
+            // $('#alertPopup').modal('show');
+          }
+          else {
+            this.disableWorkType = true;
+            this.ChangeWorkflow(workType);
+          }
+        }
+        else if (this.data.processName == 'Quality') {
+          if (this.AttachedFiles.length == 0 && this.copyFiles == false) {
+            this.alertMessage = 'Please Copy Previous Files (or) Upload Files!';
+            // $('#alertPopup').modal('show');
+          }
+          else {
+            this.disableWorkType = true;
+            this.ChangeWorkflow(workType);
+          }
+        }
+        else if (this.data.processName == 'Sew Out' || this.data.processName == 'Buddy Proof') {
+          if (this.AttachedFiles.length == 0 && this.copyFiles == false && this.AttachedFiles1.length == 0) {
+            this.alertMessage = 'Please Copy Previous Files (or) Upload Files!';
+            // $('#alertPopup').modal('show');
+          }
+          else {
+            this.disableWorkType = true;
+            this.ChangeWorkflow(workType);
+          }
+        }
+        else if (this.data.processName == 'Proof Reading') {
+          if (this.copyFiles == false) {
+            this.alertMessage = 'Please Copy Previous Files!';
+            // $('#alertPopup').modal('show');
+          }
+          else {
+            this.disableWorkType = true;
+            this.ChangeWorkflow(workType);
+          }
+        }
+        else {
+          this.disableWorkType = true;
+          this.ChangeWorkflow(workType);
+        }
+      }
+      //-----------------------------------------------------------------final CL---------------------------------------------------------------
+    }
+    else {
+      this.disableWorkType = true;
+      this.ChangeWorkflow(workType);
+    }
+  }
+
+  ///Secondary function
 
   ChangeWorkflow(workType) {
     let ProcessCheck = localStorage.getItem('processid');
     if (ProcessCheck === '3' || ProcessCheck === '5' || ProcessCheck === '9' || ProcessCheck === '11') {
-      if (this.ProcessTransaction.StitchCountUpdate === undefined) {
-        this.ProcessTransaction.StitchCountUpdate = this.data.stitchCount;
+      if (this.data.stitchCountUpdate === undefined) {
+        this.data.stitchCountUpdate = this.data.stitchCount;
       }
     } else {
-      this.ProcessTransaction.StitchCountUpdate = this.data.stitchCount;
+      this.data.stitchCountUpdate = this.data.stitchCount;
     }
 
-    if (this.workFlowForm.RbnError == 'No Error') {
-      this.workFlowForm.errorId = null;
+    if (this.RbnError == 'No Error') {
+      this.errorId = null;
     }
     var processTransaction = {
       WFTId: this.data.wftid,
@@ -146,10 +276,10 @@ export class ProductionworkflowComponent {
       Status: this.selectedStatus,
       CommentsToClient: this.data.commentsToClient,
       Remarks: this.remarks,
-      EmployeeId: this.loginservice.getUsername(),
+      EmployeeId: this.loginService.getUsername(),
       CopyFiles: this.copyFiles,
       StitchCount: this.data.stitchCount,
-      ErrorCategoryId: this.workFlowForm.errorId,
+      ErrorCategoryId: this.errorId,
       Value: this.data.estimatedTime
     };
 
@@ -174,10 +304,10 @@ export class ProductionworkflowComponent {
             Status: this.selectedStatus,
             CommentsToClient: this.data.commentsToClient,
             Remarks: this.remarks,
-            EmployeeId: this.loginservice.getUsername(),
+            EmployeeId: this.loginService.getUsername(),
             CopyFiles: this.copyFiles,
             StitchCount: this.data.stitchCount,
-            ErrorCategoryId: this.workFlowForm.errorId,
+            ErrorCategoryId: this.errorId,
             Value: this.data.estimatedTime,
             files: this.AttachedFiles1,
           };
@@ -188,16 +318,16 @@ export class ProductionworkflowComponent {
             console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
 
             this.BindWorkDetails();
-            let confirmationMessage = ChangeWorkflowResult;
-            this.showPopup();
+            this.confirmationMessage = ChangeWorkflowResult;
+            // this.showPopup();
           });
         } else {
           fd.append('data', JSON.stringify(processTransaction));
           this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
             console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
             this.BindWorkDetails();
-            let confirmationMessage = ChangeWorkflowResult;
-            this.showPopup();
+            this.confirmationMessage = ChangeWorkflowResult;
+            // this.showPopup();
           });
         }
       } else {
@@ -205,39 +335,14 @@ export class ProductionworkflowComponent {
         this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
           console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
           this.BindWorkDetails();
-          let confirmationMessage = ChangeWorkflowResult;
-          this.showPopup();
+          this.confirmationMessage = ChangeWorkflowResult;
+          // this.showPopup();
         });
       }
     }
   }
 
 
-
-  ///Demo
-
-
-
-  onScopeChange() {
-    if (this.selectedStatus === 'Completed') {
-      this.showCopyFilesCheckbox = false;
-      this.getscopevalues();
-    }
-    else {
-      this.showCopyFilesCheckbox = true;
-      this.getscopevalues();
-    }
-
-  }
-
-
-  //method to implement from exisiting appliacation
-
-
-
-  showPopup() {
-    this.showConfirmedPopup = true;
-  }
   BindWorkDetails() {
     let processTransaction = {
       "wftid": this.data.wftid,
@@ -245,12 +350,12 @@ export class ProductionworkflowComponent {
       "workType": "string",
       "status": "string",
       "remarks": "string",
-      "employeeId": this.loginservice.getUsername(),
+      "employeeId": this.loginService.getUsername(),
       "copyFiles": true,
       "errorCategoryId": 0,
       "value": 0,
       "scopeId": 0,
-      "processId": this.loginservice.getProcessId(),
+      "processId": this.loginService.getProcessId(),
       "stitchCount": 0,
       "orderId": 0,
       "isClientOrder": 0,
@@ -279,132 +384,37 @@ export class ProductionworkflowComponent {
         "string"
       ]
     }
-    this.http.post<any>(environment.apiURL + "/Workflow/GetProductionWorkList", processTransaction).subscribe((result) => {
-      this.jobWorkDetails.data = result.jobHistory;
-      this.History = result.Summary.SummaryHistory;
-      this.SummaryHistory = this.History[0];
-      this.employeeSummaryHistory = this.History.splice(1, this.History.length);
+    this.http.post<any>(environment.apiURL + "Workflow/GetProductionWorkList", processTransaction).subscribe((result) => {
+      console.log(result.summary.summaryHistory,"Normal");
+      console.log(result.summary.summaryHistory[0],"Normal");
+      
+      this.jobWorkDetails = result.jobHistory; // to display the details in table
+      let History = result.summary.summaryHistory;
+      console.log(result.summary.summaryHistory, "Normal summary history");
+      console.log(result.summary.summaryHistory[0], "Array summary history");
+
+      this.TotalTimeWorked = result.summary.summaryHistory[0].totalTime;
+      this.Break = result.summary.summaryHistory[0].break;
+      this.Training = result.summary.summaryHistory[0].trainingorMeeting;
+      this.Hold = result.summary.summaryHistory[0].hold;
+      this.Others = result.summary.summaryHistory[0].others;
+      this.TotalTimeTaken = result.summary.summaryHistory[0].totalTimeTaken;
+      this.Estimatedtime = result.summary.summaryHistory[0].estimatedTime;
+      this.Deviation = result.summary.summaryHistory[0].deviation;
+
+
+      let employeeSummaryHistory = History.splice(1, History.length);
       if (result.jobHistory.length > 0) {
         this.showFiles = true;
       }
     });
   }
 
-
-  //Tring second
-  startButton(Start: string) {
-    var fd = new FormData();
-    if ((this.AttachedFiles.length > 0 && this.copyFiles == false) || (this.AttachedFiles1.length > 0)) {
-      if (this.AttachedFiles1.length > 0) {
-        let processTransaction = {
-          WFTId: this.data.wftid,
-          WFMId: this.data.wfmid,
-          ScopeId: this.data.scopeId,
-          ProcessId: this.data.processId,
-          WorkType: Start,
-          Status: this.selectedStatus,
-          CommentsToClient: this.data.commentsToClient,
-          Remarks: this.remarks,
-          EmployeeId: this.loginservice.getUsername(),
-          CopyFiles: this.copyFiles,
-          StitchCount: this.data.stitchCount,
-          ErrorCategoryId: this.workFlowForm.errorId,
-          Value: this.data.estimatedTime,
-          files: this.AttachedFiles1,
-        };
-
-        fd.append('data', JSON.stringify(processTransaction));
-
-        this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
-          console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
-
-          this.BindWorkDetails();
-          let confirmationMessage = ChangeWorkflowResult;
-          this.showPopup();
-        });
-      }
-    }
-  }
-  sample(workType: string) {
-    console.log("success");
-    var fd = new FormData();
-    let processTransaction = {
-      WFTId: this.data.wftid,
-      WFMId: this.data.wfmid,
-      ScopeId: this.data.scopeId,
-      ProcessId: this.data.processId,
-      WorkType: workType, // Pass the workType parameter
-      Status: this.selectedStatus,
-      CommentsToClient: this.data.commentsToClient,
-      Remarks: this.remarks,
-      EmployeeId: this.loginservice.getUsername(),
-      CopyFiles: this.copyFiles,
-      StitchCount: this.data.stitchCount ? this.data.stitchCount : 0,
-      ErrorCategoryId: this.workFlowForm.errorId,
-      Value: this.data.estimatedTime,
-      files: this.AttachedFiles1,
-    };
-  
-    this.http.post<any>(
-      environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`,
-      null,
-      {
-        headers: new HttpHeaders().set('Content-Type', 'multipart/form-data').append("data", JSON.stringify(processTransaction)),
-      }
-    ).subscribe(ChangeWorkflowResult => {
-      this.getProductionWorkList();
-      console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
-      console.log(processTransaction, "ChangeWorkflowResultPayload");
+  viewDetails(data){
+    this.dialog.open(JobhistorypopuptableComponent, {
+      width: '800px',
+      data
     });
   }
-  
-
-
-  getProductionWorkList() {
-    let payload = {
-      "wftid": this.data.wftid,
-      "wfmid": this.data.wfmid,
-      "workType": "string",
-      "status": "string",
-      "remarks": "string",
-      "employeeId": this.loginservice.getUsername(),
-      "copyFiles": true,
-      "errorCategoryId": 0,
-      "value": 0,
-      "scopeId": 0,
-      "processId": this.loginservice.getProcessId(),
-      "stitchCount": 0,
-      "orderId": 0,
-      "isClientOrder": 0,
-      "statusId": 0,
-      "sourcePath": "string",
-      "dynamicFolderPath": "string",
-      "folderPath": "string",
-      "fileName": "string",
-      "fileCount": 0,
-      "orignalPath": "string",
-      "orignalDynamicPath": "string", 
-      "jobId": "string",
-      "isProcessWorkFlowTranInserted": 0,
-      "isCopyFiles": 0,
-      "pid": 0,
-      "fakeProcessId": 0,
-      "fakeStatusId": 0,
-      "fakeDynamicFolderPath": "string",
-      "jobFileName": "string",
-      "files": [
-        "string"
-      ],
-      "commentsToClient": "string",
-      "tranFileUploadPath": "string",
-      "selectedRows": []
-    }
-    this.http.post<any>(environment.apiURL + `Workflow/GetProductionWorkList`, payload).subscribe(getProductionResult => {
-      this.dataSource = new MatTableDataSource([getProductionResult.jobHistory[0]]);
-      console.log(getProductionResult, "getPRoductionResult");
-    });
-  }
-
-
-  
 }
+

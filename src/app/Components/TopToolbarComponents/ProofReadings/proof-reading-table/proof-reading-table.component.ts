@@ -8,6 +8,11 @@ import { ProofReadingService } from 'src/app/Services/CoreStructure/ProofReading
 import { ProofreadingComponent } from '../proofreading/proofreading.component';
 import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { JobAssignedDetailsPopupComponent } from '../../ProductionAllocation/job-assigned-details-popup/job-assigned-details-popup.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ProofjobdetailpopupComponent } from '../proofjobdetailpopup/proofjobdetailpopup.component';
+import { ProofjobhistorypopupComponent } from '../proofjobhistorypopup/proofjobhistorypopup.component';
 
 
 @Component({
@@ -56,10 +61,10 @@ export class ProofReadingTableComponent implements OnInit {
     'scope': true,
     'esttime': true,
     'deliverydate': true,
-    'start': false,
-    'workfiles': false,
-    'end': false,
-    'bulkupload': false
+    'start': true,
+    'workfiles': true,
+    'end': true,
+    'bulkupload': true
   };
 
   visibility() {
@@ -131,7 +136,7 @@ export class ProofReadingTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private loginservice: LoginService, private http: HttpClient, private proofReadingService: ProofReadingService, private proofreadingcomponent: ProofreadingComponent) { }
+  constructor(private spinnerService: SpinnerService, private loginservice: LoginService, private http: HttpClient, private proofReadingService: ProofReadingService, private proofreadingcomponent: ProofreadingComponent,private dialog:MatDialog) { }
 
   ngOnInit(): void {
     // //ScopeDropdown
@@ -193,15 +198,18 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
     console.log(localStorage.getItem('selectedRadioValue'), "radioValue");
-
-    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/${this.selectedValue}`).subscribe(freshJobs => {
-      console.log(freshJobs.getWorkflowDetails[0], "proofreadingvalues"),
-        console.log(freshJobs.getWorkflowDetails, "proofreadingvalues1"),
-
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/${this.selectedValue}`).subscribe({
+      next: (freshJobs) => {
+        this.spinnerService.requestEnded();
         this.dataSource = new MatTableDataSource(freshJobs.getWorkflowDetails);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
+        console.log(err);
+      }
     });
   }
 
@@ -210,10 +218,18 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/${this.selectedValue}`).subscribe(revisionJobs => {
-      this.dataSource = new MatTableDataSource(revisionJobs.getWorkflowDetails);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/${this.selectedValue}`).subscribe({
+      next: (revisionJobs) => {
+        this.spinnerService.requestEnded();
+        this.dataSource = new MatTableDataSource(revisionJobs.getWorkflowDetails);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
+        console.log(err);
+      }
     });
   }
   reworkJobs() {
@@ -221,10 +237,17 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/3/${this.selectedValue}`).subscribe(reworkJobs => {
-      this.dataSource = new MatTableDataSource(reworkJobs.getWorkflowDetails);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/3/${this.selectedValue}`).subscribe({
+      next: (reworkJobs) => {
+        this.spinnerService.requestEnded();
+        this.dataSource = new MatTableDataSource(reworkJobs.getWorkflowDetails);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
+        console.log(err);
+      }
     });
   }
   quoteJobs() {
@@ -232,10 +255,17 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/4/${this.selectedValue}`).subscribe(quoteJobs => {
-      this.dataSource = new MatTableDataSource(quoteJobs.getWorkflowDetails);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/4/${this.selectedValue}`).subscribe({
+      next: (quoteJobs) => {
+        this.spinnerService.requestEnded();
+        this.dataSource = new MatTableDataSource(quoteJobs.getWorkflowDetails);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
+        console.log(err);
+      }
     });
   }
 
@@ -248,10 +278,17 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = true;
     this.displayedColumnsVisibility.end = true;
     this.displayedColumnsVisibility.bulkupload = true;
-    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/6/${this.selectedValue}`).subscribe(bulkJobs => {
-      this.dataSource = new MatTableDataSource(bulkJobs.getWorkflowDetails);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/6/${this.selectedValue}`).subscribe({
+      next: (bulkJobs) => {
+        this.spinnerService.requestEnded();
+        this.dataSource = new MatTableDataSource(bulkJobs.getWorkflowDetails);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
+        console.log(err);
+      }
     });
   }
   bulkUploadJobs() {
@@ -259,18 +296,47 @@ export class ProofReadingTableComponent implements OnInit {
     this.displayedColumnsVisibility.workfiles = false;
     this.displayedColumnsVisibility.end = false;
     this.displayedColumnsVisibility.bulkupload = false;
-    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/${this.selectedValue}`).subscribe(bulkUploadJobs => {
-      this.dataSource = new MatTableDataSource(bulkUploadJobs.getWorkflowDetails);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/${this.selectedValue}`).subscribe({
+      next: (bulkUploadJobs) => {
+        this.spinnerService.requestEnded();
+        this.dataSource = new MatTableDataSource(bulkUploadJobs.getWorkflowDetails);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
+        console.log(err);
+      }
     });
   }
 
   selectedScope: string = "";
   scopes: any[];
   scopeDropdown() {
-    this.proofReadingService.getScopeDropdown().subscribe(scopedata => {
-      this.scopes = scopedata.ScopeDetails
+    this.spinnerService.requestStarted();
+    this.proofReadingService.getScopeDropdown().subscribe({
+      next: (scopedata) => {
+        this.spinnerService.requestEnded();
+        this.scopes = scopedata.ScopeDetails
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
+      }
+    })
+  }
+
+  getProductionJob(data){
+    this.dialog.open(ProofjobhistorypopupComponent,{
+      width:'80vw',
+      data
+    });
+  }
+
+  workflow(data){
+    this.dialog.open(ProofjobdetailpopupComponent,{
+      width:'80vw',
+      height:'80vh',
+      data
     })
   }
 

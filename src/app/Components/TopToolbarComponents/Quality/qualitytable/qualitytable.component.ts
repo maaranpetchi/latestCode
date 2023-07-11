@@ -5,18 +5,19 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { QualitypopupjobassignComponent } from '../../QualityAllocation/qualitypopupjobassign/qualitypopupjobassign.component';
-import { QualityjobdetailpopupComponent } from '../qualityjobdetailpopup/qualityjobdetailpopup.component';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { environment } from 'src/Environments/environment';
 import { QualityWorkflowComponent } from '../quality-workflow/quality-workflow.component';
+import { ProdjobpopupComponent } from '../../Production/prodjobpopup/prodjobpopup.component';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 @Component({
   selector: 'app-qualitytable',
   templateUrl: './qualitytable.component.html',
   styleUrls: ['./qualitytable.component.scss']
 })
 export class QualitytableComponent {
-
   @Output() showAlertEvent: EventEmitter<any> = new EventEmitter();
-  ScopeApiData: any[];
+
 
   displayedColumns: string[] = [
     'selected',
@@ -35,39 +36,31 @@ export class QualitytableComponent {
     'esttime',
     'deliverydate',
   ];
-  dataSource: MatTableDataSource<any>;
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,public dialog: MatDialog) {}
+  constructor(private http: HttpClient, private loginservice: LoginService, private dialog: MatDialog, private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
-    // //scopedropdown
-     this.fetchScope();
+    // //ScopeDropdown
+    this.fetchScope();
+
+    //FreshJobs
+    this.freshJobs();
+  }
+  ScopeApiData: any[];
+  fetchScope() {
+    this.http.get<any>(environment.apiURL + `Allocation/getScopeValues/${this.loginservice.getUsername()}`).subscribe(data => {
+      this.ScopeApiData = data.ScopeDetails;
+    });
   }
 
-  fetchScope(){
- 
-  }
 
-
-  assigndatasource(data){
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  //maintable
-  // fetchData(): void {
-  //   this.http.get<any>('YOUR_API_URL').subscribe(data => {
-  //     this.dataSource = new MatTableDataSource(data);
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.sort = this.sort;
-  //   });
-  // }
   //to save the checkbox values
-  selectedproduction:any[]=[];
+  selectedproduction: any[] = [];
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedproduction)
     if (completed == true) {
@@ -90,31 +83,102 @@ export class QualitytableComponent {
     alert('HI TESTING');
   }
 
+  tab(action) {
+    if (action == '1') {
+      this.freshJobs();
+    }
+    else if (action == '2') {
+      this.revisionJobs();
+    }
+    else if (action == '3') {
+      this.reworkJobs();
+    }
+    else if (action == '4') {
+      this.quoteJobs();
+    }
+    else if (action == '5') {
+      this.bulkJobs();
+      this.scopeDisplay = true;
 
-
-  openqualitypop(){
-    const dialogRef = this.dialog.open(QualityjobdetailpopupComponent, {
-      width: '2000px',
-    
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      
-    });
-  }
-
-  openqualityworkflowpop(){
-    const dialogRef = this.dialog.open(QualityWorkflowComponent, {
-      width: '2000px',
-    
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      
-    });
-  }
+    }
+    else if (action == '6') {
+      this.bulkUploadJobs();
+    }
 
   }
 
+  freshJobs() {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdata => {
+      this.spinnerService.requestEnded();
+      this.dataSource = new MatTableDataSource(freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  revisionJobs() {
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/2/0`).subscribe(freshdata => {
+      this.dataSource = new MatTableDataSource(freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  reworkJobs() {
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/3/0`).subscribe(freshdata => {
+      this.dataSource = new MatTableDataSource(freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  quoteJobs() {
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/4/0`).subscribe(freshdata => {
+      this.dataSource = new MatTableDataSource(freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+  scopeDisplay: boolean = false; // display a scope dropdown div
+  bulkJobs() {
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/6/0`).subscribe(freshdata => {
+      this.dataSource = new MatTableDataSource(freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.scopeDisplay = true;
+    });
+  }
+  bulkUploadJobs() {
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/7/0`).subscribe(freshdata => {
+      this.dataSource = new MatTableDataSource(freshdata.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
 
+  // passingdata(){
+  //   this.http.get('https://api.example.com/job-details').subscribe(
+  //     (response: any) => {
+  //       // Pass the API response data to the dialog component
+  //       this.openJobDetailsDialog(response);
+  //     },
+  //     (error) => {
+  //       console.log('Error occurred while fetching job details:', error);
+  //     }
+  //   );
+  // }
+
+  openJobDetailsDialog(data) {
+    this.dialog.open(ProdjobpopupComponent, {
+      width: '80vw',
+      data
+    })
+  }
+
+  workflow1(data) {
+    this.dialog.open(QualityWorkflowComponent,{
+      width: '80vw',
+      height: '80vh',
+      data
+    })
+  }
+
+}

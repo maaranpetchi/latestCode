@@ -45,13 +45,7 @@ export class ProofworkflowComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
 
-    //minutestabel
-    this.http
-      .get<TimeData>('http://your-rest-api-url.com/time-data')
-      .subscribe((data) => {
-        this.timeData = data;
-      });
-  }
+    }
   openJobHistory(): void {
     this.dialog.open(ProofjobhistorypopupComponent, {
       width: '800px',

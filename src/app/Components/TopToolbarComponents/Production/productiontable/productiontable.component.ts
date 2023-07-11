@@ -9,6 +9,7 @@ import { environment } from 'src/Environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { ProdjobpopupComponent } from '../prodjobpopup/prodjobpopup.component';
 import { ProductionworkflowComponent } from '../productionworkflow/productionworkflow.component';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-productiontable',
@@ -42,7 +43,7 @@ export class ProductiontableComponent {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice: LoginService,private dialog:MatDialog) { }
+  constructor(private http: HttpClient,private loginservice: LoginService,private dialog:MatDialog,private spinnerService:SpinnerService) { }
 
   ngOnInit(): void {
     // //ScopeDropdown
@@ -53,7 +54,9 @@ export class ProductiontableComponent {
   }
   ScopeApiData: any[];
   fetchScope() {
-    this.http.get<any>(environment.apiURL+'Allocation/getScopeValues/152').subscribe(data => {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL+`Allocation/getScopeValues/${this.loginservice.getUsername()}`).subscribe(data => {
+      this.spinnerService.requestEnded();
       this.ScopeApiData = data.ScopeDetails ;
     });
   }
@@ -108,6 +111,7 @@ export class ProductiontableComponent {
   }
 
   freshJobs() {
+    
     this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdata => {
       console.log(freshdata,"freshdata");
       this.dataSource =  new MatTableDataSource (freshdata.getWorkflowDetails);

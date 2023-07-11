@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { catchError, throwError } from 'rxjs';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-prodjobpopup',
@@ -12,7 +14,7 @@ import { environment } from 'src/Environments/environment';
 })
 export class ProdjobpopupComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private http: HttpClient,public dialogRef: MatDialogRef<ProdjobpopupComponent>){}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private spinnerService:SpinnerService,private http: HttpClient,public dialogRef: MatDialogRef<ProdjobpopupComponent>){}
   
  displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy','MovedTo', 'remarks'];
  dataJobSource: MatTableDataSource<any>;
@@ -25,13 +27,18 @@ export class ProdjobpopupComponent implements OnInit {
   ngOnInit() {
 
     // Fetch data from the REST API and populate the table job history
-    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
-      this.dataJobSource = data.jobHistory;
-      console.log(data,"JobDetails");
-      
-    });
+ this.getData();
   }
 
+
+  getData(){
+    this.spinnerService.requestStarted();
+
+    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
+      this.spinnerService.requestEnded();
+      this.dataJobSource = data.jobHistory;      
+    });
+  }
   selectedFile: File;
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
