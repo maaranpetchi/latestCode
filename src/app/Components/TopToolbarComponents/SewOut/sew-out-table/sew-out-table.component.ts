@@ -211,7 +211,6 @@ export class SewOutTableComponent implements OnInit {
     return this.SewOutComponent1.getCurrentTab();
   }
   workFlowConversion() {
-
     if (this.getTabValue() !== 5) {
       const apiUrl = environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
       this.http.get(apiUrl).subscribe(
@@ -320,8 +319,23 @@ export class SewOutTableComponent implements OnInit {
               if (response.success == true) {
                 this._coreService.openSnackBar("Workflow converted successfully");
               }
+
               else{
-               this._coreService.openSnackBar(response.message);
+                if (response.processId == 9 || response.processId == 11) {
+                  localStorage.setItem("WFTId", response.tranId);
+                  localStorage.setItem("WFMId", response.tranMasterId);
+                  localStorage.setItem("JId", response.jid);
+                  localStorage.setItem("processid", response.processId);
+                  // $location.path('/ProcessTransaction');
+              }
+              else {
+                  localStorage.setItem("WFTId", response.wftId);
+                  localStorage.setItem("WFMId", response.wfmid);
+                  localStorage.setItem("JId", response.jid);
+                  localStorage.setItem("processid", response.processId);
+                  // $location.path('/ProcessTransaction');
+              }
+
               }
 
             }

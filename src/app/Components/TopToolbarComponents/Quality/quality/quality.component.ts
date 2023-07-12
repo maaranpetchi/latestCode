@@ -19,8 +19,17 @@ export class QualityComponent implements OnInit {
     this.getCount();
     this.freshJobs();
   }
+  currentTab = 1;
+
+  getCurrentTab() {
+    return this.currentTab;
+
+  }
+
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
+    this.currentTab = event.index + 1;
+
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
