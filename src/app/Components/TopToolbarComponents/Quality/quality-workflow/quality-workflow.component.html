@@ -347,7 +347,7 @@
           <div class="col">
 
             <div class="end">
-              <button class="btn btn-danger" (click)="changeWorkType('End')" >End</button>
+              <button class="btn btn-danger" [disabled]="disableWorkType" (click)="changeWorkType('End')" >End</button>
             </div>
           </div>
         </div>
