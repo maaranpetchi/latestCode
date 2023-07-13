@@ -13,6 +13,7 @@ import { JobAssignedDetailsPopupComponent } from '../../ProductionAllocation/job
 import { MatDialog } from '@angular/material/dialog';
 import { ProofjobdetailpopupComponent } from '../proofjobdetailpopup/proofjobdetailpopup.component';
 import { ProofjobhistorypopupComponent } from '../proofjobhistorypopup/proofjobhistorypopup.component';
+import { QualityWorkflowComponent } from '../../Quality/quality-workflow/quality-workflow.component';
 
 
 @Component({
@@ -331,14 +332,101 @@ export class ProofReadingTableComponent implements OnInit {
       data
     });
   }
+  lnkviewedit(data) {
+    if (data.processId == 8 || data.processId == 10) {
+        let selectedJobs = [{
+            DepartmentId: data.departmentId,
+            TranMasterId: data.TranMasterId,
+            TimeStamp: data.TimeStamp,
+            TranId: data.TranId,
+            JId: data.JId,
+            CustomerId: data.CustomerId
+        }];
+      let selectedEmployees = [{
+            EmployeeId: this.loginservice.getUsername(),
+        }];
+        var processMovement = {
+          "id": 0,
+          "processId": data.processId,
+          "statusId": 1,
+          "selectedScopeId": 0,
+          "autoUploadJobs": true,
+          "employeeId": 0,
+          "remarks": "string",
+          "isBench": true,
+          "jobId": "string",
+          "value": 0,
+          "amount": 0,
+          "stitchCount": 0,
+          "estimationTime": 0,
+          "dateofDelivery": "2023-07-11T12:10:42.205Z",
+          "comments": "string",
+          "validity": 0,
+          "copyFiles": true,
+          "updatedBy": 0,
+          "jId": 0,
+          "estimatedTime": 0,
+          "tranMasterId": 0,
+          "selectedRows": selectedJobs,
+          "selectedEmployees": selectedEmployees,
+          "departmentId": 0,
+          "updatedUTC": "2023-07-11T12:10:42.205Z",
+          "categoryDesc": "string",
+          "allocatedEstimatedTime": 0,
+          "tranId": 0,
+          "fileInwardType": "string",
+          "timeStamp": "string",
+          "scopeId": 0,
+          "quotationRaisedby": 0,
+          "quotationraisedOn": "2023-07-11T12:10:42.205Z",
+          "clientId": 0,
+          "customerId": 0,
+          "fileReceivedDate": "2023-07-11T12:10:42.205Z",
+          "commentsToClient": "string",
+          "isJobFilesNotTransfer": true
+        }
+      this.http.post<any>(environment.apiURL+`Allocation/processMovement`,processMovement).subscribe( result => {
+        console.log(result,"processMovementworkkk");
+            if (result.Success == true) {
+                localStorage.setItem("WFTId", result.wftId);
+                localStorage.setItem("WFMId", result.wfmid);
+                localStorage.setItem("JId", data.JId);
+                localStorage.setItem("processid", result.processId);
+                // $location.path('/ProcessTransaction');
+            }
+            else {
+                this.BindPendingJobs();
+            }
+        });
+    }
+    else {
+        if (data.processId == 9 || data.processId == 11) {
+            localStorage.setItem("WFTId", data.tranId);
+            localStorage.setItem("WFMId", data.tranMasterId);
+            localStorage.setItem("JId", data.jid);
+            localStorage.setItem("processid", data.processId);
+            // $location.path('/ProcessTransaction');
+        }
+        else {
+            localStorage.setItem("WFTId", data.wftid);
+            localStorage.setItem("WFMId", data.wfmid);
+            localStorage.setItem("JId", data.jid);
+            localStorage.setItem("processid", data.processId);
+            // $location.path('/ProcessTransaction');
+            this.dialog.open(QualityWorkflowComponent,{
+              width: '80vw',
+              height: '80vh',
+              data
+            })            
+        }
+    }
+};
 
-  workflow(data){
-    this.dialog.open(ProofjobdetailpopupComponent,{
-      width:'80vw',
-      height:'80vh',
-      data
-    })
-  }
+BindPendingJobs() {
+  this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(result => {
+    console.log(result,"buddyproofmainwwww");
+  });
+}
 
 }
 

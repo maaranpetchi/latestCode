@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { writeFile } from 'xlsx';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class QualityWorkflowComponent implements OnInit {
   alertMessage: string;
   confirmationMessage: any;
   RbnError: string;
-  errorId:any;
+  errorId: any;
   IsSelfQC: any;
 
 
@@ -57,20 +58,22 @@ export class QualityWorkflowComponent implements OnInit {
   errorCategory: any;
   Remarks: string = '';
   hiddenscope: boolean;
-  CopyPreviousFiles:boolean = false;
-  checked:boolean = false;
-  disable:boolean = false;
-  ShowErrorCategory:boolean = false;
-  commentsToClient:string= ''
+  CopyPreviousFiles: boolean = false;
+  checked: boolean = false;
+  disable: boolean = false;
+  ShowErrorCategory: boolean = false;
+  commentsToClient: string = '';
+  txtbpsoStitchCount: number = 0;
+  footerDropdown: boolean = false;
   ngOnInit(): void {
     this.getIsholdSampValue();
-    this.BindWorkDetails();
+    //this.BindWorkDetails();
     this.getScope();
     this.rbnError();
 
   }
 
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private loginService: LoginService) {
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private loginService: LoginService, private spinnerService: SpinnerService) {
     console.log(data, "processdata");
   }
 
@@ -97,7 +100,7 @@ export class QualityWorkflowComponent implements OnInit {
       "divEmpId": 0,
       "employeeName": "string",
       "employeeCount": 0,
-      "timeStamp": "string",
+      "timeStamp": "",
       "departmentId": 0,
       "processId": 0,
       "isActive": true,
@@ -194,6 +197,8 @@ export class QualityWorkflowComponent implements OnInit {
     if (workType == 'Start') {
       this.disableWorkType = false;
       this.showFiles = true;
+      console.log("Method Started 1");
+      this.footerDropdown = true;
       this.ChangeWorkflow(workType);
     }
     else if (workType == 'End') {
@@ -206,7 +211,7 @@ export class QualityWorkflowComponent implements OnInit {
           if (this.Status == 'Query' || this.Status == 'Query for Special Pricing') {
             if (this.AttachedFiles.length == 0 && this.CopyPreviousFiles == false) {
               this.alertMessage = 'Please Copy Previous Files (or) Upload Files!';
-            //  $('#alertPopup').modal('show');
+              //  $('#alertPopup').modal('show');
             }
             else {
               this.disableWorkType = true;
@@ -215,7 +220,7 @@ export class QualityWorkflowComponent implements OnInit {
           }
           else if (this.AttachedFiles.length == 0) {
             this.alertMessage = 'Please Upload Files!';
-          //  $('#alertPopup').modal('show');
+            //  $('#alertPopup').modal('show');
           }
           else {
             this.disableWorkType = true;
@@ -225,7 +230,7 @@ export class QualityWorkflowComponent implements OnInit {
         else if (this.data.processName == 'Quality') {
           if (this.AttachedFiles.length == 0 && this.CopyPreviousFiles == false) {
             this.alertMessage = 'Please Copy Previous Files (or) Upload Files!';
-         //   $('#alertPopup').modal('show');
+            //   $('#alertPopup').modal('show');
           }
           else {
             this.disableWorkType = true;
@@ -233,9 +238,9 @@ export class QualityWorkflowComponent implements OnInit {
           }
         }
         else if (this.data.processName == 'Sew Out' || this.data.processName == 'Buddy Proof') {
-        if (this.AttachedFiles.length == 0 &&  this.CopyPreviousFiles == false &&  this.AttachedFiles1.length == 0) {
-           this.alertMessage = 'Please Copy Previous Files (or) Upload Files!';
-           // $('#alertPopup').modal('show');
+          if (this.AttachedFiles.length == 0 && this.CopyPreviousFiles == false && this.AttachedFiles1.length == 0) {
+            this.alertMessage = 'Please Copy Previous Files (or) Upload Files!';
+            // $('#alertPopup').modal('show');
           }
           else {
             this.disableWorkType = true;
@@ -245,7 +250,7 @@ export class QualityWorkflowComponent implements OnInit {
         else if (this.data.processName == 'Proof Reading') {
           if (this.CopyPreviousFiles == false) {
             this.alertMessage = 'Please Copy Previous Files!';
-          //  $('#alertPopup').modal('show');
+            //  $('#alertPopup').modal('show');
           }
           else {
             this.disableWorkType = true;
@@ -321,16 +326,27 @@ export class QualityWorkflowComponent implements OnInit {
     }
   }
   ChangeWorkflow(workType) {
+    console.log("Method Started 2");
     let ProcessCheck = localStorage.getItem('processid');
+    console.log(ProcessCheck, "Processchecking");
+
     if (ProcessCheck === '3' || ProcessCheck === '5' || ProcessCheck === '9' || ProcessCheck === '11') {
       if (this.data.stitchCountUpdate === undefined) {
-        this.data.stitchCountUpdate = this.data.stitchCount;
+        this.data.stitchCountUpdate = this.txtbpsoStitchCount;
+        console.log("if kulla condition");
+
       }
-    } else {
+    }
+
+    else {
+      console.log("else kulla condition");
+
       this.data.stitchCountUpdate = this.data.stitchCount;
     }
 
     if (this.RbnError == 'No Error') {
+      console.log("rbn condition");
+
       this.errorId = null;
     }
     var processTransaction = {
@@ -360,6 +376,7 @@ export class QualityWorkflowComponent implements OnInit {
         this.CopyPreviousFiles = false;
       }
       if ((this.AttachedFiles.length > 0 && this.CopyPreviousFiles == false) || (this.AttachedFiles1.length > 0)) {
+
         if (this.AttachedFiles1.length > 0) {
           let processTransaction = {
             WFTId: this.data.wftid,
@@ -379,39 +396,59 @@ export class QualityWorkflowComponent implements OnInit {
           };
 
           fd.append('data', JSON.stringify(processTransaction));
-
+          this.spinnerService.requestStarted();
           this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
-            console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
-
             this.BindWorkDetails();
-            this.confirmationMessage = ChangeWorkflowResult;
-            // this.showPopup();
+            this.confirmationMessage = ChangeWorkflowResult.message;
+            this.spinnerService.requestEnded();
+            alert(this.confirmationMessage);
           });
-        } else {
+
+
+        }
+        else {
+          this.spinnerService.requestStarted();
           fd.append('data', JSON.stringify(processTransaction));
           this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
-            console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
             this.BindWorkDetails();
-            this.confirmationMessage = ChangeWorkflowResult;
-            // this.showPopup();
+            this.confirmationMessage = ChangeWorkflowResult.message;
+            this.spinnerService.requestEnded();
+            alert(this.confirmationMessage);
           });
         }
-      } else {
+      }
+      else {
+        this.spinnerService.requestStarted();
         fd.append('data', JSON.stringify(processTransaction));
         this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
-          console.log(ChangeWorkflowResult, "ChangeWorkflowResult");
           this.BindWorkDetails();
-          this.confirmationMessage = ChangeWorkflowResult;
-          // this.showPopup();
+          this.confirmationMessage = ChangeWorkflowResult.message;
+          alert(this.confirmationMessage);
+          this.spinnerService.requestEnded();
         });
       }
     }
-  }
 
-  ;
+    else {
+      fd.append('data', JSON.stringify(processTransaction));
+      this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
+        if (workType == 'End') {
+          this.BindWorkDetails();
+          this.confirmationMessage = ChangeWorkflowResult.Message;
+          alert(this.confirmationMessage);
+        }
+        else {
+          this.BindWorkDetails();
+        }
+      });
+    }
+
+  };
 
 
   BindWorkDetails() {
+    console.log("Method started 3");
+
     let processTransaction = {
       "wftid": localStorage.getItem("WFTId"),
       "wfmid": this.data.wfmid,
@@ -443,9 +480,7 @@ export class QualityWorkflowComponent implements OnInit {
       "fakeStatusId": 0,
       "fakeDynamicFolderPath": "string",
       "jobFileName": "string",
-      "files": [
-        "string"
-      ],
+      "files": [],
       "commentsToClient": "string",
       "tranFileUploadPath": "string",
       "selectedRows": []
@@ -475,6 +510,9 @@ export class QualityWorkflowComponent implements OnInit {
       if (result.jobHistory.length > 0) {
         this.showFiles = true;
       }
+
+      console.log(result, "resultBinddetails");
+
     });
   }
 
@@ -501,8 +539,8 @@ export class QualityWorkflowComponent implements OnInit {
 
   ///to get the error dropdown value
   rbnError() {
-    console.log(localStorage.getItem('WFTId'),"local storage from the wftid");
-    
+    console.log(localStorage.getItem('WFTId'), "local storage from the wftid");
+
     this.http.get<any>(environment.apiURL + `Workflow/GetErrorCategories/${localStorage.getItem('WFTId')}/${this.loginService.getUsername()}`).subscribe(result => {
       this.errorCategory = result.errorCategories;
     });
@@ -516,38 +554,35 @@ export class QualityWorkflowComponent implements OnInit {
       }
     });
   }
-///Dropdownchaneg to show some fields
-selectIsError() { 
-  if (this.data.processName == 'Quality' || this.data.processName == 'Sew Out' || this.data.processName == 'Buddy Proof') {
+  ///Dropdownchaneg to show some fields
+  selectIsError() {
+    if (this.data.processName == 'Quality' || this.data.processName == 'Sew Out' || this.data.processName == 'Buddy Proof') {
       this.RbnError = 'No Error';
-      if (this.Status == 'Error' ||this.Status == 'Completed With Error') {
-          this.RbnError = 'Error';
-          this.rbnError();
+      if (this.Status == 'Error' || this.Status == 'Completed With Error') {
+        this.RbnError = 'Error';
+        this.rbnError();
       }
-  }
-  if (this.data.processName == 'Proof Reading')
-  {
+    }
+    if (this.data.processName == 'Proof Reading') {
       this.hiddenscope = true;
-  }
-  
-  if (this.data.processName == 'Production' && (this.Status == 'Query' || this.Status == 'Query for Special Pricing'))
-  {
+    }
+
+    if (this.data.processName == 'Production' && (this.Status == 'Query' || this.Status == 'Query for Special Pricing')) {
       this.checked = true;
       this.disable = true;
       this.CopyPreviousFiles = true;
-  }
+    }
 
-  this.http.get<any>(environment.apiURL + `Allocation/getCustomerScopeValues/1/${this.data.clientId}`).subscribe(result => {
+    this.http.get<any>(environment.apiURL + `Allocation/getCustomerScopeValues/1/${this.data.clientId}`).subscribe(result => {
       if (result.scopeDetails.length > 0) {
-          this.Scope = result.scopeDetails;
+        this.Scope = result.scopeDetails;
       }
       else {
-          this.alertMessage = 'No Scope Available for the customer!';
-         // $('#alertPopup').modal('show');
+        this.alertMessage = 'No Scope Available for the customer!';
+        // $('#alertPopup').modal('show');
       }
 
-  });
-};
+    });
+  };
 
 }
-
