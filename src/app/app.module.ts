@@ -17,6 +17,7 @@ import { DialogComponent } from './Components/dialog/dialog.component';
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,6 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
     DialogComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
-    
   ],
   imports: [
     BrowserModule,

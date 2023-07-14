@@ -92,6 +92,8 @@ import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/P
 import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
 import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
+import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
+import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
 
 const routes: Routes = [
 
@@ -247,6 +249,11 @@ const routes: Routes = [
 
        //Bank
        {path:'bank', component:BankComponent},
+
+       //VENDOR
+       {path:'vendor', component:VendorComponent},
+       {path:'editvendor', component:EditVendorComponent},
+
     ]
   },
 

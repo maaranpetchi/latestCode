@@ -110,6 +110,8 @@ import { ProductionAllocatedPopupComponent } from 'src/app/Components/TopToolbar
 import { JoballocatedEmplpopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/joballocated-emplpopup/joballocated-emplpopup.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
 import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-alocationtable/proofreading-alocationtable.component';
+import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
+import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
 
 @NgModule({
   declarations: [
@@ -267,7 +269,11 @@ import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolb
     JobTransferComponent,
 
     //Bank
-    BankComponent
+    BankComponent,
+
+    //VENDOR
+    VendorComponent,
+    EditVendorComponent
   ],
   imports: [
     CommonModule,
