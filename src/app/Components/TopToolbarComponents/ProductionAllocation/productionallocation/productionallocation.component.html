@@ -4,7 +4,10 @@
             <div class="header">
                 <div class="row">
                     <div class="col">
-                        <h3 style="font-family:'Times New Roman', Times, serif">Production Allocation (0)</h3>
+     <h3 style="font-family:'Times New Roman', Times, serif">Production Allocation
+              ({{(pendingJobsCount? pendingJobsCount:0)+(freshJobsCount?freshJobsCount:0) +
+              (revisionJobsCount?revisionJobsCount:0)+(reworkJobsCount?reworkJobsCount:0)+(allocatedJobCount?allocatedJobCount:0)+(queriesJobsCount?queriesJobsCount:0)+(queryResponseJobsCount?queryResponseJobsCount:0)+(errorJobsCount?errorJobsCount:0)+(quotationJobCount?quotationJobCount:0)}})
+            </h3>
                     </div>
                     <div class="col" id="titles">
                        <p><span class="box"></span> Assigned to Single Employee</p>
@@ -13,24 +16,22 @@
                     </div>
                 </div>
             </div>
-
-
             <mat-tab-group dynamicHeight (selectedTabChange)="onTabChange($event)">
-                <mat-tab label="Fresh Jobs ()">
+                <mat-tab label="Fresh Jobs ({{freshJobsCount?freshJobsCount:0}})">
                 </mat-tab>
-                <mat-tab label="Revision Jobs ()">
+                <mat-tab label="Revision Jobs ({{revisionJobsCount?revisionJobsCount:0}})">
                 </mat-tab>
-                <mat-tab label="Rework Jobs ()">
+                <mat-tab label="Rework Jobs ({{reworkJobsCount?reworkJobsCount:0}})">
                 </mat-tab>
-                <mat-tab label="Allocated Jobs ()">
+                <mat-tab label="Allocated Jobs ({{allocatedJobCount?allocatedJobCount:0}})">
                 </mat-tab>
-                <mat-tab label="Queries  ()">
+                <mat-tab label="Queries  ({{queriesJobsCount?queriesJobsCount:0}})">
                 </mat-tab>
-                <mat-tab label="Query Response  ()">
+                <mat-tab label="Query Response  ({{queryResponseJobsCount?queryResponseJobsCount:0}})">
                 </mat-tab>
-                <mat-tab label="Error Jobs ()">
+                <mat-tab label="Error Jobs ({{errorJobsCount?errorJobsCount:0}})">
                 </mat-tab>
-                <mat-tab label="Quotation Jobs ()">
+                <mat-tab label="Quotation Jobs ({{quotationJobCount?quotationJobCount:0}})">
                 </mat-tab>
             </mat-tab-group>
 

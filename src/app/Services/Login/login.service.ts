@@ -20,10 +20,11 @@ export class LoginService {
     return this.cookieService.check('token') && this.cookieService.check('username');
   }
 
+  // username eg:pras
   getToken(): string {
     return this.cookieService.get('token');
   }
-
+// 152 userId
   getUsername(): string {
     return this.cookieService.get('username');
   }

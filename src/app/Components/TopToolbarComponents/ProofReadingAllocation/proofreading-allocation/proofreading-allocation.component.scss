@@ -1,7 +1,3 @@
-.example-spacer {
-    flex: 1 1 auto;
-}
-
 .addemployee {
     padding-left: 10px;
 }
@@ -64,3 +60,6 @@
     background-color: rgb(238, 158, 20);
     margin-right: 5px;
 }
+.clickable-link {
+    cursor: pointer;
+  }

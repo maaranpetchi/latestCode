@@ -17,7 +17,7 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 })
 export class UserMasterComponent implements OnInit {
 
-  displayedColumns:string[] = [
+  displayedColumns: string[] = [
     'Name',
     'UserName',
     'UserType',
@@ -25,9 +25,9 @@ export class UserMasterComponent implements OnInit {
     'action',
   ]
 
-  employees:any={};
-  dataSource!:MatTableDataSource<any>;
-  
+  employees: any = {};
+  dataSource!: MatTableDataSource<any>;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -36,19 +36,19 @@ export class UserMasterComponent implements OnInit {
     private _empService: UserMasterService,
     private _coreService: CoreService,
     private spinnerService: SpinnerService,
-  ) {}
+  ) { }
   myForm = new FormGroup({
-    name:new FormControl('', Validators.required),
-    userName:new FormControl('', Validators.required),
-    userType:new FormControl('', Validators.required),
-    role:new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    userName: new FormControl('', Validators.required),
+    userType: new FormControl('', Validators.required),
+    role: new FormControl('', Validators.required),
     Password: new FormControl('')
   })
   ngOnInit(): void {
     this.getMasterUsers();
   }
 
-  getMasterUsers(){
+  getMasterUsers() {
     this.spinnerService.requestStarted();
     this._empService.getAllMasterUsers().subscribe({
       next: (data) => {
@@ -57,10 +57,11 @@ export class UserMasterComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
-          error: (err) => {
+      error: (err) => {
+        this.spinnerService.resetSpinner();
         console.log(err);
       }
-    })    
+    })
   }
 
   applyFilter(event: Event) {
@@ -71,10 +72,10 @@ export class UserMasterComponent implements OnInit {
     }
   }
 
-  openAddUsers(){
+  openAddUsers() {
     const dialogRef = this._dialog.open(AdduserMasterComponent, {
-      width:'100%',
-      height:'400px',
+      width: '100%',
+      height: '400px',
     })
     dialogRef.afterClosed().subscribe({
       next: (val) => {
@@ -85,11 +86,11 @@ export class UserMasterComponent implements OnInit {
     });
   }
 
-  openEditForm(data:any){
+  openEditForm(data: any) {
     const dialogRef = this._dialog.open(AddEditUsermasterComponent, {
-      width:'100%',
-      height:'400px',
-      data:data,
+      width: '100%',
+      height: '400px',
+      data: data,
     })
     dialogRef.afterClosed().subscribe({
       next: (val) => {
@@ -100,21 +101,21 @@ export class UserMasterComponent implements OnInit {
     });
   }
 
-  deleteMasterUser(data){
-    let deleteUser ={
+  deleteMasterUser(data) {
+    let deleteUser = {
       "id": data.id,
       "username": "string",
       "password": "string",
       "userType": "string",
-    } 
+    }
     this._empService.deleteMasterUser(deleteUser).subscribe({
-    next: (res) => {
-      this._coreService.openSnackBar('Employee deleted!', 'done');
-      this.getMasterUsers();
-      console.log(res);
-      
-    },
-    error: console.log,
+      next: (res) => {
+        this._coreService.openSnackBar('Employee deleted!', 'done');
+        this.getMasterUsers();
+        console.log(res);
+
+      },
+      error: console.log,
     })
   }
 

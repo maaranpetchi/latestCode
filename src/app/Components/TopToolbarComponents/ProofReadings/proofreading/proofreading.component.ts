@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProofReadingAllocationTableComponent } from '../../ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
+// import { ProofReadingAllocationTableComponent } from '../../ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
 import { HttpClient } from '@angular/common/http';
 import { ProofReadingTableComponent } from '../proof-reading-table/proof-reading-table.component';
 import { MatDialog } from '@angular/material/dialog';

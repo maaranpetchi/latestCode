@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms"
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
 import { CoreService } from 'src/app/Services/EmployeeController/Core/core.service';
 import { EmployeeService } from 'src/app/Services/EmployeeController/employee.service';
@@ -162,6 +163,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
   public updatedata: any;
 
   constructor(private builder: FormBuilder,
+    private spinnerService:SpinnerService,
     private editService:EditService,
      private http: HttpClient, 
      private _empservice: EmployeeService, 
@@ -335,6 +337,7 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
   }
 
   onFormSubmit() {
+    this.spinnerService.requestStarted();
     const roleValues = [{}];
     const storingrolevariable = this.EmployeeRolesoptions.filter(x => {
       this.Empregister.value.address?.employeeRoles?.forEach((y): any => {
@@ -505,6 +508,8 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
         console.log(data,"Before data");
         this._empservice.addEmployee(data).subscribe({
           next: (val: any) => {
+            this.spinnerService.requestStarted();
+
             this._coreService.openSnackBar('Employee added successfully');
             this._dialogRef.close(true);
           },

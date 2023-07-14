@@ -10,8 +10,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { Observable } from 'rxjs';
-import { data } from 'jquery';
-import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
+import { ProductionAllocatedPopupComponent } from '../production-allocated-popup/production-allocated-popup.component';
+import { JoballocatedEmplpopupComponent } from '../joballocated-emplpopup/joballocated-emplpopup.component';
+import { EmployeePopupTableComponent } from '../../QualityAllocation/employee-popup-table/employee-popup-table.component';
 
 @Component({
   selector: 'app-productionallocationtable',
@@ -21,30 +22,33 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 export class ProductionallocationtableComponent implements OnInit {
   exchangenumber: number;
   dataEmployeeSource: MatTableDataSource<any> = new MatTableDataSource<any>();
-  displayedEmployeeColumns: string[] = [
-    'selected',
-    'employee',
-    'estTime',
-    'jobCategory',
-    'shift',
-  ];
+  displayedEmployeeColumnsVisibility: any = {
+    selected: true,
+    employees: true,
+    allocatedEmployee: true,
+    estTime: true,
+    jobCategory: true,
+    shift: true,
+  };
 
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = [
-    'selected',
-    'jobId',
-    'estjob',
-    'fileName',
-    'fileInwardMode',
-    'client',
-    'customerSatisfaction',
-    'jobstatus',
-    'projectcode',
-    'status',
-    'scope',
-    'esttime',
-    'deliverydate',
-  ];
+  displayedColumnsVisibility: any = {
+    selected: true,
+    jobId: true,
+    allocatedJobId: true,
+    employee: true,
+    estjob: true,
+    fileName: true,
+    fileInwardMode: true,
+    client: true,
+    customerSatisfaction: true,
+    jobstatus: true,
+    projectcode: true,
+    status: true,
+    scope: true,
+    esttime: true,
+    deliverydate: true,
+  };
   scopes: any[] = [];
   selectedScope: any = 0;
   estTime = 0;
@@ -52,14 +56,23 @@ export class ProductionallocationtableComponent implements OnInit {
   @ViewChild('paginator1') paginator1: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  pendingJobsCount: any;
+  exchangeHeader: any;
+  freshJobsCount: number;
+  revisionJobsCount: number;
+  reworkJobsCount: number;
+  allocatedJobCount: number;
+  queriesJobsCount: number;
+  queryResponseJobsCount: number;
+  errorJobsCount: number;
+  quotationJobCount: number;
 
   constructor(
     private http: HttpClient,
     private loginservice: LoginService,
     private productionallocation: ProductionAllocationService,
-    private dialog: MatDialog,
-    private spinnerService: SpinnerService,
-    private dialogService: CoreService
+    private _dialog: MatDialog,
+    private spinnerService: SpinnerService
   ) {
     // Initialize the `editing` flag for each job object to `false`
     this.dataEmployeeSource.data.forEach((job) => {
@@ -69,17 +82,83 @@ export class ProductionallocationtableComponent implements OnInit {
   editTime: number;
   ngOnInit(): void {
     this.freshJobs();
-
     //scopes
     this.fetchScopes();
-
-    //Assignvalue in second table
-    // this.getAssignedtable();
-
-    //getStatusMessageOfJobCategory
     this.getJobCategoryStatus();
   }
+  visibility() {
+    let result: string[] = [];
+    if (this.displayedColumnsVisibility.selected) {
+      result.push('selected');
+    }
+    if (this.displayedColumnsVisibility.jobId) {
+      result.push('jobId');
+    }
+    if (this.displayedColumnsVisibility.allocatedJobId) {
+      result.push('allocatedJobId');
+    }
+    if (this.displayedColumnsVisibility.employee) {
+      result.push('employee');
+    }
 
+    if (this.displayedColumnsVisibility.estjob) {
+      result.push('estjob');
+    }
+    if (this.displayedColumnsVisibility.fileName) {
+      result.push('fileName');
+    }
+    if (this.displayedColumnsVisibility.fileInwardMode) {
+      result.push('fileInwardMode');
+    }
+    if (this.displayedColumnsVisibility.client) {
+      result.push('client');
+    }
+    if (this.displayedColumnsVisibility.customerSatisfaction) {
+      result.push('customerSatisfaction');
+    }
+    if (this.displayedColumnsVisibility.jobstatus) {
+      result.push('jobstatus');
+    }
+    if (this.displayedColumnsVisibility.projectcode) {
+      result.push('projectcode');
+    }
+    if (this.displayedColumnsVisibility.status) {
+      result.push('status');
+    }
+    if (this.displayedColumnsVisibility.scope) {
+      result.push('scope');
+    }
+    if (this.displayedColumnsVisibility.esttime) {
+      result.push('esttime');
+    }
+    if (this.displayedColumnsVisibility.deliverydate) {
+      result.push('deliverydate');
+    }
+
+    return result;
+  }
+  employeeVisibility() {
+    let result: string[] = [];
+    if (this.displayedEmployeeColumnsVisibility.selected) {
+      result.push('selected');
+    }
+    if (this.displayedEmployeeColumnsVisibility.employees) {
+      result.push('employees');
+    }
+    if (this.displayedEmployeeColumnsVisibility.allocatedEmployee) {
+      result.push('allocatedEmployee');
+    }
+    if (this.displayedEmployeeColumnsVisibility.estTime) {
+      result.push('estTime');
+    }
+    if (this.displayedEmployeeColumnsVisibility.jobCategory) {
+      result.push('jobCategory');
+    }
+    if (this.displayedEmployeeColumnsVisibility.shift) {
+      result.push('shift');
+    }
+    return result;
+  }
   fetchScopes() {
     this.http
       .get<any>(
@@ -101,7 +180,7 @@ export class ProductionallocationtableComponent implements OnInit {
     }
   }
 
-  applyEmployeeFilter(event: Event): void {
+  employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataEmployeeSource.filter = filterValue.trim().toLowerCase();
 
@@ -185,20 +264,20 @@ export class ProductionallocationtableComponent implements OnInit {
     }
     console.log('after', this.selectedEmployee);
   }
-
-  exchangeHeader: number;
-
   setExchangeHeader() {
     console.log('exchangeHeader', this.exchangeHeader);
+    console.log(this.selectedQuery, 'selectrow');
+
     let temparray: any[] = [];
     let skip: boolean;
     this.dataSource.data.filter((y: any) => {
       skip = false;
       this.selectedQuery.forEach((x) => {
-        if (y.id === x.id) {
+        let id: string = y.jobId;
+        if (id == x.jobId) {
           temparray.push({
             ...y,
-            estimatedTime: this.exchangeHeader,
+            allocatedEstimatedTime: this.exchangeHeader,
             isSelected: true,
           });
           skip = true;
@@ -208,7 +287,6 @@ export class ProductionallocationtableComponent implements OnInit {
         temparray.push(y);
       }
     });
-
     this.dataSource.data = temparray;
   }
 
@@ -218,6 +296,7 @@ export class ProductionallocationtableComponent implements OnInit {
   }
 
   freshJobs() {
+    this.spinnerService.requestStarted();
     this.http
       .get<any>(
         environment.apiURL +
@@ -225,17 +304,32 @@ export class ProductionallocationtableComponent implements OnInit {
             this.loginservice.getUsername()
           )}/${parseInt(this.loginservice.getProcessId())}/1/0`
       )
-      .subscribe((freshJobs) => {
-        this.dataSource = new MatTableDataSource(freshJobs.allocationJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        this.dataEmployeeSource = new MatTableDataSource(freshJobs.employees);
-              this.dataEmployeeSource.sort = this.sort;
-              this.dataEmployeeSource.paginator = this.paginator2;
-        console.log('freshJobs');
+      .subscribe({
+        next: (freshJobs) => {
+          this.spinnerService.requestEnded();
+          this.displayedColumnsVisibility.employee = false;
+          this.displayedColumnsVisibility.allocatedJobId = false;
+          this.displayedColumnsVisibility.jobId = true;
+          this.displayedEmployeeColumnsVisibility.allocatedEmployee = false;
+          this.displayedEmployeeColumnsVisibility.employees = true;
+          this.dataSource = new MatTableDataSource(freshJobs.allocationJobs);
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.dataEmployeeSource = new MatTableDataSource(
+            freshJobs.employees
+          );
+          this.dataEmployeeSource.paginator = this.paginator2;
+          this.dataEmployeeSource.sort = this.sort;
+          console.log('freshJobs');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
       });
   }
   revisionJobs() {
+    this.spinnerService.requestStarted();
     this.http
       .get<any>(
         environment.apiURL +
@@ -243,14 +337,28 @@ export class ProductionallocationtableComponent implements OnInit {
             this.loginservice.getUsername()
           )}/${parseInt(this.loginservice.getProcessId())}/2/0`
       )
-      .subscribe((revisionJobs) => {
-        this.dataSource = new MatTableDataSource(revisionJobs.allocationJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        console.log(' revisionJobs');
+      .subscribe({
+        next: (revisionJobs) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = new MatTableDataSource(revisionJobs.allocationJobs);
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.displayedColumnsVisibility.employee = false;
+          this.dataEmployeeSource = new MatTableDataSource(
+            revisionJobs.employees
+          );
+          this.dataEmployeeSource.paginator = this.paginator2;
+          this.dataEmployeeSource.sort = this.sort;
+          console.log('revisionJobs');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
       });
   }
   reworkJobs() {
+    this.spinnerService.requestStarted();
     this.http
       .get<any>(
         environment.apiURL +
@@ -258,14 +366,28 @@ export class ProductionallocationtableComponent implements OnInit {
             this.loginservice.getUsername()
           )}/${parseInt(this.loginservice.getProcessId())}/3/0`
       )
-      .subscribe((reworkJobs) => {
-        this.dataSource = new MatTableDataSource(reworkJobs.allocationJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        console.log('reworkJobs');
+      .subscribe({
+        next: (reworkJobs) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = new MatTableDataSource(reworkJobs.allocationJobs);
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.displayedColumnsVisibility.employee = false;
+          this.dataEmployeeSource = new MatTableDataSource(
+            reworkJobs.employees
+          );
+          this.dataEmployeeSource.sort = this.sort;
+          this.dataEmployeeSource.paginator = this.paginator2;
+          console.log('reworkJobs');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
       });
   }
   allocaetdJobs() {
+    this.spinnerService.requestStarted();
     this.http
       .get<any>(
         environment.apiURL +
@@ -273,44 +395,34 @@ export class ProductionallocationtableComponent implements OnInit {
             this.loginservice.getUsername()
           )}/${parseInt(this.loginservice.getProcessId())}/4/0`
       )
-      .subscribe((allocaetdJobs) => {
-        this.dataSource = new MatTableDataSource(allocaetdJobs.allocationJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        console.log('allocaetdJobs');
+      .subscribe({
+        next: (allocaetdJobs) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = new MatTableDataSource(
+            allocaetdJobs.allocationJobs
+          );
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.displayedColumnsVisibility.employee = true;
+          this.displayedColumnsVisibility.allocatedJobId = true;
+          this.displayedColumnsVisibility.jobId = false;
+          this.displayedEmployeeColumnsVisibility.allocatedEmployee = true;
+          this.displayedEmployeeColumnsVisibility.employees = false;
+          this.dataEmployeeSource = new MatTableDataSource(
+            allocaetdJobs.employees
+          );
+          this.dataEmployeeSource.paginator = this.paginator2;
+          this.dataEmployeeSource.sort = this.sort;
+          console.log('allocaetdJobs');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
       });
   }
   queries() {
-    this.http
-      .get<any>(
-        environment.apiURL +
-          `Allocation/getQueryPendingJobs/${parseInt(
-            this.loginservice.getUsername()
-          )}/${parseInt(this.loginservice.getProcessId())}/0`
-      )
-      .subscribe((queries) => {
-        this.dataSource = new MatTableDataSource(queries.allocationJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        console.log('queries');
-      });
-  }
-  queryResposne() {
-    this.http
-      .get<any>(
-        environment.apiURL +
-          `Allocation/getQueryResponseJobsAndEmployees/${parseInt(
-            this.loginservice.getUsername()
-          )}/${parseInt(this.loginservice.getProcessId())}/0`
-      )
-      .subscribe((queryResposne) => {
-        this.dataSource = new MatTableDataSource(queryResposne.allocationJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        console.log('queries');
-      });
-  }
-  errorJobs() {
+    this.spinnerService.requestStarted();
     this.http
       .get<any>(
         environment.apiURL +
@@ -318,14 +430,57 @@ export class ProductionallocationtableComponent implements OnInit {
             this.loginservice.getUsername()
           )}/${parseInt(this.loginservice.getProcessId())}/5/0`
       )
-      .subscribe((errorJobs) => {
-        this.dataSource = new MatTableDataSource(errorJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        console.log('errorJobs');
+      .subscribe({
+        next: (queries) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = new MatTableDataSource(queries.allocationJobs);
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.displayedColumnsVisibility.employee = false;
+          this.dataEmployeeSource = new MatTableDataSource(queries.employees);
+          this.dataEmployeeSource.paginator = this.paginator2;
+          this.dataEmployeeSource.sort = this.sort;
+          console.log('queries');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
       });
   }
-  quotationJobs() {
+  queryResposne() {
+    this.spinnerService.requestStarted();
+    this.http
+      .get<any>(
+        environment.apiURL +
+          `Allocation/getQueryResponseJobsAndEmployees/${parseInt(
+            this.loginservice.getUsername()
+          )}/${parseInt(this.loginservice.getProcessId())}/6/0`
+      )
+      .subscribe({
+        next: (queryResposne) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = new MatTableDataSource(
+            queryResposne.allocationJobs
+          );
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.displayedColumnsVisibility.employee = false;
+          this.dataEmployeeSource = new MatTableDataSource(
+            queryResposne.employees
+          );
+          this.dataEmployeeSource.paginator = this.paginator2;
+          this.dataEmployeeSource.sort = this.sort;
+          console.log('queryResposne');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
+      });
+  }
+  errorJobs() {
+    this.spinnerService.requestStarted();
     this.http
       .get<any>(
         environment.apiURL +
@@ -333,29 +488,55 @@ export class ProductionallocationtableComponent implements OnInit {
             this.loginservice.getUsername()
           )}/${parseInt(this.loginservice.getProcessId())}/7/0`
       )
-      .subscribe((quotationJobs) => {
-        this.dataSource = new MatTableDataSource(quotationJobs);
-        this.dataSource.paginator = this.paginator1;
-        this.dataSource.sort = this.sort;
-        console.log('errorJobs');
+      .subscribe({
+        next: (errorJobs) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = new MatTableDataSource(errorJobs.allocationJobs);
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.dataEmployeeSource = new MatTableDataSource(errorJobs.employees);
+          this.dataEmployeeSource.paginator = this.paginator2;
+          this.dataEmployeeSource.sort = this.sort;
+          this.displayedColumnsVisibility.employee = false;
+          console.log('errorJobs');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
       });
   }
-
-  // getAssignedtable() {
-  //   this.http
-  //     .get<any>(
-  //       environment.apiURL +
-  //         `Allocation/getPendingAllocationJobsAndEmployees/${parseInt(
-  //           this.loginservice.getUsername()
-  //         )}/${parseInt(this.loginservice.getProcessId())}/1/0`
-  //     )
-  //     .subscribe((data) => {
-  //       // this.dataEmployeeSource = ;
-  //       this.dataEmployeeSource = new MatTableDataSource(data.employees);
-  //       this.dataEmployeeSource.sort = this.sort;
-  //       this.dataEmployeeSource.paginator = this.paginator2;
-  //     });
-  // }
+  quotationJobs() {
+    this.spinnerService.requestStarted();
+    this.http
+      .get<any>(
+        environment.apiURL +
+          `Allocation/getPendingAllocationJobsAndEmployees/${parseInt(
+            this.loginservice.getUsername()
+          )}/${parseInt(this.loginservice.getProcessId())}/8/0`
+      )
+      .subscribe({
+        next: (quotationJobs) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = new MatTableDataSource(
+            quotationJobs.allocationJobs
+          );
+          this.dataSource.paginator = this.paginator1;
+          this.dataSource.sort = this.sort;
+          this.displayedColumnsVisibility.employee = false;
+          this.dataEmployeeSource = new MatTableDataSource(
+            quotationJobs.employees
+          );
+          this.dataEmployeeSource.paginator = this.paginator2;
+          this.dataEmployeeSource.sort = this.sort;
+          console.log('quotationJobs');
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner();
+          console.log(err);
+        },
+      });
+  }
 
   tab(action) {
     if (action == '1') {
@@ -435,17 +616,65 @@ export class ProductionallocationtableComponent implements OnInit {
     }
   }
 
-  getProductionJob(data) {
-    this.dialog.open(JobAssignedDetailsPopupComponent, {
-      width: '80vw',
-      data,
+  getProductionJob(data: any) {
+    const dialogRef = this._dialog.open(JobAssignedDetailsPopupComponent, {
+      width: '100%',
+      height: '450px',
+      data: data,
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.freshJobs();
+        }
+      },
+    });
+  }
+  getemployeeName(data: any) {
+    const dialogRef = this._dialog.open(JoballocatedEmplpopupComponent, {
+      width: '100%',
+      height: '450px',
+      data: data,
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.freshJobs();
+        }
+      },
+    });
+  }
+  getAllocatedJobId(data: any) {
+    const dialogRef = this._dialog.open(ProductionAllocatedPopupComponent, {
+      width: '100%',
+      height: '450px',
+      data: data,
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.freshJobs();
+        }
+      },
+    });
+  }
+  employeeProduction(data: any) {
+    const dialogRef = this._dialog.open(EmployeePopupTableComponent, {
+      width: '100%',
+      height: '450px',
+      data: data,
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.freshJobs();
+        }
+      },
     });
   }
 
   selectedJobs: any[] = [];
-  // selectedEmployee:any[]=[]
   onSubmit() {
-    // this.dialogService.openConfirmDialog()
     if (this.selectedQuery.length > 0) {
       this.selectedJobs = this.selectedQuery;
     }
@@ -534,7 +763,7 @@ export class ProductionallocationtableComponent implements OnInit {
       copyFiles: true,
       updatedBy: 0,
       jId: 0,
-      estimatedTime: this.estTime !== 0 ? this.estTime : 0,
+      estimatedTime: this.estTime,
       tranMasterId: 0,
       selectedRows: this.selectedJobs,
       selectedEmployees: this.selectedEmployee,
@@ -597,7 +826,7 @@ export class ProductionallocationtableComponent implements OnInit {
 
   jobMovement(processMovement) {
     var confirmationMessage: any;
-    const AttachedFiles = [];
+    let AttachedFiles = [];
     this.selectedJobs = processMovement.SelectedRows;
     this.selectedEmployee = processMovement.SelectedEmployees;
     this.http
@@ -606,37 +835,60 @@ export class ProductionallocationtableComponent implements OnInit {
         confirmationMessage = result;
       });
 
-    // this.http.post(environment.apiURL+'Allocation/processMovement', processMovement).subscribe( (result)=> {
-    //   confirmationMessage = result;
-    // if (AttachedFiles.length > 0) {
-    //     var fd = new FormData();
-    //     for (let i = 0; i < AttachedFiles.length; i++) {
-    //       fd.append('file', AttachedFiles[i]);
-    //     }
-
-    // $parent.loader = true;
-    // serviceCall.uploadFile('uploadFiles', result.OrderId, 0, ProcessId, processMovement.StatusId, 1, ProcessId, processMovement.StatusId, fd).$promise.then(function (uploadResult) {
-    //     quotationquerySubmitted = false;
-    //     QuotationpopupSubmitForm.$setPristine();
-    //     AttachedFiles = [];
-    //     $('#fileUpload').val('');
-    //     $('#confirmedPopup').modal('show');
-    // }
-
-    // })
-    // .catch(function (response) {
-    //     console.log(response);
-    // }).finally(function () {
-    //     // parent.loader = false;
-    // });
-    // }
-    // Isbench = false;
-    // $('#confirmedPopup').modal('show');
-    // clear();
-    // $('#quotationModal').modal('hide');
-    // selectedGrid = '';
-
-    //   });
+    this.http
+      .post(environment.apiURL + 'Allocation/processMovement', processMovement)
+      .subscribe((result) => {
+        confirmationMessage = result;
+        if (AttachedFiles.length > 0) {
+          var fd = new FormData();
+          for (let i = 0; i < AttachedFiles.length; i++) {
+            fd.append('file', AttachedFiles[i]);
+          }
+          let file = {
+            orderId: 0,
+            isClientOrder: 0,
+            processId: 0,
+            statusId: 0,
+            sourcePath: 'string',
+            dynamicFolderPath: 'string',
+            folderPath: 'string',
+            fileName: 'string',
+            fileCount: 0,
+            wfmId: 0,
+            wftId: 0,
+            orignalPath: 'string',
+            orignalDynamicPath: 'string',
+            jobId: 'string',
+            isProcessWorkFlowTranInserted: 0,
+            isCopyFiles: 0,
+            pid: 0,
+            fakeProcessId: 0,
+            fakeStatusId: 0,
+            fakeDynamicFolderPath: 'string',
+            jobFileName: 'string',
+            files: ['string'],
+            message: 'string',
+            creditMessage: 'string',
+            clientName: 'string',
+            clientId: 0,
+          };
+          this.spinnerService.requestStarted();
+          this.http
+            .post(environment.apiURL + 'JobOrder/openFolder', file)
+            .subscribe({
+              next: (data) => {
+                this.spinnerService.requestEnded();
+                console.log(data);
+                AttachedFiles = [];
+                
+              },
+              error: (err) => {
+                this.spinnerService.resetSpinner();
+                console.log(err);
+              }
+            })
+        }
+      });
   }
   ProcessMovementData(url: string, data: any): Observable<any> {
     return this.http.post(

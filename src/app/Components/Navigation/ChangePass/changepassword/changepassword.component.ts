@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-changepassword',
@@ -16,7 +17,7 @@ export class ChangepasswordComponent implements OnInit {
   passwordsMatch: boolean = true;
  
 
-  constructor(private fb: FormBuilder, private getCookie:CookieService ,private snackBar: MatSnackBar,private http: HttpClient, private loginservice: LoginService) { }
+  constructor(private fb: FormBuilder, private getCookie:CookieService ,private snackBar: MatSnackBar,private http: HttpClient, private loginservice: LoginService,private spinnerService:SpinnerService) { }
 
   ngOnInit() {
     this.passwordForm = this.fb.group({
@@ -42,7 +43,7 @@ export class ChangepasswordComponent implements OnInit {
     if (this.passwordForm.valid) {
       const userId = 0;
       const oldPassword = this.passwordForm.value.oldPassword; 
-
+      this.spinnerService.requestStarted();
       this.http.post(environment.apiURL+'Account/ChangePassword', {
         "userId": userId,
         "oldPassword": oldPassword,
@@ -50,6 +51,7 @@ export class ChangepasswordComponent implements OnInit {
         "conformPassword": this.passwordForm.value.confirmPassword
       }).subscribe(
         (response) => {
+          this.spinnerService.requestEnded();
           console.log('Password change successful!');
           this.snackBar.open('Password changed successfully!', 'Close', {
             duration: 3000
@@ -57,7 +59,7 @@ export class ChangepasswordComponent implements OnInit {
         },
         (error) => {
           console.error('Password change failed:', error);
-         
+          this.spinnerService.resetSpinner();
         }
       );
     }

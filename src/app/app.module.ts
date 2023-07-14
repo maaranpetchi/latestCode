@@ -12,9 +12,12 @@ import { AdvanceadjustmentComponent } from './Components/AccountsController/Adva
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
-import { GetJobHistoryPopupComponent } from './Components/TopToolbarComponents/ClientCordination/completedjobs/completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
 import { SpinnerComponent } from './Components/Spinner/spinner/spinner.component';
 import { DialogComponent } from './Components/dialog/dialog.component';
+import { ProofreadingAllocationComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
+import { ProofreadingAlocationtableComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/proofreading-alocationtable/proofreading-alocationtable.component';
+import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
+import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { DialogComponent } from './Components/dialog/dialog.component';
     UpdateExchangeRateComponent,
 
     SpinnerComponent,
-      DialogComponent,
+    DialogComponent,
+    EmployeePopupComponent,
+    JobCategorypopupComponent,
+      
 
   ],
   imports: [

@@ -34,13 +34,17 @@
         <div class="row">
           <div class="col">
             <p>Work File Folder : &nbsp;&nbsp;&nbsp;
-              <button>WorkFiles</button><button>Zip</button><button>CopyPath</button></p>
+              <button (click)="workFiles(data.id)">WorkFiles</button><button>Zip</button>
+            </p>
           </div>
         </div>
 
         <div class="row">
           <div class="col">
-            <p>Input File Folder : </p>
+            <p>Input File Folder : &nbsp;&nbsp;&nbsp;
+              <button>WorkFiles</button><button>Zip</button>
+            </p>
+
           </div>
         </div>
       </div>
@@ -51,15 +55,15 @@
     <h1 mat-dialog-title>Job History</h1>
     <div mat-dialog-content>
       <div class="jobhistory">
-        <table mat-table [dataSource]="dataJobSource" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataJobSource" class="mat-elevation-z8 table-bordered">
           <ng-container matColumnDef="movedFrom">
             <th mat-header-cell *matHeaderCellDef>Moved From</th>
-            <td mat-cell *matCellDef="let element">{{ element.previousProcessName ? element.previousProcessName:"Client"  }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.processName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="movedTo">
             <th mat-header-cell *matHeaderCellDef>Moved To</th>
-            <td mat-cell *matCellDef="let element">{{ element.processName?element.processName:"client" }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.previousProcessName}}</td>
           </ng-container>
 
           <ng-container matColumnDef="movedDate">
@@ -87,11 +91,11 @@
 
   </div>
 
-  <div class="query">
-    <h1 mat-dialog-title>Queries</h1>
+  <div class="query" >
+    <h1 mat-dialog-title>Query</h1>
     <div mat-dialog-content>
       <div class="query">
-        <table mat-table [dataSource]="dataQuerySource" class="mat-elevation-z8">
+        <table mat-table  [dataSource]="dataQuerySource" class="mat-elevation-z8">
           <ng-container matColumnDef="movedFrom">
             <th mat-header-cell *matHeaderCellDef>Moved From</th>
             <td mat-cell *matCellDef="let element">{{ element.previousProcessName }}</td>
@@ -122,40 +126,73 @@
             <th mat-header-cell *matHeaderCellDef>Remarks</th>
             <td mat-cell *matCellDef="let element">{{ element.remarks }}</td>
           </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedQueryColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedQueryColumns;"></tr>
+          
+          <tr mat-header-row *matHeaderRowDef="displayedQueryColumns" ></tr>
+          <ng-container >
+            <tr mat-row *matRowDef="let row; columns: displayedQueryColumns;"></tr>
+          </ng-container>
+          <tr mat-row *matNoDataRow>
+            <td class="no-data-cell" [attr.colspan]="displayedQueryColumns.length" >No data available</td>
+          </tr>          
         </table>
       </div>
     </div>
 
 
   </div>
-
-<div class="querydropdown">
-  <mat-form-field>
-    <mat-label>Process Status</mat-label>
-    <mat-select [(value)]="selectedQureryStatus">
-      <mat-option value="Select status">Select status</mat-option>
-      <mat-option value="Query">Query</mat-option>
-      <mat-option value="Query Response">Query Response</mat-option>
-      <mat-option value="Query sent for special pricing">Query sent for special pricing</mat-option>
-      <mat-option value="Query for SP Response">Query for SP Response</mat-option>
-      <mat-option value="Cancelled">Cancelled</mat-option>
-      <mat-option value="Duplicate">Duplicate</mat-option>
-      <mat-option value="Client Cancelled">Client Cancelled</mat-option>
-    </mat-select>
-  </mat-form-field>
-  
-</div>
-
-  <div class="remarks">
-    <mat-form-field>
-      <textarea matInput placeholder="Remarks" [(ngModel)]="remarks"></textarea>
-    </mat-form-field>
+  <div>
+    <span class="text-danger"> * All Date Formats in : [MM/dd/yyyy]</span>
+  </div>
+  <div class="row">
+    <div class="col-md-4">Process Status <span class="text-danger">*</span></div>
+    <div class="col-md-4">
+      <div class="querydropdown">
+        <mat-form-field>
+          <mat-label>---Select status---</mat-label>
+          <mat-select [(value)]="selectedQureryStatus" (selectionChange)="onFilterChange()">
+            <!-- <mat-option value="Select status"></mat-option> -->
+            <mat-option value="Query">Query</mat-option>
+            <mat-option value="specialpricing">Query sent for special pricing</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="remarksdata">
+    <div class="col-md-4">remarks <span class="text-danger">*</span></div>
+    <div class="col-md-4">
+      <div class="querydropdown">
+        <mat-form-field>
+          <textarea matInput placeholder="Remarks" [(ngModel)]="remarks"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row"  *ngIf="EstimatedTime">
+    <div class="col-md-4">Estimated Time</div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <textarea matInput  [(ngModel)]="estimatedTime"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-2"> Estimated Time (estimatedTime)</div>
+  </div>
+  <div class="row"  *ngIf="EmployeData">
+    <div class="col-md-4">Employees</div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <mat-label>Scope</mat-label>
+        <mat-select [(ngModel)]="selectedScope">
+          <mat-option *ngFor="let scope of Scopes" [value]="scope.id">{{ scope.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 
-  <div>
-    <button type="button" class="btn btn-danger">Close</button> &nbsp;<button type="button" class="btn btn-success">Submit</button>
+  
+  <div class="mb-5 text-center">
+    <button type="button" class="btn btn-danger">Close</button> &nbsp;<button type="button"
+      class="btn btn-success" (click)="onSubmit()">Submit</button>
   </div>
 
 </div>

@@ -22,6 +22,8 @@ export class ClientordersComponent implements OnInit {
     this.http.get<any>(environment.apiURL+'ClientOrderService/nGetDivisionForJO').subscribe(divisiondata => {
       this.DivisionApiData = divisiondata;
     })
+
+this.getclientordercount();
   }
 
 
@@ -80,4 +82,58 @@ export class ClientordersComponent implements OnInit {
     this.ClientorderstableComponent.tab('6');
   }
 
+
+  NewJobCount: any;
+  QuoteJobCount: any;
+  getclientordercount() {
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/1`).subscribe(responsedata1 => {
+      console.log(responsedata1,"NewJobTabCount");
+      this.NewJobCount = responsedata1.count;
+    });
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/2`).subscribe(responsedata2 => {
+      console.log(responsedata2, "QuoteJobCountresponsedata2");
+      this.QuoteJobCount = responsedata2.count;
+      console.log(this.NewJobCount + this.QuoteJobCount, "completedcountvalues");
+    });
+  }
+
+
+  NewJobTabCount:number;
+  QuotationTabCount:number;
+  ConvertedJobTabCount:number;
+  DeletedJobTabCount:number;
+  QuoteNotApprovalJobTabCount:number;
+  QueryforjobJobTabCount:number;
+
+  getmattabcount(){
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/1`).subscribe(responsedata1 => {
+      this.NewJobTabCount = responsedata1.count;
+    });
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/2`).subscribe(responsedata2 => {
+      this.QuotationTabCount = responsedata2.count;
+    });
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/3`).subscribe(responsedata3 => {
+   console.log();
+   
+    
+      this.ConvertedJobTabCount = responsedata3.count;
+    });
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/4`).subscribe(responsedata4 => {
+     console.log();
+     
+      this.DeletedJobTabCount = responsedata4.count;
+    });
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/5`).subscribe(responsedata5 => {
+     console.log();
+     
+       responsedata5
+      this.QuoteNotApprovalJobTabCount = responsedata5.count;
+    });
+    this.http.get<any>(environment.apiURL + `CustomerQuery/GetNotApprovedQueryForSPJobsToCCCount`).subscribe(responsedata6 => {
+   console.log();
+   
+    
+      this.QueryforjobJobTabCount = responsedata6.count;
+    });
+  }
 }

@@ -7,23 +7,23 @@
     <title>Document</title>
     <script src="extensions/resizable/bootstrap-table-resizable.js"></script>
 </head>
-<body style="height: 100vh;width: 100vw;">
+<body >
     <div class="main-body">
         <div class="container">
             <div class="productionmain">
-                <h1 style="font-family:'Times New Roman', Times, serif;color:#137cdf">Clientorders()</h1>
+                <h1 style="font-family:'Times New Roman', Times, serif;color:#137cdf">Clientorders({{NewJobCount +  QuoteJobCount}})</h1>
                 <mat-tab-group  dynamicHeight (selectedTabChange)="onTabChange($event)">
-                    <mat-tab label="New Jobs (2)" >
+                    <mat-tab label="{{ 'New Jobs (' + (NewJobTabCount ? NewJobTabCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Quotation Jobs (8)">
+                    <mat-tab label="{{ 'Quotation Jobs (' + (QuotationTabCount ? QuotationTabCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Converted Jobs (3304)">
+                    <mat-tab label="{{ 'Converted Jobs (' + (ConvertedJobTabCount ? ConvertedJobTabCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label=" Deleted Jobs (2486)">
+                    <mat-tab label="{{ 'Deleted Jobs (' + (DeletedJobTabCount ? DeletedJobTabCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Quote Not Approval Jobs (3)">
+                    <mat-tab label="{{ 'Quote Not Approval Jobs (' + (QuoteNotApprovalJobTabCount ? QuoteNotApprovalJobTabCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Query For SP Not Approval Jobs (0)">
+                    <mat-tab label="{{ 'Query For SP Not Approval Jobs ('+(QueryforjobJobTabCount ? QueryforjobJobTabCount:0)+')'}}">
                     </mat-tab>
                 </mat-tab-group>
 

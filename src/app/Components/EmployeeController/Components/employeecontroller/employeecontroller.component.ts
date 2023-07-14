@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Output } from '@angular/core';
 import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 @Component({
   selector: 'app-employeecontroller',
   templateUrl: './employeecontroller.component.html',
@@ -42,7 +43,8 @@ export class EmployeecontrollerComponent implements OnInit {
     private editService: EditService,
     private _empService: EmployeeService,
     private _coreService: CoreService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private spinnerService:SpinnerService) { }
 
 
   ngOnInit(): void {
@@ -62,11 +64,14 @@ export class EmployeecontrollerComponent implements OnInit {
   }
 
   getEmployeeList() {
+    this.spinnerService.requestStarted();
     this._empService.getEmployeeList().subscribe({
 
       next: (res) => {
-
+        this.spinnerService.requestEnded();
         this.dataSource = new MatTableDataSource(res);
+        console.log(res,"employeelist");
+        
 
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -107,8 +112,12 @@ export class EmployeecontrollerComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
+    this.spinnerService.requestStarted();
+
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
+        this.spinnerService.requestEnded();
+
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this.getEmployeeList();
       },

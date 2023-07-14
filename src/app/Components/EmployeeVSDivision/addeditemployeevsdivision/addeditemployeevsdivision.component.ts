@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { log } from 'console';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from '../../Spinner/spinner.service';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
   table2selectedarray: any[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private spinnerService:SpinnerService, private fb: FormBuilder, private http: HttpClient) {
 
   }
 
@@ -39,9 +40,10 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
     //   selectedValues: this.fb.array([])
     // });
     this.myForm = new FormGroup({ selectedValues: this.fb.array([]) });
+    this.spinnerService.requestStarted();
 
     this.http.get<any>(environment.apiURL+'EmployeeVsDivision/GetEmployee').subscribe(data => {
-
+      this.spinnerService.requestEnded();
       // this.table1Data =data.eEvDList ;
       this.table1Data = new MatTableDataSource(data.eEvDList);
       this.table1Data.data.forEach(row => {
@@ -61,21 +63,25 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
     });
   }
   onPageChange(event: any) {
+    this.spinnerService.requestStarted();
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetEmployee?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
-      this.table1Data.data = data.eEvDList;
+      this.spinnerService.requestEnded();
+       this.table1Data.data = data.eEvDList;
     });
   }
   onPageChange2(event: any) {
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetDivision?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
+      this.spinnerService.requestEnded();
       this.table2Data.data = data.dEvDList;
     });
   }
 
   onSubmit() {
+    this.spinnerService.requestStarted();
     if (this.table1selectedarray.length > 0 && this.table2selectedarray.length > 0) {
       const selectedValues = this.myForm.get('selectedValues')?.value
       const data = { selectedValues };
@@ -91,6 +97,8 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
         "selectedDivision": this.table2selectedarray,
         "createdBy": 152,
       }).subscribe(response => {
+        this.spinnerService.requestEnded();
+
         // Handle the response from the API
         this.table1selectedarray = [];
         this.table2selectedarray = [];
