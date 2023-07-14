@@ -120,9 +120,9 @@ export class QueryToClientComponent implements OnInit {
 
   convertedDate:string;
 queriesToClient(){
-  this.spinnerService.requestStarted();
+  // this.spinnerService.requestStarted();
   this.http.get<any>( environment.apiURL+ `Allocation/getQueryPendingJobs/${this.loginservice.getUsername()}/1/0`).subscribe(data => {
-    this.spinnerService.requestEnded();
+    // this.spinnerService.requestEnded();
     this.dataSource = data.queryPendingJobs;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

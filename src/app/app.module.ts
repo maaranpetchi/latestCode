@@ -13,6 +13,11 @@ import { EditadvanceadjustmentComponent } from './Components/AccountsController/
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
 import { SpinnerComponent } from './Components/Spinner/spinner/spinner.component';
+import { DialogComponent } from './Components/dialog/dialog.component';
+import { ProofreadingAllocationComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
+import { ProofreadingAlocationtableComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/proofreading-alocationtable/proofreading-alocationtable.component';
+import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
+import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +25,15 @@ import { SpinnerComponent } from './Components/Spinner/spinner/spinner.component
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
     SpinnerComponent,
+<<<<<<< HEAD
     
+=======
+    DialogComponent,
+    EmployeePopupComponent,
+    JobCategorypopupComponent,
+      
+
+>>>>>>> 459af310bfb05bb75dc4df6ccd77614c16e2b3fb
   ],
   imports: [
     BrowserModule,

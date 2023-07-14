@@ -1,30 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QualityallocationtableComponent } from '../qualityallocationtable/qualityallocationtable.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/Environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import { environment } from 'src/Environments/environment';
-import { Route, RouterLink } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { QualitypopupjobassignComponent } from '../qualitypopupjobassign/qualitypopupjobassign.component';
-
-interface Employee {
-  id: number;
-  name: string;
-  shift: string;
-}
-
+import { ProofreadingAlocationtableComponent } from '../proofreading-alocationtable/proofreading-alocationtable.component';
 @Component({
-  selector: 'app-qualityallocation',
-  templateUrl: './qualityallocation.component.html',
-  styleUrls: ['./qualityallocation.component.scss']
+  selector: 'app-proofreading-allocation',
+  templateUrl: './proofreading-allocation.component.html',
+  styleUrls: ['./proofreading-allocation.component.scss']
 })
-export class QualityallocationComponent  implements OnInit {
-  @ViewChild(QualityallocationtableComponent) QualityallocationtableComponent: QualityallocationtableComponent;
+export class ProofreadingAllocationComponent implements OnInit {
+  @ViewChild(ProofreadingAlocationtableComponent) ProofreadingAlocationtableComponent: ProofreadingAlocationtableComponent;
 
- 
   pendingJobsCount: any;
   freshJobsCount: number;
   revisionJobsCount: number;
@@ -81,29 +68,29 @@ export class QualityallocationComponent  implements OnInit {
   }
 
   freshJobs() {
-    this.QualityallocationtableComponent.tab('1');
+    this.ProofreadingAlocationtableComponent.tab('1');
   };
 
   revisionJobs() {
-    this.QualityallocationtableComponent.tab('2');
+    this.ProofreadingAlocationtableComponent.tab('2');
   };
   reworkJobs() {
-    this.QualityallocationtableComponent.tab('3');
+    this.ProofreadingAlocationtableComponent.tab('3');
   };
   allocatedJobs() {
-    this.QualityallocationtableComponent.tab('4');
+    this.ProofreadingAlocationtableComponent.tab('4');
   }
   queries() {
-    this.QualityallocationtableComponent.tab('5');
+    this.ProofreadingAlocationtableComponent.tab('5');
   }
   queryResponse() {
-    this.QualityallocationtableComponent.tab('6');
+    this.ProofreadingAlocationtableComponent.tab('6');
   }
 errorJobs(){
-  this.QualityallocationtableComponent.tab('7');
+  this.ProofreadingAlocationtableComponent.tab('7');
 }
 quotationJobs(){
-  this.QualityallocationtableComponent.tab('8');
+  this.ProofreadingAlocationtableComponent.tab('8');
 }
 
 getCount() {

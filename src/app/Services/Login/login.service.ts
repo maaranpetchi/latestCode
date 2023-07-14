@@ -8,7 +8,7 @@ import { environment } from 'src/Environments/environment';
 })
 export class LoginService {
 
-  private apiUrl =environment.apiURL+ 'Account/externalLogin';
+  private apiUrl =environment.apiURL+'Account/externalLogin';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
@@ -20,10 +20,11 @@ export class LoginService {
     return this.cookieService.check('token') && this.cookieService.check('username');
   }
 
+  // username eg:pras
   getToken(): string {
     return this.cookieService.get('token');
   }
-
+// 152 userId
   getUsername(): string {
     return this.cookieService.get('username');
   }
@@ -31,5 +32,8 @@ export class LoginService {
 
   getProcessId() {
     return this.cookieService.get('processId');
+  }
+  getProcessName() {
+    return this.cookieService.get('processName');
   }
 }

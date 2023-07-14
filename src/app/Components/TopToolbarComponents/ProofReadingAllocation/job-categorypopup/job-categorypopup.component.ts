@@ -6,13 +6,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
-
 @Component({
-  selector: 'app-job-assigned-details-popup',
-  templateUrl: './job-assigned-details-popup.component.html',
-  styleUrls: ['./job-assigned-details-popup.component.scss']
+  selector: 'app-job-categorypopup',
+  templateUrl: './job-categorypopup.component.html',
+  styleUrls: ['./job-categorypopup.component.scss']
 })
-export class JobAssignedDetailsPopupComponent implements OnInit {
+export class JobCategorypopupComponent implements OnInit {
 
   constructor(
   @Inject(MAT_DIALOG_DATA) public data: any,
@@ -46,26 +45,15 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 
 
   ngOnInit() {
-<<<<<<< HEAD
-    // Fetch data from the REST API and populate the table
-    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
-      this.dataJobSource = data.jobHistory;
-      console.log(data,"JobDetails");
-      
-    });
-    // Fetch data from the REST API and populate the table
-    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
-      this.dataQuerySource = data.jobQueryHistory;
-=======
     this.fetchData();
     this.QueryDetailspost();
     this.fetchScopes();
-    this.getAssignedEmployeesToChangeEstTime();
+    // this.getAssignedEmployeesToChangeEstTime();
     
   }
-//   getIsVisible():any{
-//       return this.dataQuerySource.data.length >0;
-//  }
+  getIsVisible():any{
+      return this.dataQuerySource.data.length >0;
+ }
   onFilterChange() {
     if (this.selectedQureryStatus == 'Query') {
       this.remarksdata = true;
@@ -137,7 +125,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 
     this.http.get(apiUrl).subscribe(
       (response: any) => {
-        this.restApiData = response.scopeDetails; // Assuming the REST API response is an array of objects
+        this.Scopes = response.scopeDetails; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
         console.log('Error fetching data from REST API:', error);
@@ -153,7 +141,6 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         link.download = this.getFileNameFromPath(url);
         link.click();
       });
->>>>>>> 459af310bfb05bb75dc4df6ccd77614c16e2b3fb
     });
   }
   getFileNameFromPath(filePath: string): string {

@@ -53,8 +53,6 @@ import { CompletedjobsComponent } from 'src/app/Components/TopToolbarComponents/
 import { ClientordersComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorders/clientorders.component';
 import { ClientorderstableComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/clientorderstable.component';
 import { ClientorderviewComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderview/clientorderview.component';
-import { ProofReadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation/proof-reading-allocation.component';
-import { ProofReadingAllocationTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
 import { ProofreadingComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofreading/proofreading.component';
 import { ProofReadingTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proof-reading-table/proof-reading-table.component';
 import { BuddyProofComponent } from 'src/app/Components/TopToolbarComponents/BuddyProof/buddy-proof/buddy-proof.component';
@@ -66,7 +64,7 @@ import { JobhistorypopuptableComponent } from 'src/app/Components/TopToolbarComp
 import { ProofjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobdetailpopup/proofjobdetailpopup.component';
 import { ProofjobhistorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobhistorypopup/proofjobhistorypopup.component';
 import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
-import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
+// import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 import { UserMasterComponent } from 'src/app/Components/Master/user/user-master/user-master.component';
@@ -88,8 +86,12 @@ import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/benc
 import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
+<<<<<<< HEAD
 import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
 import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
+=======
+import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
+>>>>>>> 459af310bfb05bb75dc4df6ccd77614c16e2b3fb
 
 const routes: Routes = [
 
@@ -142,9 +144,7 @@ const routes: Routes = [
       { path: 'prodworkflow', component: ProductionworkflowComponent },
 
       //ProofReadingAllocation
-      { path: 'proofreadingallocation', component: ProofReadingAllocationComponent },
-      { path: 'proofreadingallocationtable', component: ProofReadingAllocationTableComponent },
-      { path: 'proofjobassignpop', component:  EmployeejobassisgnedpopupComponent, },
+      {path:'proofreadingallocation', component: ProofreadingAllocationComponent},
 
       //ProofReading
       { path: 'proofreading', component: ProofreadingComponent },

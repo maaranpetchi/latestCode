@@ -128,11 +128,11 @@
           </ng-container>
           
           <tr mat-header-row *matHeaderRowDef="displayedQueryColumns" ></tr>
-          <ng-container >
+          <ng-container *ngIf="getIsVisible()">
             <tr mat-row *matRowDef="let row; columns: displayedQueryColumns;"></tr>
           </ng-container>
           <tr mat-row *matNoDataRow>
-            <td class="no-data-cell" [attr.colspan]="displayedQueryColumns.length" >No data available</td>
+            <td class="no-data-cell" [attr.colspan]="displayedQueryColumns.length" *ngIf="!getIsVisible()">No data available</td>
           </tr>          
         </table>
       </div>
@@ -150,7 +150,7 @@
         <mat-form-field>
           <mat-label>---Select status---</mat-label>
           <mat-select [(value)]="selectedQureryStatus" (selectionChange)="onFilterChange()">
-            <!-- <mat-option value="Select status"></mat-option> -->
+          <mat-label>---Select status---</mat-label>
             <mat-option value="Query">Query</mat-option>
             <mat-option value="specialpricing">Query sent for special pricing</mat-option>
           </mat-select>
@@ -158,7 +158,7 @@
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="remarksdata">
+  <div class="row">
     <div class="col-md-4">remarks <span class="text-danger">*</span></div>
     <div class="col-md-4">
       <div class="querydropdown">
@@ -168,7 +168,7 @@
       </div>
     </div>
   </div>
-  <div class="row"  *ngIf="EstimatedTime">
+  <div class="row">
     <div class="col-md-4">Estimated Time</div>
     <div class="col-md-4">
       <mat-form-field>
@@ -177,7 +177,7 @@
     </div>
     <div class="col-md-2"> Estimated Time (estimatedTime)</div>
   </div>
-  <div class="row"  *ngIf="EmployeData">
+  <div class="row">
     <div class="col-md-4">Employees</div>
     <div class="col-md-4">
       <mat-form-field>

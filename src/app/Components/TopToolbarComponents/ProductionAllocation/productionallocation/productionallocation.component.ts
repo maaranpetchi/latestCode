@@ -1,28 +1,40 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JobAssignedDetailsPopupComponent } from '../job-assigned-details-popup/job-assigned-details-popup.component';
 import { ProductionallocationtableComponent } from '../productionallocationtable/productionallocationtable.component';
+import { environment } from 'src/Environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { event } from 'jquery';
 
 @Component({
   selector: 'app-productionallocation',
   templateUrl: './productionallocation.component.html',
   styleUrls: ['./productionallocation.component.scss']
 })
-export class ProductionallocationComponent {
+export class ProductionallocationComponent implements OnInit {
   @ViewChild(ProductionallocationtableComponent) ProductionallocationtableComponent: ProductionallocationtableComponent;
 
-
-  constructor(public dialog: MatDialog) { }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(JobAssignedDetailsPopupComponent, {
-      width: '250px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  pendingJobsCount: any;
+  freshJobsCount: number;
+  revisionJobsCount: number;
+  reworkJobsCount: number;
+  allocatedJobCount: number;
+  queriesJobsCount: number;
+  queryResponseJobsCount: number;
+  errorJobsCount: number;
+  quotationJobCount: number;
+  constructor(
+    public dialog: MatDialog,
+    private http: HttpClient,
+    private loginservice: LoginService,
+    ) { }
+  ngOnInit(): void {
+    this.getCount();
+    this.onTabChange(event);
   }
+
+ 
 
 
 
@@ -86,6 +98,25 @@ errorJobs(){
 }
 quotationJobs(){
   this.ProductionallocationtableComponent.tab('8');
+}
+
+getCount() {
+  return this.http
+    .get<any>(
+      environment.apiURL +
+        `Allocation/getCount/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/0`
+    )
+    .subscribe((freshDataCount) => {
+     this.pendingJobsCount= freshDataCount.pendingJobsCount,
+     this.freshJobsCount = freshDataCount.freshJobsCount,
+     this.revisionJobsCount= freshDataCount.revisionJobsCount,
+     this.reworkJobsCount= freshDataCount.reworkJobsCount,
+     this.allocatedJobCount = freshDataCount.allocatedJobCount
+     this.queriesJobsCount= freshDataCount.queriesJobsCount,
+     this.queryResponseJobsCount= freshDataCount.queryResponseJobsCount,
+     this.errorJobsCount= freshDataCount.errorJobsCount,
+     this.quotationJobCount= freshDataCount.quotationJobCount
+    });
 }
 }
 

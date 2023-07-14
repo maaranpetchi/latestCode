@@ -128,11 +128,11 @@
           </ng-container>
           
           <tr mat-header-row *matHeaderRowDef="displayedQueryColumns" ></tr>
-          <ng-container >
+          <ng-container *ngIf="getIsVisible()">
             <tr mat-row *matRowDef="let row; columns: displayedQueryColumns;"></tr>
           </ng-container>
           <tr mat-row *matNoDataRow>
-            <td class="no-data-cell" [attr.colspan]="displayedQueryColumns.length" >No data available</td>
+            <td class="no-data-cell" [attr.colspan]="displayedQueryColumns.length" *ngIf="!getIsVisible()">No data available</td>
           </tr>          
         </table>
       </div>
