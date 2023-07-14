@@ -53,6 +53,8 @@ import { CompletedjobsComponent } from 'src/app/Components/TopToolbarComponents/
 import { ClientordersComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorders/clientorders.component';
 import { ClientorderstableComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/clientorderstable.component';
 import { ClientorderviewComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderview/clientorderview.component';
+// import { ProofReadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation/proof-reading-allocation.component';
+// import { ProofReadingAllocationTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
 import { ProofreadingComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofreading/proofreading.component';
 import { ProofReadingTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proof-reading-table/proof-reading-table.component';
 import { BuddyProofComponent } from 'src/app/Components/TopToolbarComponents/BuddyProof/buddy-proof/buddy-proof.component';
@@ -89,6 +91,7 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
 import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
 import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
+import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
 
 const routes: Routes = [
 
@@ -142,7 +145,6 @@ const routes: Routes = [
 
       //ProofReadingAllocation
       {path:'proofreadingallocation', component: ProofreadingAllocationComponent},
-
       //ProofReading
       { path: 'proofreading', component: ProofreadingComponent },
       { path: 'proofreadingtable', component: ProofReadingTableComponent },
@@ -243,7 +245,8 @@ const routes: Routes = [
       // Job Transfer
       {path:'jobTransfer', component:JobTransferComponent},
 
-
+       //Bank
+       {path:'bank', component:BankComponent},
     ]
   },
 

@@ -1,0 +1,12 @@
+.container {  display: grid;
+    grid-template-columns: 0.7fr 1.9fr 1fr;
+    background-color: white !important;
+    grid-template-rows: 0.9fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". bank .";
+  }
+  
+  .bank { grid-area: bank; }
+  
