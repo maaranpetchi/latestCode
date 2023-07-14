@@ -25,15 +25,11 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
     MovetointegrationComponent,
     UpdateExchangeRateComponent,
     SpinnerComponent,
-<<<<<<< HEAD
-    
-=======
     DialogComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
       
 
->>>>>>> 459af310bfb05bb75dc4df6ccd77614c16e2b3fb
   ],
   imports: [
     BrowserModule,
@@ -42,7 +38,6 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
     HttpClientModule,
     FormsModule,
     MaterialModule,
-    NavigationModule,
     MatDialogModule,
   ],
   providers: [

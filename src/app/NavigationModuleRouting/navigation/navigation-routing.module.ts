@@ -86,12 +86,9 @@ import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/benc
 import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
-<<<<<<< HEAD
 import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
 import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
-=======
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
->>>>>>> 459af310bfb05bb75dc4df6ccd77614c16e2b3fb
 
 const routes: Routes = [
 

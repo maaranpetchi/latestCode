@@ -46,17 +46,6 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 
 
   ngOnInit() {
-<<<<<<< HEAD
-    // Fetch data from the REST API and populate the table
-    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
-      this.dataJobSource = data.jobHistory;
-      console.log(data,"JobDetails");
-      
-    });
-    // Fetch data from the REST API and populate the table
-    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
-      this.dataQuerySource = data.jobQueryHistory;
-=======
     this.fetchData();
     this.QueryDetailspost();
     this.fetchScopes();
@@ -153,7 +142,6 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         link.download = this.getFileNameFromPath(url);
         link.click();
       });
->>>>>>> 459af310bfb05bb75dc4df6ccd77614c16e2b3fb
     });
   }
   getFileNameFromPath(filePath: string): string {
