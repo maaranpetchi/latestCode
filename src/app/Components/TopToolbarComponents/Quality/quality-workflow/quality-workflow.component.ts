@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild, inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { environment } from 'src/Environments/environment';
@@ -73,7 +73,8 @@ export class QualityWorkflowComponent implements OnInit {
 
   }
 
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private loginService: LoginService, private spinnerService: SpinnerService) {
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private loginService: LoginService, private spinnerService: SpinnerService,    public dialogRef: MatDialogRef<QualityWorkflowComponent>
+  ) {
     console.log(data, "processdata");
   }
 
@@ -585,4 +586,9 @@ export class QualityWorkflowComponent implements OnInit {
     });
   };
 
+
+
+  closeDialog(){
+    this.dialogRef.close();
+  }
 }

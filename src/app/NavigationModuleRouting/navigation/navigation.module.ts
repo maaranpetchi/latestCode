@@ -103,6 +103,7 @@ import { JobhistoryDetailsComponent } from 'src/app/Components/JobHistory/jobhis
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
 import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
 import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -263,6 +264,7 @@ import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarCompon
     BrowserModule,
     FormsModule,
     MatNativeDateModule,
+    HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSortModule,

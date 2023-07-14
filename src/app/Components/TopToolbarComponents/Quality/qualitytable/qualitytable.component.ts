@@ -14,6 +14,7 @@ import { SewOutService } from 'src/app/Services/CoreStructure/SewOut/sew-out.ser
 import { QualityComponent } from '../quality/quality.component';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { data } from 'jquery';
+import { WorkflowService } from 'src/app/Services/CoreStructure/WorkFlow/workflow.service';
 @Component({
   selector: 'app-qualitytable',
   templateUrl: './qualitytable.component.html',
@@ -46,7 +47,7 @@ export class QualitytableComponent {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _coreService:CoreService,private sewOutService:SewOutService ,private http: HttpClient, private loginservice: LoginService, private dialog: MatDialog, private spinnerService: SpinnerService,private qualitycomponent:QualityComponent) { }
+  constructor(private _coreService:CoreService,private sewOutService:SewOutService ,private http: HttpClient, private loginservice: LoginService, private dialog: MatDialog, private spinnerService: SpinnerService,private qualitycomponent:QualityComponent,private workflowService:WorkflowService) { }
 
   ngOnInit(): void {
     // //ScopeDropdown

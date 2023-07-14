@@ -162,7 +162,7 @@ export class ClientorderstableComponent implements OnInit {
     this.http.get<any>(environment.apiURL + 'ClientOrderService/ClientOrdersExts/1').subscribe(binddata => {
       this.dataSource = binddata.data;
     this.spinnerService.requestEnded();
-      this.displayedColumnsvisibility.fileCount = true;
+      this.displayedColumnsvisibility.filecount = true;
       this.displayedColumnsvisibility.actionicon = true;
       this.displayedColumnsvisibility.fileInwardMode = false;
       this.displayedColumnsvisibility.transactionType = true;
@@ -184,6 +184,8 @@ export class ClientorderstableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(quotation.data),
         this.displayedColumnsvisibility.jobid = false;
       this.displayedColumnsvisibility.transactionType = true;
+      this.displayedColumnsvisibility.filecount = false;
+
       this.displayedColumnsvisibility.quoteparentid = true;
       this.displayedColumnsvisibility.action = true;
       this.displayedColumnsvisibility.actionicon = true;
