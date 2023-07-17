@@ -6,6 +6,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { EditVendorComponent } from '../edit-vendor/edit-vendor.component';
+import { MatDialog } from '@angular/material/dialog';
+import { VendorService } from 'src/app/Services/Vendor/vendor.service';
+import { UpdatevendorComponent } from '../updatevendor/updatevendor.component';
 
 @Component({
   selector: 'app-vendor',
@@ -16,7 +20,7 @@ export class VendorComponent implements OnInit {
   ngOnInit(): void {
     this.fetchtableData();
   }
-  constructor(private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService) { }
+  constructor(private VendorService:VendorService,  private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog) { }
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -30,6 +34,43 @@ export class VendorComponent implements OnInit {
       this.dataSource = new MatTableDataSource(data.vendorGDetailList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    });
+  }
+
+
+  employeeFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  openvendor(){
+    const dialogRef = this._dialog.open(EditVendorComponent);
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.fetchtableData();
+        }
+      },
+    });
+  }
+
+  openEditForm(data:any){
+    const dialogRef = this._dialog.open(UpdatevendorComponent, {
+      data:{
+        type:"edit",
+        data:data
+      },
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.fetchtableData();
+        }
+      },
     });
   }
 }

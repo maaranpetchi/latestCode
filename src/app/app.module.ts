@@ -16,6 +16,8 @@ import { SpinnerComponent } from './Components/Spinner/spinner/spinner.component
 import { DialogComponent } from './Components/dialog/dialog.component';
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
+import { VendorService } from './Services/Vendor/vendor.service';
+import { UpdatevendorComponent } from './Components/Vendor/updatevendor/updatevendor.component';
 
 
 @NgModule({
@@ -27,7 +29,7 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
     DialogComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
-  ],
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -41,7 +43,7 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
   providers: [
     EditadvanceadjustmentComponent,
     AdvanceadjustmentComponent,
-    
+    VendorService
   ],
   bootstrap: [AppComponent]
 })

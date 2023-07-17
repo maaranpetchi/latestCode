@@ -94,6 +94,7 @@ import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarCo
 import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
 import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
 import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
+import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/updatevendor.component';
 
 const routes: Routes = [
 
@@ -253,6 +254,7 @@ const routes: Routes = [
        //VENDOR
        {path:'vendor', component:VendorComponent},
        {path:'editvendor', component:EditVendorComponent},
+       {path:'updatevendor', component:UpdatevendorComponent},
 
     ]
   },

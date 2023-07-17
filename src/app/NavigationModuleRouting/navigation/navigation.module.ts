@@ -112,6 +112,7 @@ import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarCo
 import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-alocationtable/proofreading-alocationtable.component';
 import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
 import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
+import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/updatevendor.component';
 
 @NgModule({
   declarations: [
@@ -273,7 +274,9 @@ import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.compone
 
     //VENDOR
     VendorComponent,
-    EditVendorComponent
+    EditVendorComponent,
+    UpdatevendorComponent 
+
   ],
   imports: [
     CommonModule,

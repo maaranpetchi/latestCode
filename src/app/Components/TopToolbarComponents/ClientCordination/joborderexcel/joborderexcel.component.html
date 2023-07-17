@@ -77,7 +77,7 @@
                         <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                       </tr>
                 </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+                <mat-paginator [pageSizeOptions]="[25, 50,75,100]" aria-label="Select page of users"></mat-paginator>
             </div>
             <div class="footer" style="display:flex;justify-content: center;">
                 <button class="btn btn-danger" type="button" style="border-radius: 10px;" (click)="CancelInward()">  Cancel </button> &nbsp; &nbsp; &nbsp; <button class="btn btn-success" type="button"  style="border-radius: 10px;" (click)="InwardExcelDatas()"> Submit </button>
