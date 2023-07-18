@@ -17,9 +17,6 @@ import { DialogComponent } from './Components/dialog/dialog.component';
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
-import { UpdatevendorComponent } from './Components/Vendor/updatevendor/updatevendor.component';
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +26,7 @@ import { UpdatevendorComponent } from './Components/Vendor/updatevendor/updateve
     DialogComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
+   
    ],
   imports: [
     BrowserModule,

@@ -95,6 +95,8 @@ import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
 import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
 import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
 import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/updatevendor.component';
+import { IndexchecklistComponent } from 'src/app/Components/CustomerVSChecklist/indexchecklist/indexchecklist.component';
+import { AddchecklistComponent } from 'src/app/Components/CustomerVSChecklist/addchecklist/addchecklist.component';
 
 const routes: Routes = [
 
@@ -125,12 +127,12 @@ const routes: Routes = [
       { path: 'clientindex/clientordertable', component: ClientorderstableComponent },
       { path: 'clientindex/clientordertable', component: ClientorderstableComponent },
       { path: 'clientindex/clientorder/clientorderview', component: ClientorderviewComponent },
-      { path: 'clientindex/clientorder/clientdetailpopup', component:  ClientdetailspopupComponent, },
+      { path: 'clientindex/clientorder/clientdetailpopup', component: ClientdetailspopupComponent, },
       { path: 'clientindex/clientorder/fileconvert', component: FileconvertComponent, },
-      { path: 'clientindex/clientorder/fileconvert', component:JobDetailsClientIndexComponent},  //Main index Jobdetailpopup
+      { path: 'clientindex/clientorder/fileconvert', component: JobDetailsClientIndexComponent },  //Main index Jobdetailpopup
 
       //QualityAlloactionsComponent
-      { path: 'qualityallocation', component: QualityallocationComponent,},
+      { path: 'qualityallocation', component: QualityallocationComponent, },
       { path: 'qualityallocationtable', component: QualityallocationtableComponent },
       { path: 'qualitypopup', component: QualitypopupjobassignComponent },
 
@@ -147,7 +149,7 @@ const routes: Routes = [
       { path: 'prodworkflow', component: ProductionworkflowComponent },
 
       //ProofReadingAllocation
-      {path:'proofreadingallocation', component: ProofreadingAllocationComponent},
+      { path: 'proofreadingallocation', component: ProofreadingAllocationComponent },
       //ProofReading
       { path: 'proofreading', component: ProofreadingComponent },
       { path: 'proofreadingtable', component: ProofReadingTableComponent },
@@ -161,8 +163,8 @@ const routes: Routes = [
       //SewoutProof
       { path: 'sewout', component: SewOutComponent },
       { path: 'sewtable', component: SewOutTableComponent },
-      { path: 'sewJobDetails', component:JobDetailsSewPopComponent, },
-      { path: 'sewoutworkflow', component:SewoutworkflowComponent},
+      { path: 'sewJobDetails', component: JobDetailsSewPopComponent, },
+      { path: 'sewoutworkflow', component: SewoutworkflowComponent },
       //SideNavbarMenu
       //EmployeeController
       { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },
@@ -218,43 +220,47 @@ const routes: Routes = [
       { path: 'sales-pricing', component: PricingComponent, },
 
       // Master Order
-      {path:'master-user', component: UserMasterComponent},
+      { path: 'master-user', component: UserMasterComponent },
       // Scope
-      {path:'master-scope', component: ScopeComponent},
-      {path:'master-scopeAdd', component: AddScopeComponent},
-      {path:'master-scope/edit', component: ViewEditScopeComponent},
-      {path:'master-scope/view', component: ViewScopeComponent},
+      { path: 'master-scope', component: ScopeComponent },
+      { path: 'master-scopeAdd', component: AddScopeComponent },
+      { path: 'master-scope/edit', component: ViewEditScopeComponent },
+      { path: 'master-scope/view', component: ViewScopeComponent },
 
       // Error Category
-      {path:'errorCategory', component: ErrorCategoryComponent},
-      {path:'error-Categoryadd', component: AddErrorcategoryComponent},
-      {path:'error-Categoryview', component: ViewErrorCategoryComponent},
-      {path:'error-Categoryedit', component: EditErrorcategoryComponent},
+      { path: 'errorCategory', component: ErrorCategoryComponent },
+      { path: 'error-Categoryadd', component: AddErrorcategoryComponent },
+      { path: 'error-Categoryview', component: ViewErrorCategoryComponent },
+      { path: 'error-Categoryedit', component: EditErrorcategoryComponent },
 
 
       //  Process Master
-      {path:'processMaster', component:ProcessComponent},
-      {path:'process-addEdit', component:AddEditprocessComponent},
-      {path:'process-view', component:ViewProcessComponent},
+      { path: 'processMaster', component: ProcessComponent },
+      { path: 'process-addEdit', component: AddEditprocessComponent },
+      { path: 'process-view', component: ViewProcessComponent },
 
       //  Bench Status
-      {path:'benchStatus', component:BenchStatusComponent},
+      { path: 'benchStatus', component: BenchStatusComponent },
 
       // OneTime Master
-      {path:'oneTimeMaster', component:OneTimemasterComponent}, 
+      { path: 'oneTimeMaster', component: OneTimemasterComponent },
       //  Job History
-      {path:'jobHistory', component:JobHistoryComponent},
-      
+      { path: 'jobHistory', component: JobHistoryComponent },
+
       // Job Transfer
-      {path:'jobTransfer', component:JobTransferComponent},
+      { path: 'jobTransfer', component: JobTransferComponent },
 
-       //Bank
-       {path:'bank', component:BankComponent},
+      //Bank
+      { path: 'bank', component: BankComponent },
 
-       //VENDOR
-       {path:'vendor', component:VendorComponent},
-       {path:'editvendor', component:EditVendorComponent},
-       {path:'updatevendor', component:UpdatevendorComponent},
+      //VENDOR
+      { path: 'vendor', component: VendorComponent },
+      { path: 'editvendor', component: EditVendorComponent },
+      { path: 'updatevendor', component: UpdatevendorComponent },
+
+      //CUSTOMERVSCHECKLIST
+      { path: 'CustomerVsChecklist', component: IndexchecklistComponent },
+      { path: 'view-edit', component: AddchecklistComponent },
 
     ]
   },

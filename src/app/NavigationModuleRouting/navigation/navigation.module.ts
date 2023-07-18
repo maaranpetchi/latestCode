@@ -113,6 +113,8 @@ import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolb
 import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
 import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
 import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/updatevendor.component';
+import { IndexchecklistComponent } from 'src/app/Components/CustomerVSChecklist/indexchecklist/indexchecklist.component';
+import { AddchecklistComponent } from 'src/app/Components/CustomerVSChecklist/addchecklist/addchecklist.component';
 
 @NgModule({
   declarations: [
@@ -275,8 +277,12 @@ import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/up
     //VENDOR
     VendorComponent,
     EditVendorComponent,
-    UpdatevendorComponent 
+    UpdatevendorComponent,
 
+
+    //CUSTOMERVSCHECKLIST
+    IndexchecklistComponent,
+    AddchecklistComponent,
   ],
   imports: [
     CommonModule,
