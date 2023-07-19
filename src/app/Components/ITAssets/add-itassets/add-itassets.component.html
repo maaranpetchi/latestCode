@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+<!-- stepper.component.html -->
+<mat-horizontal-stepper linear>
+    <!-- Step 1: Hardware -->
+    <mat-step [stepControl]="hardwareStepFormGroup">
+      <ng-template matStepLabel>Hardware</ng-template>
+      <div>
+        <!-- Content for Hardware step goes here -->
+        <div class="panel panel-primary">
+            <div class="panel-body form-horizontal">
+                <div class="row">
+                    <div class="col-6">
+                        <label class="required">Type<span style="color:red;">*</span> </label>
+                        <select class="form-control" [(ngModel)]="Type" name="type">
+                            <option value="">-- Choose Type --</option>
+                            <option value="1">BayNumber</option>
+                            <option value="2">InStock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <label class="required">Bay No<span style="color:red;">*</span></label>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="BayNo" [disabled]="baynodisable"
+                            name="bayno" />
+                    </div>
+
+                    <div class="col">
+                        <label class="required">Location <span style="color:red;">*</span></label>
+                    </div>
+                    <div class="col">
+                        <textarea rows="3" type="text" class="form-control" [(ngModel)]="Location"
+                            name="location"></textarea>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">PC Name</div>
+                    <div class="col">
+                        <textarea rows="3" type="text" class="form-control" [(ngModel)]="PcName"
+                            name="pcname"></textarea>
+                    </div>
+
+                    <div class="col"><label class="required">PC Type<span style="color:red;">*</span></label></div>
+                    <div class="col">
+                        <select class="form-control" [(ngModel)]="PcType" name="pctype">
+                            <option value="">-- Choose PC Type --</option>
+                            <option *ngFor="let item of HardwareData" [value]="item.Id"
+                                [selected]="item.Description === PcTypeV">{{item.Description}}</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">Monitor</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Monitor" name="monitor" />
+                    </div>
+
+                    <div class="col">Monitor Serial Number</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="MonitorSno" name="monitorSno" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">Keyboard</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="keyboard" name="keyboard" />
+                    </div>
+
+                    <div class="col">Keyboard Serial Number</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="keyboardSno" name="keyboardSNo" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">Roll</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Roll" name="roll" />
+                    </div>
+
+                    <div class="col">Division</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Division" name="division" />
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col">Brand</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Brand" name="brand" />
+                    </div>
+
+                    <div class="col">Model</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Model" name="model" />
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">Warranty Details</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="WarrantyDetails"
+                            name="warrantydetails" />
+                    </div>
+
+                    <div class="col">RAM</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="RAM" name="ram" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">Processor</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Processor" name="Processor" />
+                    </div>
+
+                    <div class="col">Graphics</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Graphics" name="graphics" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">HDD</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="HDD" name="hdd" />
+                    </div>
+
+                    <div class="col">TAG Number</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="TAGNumber" name="TagNo" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">MAC Address</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="MacAddress" name="MacAddress" />
+                    </div>
+
+                    <div class="col">OS</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="OS" name="os" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">IP Address</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="IPAddress" name="IPAddress" />
+                    </div>
+
+                    <div class="col"><label class="required">Server Type</label></div>
+                    <div class="col">
+                        <select class="form-control" [(ngModel)]="ServerType" name="servertype">
+                            <option value="">-- Choose Server Type --</option>
+                            <option *ngFor="let item of GetSTD " [value]="item.Id"
+                                [selected]="item.Description === ServerTypeV">{{item.Description}}</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">Invoice Date</div>
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" [(ngModel)]="InvoiceDate" name="InvoiceDate" />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">Invoice Number</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="InvoiceNumber" name="Invoiceno" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">Mouse</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="Mouse" name="mouse" />
+                    </div>
+
+                    <div class="col">Mouse Serial Number</div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="MouseSNO" name="mouseSno" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col"><label class="required">Working Status<span style="color:red;">*</span></label>
+                        <select class="form-control" [(ngModel)]="WorkingStatus" name="workingstatus">
+                            <option value="">-- Choose Working status --</option>
+                            <option *ngFor="let item of GetWSD" [value]="item.Id"
+                                [selected]="item.Description === WorkingStatusV">{{item.Description}}</option>
+                        </select>
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+      </div>
+      <div>
+        <button mat-button matStepperNext >Next</button>
+      </div>
+    </mat-step>
+  
+    <!-- Step 2: Software -->
+    <mat-step [stepControl]="softwareStepFormGroup">
+      <ng-template matStepLabel>Software</ng-template>
+      <div>
+        <!-- Content for Software step goes here -->
+        <h2>Software Content</h2>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  
+
+
+
+
+
+
+</body>
+
+</html>

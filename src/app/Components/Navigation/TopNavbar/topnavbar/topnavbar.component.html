@@ -180,6 +180,26 @@
           </a>
         </mat-expansion-panel>
 
+
+        
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-icon>perm_identity</mat-icon>
+            <span>IT ASSET</span>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLink="ITAsset">
+            <label class="labelname">IT Asset</label>
+          </a>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-icon>perm_identity</mat-icon>
+            <span>Vendor</span>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLink="vendor">
+            <label class="labelname">Vendor</label>
+          </a>
+        </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-icon>perm_identity</mat-icon>
@@ -193,15 +213,6 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-icon>perm_identity</mat-icon>
-            <span>Vendor</span>
-          </mat-expansion-panel-header>
-          <a mat-list-item routerLink="vendor">
-            <label class="labelname">Vendor</label>
-          </a>
-        </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-icon>perm_identity</mat-icon>
             <span>Customer VS Checklist</span>
           </mat-expansion-panel-header>
           <a mat-list-item routerLink="CustomerVsChecklist">
@@ -209,13 +220,16 @@
           </a>
         </mat-expansion-panel>
         
+
+
+
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
       <button mat-icon-button (click)="toggleSidenav()" style="float:left">
         <mat-icon>{{ isSidenavOpen ? 'menu_open' : 'menu' }}</mat-icon>
       </button>
-      <p style="height: 75vh;">
+      <p>
         <router-outlet></router-outlet>
       </p>
     </mat-sidenav-content>

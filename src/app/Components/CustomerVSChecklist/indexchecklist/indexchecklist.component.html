@@ -61,7 +61,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
                         <td mat-cell *matCellDef="let element">
                             <a class="btn btn-success actionbtn" matTooltip="view" matTooltipPosition="below"
-                            (click)="openEditForm(element)">
+                            (click)="openViewForm(element)">
                                 <mat-icon>visibility</mat-icon>
                             </a>
                             <a class="btn btn-success actionbtn" matTooltip="Edit" matTooltipPosition="below"
@@ -69,7 +69,7 @@
                                 <mat-icon>edit</mat-icon>
                             </a>
                             <a class="btn btn-success actionbtn" matTooltip="delete" matTooltipPosition="below"
-                            (click)="openEditForm(element)">
+                            (click)="deleteEmployee(element.id)">
                                 <mat-icon>delete</mat-icon>
                             </a>
                         </td>

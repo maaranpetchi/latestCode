@@ -10,6 +10,8 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomervschecklistService } from 'src/app/Services/CustomerVSChecklist/customervschecklist.service';
+import { SpinnerService } from '../../Spinner/spinner.service';
+import { ViewchecklistComponent } from '../viewchecklist/viewchecklist.component';
 @Component({
   selector: 'app-indexchecklist',
   templateUrl: './indexchecklist.component.html',
@@ -19,14 +21,18 @@ export class IndexchecklistComponent implements OnInit {
   ngOnInit(): void {
     this.fetchtableData();
   }
-  constructor(private checklistservice: CustomervschecklistService, private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog) { }
+  constructor(private _coreService: CoreService, private checklistservice: CustomervschecklistService, private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog, private spinnerService: SpinnerService) { }
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(AddchecklistComponent) AddchecklistComponent: AddchecklistComponent;
+
   displayedColumns: string[] = ['shortname', 'description', 'department', 'Action'];
 
   fetchtableData() {
     this.checklistservice.getEmployeeList().subscribe(data => {
+      console.log(data,"indexpage");
+      
       this.dataSource = new MatTableDataSource(data.gCvCList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -58,12 +64,43 @@ export class IndexchecklistComponent implements OnInit {
 
   openEditForm(data: any) {
     const dialogRef = this._dialog.open(AddchecklistComponent, {
+      height: '60vh',
+      width: '50vw',
       data: {
         type: "edit",
         data: data,
-        height: '60vh',
-        width: '50vw'
       },
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.fetchtableData();
+        }
+      },
+    });
+  }
+
+  deleteEmployee(id: number) {
+    this.spinnerService.requestStarted();
+
+    this.checklistservice.deleteEmployee(id).subscribe({
+      next: (res) => {
+        this.spinnerService.requestEnded();
+
+        this._coreService.openSnackBar('Employee deleted!', 'done');
+        this.fetchtableData();
+      },
+      error: console.log,
+    });
+  }
+
+
+  openViewForm(data: any){
+    const dialogRef = this._dialog.open(ViewchecklistComponent, {
+      height: '60vh',
+      width: '50vw',
+      data
     });
 
     dialogRef.afterClosed().subscribe({

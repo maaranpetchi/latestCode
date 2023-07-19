@@ -115,6 +115,9 @@ import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.compone
 import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/updatevendor.component';
 import { IndexchecklistComponent } from 'src/app/Components/CustomerVSChecklist/indexchecklist/indexchecklist.component';
 import { AddchecklistComponent } from 'src/app/Components/CustomerVSChecklist/addchecklist/addchecklist.component';
+import { ViewchecklistComponent } from 'src/app/Components/CustomerVSChecklist/viewchecklist/viewchecklist.component';
+import { ItAssetindexComponent } from 'src/app/Components/ITAssets/it-assetindex/it-assetindex.component';
+import { AddItassetsComponent } from 'src/app/Components/ITAssets/add-itassets/add-itassets.component';
 
 @NgModule({
   declarations: [
@@ -283,6 +286,14 @@ import { AddchecklistComponent } from 'src/app/Components/CustomerVSChecklist/ad
     //CUSTOMERVSCHECKLIST
     IndexchecklistComponent,
     AddchecklistComponent,
+    ViewchecklistComponent,
+
+
+
+    //ITAsset
+    ItAssetindexComponent,
+    AddItassetsComponent,
+
   ],
   imports: [
     CommonModule,

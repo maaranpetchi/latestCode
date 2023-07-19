@@ -16,4 +16,8 @@ export class CustomervschecklistService {
    // return fetch(environment.apiURL+'Employee/GetEmployeeList').then(res => res.json());
  }
   
+
+ deleteEmployee(id: number): Observable<any> {
+  return this.http.get(environment.apiURL+`CustomerVsChecklist/Delete-Check?id=${id}`);
+}
 }

@@ -97,6 +97,9 @@ import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-
 import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/updatevendor.component';
 import { IndexchecklistComponent } from 'src/app/Components/CustomerVSChecklist/indexchecklist/indexchecklist.component';
 import { AddchecklistComponent } from 'src/app/Components/CustomerVSChecklist/addchecklist/addchecklist.component';
+import { ViewchecklistComponent } from 'src/app/Components/CustomerVSChecklist/viewchecklist/viewchecklist.component';
+import { ItAssetindexComponent } from 'src/app/Components/ITAssets/it-assetindex/it-assetindex.component';
+import { AddItassetsComponent } from 'src/app/Components/ITAssets/add-itassets/add-itassets.component';
 
 const routes: Routes = [
 
@@ -260,7 +263,13 @@ const routes: Routes = [
 
       //CUSTOMERVSCHECKLIST
       { path: 'CustomerVsChecklist', component: IndexchecklistComponent },
-      { path: 'view-edit', component: AddchecklistComponent },
+      { path: 'edit', component: AddchecklistComponent },
+      { path: 'view', component:ViewchecklistComponent},
+
+
+      //ITASSET
+      { path: 'ITAsset', component:ItAssetindexComponent},
+      { path: 'addITAsset', component:AddItassetsComponent},
 
     ]
   },

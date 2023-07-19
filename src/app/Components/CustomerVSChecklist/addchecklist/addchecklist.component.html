@@ -21,10 +21,9 @@
                     <mat-form-field>
                         <mat-label>Department</mat-label>
                         <mat-select [(ngModel)]="selectedDepartment" name="department">
-                            <mat-option value=1>Artwork</mat-option>
-                            <mat-option value=2>Digitizing</mat-option>
+                          <mat-option *ngFor="let department of dept" [value]="department.id">{{ department.name }}</mat-option>
                         </mat-select>
-                    </mat-form-field>
+                      </mat-form-field>                                       
                 </div>
             </div>
 

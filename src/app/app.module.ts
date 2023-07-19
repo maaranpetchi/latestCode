@@ -17,6 +17,9 @@ import { DialogComponent } from './Components/dialog/dialog.component';
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
+import { ViewchecklistComponent } from './Components/CustomerVSChecklist/viewchecklist/viewchecklist.component';
+import { ItAssetindexComponent } from './Components/ITAssets/it-assetindex/it-assetindex.component';
+import { AddItassetsComponent } from './Components/ITAssets/add-itassets/add-itassets.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,7 @@ import { VendorService } from './Services/Vendor/vendor.service';
   providers: [
     EditadvanceadjustmentComponent,
     AdvanceadjustmentComponent,
-    VendorService
+    VendorService,
   ],
   bootstrap: [AppComponent]
 })
