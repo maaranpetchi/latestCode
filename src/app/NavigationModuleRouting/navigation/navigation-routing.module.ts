@@ -87,6 +87,11 @@ import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
+import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
+import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
+import { ViewUnapprovaljobsComponent } from 'src/app/Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
+import { CustomerSalesmappingComponent } from 'src/app/Components/Sales/customer-salesmapping/customer-salesmapping.component';
+import { PricingApprovalprocessComponent } from 'src/app/Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
 
 const routes: Routes = [
 
@@ -238,6 +243,13 @@ const routes: Routes = [
       
       // Job Transfer
       {path:'jobTransfer', component:JobTransferComponent},
+
+      // SALES
+      {path:'creditSales', component:CreditdaysApprovalComponent},
+      {path:'unapprovalJobs', component:UnApprovaljobsComponent},
+      {path:'view-unapprovalJobs', component:ViewUnapprovaljobsComponent},
+      {path:'customer-salesmapping', component: CustomerSalesmappingComponent},
+      {path:'pricing-Approval', component: PricingApprovalprocessComponent}
 
 
     ]

@@ -1,0 +1,64 @@
+<div class="container">
+    <!-- <div class=""> -->
+    <div class="card">
+      <div class="card-body bg-primary">
+        <div class="row">
+          <div class="col-md">
+            <h3 class="text-white text-center">Price Approval</h3>
+          </div>
+        </div>
+        <div class="card-body bg-white">
+          <div class="row">
+            <div class="col-md-1">
+              <h3>select</h3>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-label>Select a filter</mat-label>
+                <mat-select [(ngModel)]="selectedValue" (selectionChange)="onDropdownChange()">
+                    <mat-option *ngFor="let value of dropdownValues" [value]="value.id">{{ value.shortName }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-12 table-container table-responsive mt-4">
+                <table  class="table table-bordered text-center" >
+                    <th>
+                        <tr>
+                            <th rowspan="2">Customer Name</th>
+                            <th rowspan="2">Pricing Type</th>
+                            <th rowspan="2">Department</th>
+                            <th rowspan="2">Scope</th>
+                            <th rowspan="2">Job Status</th>
+                            <th colspan="2">With Effective</th>
+                            <th colspan="2">File Count</th>
+                            <th colspan="4">Staffing</th>
+                            <th rowspan="2">Price ($)</th>
+                            <th rowspan="2">Estimation Time (mins)</th>
+                            <th rowspan="2">Additional Rate/Hour ($)</th>
+                            <th rowspan="2">Status</th>
+                            <th rowspan="2">Action</th>
+                        </tr>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Designation</th>
+                            <th>No.of Artist</th>
+                        </tr>
+                    </th>
+
+                </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mt-5">
+          <button class="float-end bg-success text-white" mat-raised-button  (click)="onSubmit()">Submit</button>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>

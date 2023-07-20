@@ -104,6 +104,10 @@ import { ProductionAllocatedPopupComponent } from 'src/app/Components/TopToolbar
 import { JoballocatedEmplpopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/joballocated-emplpopup/joballocated-emplpopup.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
 import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-alocationtable/proofreading-alocationtable.component';
+import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
+import { EmployeePopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
+import { JobCategorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
+import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
 
 @NgModule({
   declarations: [
@@ -155,7 +159,9 @@ import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolb
     
     //ProofReadingAllocation
     ProofreadingAllocationComponent,
-      ProofreadingAlocationtableComponent,
+    ProofreadingAlocationtableComponent,
+    EmployeePopupComponent,
+    JobCategorypopupComponent,
     //ProofReading
     ProofreadingComponent,
     ProofReadingTableComponent,
@@ -256,6 +262,10 @@ import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolb
     JobhistoryDetailsComponent,
     // Job Transfer
     JobTransferComponent,
+
+    // SALES
+    CreditdaysApprovalComponent,
+    UnApprovaljobsComponent
     
 
   ],
