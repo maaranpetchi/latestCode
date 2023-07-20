@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { environment } from 'src/Environments/environment';
+import { ItassetsService } from 'src/app/Services/ITAssets/itassets.service';
 
 
 //Interface for servertype
@@ -29,13 +30,22 @@ interface GETWSD {
 export class AddItassetsComponent implements OnInit {
   hardwareStepFormGroup: FormGroup;
   softwareStepFormGroup: FormGroup;
+  id: number;
+  apiResponseData: any;
 
 
 
   ngOnInit(): void {
     this.getPcType();
+    this.getSoftwareData();
+    this.getTableData();
+    this.apiResponseData = this.sharedDataService.getData();
+    console.log(this.apiResponseData,"GettingresponsiveData");
+  
   }
-  constructor(private http: HttpClient, private _coreService: CoreService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router) { }
+  constructor(private http: HttpClient, private _coreService: CoreService,private sharedDataService:ItassetsService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router) {
+
+   }
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -62,7 +72,7 @@ export class AddItassetsComponent implements OnInit {
     // });
   }
   //NgModel to save the values
-  Type: number;
+  Type: string;
   BayNo: string;
   Location: string;
   baynodisable: boolean = false;
@@ -131,10 +141,24 @@ export class AddItassetsComponent implements OnInit {
     });
   }
 
+  getSoftwareData() {
+    this.http.get<any>(environment.apiURL + `ITAsset/nGetHardwareSoftware`).subscribe(results => {
+      this.SoftwareData = results.softwareData;
+    });
+  }
+
+
+  getTableData() {
+    this.http.get<any>(environment.apiURL + `ITAsset/nGetTableITSAsset`).subscribe(results => {
+      this.dataSource = results.titsDetailList;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
   //mrthod to show the instock in input field
   onTypeChange() {
-    if (this.Type === 2) { // If the selected type is "InStock" (value = 2)
-      // Set the BayNo field with the values of InStock
+
+    if (this.Type === "2") {
       this.BayNo = 'Instock';
       // Disable the BayNo input field
       this.baynodisable = true;
@@ -148,8 +172,7 @@ export class AddItassetsComponent implements OnInit {
   }
 
   firstNext() {
-    console.log("enetr the first");
-    
+
     // let payload = {
     //   BayNumber: this.BayNo,
     //   Brand: this.Brand,
@@ -182,9 +205,9 @@ export class AddItassetsComponent implements OnInit {
     // }
 
 
-    let payloadupload={
+    let payloadupload = {
       "id": 0,
-      "employeeId":this.loginservice.getUsername(),
+      "employeeId": this.loginservice.getUsername(),
       "BayNumber": this.BayNo,
       "Brand": this.Brand,
       "Division": this.Division,
@@ -219,10 +242,68 @@ export class AddItassetsComponent implements OnInit {
       "workingStatus": "",
 
     }
-    this.http.post<any>(environment.apiURL +`ITAsset/nSetITHData`,payloadupload).subscribe(results =>{
+    this.http.post<any>(environment.apiURL + `ITAsset/nSetITHData`, payloadupload).subscribe(results => {
+      console.log(results,"Firstnextc")
       this._coreService.openSnackBar("Data Added successfully!");
+      this.id = results.ithDetailList.id;
     });
-    console.log(payloadupload,"payloadinfirstpage");
-    
+    console.log(payloadupload, "payloadinfirstpage");
+  }
+
+
+  softwareclick() {
+
+    let AddPayload = {
+      "id": 0,
+      "employeeId": this.loginservice.getUsername(),
+      "itAssetId": this.id,
+      "bayNumber": "",
+      "location": "",
+      "pcName": "",
+      "hardwareId": 0,
+      "monitor": "",
+      "monitorSerialNumber": "",
+      "keyboard": "",
+      "keyboardSerialNumber": "",
+      "roll": "",
+      "division": "",
+      "brand": "",
+      "model": "",
+      "warantyDetails": "",
+      "ram": "",
+      "processor": "",
+      "graphics": "",
+      "hdd": "",
+      "tagNumber": "",
+      "macAddress": "",
+      "os": "",
+      "ipAddress": "",
+      "serverType": "",
+      "serverTypeId": 0,
+      "invoiceDate": "",
+      "invoiceNumber": "",
+      "mouse": "",
+      "mouseSerialNumber": "",
+      "workingStatus": "",
+      "workingStatusId": 0,
+      "isDeleted": true,
+      "createdBy": 0,
+      "createdDate": new Date().toISOString(),
+      "updatedBy": 0,
+      "updatedDate": "",
+      "softwareId": this.SoftwareId,
+      "softwareStatusId": this.SoftwareStatus
+    }
+console.log(AddPayload,"AddPayload");
+
+    this.http.post<any>(environment.apiURL + `ITAsset/nSetITSData`, AddPayload).subscribe(results => {
+      this._coreService.openSnackBar(results.itsDetailList);
+      this.getTableData();
+
+    });
+  }
+
+  softwareSubmitclick(){
+    this._coreService.openSnackBar("Record Added Successfully!")
   }
 }

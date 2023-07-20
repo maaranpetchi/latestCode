@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <label class="required">Type<span style="color:red;">*</span> </label>
-                                <select class="form-control" [(ngModel)]="Type" name="type" (change)="onTypeChange()"> 
+                                <select class="form-control" [(ngModel)]="Type" name="type" (change)="onTypeChange()">
                                     <option value="">-- Choose Type --</option>
                                     <option value="1">BayNumber</option>
                                     <option value="2">InStock</option>
@@ -237,45 +237,48 @@
             <div>
                 <!-- Content for Software step goes here -->
                 <div class="software">
-                    <div class="form-group">
-                        <div class="col-xs-2"><label class="required">Bay No</label></div>
-                        <div class="col-xs-4">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="required">Bay No</label>
                             <input type="text" class="form-control" [value]="BayNo" [disabled]="true" name="bayno" />
+
+                        </div>
+                        <div class="col-6" *ngIf="SoftwareId && SoftwareId.length > 0">
+                            <label class="required">Software Status<span style="color:red;">*</span></label>
+                            <select class="form-control" [(ngModel)]="SoftwareStatus" name="softwarestatus">
+                                <option value="">-- Choose Software Status Type --</option>
+                                <option value="1">Compliance</option>
+                                <option value="2">Non-Compliance</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-xs-2"><label class="required">Software</label></div>
-                        <div class="col-xs-4">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="required">Software</label>
                             <select multiple class="form-control" style="height:150px" [(ngModel)]="SoftwareId"
                                 name="software">
                                 <option value="">-- Choose Software Type --</option>
-                                <option *ngFor="let item of SoftwareData" [value]="item.Id">{{ item.Description }}
+                                <option *ngFor="let item of SoftwareData" [value]="item.id">{{ item.description }}
                                 </option>
                             </select>
                         </div>
+                    </div>
+                    <br>
 
-                        <div>
-                            <div class="col-xs-2"><label class="required">Software Status<span
-                                        style="color:red;">*</span></label></div>
-                            <div class="col-xs-4">
-                                <select class="form-control" [(ngModel)]="SoftwareStatus" name="softwarestatus">
-                                    <option value="">-- Choose Software Status Type --</option>
-                                    <option value="1">Compliance</option>
-                                    <option value="2">Non-Compliance</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div mat-dialog-actions class="action"
+                        style="display:flex;align-items: center;justify-content: center;">
+                        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>&nbsp;
+                        <button mat-raised-button color="primary" type="button" (click)="softwareclick()" softwareclick>Add</button>
                     </div>
-                    <div mat-dialog-actions class="action">
-                        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-                        <button mat-raised-button color="primary" type="submit">Add</button>
-                    </div>
+                    <br>
                     <div class="table">
                         <div class="example-container mat-elevation-z8">
 
-                            <mat-table class="table table-sm table-responsive" mat-table #table [dataSource]="dataSource"
-                                matSort>
+                            <mat-table class="table table-sm table-responsive" mat-table #table
+                                [dataSource]="dataSource" matSort>
 
                                 <ng-container matColumnDef="baynumber">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -300,7 +303,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <td mat-cell *matCellDef="let element">{{element.location}}</td>
+                                    <td mat-cell *matCellDef="let element">{{element.description}}</td>
                                 </ng-container>
 
 
@@ -314,17 +317,17 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <td mat-cell *matCellDef="let element">{{element.pcName}}</td>
+                                    <td mat-cell *matCellDef="let element">{{element.softwareStatus}}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="Action">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
                                     <td mat-cell *matCellDef="let element">
 
-                                        <a class="btn btn-success actionbtn" matTooltip="delete"
-                                            matTooltipPosition="below" (click)="deleteEmployee(element.id)">
+                                        <a class="red-btn" matTooltip="delete" matTooltipPosition="below" (click)="deleteEmployee(element.id)">
                                             <mat-icon>delete</mat-icon>
                                         </a>
+                                        
                                     </td>
                                 </ng-container>
 
@@ -339,7 +342,8 @@
             </div>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext >Next</button>            </div>
+                <button mat-button matStepperNext (click)="softwareSubmitclick()" style="float:right">Submit</button>
+            </div>
         </mat-step>
     </mat-horizontal-stepper>
 

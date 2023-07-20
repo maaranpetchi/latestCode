@@ -9,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { environment } from 'src/Environments/environment';
 import { Router } from '@angular/router';
+import { ItassetsService } from 'src/app/Services/ITAssets/itassets.service';
 
 @Component({
   selector: 'app-it-assetindex',
@@ -16,19 +17,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./it-assetindex.component.scss']
 })
 export class ItAssetindexComponent implements OnInit {
+  apiResponseData: any;
   ngOnInit(): void {
     this.fetchtableData();
   }
-  constructor(private router: Router,private _coreService: CoreService, private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog, private spinnerService: SpinnerService) { }
+  constructor(private router: Router, private _coreService: CoreService, private sharedDataService: ItassetsService, private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog, private spinnerService: SpinnerService) { }
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['baynumber', 'location', 'pcname','pctype', 'roll', 'workingstatus', 'Action'];
+  displayedColumns: string[] = ['baynumber', 'location', 'pcname', 'pctype', 'roll', 'workingstatus', 'Action'];
 
   fetchtableData() {
     this.http.get<any>(environment.apiURL + `ITAsset/nGetTableITAsset`).subscribe(data => {
-      console.log(data, "fetchdata");
+
+      this.apiResponseData = data;
       this.dataSource = new MatTableDataSource(data.titDetailList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -49,22 +52,10 @@ export class ItAssetindexComponent implements OnInit {
   }
 
   openEditForm(data: any) {
-    // const dialogRef = this._dialog.open(AddchecklistComponent, {
-    //   height: '60vh',
-    //   width: '50vw',
-    //   data: {
-    //     type: "edit",
-    //     data: data,
-    //   },
-    // });
-
-    // dialogRef.afterClosed().subscribe({
-    //   next: (val) => {
-    //     if (val) {
-    //       this.fetchtableData();
-    //     }
-    //   },
-    // });
+    this.sharedDataService.setData(this.apiResponseData);
+    console.log(this.apiResponseData,"indexresposne");
+    
+    this.router.navigate(['/topnavbar/addITAsset']);
   }
 
   deleteEmployee(id: number) {
