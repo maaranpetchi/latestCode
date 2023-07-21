@@ -19,4 +19,10 @@ export class ItassetsService {
 
   clearData() {
     this.sharedData = null;
-  }}
+  }
+
+  deleteEmployee(){
+    
+  }
+
+}

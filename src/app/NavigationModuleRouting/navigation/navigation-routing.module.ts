@@ -100,6 +100,7 @@ import { AddchecklistComponent } from 'src/app/Components/CustomerVSChecklist/ad
 import { ViewchecklistComponent } from 'src/app/Components/CustomerVSChecklist/viewchecklist/viewchecklist.component';
 import { ItAssetindexComponent } from 'src/app/Components/ITAssets/it-assetindex/it-assetindex.component';
 import { AddItassetsComponent } from 'src/app/Components/ITAssets/add-itassets/add-itassets.component';
+import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-options/bench-options.component';
 
 const routes: Routes = [
 
@@ -270,6 +271,9 @@ const routes: Routes = [
       //ITASSET
       { path: 'ITAsset', component:ItAssetindexComponent},
       { path: 'addITAsset', component:AddItassetsComponent},
+
+      //Bench Options
+      { path: 'benchOptions', component:BenchOptionsComponent},
 
     ]
   },

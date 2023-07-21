@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { SpinnerService } from '../../Spinner/spinner.service';
@@ -32,6 +32,7 @@ export class AddItassetsComponent implements OnInit {
   softwareStepFormGroup: FormGroup;
   id: number;
   apiResponseData: any;
+  data: any;
 
 
 
@@ -40,12 +41,13 @@ export class AddItassetsComponent implements OnInit {
     this.getSoftwareData();
     this.getTableData();
     this.apiResponseData = this.sharedDataService.getData();
-    console.log(this.apiResponseData,"GettingresponsiveData");
-  
-  }
-  constructor(private http: HttpClient, private _coreService: CoreService,private sharedDataService:ItassetsService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router) {
 
-   }
+
+    this.fetchUpdateData();
+  }
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private _coreService: CoreService, private sharedDataService: ItassetsService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router) {
+
+  }
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -59,18 +61,69 @@ export class AddItassetsComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
-    // this.spinnerService.requestStarted();
+    let payload = {
+      "id": id
+    }
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + `ITAsset/nDeleteITSAsset`, payload).subscribe({
+      next: (res) => {
+        this.spinnerService.requestEnded();
 
-    // this.checklistservice.deleteEmployee(id).subscribe({
-    //   next: (res) => {
-    //     this.spinnerService.requestEnded();
-
-    //     this._coreService.openSnackBar('Employee deleted!', 'done');
-    //     this.fetchtableData();
-    //   },
-    //   error: console.log,
-    // });
+        this._coreService.openSnackBar('Employee deleted!', 'done');
+        this.getTableData();
+      }
+    });
   }
+
+
+  fetchUpdateData() {
+    console.log(this.apiResponseData.itheDetailList.id, "getting ID");
+
+    let payload = {
+      "id": this.apiResponseData.itheDetailList.id
+    }
+    this.http.post<any>(environment.apiURL + `ITAsset/nGetEditedITAsset`, payload).subscribe(results => {
+
+      console.log(results, "fetchUpdateData");
+      this.BayNo = results.itheDetailList.bayNumber,
+        this.Location = results.itheDetailList.location,
+        this.PcName = results.itheDetailList.pcName,
+        this.PcType = results.itheDetailList.pcTypeId,
+        this.Monitor = results.itheDetailList.monitor,
+        this.MonitorSno = results.itheDetailList.monitorSerialNumber,
+        this.keyboard = results.itheDetailList.keyboard,
+        this.keyboardSno = results.itheDetailList.keyboardSerialNumber,
+        this.Roll = results.itheDetailList.roll,
+        this.Division = results.itheDetailList.division,
+        this.Brand = results.itheDetailList.brand,
+        this.Model = results.itheDetailList.model,
+        this.WarrantyDetails = results.itheDetailList.warantyDetails,
+        this.RAM = results.itheDetailList.ram,
+        this.Processor = results.itheDetailList.processor,
+        this.Graphics = results.itheDetailList.graphics,
+        this.HDD = results.itheDetailList.hdd,
+        this.TAGNumber = results.itheDetailList.tagNumber,
+        this.MacAddress = results.itheDetailList.macAddress,
+        this.OS = results.itheDetailList.os,
+        this.IPAddress = results.itheDetailList.ipAddress,
+        this.ServerType = results.itheDetailList.serverTypeId,
+        this.InvoiceDate = results.itheDetailList.invoiceDate,
+        this.InvoiceNumber = results.itheDetailList.invoiceNumber,
+        this.Mouse = results.itheDetailList.mouse,
+        this.MouseSNO = results.itheDetailList.mouseSerialNumber,
+        this.WorkingStatus = results.itheDetailList.workingStatusId
+      if (results && results.itheDetailList) {
+        this.data = true; // Set the data availability status to true
+        // Set other fields based on the available data
+      } else {
+        this.data = false; // Set the data availability status to false
+      }
+
+    });
+
+  }
+
+
   //NgModel to save the values
   Type: string;
   BayNo: string;
@@ -153,6 +206,7 @@ export class AddItassetsComponent implements OnInit {
       this.dataSource = results.titsDetailList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      
     });
   }
   //mrthod to show the instock in input field
@@ -171,40 +225,8 @@ export class AddItassetsComponent implements OnInit {
     }
   }
 
-  firstNext() {
-
-    // let payload = {
-    //   BayNumber: this.BayNo,
-    //   Brand: this.Brand,
-    //   Division: this.Division,
-    //   EmployeeId: this.loginservice.getUsername(),
-    //   Graphics: this.Graphics,
-    //   HardwareId: "2",
-    //   Hdd: this.HDD,
-    //   InvoiceDate: this.InvoiceDate,
-    //   InvoiceNumber: this.InvoiceNumber,
-    //   IpAddress: this.IPAddress,
-    //   Keyboard: this.keyboard,
-    //   KeyboardSerialNumber: this.keyboardSno,
-    //   Location: this.Location,
-    //   MacAddress: this.MacAddress,
-    //   Model: this.Model,
-    //   Monitor: this.Monitor,
-    //   MonitorSerialNumber: this.MonitorSno,
-    //   Mouse: this.Mouse,
-    //   MouseSerialNumber: this.MouseSNO,
-    //   Os: this.OS,
-    //   PcName: this.PcName,
-    //   Processor: this.Processor,
-    //   Ram: this.RAM,
-    //   Roll: this.Roll,
-    //   ServerTypeId: this.ServerType,
-    //   TagNumber: this.TAGNumber,
-    //   WarantyDetails: this.WarrantyDetails,
-    //   WorkingStatusId: this.WorkingStatus
-    // }
-
-
+  firstAdd() {
+    console.log(this.Location,"location");
     let payloadupload = {
       "id": 0,
       "employeeId": this.loginservice.getUsername(),
@@ -243,11 +265,68 @@ export class AddItassetsComponent implements OnInit {
 
     }
     this.http.post<any>(environment.apiURL + `ITAsset/nSetITHData`, payloadupload).subscribe(results => {
-      console.log(results,"Firstnextc")
+      console.log(results, "Firstnextc")
       this._coreService.openSnackBar("Data Added successfully!");
       this.id = results.ithDetailList.id;
     });
     console.log(payloadupload, "payloadinfirstpage");
+  }
+
+
+  secondadd(){
+  
+
+  console.log(this.apiResponseData.itheDetailList.id,"itassetsid")
+    ///////////////////////////////////////////// PAYLAOD///////////////////////////////////////////////////
+
+    let demoPayload = {
+      "id": 0,
+      "employeeId": this.loginservice.getUsername(),
+      "itAssetId": this.apiResponseData.itheDetailList.id,
+      "bayNumber": this.BayNo,
+      "location": this.Location,
+      "pcName": this.PcName,
+      "hardwareId": "2",
+      "monitor": this.Monitor,
+      "monitorSerialNumber": this.MonitorSno,
+      "keyboard":this.keyboard,
+      "keyboardSerialNumber": this.keyboardSno,
+      "roll": this.Roll,
+      "division": this.Division,
+      "brand": this.Brand,
+      "model": this.Model,
+      "warantyDetails": this.WarrantyDetails,
+      "ram": this.RAM,
+      "processor": this.Processor,
+      "graphics": this.Graphics,
+      "hdd": this.HDD,
+      "tagNumber": this.TAGNumber,
+      "macAddress": this.MacAddress,
+      "os": this.OS,
+      "ipAddress": this.IPAddress,
+      "serverType": this.ServerType,
+      "serverTypeId": this.ServerType,
+      "invoiceDate": this.InvoiceDate,
+      "invoiceNumber": this.InvoiceNumber,
+      "mouse": this.Mouse,
+      "mouseSerialNumber": this.MouseSNO,
+      "workingStatus": this.WorkingStatus,
+      "workingStatusId": this.WorkingStatus,
+      "isDeleted": true,
+      "createdBy": 0,
+      "createdDate": new Date().toISOString,
+      "updatedBy": 0,
+      "updatedDate": new Date().toISOString,
+      "softwareId": [],
+      "softwareStatusId": 0
+    }
+    
+    this.http.post<any>(environment.apiURL + `ITAsset/nUpdateITHData`, demoPayload).subscribe(results => {
+      console.log(results, "updatedResults")
+      this._coreService.openSnackBar("Data updated successfully!");
+      this.id = results.ithDetailList.id;
+    });
+    console.log(demoPayload, "payloadinfirstpage");
   }
 
 
@@ -294,7 +373,7 @@ export class AddItassetsComponent implements OnInit {
       "softwareId": this.SoftwareId,
       "softwareStatusId": this.SoftwareStatus
     }
-console.log(AddPayload,"AddPayload");
+    console.log(AddPayload, "AddPayload");
 
     this.http.post<any>(environment.apiURL + `ITAsset/nSetITSData`, AddPayload).subscribe(results => {
       this._coreService.openSnackBar(results.itsDetailList);
@@ -303,7 +382,68 @@ console.log(AddPayload,"AddPayload");
     });
   }
 
-  softwareSubmitclick(){
+
+  updateData() {
+    let payload = {
+      "id": this.apiResponseData.itheDetailList.id
+    }
+    this.http.post<any>(environment.apiURL + `ITAsset/nGetEditedITAsset`, payload).subscribe(results => {
+      let AddPayload = {
+        "id": 0,
+        "employeeId": this.loginservice.getUsername(),
+        "itAssetId": this.id,
+        "bayNumber": this.BayNo,
+        "location": this.Location,
+        "pcName": this.PcType,
+        "hardwareId": 0,
+        "monitor": this.Monitor,
+        "monitorSerialNumber": this.MonitorSno,
+        "keyboard": this.keyboard,
+        "keyboardSerialNumber": this.keyboardSno,
+        "roll": this.Roll,
+        "division": this.Division,
+        "brand": this.Brand,
+        "model": this.Model,
+        "warantyDetails": this.WarrantyDetails,
+        "ram": this.RAM,
+        "processor": this.Processor,
+        "graphics": this.Graphics,
+        "hdd": this.HDD,
+        "tagNumber": this.TAGNumber,
+        "macAddress": this.MacAddress,
+        "os": this.OS,
+        "ipAddress": this.IPAddress,
+        "serverType": this.ServerType,
+        "serverTypeId": results.itheDetailList.s,
+        "invoiceDate": "",
+        "invoiceNumber": "",
+        "mouse": "",
+        "mouseSerialNumber": "",
+        "workingStatus": "",
+        "workingStatusId": 0,
+        "isDeleted": true,
+        "createdBy": 0,
+        "createdDate": new Date().toISOString(),
+        "updatedBy": this.loginservice.getUsername(),
+        "updatedDate": new Date().toISOString,
+        "softwareId": this.SoftwareId,
+        "softwareStatusId": this.SoftwareStatus
+      }
+      console.log(AddPayload, "AddPayload");
+
+      this.http.post<any>(environment.apiURL + `ITAsset/nSetITSData`, AddPayload).subscribe(results => {
+        this._coreService.openSnackBar(results.itsDetailList);
+        this.getTableData();
+
+      })
+    });;
+  }
+
+
+
+
+
+  softwareSubmitclick() {
     this._coreService.openSnackBar("Record Added Successfully!")
   }
 }

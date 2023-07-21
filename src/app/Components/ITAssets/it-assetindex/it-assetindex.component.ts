@@ -30,8 +30,6 @@ export class ItAssetindexComponent implements OnInit {
 
   fetchtableData() {
     this.http.get<any>(environment.apiURL + `ITAsset/nGetTableITAsset`).subscribe(data => {
-
-      this.apiResponseData = data;
       this.dataSource = new MatTableDataSource(data.titDetailList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -51,25 +49,28 @@ export class ItAssetindexComponent implements OnInit {
     this.router.navigate(['/topnavbar/addITAsset']);
   }
 
-  openEditForm(data: any) {
-    this.sharedDataService.setData(this.apiResponseData);
-    console.log(this.apiResponseData,"indexresposne");
+  openEditForm(id: number) {
+    let payload = {
+      "id": id,
+    }
+    this.http.post<any>(environment.apiURL + `ITAsset/nGetEditedITAsset`,payload).subscribe(results => {
+      this.sharedDataService.setData(results);
+      this.router.navigate(['/topnavbar/addITAsset']);
+    });
     
-    this.router.navigate(['/topnavbar/addITAsset']);
   }
 
   deleteEmployee(id: number) {
-    // this.spinnerService.requestStarted();
 
-    // this.checklistservice.deleteEmployee(id).subscribe({
-    //   next: (res) => {
-    //     this.spinnerService.requestEnded();
-
-    //     this._coreService.openSnackBar('Employee deleted!', 'done');
-    //     this.fetchtableData();
-    //   },
-    //   error: console.log,
-    // });
+    let payload = {
+      "id": id
+    }
+    this.http.post<any>(environment.apiURL + `ITAsset/nDeleteITHAsset`, payload).subscribe({
+      next: (res) => {
+        this._coreService.openSnackBar('Employee deleted!', 'done');
+        this.fetchtableData();
+      }
+    });
   }
 
 

@@ -20,6 +20,7 @@ import { VendorService } from './Services/Vendor/vendor.service';
 import { ViewchecklistComponent } from './Components/CustomerVSChecklist/viewchecklist/viewchecklist.component';
 import { ItAssetindexComponent } from './Components/ITAssets/it-assetindex/it-assetindex.component';
 import { AddItassetsComponent } from './Components/ITAssets/add-itassets/add-itassets.component';
+import { BenchOptionsComponent } from './Components/BenchOptions/bench-options/bench-options.component';
 @NgModule({
   declarations: [
     AppComponent,

@@ -227,7 +227,7 @@
                 </div>
             </div>
             <div>
-                <button mat-button matStepperNext (click)="firstNext()">Next</button>
+                <button mat-button matStepperNext (click)="data ? secondadd() : firstAdd()">Next</button>
             </div>
         </mat-step>
 
@@ -271,7 +271,9 @@
                     <div mat-dialog-actions class="action"
                         style="display:flex;align-items: center;justify-content: center;">
                         <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>&nbsp;
-                        <button mat-raised-button color="primary" type="button" (click)="softwareclick()" softwareclick>Add</button>
+                        <!-- Update button will be displayed if data is available, otherwise Add button will be displayed -->
+                        <button mat-raised-button color="primary" type="button"
+                            (click)="data ? updateData() : softwareclick()">{{data ? 'Update' : 'Add'}}</button>
                     </div>
                     <br>
                     <div class="table">
@@ -324,10 +326,11 @@
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
                                     <td mat-cell *matCellDef="let element">
 
-                                        <a class="red-btn" matTooltip="delete" matTooltipPosition="below" (click)="deleteEmployee(element.id)">
+                                        <a class="red-btn" matTooltip="delete" matTooltipPosition="below"
+                                            (click)="deleteEmployee(element.id)">
                                             <mat-icon>delete</mat-icon>
                                         </a>
-                                        
+
                                     </td>
                                 </ng-container>
 
