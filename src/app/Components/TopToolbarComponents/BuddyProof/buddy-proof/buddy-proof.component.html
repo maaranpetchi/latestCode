@@ -11,15 +11,15 @@
     <div class="main-body">
         <div class="container">
             <div class="productionmain">
-                <h1 style="font-family:'Times New Roman', Times, serif">Buddy Proof (0)</h1>
+                <h1 style="font-family:'Times New Roman', Times, serif">Buddy Proof ( {{(freshJobsCount ? freshJobsCount:0)+ (RevisionJobsCount ? RevisionJobsCount:0)+(ReworkJobsCount ? ReworkJobsCount:0)+(QuoteJobsCount ? QuoteJobsCount:0)}} )  </h1>
                 <mat-tab-group  dynamicHeight (selectedTabChange)="onTabChange($event)">
-                    <mat-tab label="Fresh Jobs ()" >
+                    <mat-tab label="{{ 'Fresh Jobs (' + (freshJobsCount ? freshJobsCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Revision Jobs ()">
+                    <mat-tab label="{{ 'Revision Jobs (' + (RevisionJobsCount ? RevisionJobsCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Rework Jobs ()">
+                    <mat-tab label="{{ 'Rework Jobs (' + (ReworkJobsCount ? ReworkJobsCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Quote Jobs()">
+                    <mat-tab label="{{ 'Quote Jobs (' + (QuoteJobsCount ? QuoteJobsCount:0) + ')' }}">
                     </mat-tab>
                     <mat-tab label="Buddy Proof()">
                     </mat-tab>

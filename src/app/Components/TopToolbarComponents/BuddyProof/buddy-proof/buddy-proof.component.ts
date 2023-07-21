@@ -5,6 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Output, EventEmitter } from '@angular/core';
 import { BuddyProofTableComponent } from '../buddy-proof-table/buddy-proof-table.component';
+import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
 @Component({
   selector: 'app-buddy-proof',
@@ -15,10 +17,19 @@ export class BuddyProofComponent {
   @ViewChild(BuddyProofTableComponent) BuddyProofTableComponent: BuddyProofTableComponent;
   scopes: any[] = [];
   selectedScope: number;
+  freshJobsCount: any;
+  RevisionJobsCount: any;
+  ReworkJobsCount: any;
+  QuoteJobsCount: any;
+  SewOutCount: any;
+  BulkJobsCount: any;
+  BulkUploadJobsCount: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private loginservice:LoginService) { }
 
   ngOnInit(): void {
+    this.getCount();
+    this.freshJobs();
   }
 
   // fetchData(): void {
@@ -48,9 +59,15 @@ export class BuddyProofComponent {
     console.log("after", this.selectedproduction)
   }
 
+  currentTab = 1;
 
+  getCurrentTab() {
+    return this.currentTab;
+
+  }
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
+    this.currentTab = event.index + 1;
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
@@ -109,4 +126,21 @@ export class BuddyProofComponent {
     this.BuddyProofTableComponent.tab('7');
   }
 
+
+  
+  getCount() {
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+      console.log(freshdataCount,"buddyproofmain");
+      this.freshJobsCount = freshdataCount.freshJobsCount;
+      this.RevisionJobsCount = freshdataCount.revisionJobsCount;
+      this.ReworkJobsCount = freshdataCount.reworkJobsCount;
+      this.QuoteJobsCount = freshdataCount.quoteJobsCount;
+      this.SewOutCount = freshdataCount.sewJobsCount,
+        this.BulkJobsCount = freshdataCount.bulkJobsCount;
+      this.BulkUploadJobsCount = freshdataCount.bulkUploadJobsCount;
+    });
+  }
 }
+
+
+

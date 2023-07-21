@@ -142,6 +142,8 @@ export class SewOutTableComponent implements OnInit {
 
   freshJobs() {
     this.sewOutService.getTabValue1().subscribe(freshJobs => {
+      console.log(freshJobs,"freshJOBSSEWOUT");
+      
       this.dataSource = new MatTableDataSource(freshJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -209,13 +211,12 @@ export class SewOutTableComponent implements OnInit {
     return this.SewOutComponent1.getCurrentTab();
   }
   workFlowConversion() {
-
     if (this.getTabValue() !== 5) {
-      const apiUrl = environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
+      const apiUrl = environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
       this.http.get(apiUrl).subscribe(
         (response: any) => {
-          console.log(response,"getworkflow");
-          
+          console.log(response, "getworkflow");
+
           // Handle success response here
           let timeStamp = response.getWorkflowDetails[0].timeStamp;
           let customerId = response.getWorkflowDetails[0].customerId
@@ -315,6 +316,27 @@ export class SewOutTableComponent implements OnInit {
               localStorage.setItem('WFMID', response.wfmid);
               localStorage.setItem('JID', response.jid);
               console.log("Data posted successfully", response);
+              if (response.success == true) {
+                this._coreService.openSnackBar("Workflow converted successfully");
+              }
+
+              else{
+                if (response.processId == 9 || response.processId == 11) {
+                  localStorage.setItem("WFTId", response.tranId);
+                  localStorage.setItem("WFMId", response.tranMasterId);
+                  localStorage.setItem("JId", response.jid);
+                  localStorage.setItem("processid", response.processId);
+                  // $location.path('/ProcessTransaction');
+              }
+              else {
+                  localStorage.setItem("WFTId", response.wftId);
+                  localStorage.setItem("WFMId", response.wfmid);
+                  localStorage.setItem("JId", response.jid);
+                  localStorage.setItem("processid", response.processId);
+                  // $location.path('/ProcessTransaction');
+              }
+
+              }
 
             }
           );
@@ -325,14 +347,14 @@ export class SewOutTableComponent implements OnInit {
         }
       );
     }
-   else{
-            this.http.get<any>(``).subscribe(getWorkflowJobList =>{
+    else {
+      this.http.get<any>(``).subscribe(getWorkflowJobList => {
 
-              
-            });
 
-    this.router.navigate(['/topnavbar/sewoutworkflow'])
-   }
+      });
+
+      this.router.navigate(['/topnavbar/sewoutworkflow'])
+    }
   }
 
 

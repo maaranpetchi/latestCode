@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { ProductiontableComponent } from '../productiontable/productiontable.component';
+import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-production',
@@ -13,11 +14,12 @@ import { ProductiontableComponent } from '../productiontable/productiontable.com
 export class ProductionComponent implements OnInit{
   @ViewChild(ProductiontableComponent) ProductiontableComponent: ProductiontableComponent;
 
- constructor(private http:HttpClient){}
-  ngOnInit(): void {
+ constructor(private http:HttpClient,private loginservice:LoginService, private spinnerService:SpinnerService){
   
-
-    
+ }
+  ngOnInit(): void {
+  this.getCount();
+  this.freshJobs();
   }
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
@@ -71,6 +73,23 @@ bulkUploadJobs(){
   this.ProductiontableComponent.tab('6');
 }
 
-
+freshJobsCount:number;
+RevisionJobsCount:number;
+ReworkJobsCount:number;
+QuoteJobsCount:number;
+BulkJobsCount:number;
+BulkUploadJobsCount:number;
+getCount() {
+  this.spinnerService.requestStarted();
+  this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdataCount => {
+      this.spinnerService.requestEnded();
+      this.freshJobsCount = freshdataCount.freshJobsCount;
+      this.RevisionJobsCount = freshdataCount.revisionJobsCount;
+      this.ReworkJobsCount = freshdataCount.reworkJobsCount;
+      this.QuoteJobsCount = freshdataCount.quoteJobsCount;
+      this.BulkJobsCount = freshdataCount.bulkJobsCount;
+      this.BulkUploadJobsCount = freshdataCount.bulkUploadJobsCount;
+    });
+};
  };
 

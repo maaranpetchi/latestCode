@@ -1,116 +1,107 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { QualitytableComponent } from '../qualitytable/qualitytable.component';
-import { LoginService } from 'src/app/Services/Login/login.service';
 import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { QualitytableComponent } from '../qualitytable/qualitytable.component';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-quality',
   templateUrl: './quality.component.html',
   styleUrls: ['./quality.component.scss']
 })
-export class QualityComponent  implements OnInit{
+export class QualityComponent implements OnInit {
   @ViewChild(QualitytableComponent) QualitytableComponent: QualitytableComponent;
   ScopeApiData: any[];
- constructor(private http:HttpClient,private loginservice:LoginService){}
+  constructor(private http: HttpClient, private loginservice: LoginService, private spinnerService: SpinnerService) { }
   ngOnInit(): void {
-  //ScopeDropdown
-    this.http.get<any>('ScopeUrl').subscribe(data =>{
-      this.ScopeApiData = data;
-    });
-    
+    this.getCount();
+    this.freshJobs();
   }
+  currentTab = 1;
+
+  getCurrentTab() {
+    return this.currentTab;
+
+  }
+
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
+    this.currentTab = event.index + 1;
+
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
-        this.BindPendingJobs();
+        this.freshJobs();
         break;
       case 1: // Revision Jobs tab
         // Call your REST API for Revision Jobs
+        this.revisionJobs();
         break;
       case 2: // Rework Jobs tab
         // Call your REST API for Rework Jobs
+        this.reworkJobs();
         break;
       case 3: // Quote Jobs tab
         // Call your REST API for Quote Jobs
+        this.quoteJobs();
         break;
       case 4: // Bulk Jobs tab
         // Call your REST API for Bulk Jobs
+        this.bulkJobs();
         break;
       case 5: // Bulk Upload Jobs tab
         // Call your REST API for Bulk Upload Jobs
+        this.bulkUploadJobs();
         break;
       default:
         break;
     }
   }
 
-  alert(){
-    console.log("alerttesting")
+
+  freshJobs() {
+    this.QualitytableComponent.tab('1');
+  }
+  revisionJobs() {
+    this.QualitytableComponent.tab('2');
+  }
+  reworkJobs() {
+    this.QualitytableComponent.tab('3');
+  }
+  quoteJobs() {
+    this.QualitytableComponent.tab('4');
+  }
+  bulkJobs() {
+    this.QualitytableComponent.tab('5');
+  }
+  bulkUploadJobs() {
+    this.QualitytableComponent.tab('6');
   }
 
-tab(action){
-  console.log("before");
-    if (action == 'pendingJobs') {
-        // workFlowJobs.data = {};
-        // ScopeDetails = false;
-        console.log("1");
-      this.BindPendingJobs();
-
-    }
-//         workFlowJobs.data = {};
-//         ScopeDetails = false;
-//         BindRevisionJobs();
-//     }
-//     else if (action == 'reworkJobs') {
-//         workFlowJobs.data = {};
-//         ScopeDetails = false;
-//         BindReworkJobs();
-//     }
-//     else if (action == 'quoteJobs') {
-//         workFlowJobs.data = {};
-//         ScopeDetails = false;
-//         BindQuoteJobs();
-//     }
-//     else if (action == 'sewOut') {
-//         workFlowJobs.data = {};
-//         ScopeDetails = false;
-//         BindSewOutJobs();
-//     }
-//     else if (action == 'buddyProof') {
-//         workFlowJobs.data = {};
-//         ScopeDetails = false;
-//         BindSewOutJobs();
-//     }
-//         //Bulk Closure purpose --05/05/2017 2:40:00 PM
-//     else if (action == 'Bulkjobs') {
-//         workFlowJobs.data = {};
-//         ScopeDetails = true;
-//         BindBulkJobs();
-//     }
-//     else if (action == 'BulkUploadjobs') {
-//         workFlowJobs.data = {};
-//         ScopeDetails = false;
-//         BindBulkUploadJobs();
-//     }
-// };
-  }
-
-showChildAlert() {
-  this.QualitytableComponent.showAlert();
-}
-
- BindPendingJobs() {
-  console.log("2");
-  this.http.get<any>(environment.apiURL+`Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/1`).subscribe(response=> {
-    this.QualitytableComponent.assigndatasource(response.getWorkflowDetails)
-
-  });
-
-};
+  freshJobsCount: number;
+  RevisionJobsCount: number;
+  ReworkJobsCount: number;
+  QuoteJobsCount: number;
+  BulkJobsCount: number;
+  BulkUploadJobsCount: number;
+  getCount() {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`)
+      .pipe(
+        catchError((error) => {
+          this.spinnerService.resetSpinner();
+          return throwError(error);
+        })
+      ).subscribe(freshdataCount => {
+        this.spinnerService.requestEnded();
+        this.freshJobsCount = freshdataCount.freshJobsCount;
+        this.RevisionJobsCount = freshdataCount.revisionJobsCount;
+        this.ReworkJobsCount = freshdataCount.reworkJobsCount;
+        this.QuoteJobsCount = freshdataCount.quoteJobsCount;
+        this.BulkJobsCount = freshdataCount.bulkJobsCount;
+        this.BulkUploadJobsCount = freshdataCount.bulkUploadJobsCount;
+      });
+  };
 }

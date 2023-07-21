@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,12 +12,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientorderviewComponent } from '../clientorderview/clientorderview.component';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 @Component({
   selector: 'app-clientorderstable',
   templateUrl: './clientorderstable.component.html',
   styleUrls: ['./clientorderstable.component.scss']
 })
-export class ClientorderstableComponent {
+export class ClientorderstableComponent implements OnInit {
 
 
   @ViewChild('popupComponent') popupComponent: ElementRef;
@@ -40,6 +41,11 @@ export class ClientorderstableComponent {
     'action',
     'filecount'
   ];
+  NewJobCount: any;
+  QuoteJobCount: any;
+  ConvertedJobCount: any;
+  DeleteJobCount: any;
+  QuoteNotApproveJobCount: any;
 
   visibility() {
     let result: string[] = [];
@@ -112,17 +118,20 @@ export class ClientorderstableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, public dialog: MatDialog, private snackBar: MatSnackBar, private coreService: CoreService) { }
+  constructor(private http: HttpClient, public dialog: MatDialog, private snackBar: MatSnackBar, private coreService: CoreService, private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     // //DivisionApiDatadropdown
     this.fetchdivision();
 
     this.bindingjobs();
+
   }
 
   fetchdivision() {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + 'ClientOrderService/nGetDivisionForJO').subscribe(data => {
+    this.spinnerService.requestEnded();
       this.DivisionApiData = data;
     });
   }
@@ -149,9 +158,11 @@ export class ClientorderstableComponent {
   }
 
   bindingjobs() {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + 'ClientOrderService/ClientOrdersExts/1').subscribe(binddata => {
       this.dataSource = binddata.data;
-      this.displayedColumnsvisibility.fileCount = true;
+    this.spinnerService.requestEnded();
+      this.displayedColumnsvisibility.filecount = true;
       this.displayedColumnsvisibility.actionicon = true;
       this.displayedColumnsvisibility.fileInwardMode = false;
       this.displayedColumnsvisibility.transactionType = true;
@@ -163,6 +174,9 @@ export class ClientorderstableComponent {
       this.dataSource.sort = this.sort;
       console.log(this.dataSource);
 
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     });
   }
   quotationjobs() {
@@ -170,6 +184,8 @@ export class ClientorderstableComponent {
       this.dataSource = new MatTableDataSource(quotation.data),
         this.displayedColumnsvisibility.jobid = false;
       this.displayedColumnsvisibility.transactionType = true;
+      this.displayedColumnsvisibility.filecount = false;
+
       this.displayedColumnsvisibility.quoteparentid = true;
       this.displayedColumnsvisibility.action = true;
       this.displayedColumnsvisibility.actionicon = true;
@@ -177,8 +193,9 @@ export class ClientorderstableComponent {
       this.displayedColumnsvisibility.fileInwardMode = false;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
-
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     });
   }
   convertedjobs() {
@@ -195,6 +212,9 @@ export class ClientorderstableComponent {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log(this.dataSource);
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     });
   }
   deletedjobs() {
@@ -211,6 +231,9 @@ export class ClientorderstableComponent {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log(this.dataSource);
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     });
   }
   quotenotapprovaljobs() {
@@ -224,8 +247,9 @@ export class ClientorderstableComponent {
       this.dataSource = new MatTableDataSource(quotenotapproval.data)
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-
-      console.log(quotenotapproval.data, "QUotanotapproval")
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     });
   }
   queryforsp() {
@@ -240,6 +264,9 @@ export class ClientorderstableComponent {
       this.dataSource = new MatTableDataSource(queryforsp.data)
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     });
   }
 
@@ -391,7 +418,7 @@ export class ClientorderstableComponent {
       imprintColors1: "string",
       imprintColors2: "string",
       imprintColors3: "string",
-      "virtualProof": "string",
+      "virtualProof": "s",
       "dateofUpload": "2023-05-12T07:08:03.495Z",
       "dateofClose": "2023-05-12T07:08:03.495Z",
       "customerJobType": "string",
@@ -440,22 +467,27 @@ export class ClientorderstableComponent {
       GetAllValues: Gridwithmultiplefilesname,
     }
 
-    console.log(senddata, "fileconvertdata");
-
+    // console.log(senddata, "fileconvertdata");
+    this.spinnerService.requestStarted();
     this.http.post<any>(environment.apiURL + 'JobOrder/DirectOrder', senddata).subscribe(convertdata => {
       let JobId = convertdata.jobId;
+      this.spinnerService.requestEnded();
       if (JobId == `File Name Already Exist!,${GetAllvalues.fileName}` || JobId == "Previous Job is not closed for the File Name and Client!") {
         alert(JobId);
       }
       else {
         this.coreService.openSnackBar("data added successfully");
       }
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     })
 
   } // added co if ends
 
   multiconvert() {
     //added co if starts 
+
     let Gridwithmultiplefilesname: any[] = [];
     for (var i = 0; i < this.selectedproduction.length; i++) {
       let GetAllvalues = this.selectedproduction[i];
@@ -502,7 +534,7 @@ export class ClientorderstableComponent {
         imprintColors1: "string",
         imprintColors2: "string",
         imprintColors3: "string",
-        virtualProof: "string",
+        virtualProof: "st",
 
         customerJobType: "string",
 
@@ -528,9 +560,9 @@ export class ClientorderstableComponent {
       "projectCode": "string",
       "teamCode": "string",
       "schoolName": "string",
-      ground: "string",
-      gender: "string",
-      fileInwardMode: "string",
+      "ground": "",
+      "gender": "string",
+      "fileInwardMode": "string",
       "status": true,
       "fileReceivedDate": "2023-05-12T07:08:03.495Z",
       "jobDescription": "string",
@@ -549,7 +581,7 @@ export class ClientorderstableComponent {
       imprintColors1: "string",
       imprintColors2: "string",
       imprintColors3: "string",
-      "virtualProof": "string",
+      "virtualProof": "s",
       "dateofUpload": "2023-05-12T07:08:03.495Z",
       "dateofClose": "2023-05-12T07:08:03.495Z",
       "customerJobType": "string",
@@ -573,7 +605,7 @@ export class ClientorderstableComponent {
           "projectCode": "string",
           "teamCode": "string",
           "schoolName": "string",
-          "ground": "string",
+          "ground": "",
           "gender": "string",
           "fileInwardMode": "string",
           "status": true,
@@ -593,10 +625,26 @@ export class ClientorderstableComponent {
       "dateofDelivery": "2023-05-12T07:08:03.495Z",
       "getAllValues": Gridwithmultiplefilesname
     };
-    this.http.post<any>(environment.apiURL + 'JobOrder/DirectOrder', senddata).subscribe(multiorder => {
-      this.showSnackBar("succesfully Bulk converted data");
+    let joborderconverted = {
+      GetAllValues: Gridwithmultiplefilesname,
+    }
 
+    // console.log(senddata, "fileconvertdata");
+    this.spinnerService
+    this.http.post<any>(environment.apiURL + 'JobOrder/DirectOrder', senddata).subscribe(convertdata => {
+      let JobId = convertdata.jobId;
+      if (JobId == `File Name Already Exist!` || JobId == "Previous Job is not closed for the File Name and Client!") {
+        alert(JobId);
+      }
+      else {
+        this.coreService.openSnackBar("Bulk  Converted successfully");
+        window.location.reload();
+      }
+    },
+    error => {
+      this.spinnerService.resetSpinner();
     })
+
   }
 
 
@@ -628,6 +676,7 @@ export class ClientorderstableComponent {
     });
     console.log(job, "jobdata");
   }
+
 
 
 }

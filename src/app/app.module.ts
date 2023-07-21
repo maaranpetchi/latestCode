@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './AngularMaterialModule/material/material.module';
 import { NavigationModule } from './NavigationModuleRouting/navigation/navigation.module';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AdvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Index/advanceadjustment/advanceadjustment.component';
 import { EditadvanceadjustmentComponent } from './Components/AccountsController/AdvanceAdjustment/Edit/editadvanceadjustment/editadvanceadjustment.component';
 import { MovetointegrationComponent } from './Components/AccountsController/Tally/movetointegration/movetointegration.component';
@@ -17,6 +17,8 @@ import { DialogComponent } from './Components/dialog/dialog.component';
 import { ViewUnapprovaljobsComponent } from './Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
 import { CustomerSalesmappingComponent } from './Components/Sales/customer-salesmapping/customer-salesmapping.component';
 import { PricingApprovalprocessComponent } from './Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
+import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
+import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,9 @@ import { PricingApprovalprocessComponent } from './Components/Sales/pricing-appr
     PricingApprovalprocessComponent,
       
 
+    EmployeePopupComponent,
+    JobCategorypopupComponent,
+    
   ],
   imports: [
     BrowserModule,

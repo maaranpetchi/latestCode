@@ -22,7 +22,7 @@ export class ClientordersComponent implements OnInit {
     this.http.get<any>(environment.apiURL+'ClientOrderService/nGetDivisionForJO').subscribe(divisiondata => {
       this.DivisionApiData = divisiondata;
     })
-
+this.getmattabcount();
 this.getclientordercount();
   }
 

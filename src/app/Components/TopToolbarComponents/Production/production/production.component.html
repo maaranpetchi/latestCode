@@ -11,19 +11,19 @@
     <div class="main-body">
         <div class="container">
             <div class="productionmain">
-                <h3 style="font-family:'Times New Roman', Times, serif">Production (0)</h3>
+                <h3 style="font-family:'Times New Roman', Times, serif">Production ({{freshJobsCount ? freshJobsCount:0 +  RevisionJobsCount ? RevisionJobsCount:0   + ReworkJobsCount ? ReworkJobsCount:0 + QuoteJobsCount ? QuoteJobsCount:0 + BulkJobsCount ? BulkJobsCount:0 + BulkUploadJobsCount ? BulkUploadJobsCount:0 }})</h3>
                 <mat-tab-group  dynamicHeight (selectedTabChange)="onTabChange($event)">
-                    <mat-tab label="Fresh Jobs ()" >
+                    <mat-tab label="{{ 'Queries To Client (' + (freshJobsCount ? freshJobsCount:0) + ')' }}" >
                     </mat-tab>
-                    <mat-tab label="Revision Jobs ()">
+                    <mat-tab label="{{ 'Revision Jobs (' + (RevisionJobsCount ? RevisionJobsCount:0) + ')' }}" >
                     </mat-tab>
-                    <mat-tab label="Rework Jobs ()">
+                    <mat-tab label="{{ 'Rework Jobs (' + (ReworkJobsCount ? ReworkJobsCount:0) + ')' }}" >
                     </mat-tab>
-                    <mat-tab label="Quote Jobs()">
+                    <mat-tab label="{{ 'Quote Jobs (' + (QuoteJobsCount ? QuoteJobsCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Bulk Jobs()">
+                    <mat-tab label="{{ 'Bulk Jobs (' + (BulkJobsCount ? BulkJobsCount:0) + ')' }}">
                     </mat-tab>
-                    <mat-tab label="Bulk Upload Jobs()">
+                    <mat-tab label="{{ 'Bulk Upload Jobs (' + (BulkUploadJobsCount ? BulkUploadJobsCount:0) + ')' }}">
                     </mat-tab>
                 </mat-tab-group>
 

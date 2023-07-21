@@ -1,4 +1,3 @@
-
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -8,26 +7,31 @@ import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { ProofReadingService } from 'src/app/Services/proof-reading.service';
 import { JobhistorypopuptableComponent } from '../../Quality/jobhistorypopuptable/jobhistorypopuptable.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-proofjobdetailpopup',
-  templateUrl: './proofjobdetailpopup.component.html',
-  styleUrls: ['./proofjobdetailpopup.component.scss']
+  selector: 'app-productionworkflow',
+  templateUrl: './productionworkflow.component.html',
+  styleUrls: ['./productionworkflow.component.scss'],
+  providers: [DatePipe]
 })
-export class ProofjobdetailpopupComponent implements OnInit {
+export class ProductionworkflowComponent  implements OnInit {
 
   //grid big table
-  jobWorkDetails = {
-    dataSource: new MatTableDataSource([]),
-    displayedColumns: ['Id', 'StartDate', 'EndDate', 'TotalTimeTaken', 'Status'],
-    columnDefs: [
-      { matColumnDef: 'Id', matHeaderCellDef: 'Id', matCellDef: 'Id', hide: true },
-      { matColumnDef: 'StartDate', matHeaderCellDef: 'Start Date & Time', matCellDef: 'StartDate', type: 'date', cellFilter: 'date:"MM-dd-yyyy hh:mm:ss"', width: '28%' },
-      { matColumnDef: 'EndDate', matHeaderCellDef: 'End Date & Time', matCellDef: 'EndDate', type: 'date', cellFilter: 'date:"MM-dd-yyyy hh:mm:ss"', width: '28%' },
-      { matColumnDef: 'TotalTimeTaken', matHeaderCellDef: 'Time Taken in Mins', matCellDef: 'TotalTimeTaken', width: '30%' },
-      { matColumnDef: 'Status', matHeaderCellDef: 'Status', matCellDef: 'Status' },
-    ],
-  };
+  // jobWorkDetails = {
+  //   dataSource: new MatTableDataSource([]),
+  //   displayedColumns: ['Id', 'StartDate', 'EndDate', 'TotalTimeTaken', 'Status'],
+  //   columnDefs: [
+  //     { matColumnDef: 'Id', matHeaderCellDef: 'Id', matCellDef: 'Id', hide: true },
+  //     { matColumnDef: 'StartDate', matHeaderCellDef: 'Start Date & Time', matCellDef: 'StartDate', type: 'date', cellFilter: 'date:"MM-dd-yyyy hh:mm:ss"', width: '28%' },
+  //     { matColumnDef: 'EndDate', matHeaderCellDef: 'End Date & Time', matCellDef: 'EndDate', type: 'date', cellFilter: 'date:"MM-dd-yyyy hh:mm:ss"', width: '28%' },
+  //     { matColumnDef: 'TotalTimeTaken', matHeaderCellDef: 'Time Taken in Mins', matCellDef: 'TotalTimeTaken', width: '30%' },
+  //     { matColumnDef: 'Status', matHeaderCellDef: 'Status', matCellDef: 'Status' },
+  //   ],
+  // };
+  jobWorkDetails: MatTableDataSource<any>;
+  displayedColumns: string[] = ['StartDate', 'EndDate', 'TotalTimeTaken', 'Status'];
+  dates: any[];
   SummaryHistory: any;
   TotalTimeWorked: any;
   Break: any;
@@ -40,9 +44,7 @@ export class ProofjobdetailpopupComponent implements OnInit {
   isHold: any;
   SameEmp: any;
 
-  onRegisterApi(gridApi: any) {
-    // Handle grid API registration if required
-  }
+
 
 getHoldvalue(){
 this.http.get<any>(environment.apiURL + `Workflow/GetProcessTransaction/${localStorage.getItem('WFTId')}/${this.loginService.getUsername()}`).subscribe( data => {
@@ -78,7 +80,6 @@ this.http.get<any>(environment.apiURL + `Workflow/GetProcessTransaction/${localS
   }
 
   ngOnInit() {
-
   }
   processStatuses = ['Select Status', 'Completed', 'Query', 'Queryforspecialpricing', 'Workincomplete'];
 
@@ -105,7 +106,16 @@ this.http.get<any>(environment.apiURL + `Workflow/GetProcessTransaction/${localS
   }
   /////////////////<------MAIN METHOD TO FUNCTIONALITY IN BUTTON---->////////////////////
 
+
   changeWorkType(workType) {
+    if (workType == 'Start') {
+      this.disableWorkType = false;
+      this.showFiles = true;
+      this.ChangeWorkflow(workType);
+    }
+  }
+
+  changeWorkType1(workType) {
     if (workType == 'Start') {
       this.disableWorkType = false;
       this.showFiles = true;
@@ -375,7 +385,10 @@ this.http.get<any>(environment.apiURL + `Workflow/GetProcessTransaction/${localS
       ]
     }
     this.http.post<any>(environment.apiURL + "Workflow/GetProductionWorkList", processTransaction).subscribe((result) => {
-      this.jobWorkDetails.dataSource = result.jobHistory; // to display the details in table
+      console.log(result.summary.summaryHistory,"Normal");
+      console.log(result.summary.summaryHistory[0],"Normal");
+      
+      this.jobWorkDetails = result.jobHistory; // to display the details in table
       let History = result.summary.summaryHistory;
       console.log(result.summary.summaryHistory, "Normal summary history");
       console.log(result.summary.summaryHistory[0], "Array summary history");
@@ -404,3 +417,4 @@ this.http.get<any>(environment.apiURL + `Workflow/GetProcessTransaction/${localS
     });
   }
 }
+

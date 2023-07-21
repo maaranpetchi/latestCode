@@ -62,8 +62,9 @@ import { CompletedjobsComponent } from 'src/app/Components/TopToolbarComponents/
 import { ClientordersComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorders/clientorders.component';
 import { ClientorderstableComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/clientorderstable.component';
 import { ClientorderviewComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderview/clientorderview.component';
+// import { ProofReadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation/proof-reading-allocation.component';
+//import { ProofReadingAllocationTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
 import { ProofReadingTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proof-reading-table/proof-reading-table.component';
-
 import { ProofreadingComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofreading/proofreading.component';
 import { BuddyProofComponent } from 'src/app/Components/TopToolbarComponents/BuddyProof/buddy-proof/buddy-proof.component';
 import { BuddyProofTableComponent } from 'src/app/Components/TopToolbarComponents/BuddyProof/buddy-proof-table/buddy-proof-table.component';
@@ -74,6 +75,7 @@ import { JobhistorypopuptableComponent } from 'src/app/Components/TopToolbarComp
 import { ProofjobdetailpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobdetailpopup/proofjobdetailpopup.component';
 import { ProofjobhistorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofjobhistorypopup/proofjobhistorypopup.component';
 import { ProofworkflowComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofworkflow/proofworkflow.component';
+// import { EmployeejobassisgnedpopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/employeejobassisgnedpopup/employeejobassisgnedpopup.component';
 import { ClientdetailspopupComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientdetailspopup/clientdetailspopup.component';
 import { FileconvertComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/fileconvert/fileconvert.component';
 import { UserMasterComponent } from 'src/app/Components/Master/user/user-master/user-master.component';
@@ -99,6 +101,10 @@ import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/benc
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 import { JobhistoryDetailsComponent } from 'src/app/Components/JobHistory/jobhistory-details/jobhistory-details.component';
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
+import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
+import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
+import { HttpClientModule } from '@angular/common/http';
+import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
 import { EmployeePopupTableComponent } from 'src/app/Components/TopToolbarComponents/QualityAllocation/employee-popup-table/employee-popup-table.component';
 import { ProductionAllocatedPopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/production-allocated-popup/production-allocated-popup.component';
 import { JoballocatedEmplpopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/joballocated-emplpopup/joballocated-emplpopup.component';
@@ -142,6 +148,8 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
     //ProductionmainComponent
     ProductionComponent,
     ProductiontableComponent,
+    ProdjobpopupComponent,
+    ProductionworkflowComponent,
     //QualityAllocation
     QualityallocationComponent,
     QualityallocationtableComponent,
@@ -152,16 +160,15 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
     QualityjobdetailpopupComponent,
     QualityWorkflowComponent,
     JobhistorypopuptableComponent,
-    
+    //ProofReadingAllocation
+    // ProofReadingAllocationComponent,
+    // ProofReadingAllocationTableComponent,
+    // EmployeejobassisgnedpopupComponent,
     EmployeePopupTableComponent,
     ProductionAllocatedPopupComponent,
     JoballocatedEmplpopupComponent,
-    
-    //ProofReadingAllocation
     ProofreadingAllocationComponent,
-    ProofreadingAlocationtableComponent,
-    EmployeePopupComponent,
-    JobCategorypopupComponent,
+      ProofreadingAlocationtableComponent,
     //ProofReading
     ProofreadingComponent,
     ProofReadingTableComponent,
@@ -265,9 +272,11 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
 
     // SALES
     CreditdaysApprovalComponent,
-    UnApprovaljobsComponent
+    UnApprovaljobsComponent,
     
 
+    //Bank
+    BankComponent
   ],
   imports: [
     CommonModule,
@@ -276,6 +285,7 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
     BrowserModule,
     FormsModule,
     MatNativeDateModule,
+    HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSortModule,

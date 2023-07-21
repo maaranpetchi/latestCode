@@ -4,6 +4,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { BuddyProofService } from 'src/app/Services/CoreStructure/BuddyProof/buddy-proof.service';
+import { BuddyProofComponent } from '../buddy-proof/buddy-proof.component';
+import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { SewOutService } from 'src/app/Services/CoreStructure/SewOut/sew-out.service';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-buddy-proof-table',
@@ -39,11 +45,11 @@ export class BuddyProofTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private buddyService: BuddyProofService) { }
+  constructor(private http: HttpClient, private buddyService: BuddyProofService, private buddyproofcomponent: BuddyProofComponent, private loginservice: LoginService, private sewOutService: SewOutService, private _coreService: CoreService, private router: Router) { }
 
   ngOnInit(): void {
     //maintable
-
+    this.freshJobs();
   }
 
 
@@ -78,14 +84,13 @@ export class BuddyProofTableComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedQuery)
   }
 
   benchChecked: boolean = false;
   onBenchCheckboxChange(event: any) {
     this.benchChecked = event.checked;
   }
-  tab(action){
+  tab(action) {
     if (action == '1') {
       this.freshJobs();
     }
@@ -108,76 +113,85 @@ export class BuddyProofTableComponent implements OnInit {
       this.bulkUploadJobs();
     }
   }
-  
-  
-  freshJobs(){
-  this.buddyService.getTabValue1().subscribe( freshJobs =>{
-  this.dataSource = new MatTableDataSource (freshJobs.GetWorkflowDetails );
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.displayScopeDropdown = false;
-  });
-  }
-  revisionJobs(){
-  this.buddyService.getTabValue2().subscribe( revisionJobs =>{
-  this.dataSource = new MatTableDataSource (revisionJobs.GetWorkflowDetails );
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.displayScopeDropdown = false;
-  });
-  }
-  reworkJobs(){
-  this.buddyService.getTabValue3().subscribe( reworkJobs =>{
-  this.dataSource = new MatTableDataSource (reworkJobs.GetWorkflowDetails );
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.displayScopeDropdown = false;
-  });
-  }
-  quoteJobs(){
-  this.buddyService.getTabValue4().subscribe( quoteJobs =>{
-  this.dataSource = new MatTableDataSource (quoteJobs.GetWorkflowDetails );
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.displayScopeDropdown = false;
-  });
-  }
-  sewOut(){
-  this.buddyService.getTabValue5().subscribe( sewOut =>{
-  this.dataSource = new MatTableDataSource (sewOut.GetWorkflowDetails );
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.displayScopeDropdown = false;
 
-  });
-  }
-  
-  displayScopeDropdown:boolean = false; // hide a scope dropdown
-  bulkJobs(){
-  this.buddyService.getTabValue6().subscribe( bulkJobs =>{
-  this.dataSource = new MatTableDataSource (bulkJobs.GetWorkflowDetails );
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.displayScopeDropdown = true;
-  });
-  }
-  bulkUploadJobs(){
-  this.buddyService.getTabValue7().subscribe( bulkUploadJobs =>{
-  this.dataSource = new MatTableDataSource (bulkUploadJobs.GetWorkflowDetails );
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-  this.displayScopeDropdown = false;
 
-  });
+  freshJobs() {
+    this.buddyService.getTabValue1().subscribe(freshJobs => {
+      this.dataSource = new MatTableDataSource(freshJobs.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.displayScopeDropdown = false;
+    });
   }
-  
-  
-  scopeDropdown(){
-    this.buddyService.getScopeDropdown().subscribe(scopedata=>{
-      this.scopes = scopedata.scopeDetails 
+  revisionJobs() {
+    this.buddyService.getTabValue2().subscribe(revisionJobs => {
+      this.dataSource = new MatTableDataSource(revisionJobs.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.displayScopeDropdown = false;
+    });
+  }
+  reworkJobs() {
+    this.buddyService.getTabValue3().subscribe(reworkJobs => {
+      this.dataSource = new MatTableDataSource(reworkJobs.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.displayScopeDropdown = false;
+    });
+  }
+  quoteJobs() {
+    this.buddyService.getTabValue4().subscribe(quoteJobs => {
+      this.dataSource = new MatTableDataSource(quoteJobs.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.displayScopeDropdown = false;
+    });
+  }
+  sewOut() {
+    this.buddyService.getTabValue5().subscribe(sewOut => {
+      this.dataSource = new MatTableDataSource(sewOut.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.displayScopeDropdown = false;
+
+    });
+  }
+
+  displayScopeDropdown: boolean = false; // hide a scope dropdown
+  bulkJobs() {
+    this.buddyService.getTabValue6().subscribe(bulkJobs => {
+      this.dataSource = new MatTableDataSource(bulkJobs.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.displayScopeDropdown = true;
+    });
+  }
+  bulkUploadJobs() {
+    this.buddyService.getTabValue7().subscribe(bulkUploadJobs => {
+      this.dataSource = new MatTableDataSource(bulkUploadJobs.getWorkflowDetails);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.displayScopeDropdown = false;
+
+    });
+  }
+
+
+  scopeDropdown() {
+    this.buddyService.getScopeDropdown().subscribe(scopedata => {
+      this.scopes = scopedata.scopeDetails
       console.log("scopedata");
-      
+
     })
+  }
+
+  getTabValue() {
+    console.log("Inside table", this.buddyproofcomponent.getCurrentTab());
+    return this.buddyproofcomponent.getCurrentTab();
+  }
+
+  workFlowConversion() {
+
   }
 
 }

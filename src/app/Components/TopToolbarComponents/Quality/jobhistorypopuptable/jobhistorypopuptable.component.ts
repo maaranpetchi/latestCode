@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Inject } from '@angular/core';
+import { environment } from 'src/Environments/environment';
 
 interface MoveData {
   movedFrom: string;
@@ -18,20 +20,25 @@ interface MoveData {
   styleUrls: ['./jobhistorypopuptable.component.scss']
 })
 export class JobhistorypopuptableComponent implements OnInit {
-  displayedColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy', 'remarks'];
-  dataSource: MatTableDataSource<MoveData>;
-  
+  displayedColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy','movedtoemployee' ,'remarks'];
 
-  constructor(private http: HttpClient,public dialogRef: MatDialogRef<JobhistorypopuptableComponent>) {}
+  dataSource: MatTableDataSource<any>;  
 
-  ngOnInit(): void {
-    this.http
-      .get<MoveData[]>('http://your-rest-api-url.com/move-data')
-      .subscribe((data) => {
-        this.dataSource = new MatTableDataSource<MoveData>(data);
-      });
+  constructor(private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,private http: HttpClient,public dialogRef: MatDialogRef<JobhistorypopuptableComponent>) {console.log(data,"qULAUTYDATA");
   }
 
+  ngOnInit(): void {
+  this.getData();
+  }
+
+  
+getData(){
+  this.http.post<any>(environment.apiURL+`JobOrder/getJobHistory`,this.data.jid).subscribe(response =>{
+    console.log(response.jobHistory,"NORMAL");
+    console.log(response.jobHistory[0],"ARRAY");
+    
+    this.dataSource = new MatTableDataSource(response.jobHistory)  });
+}
   closejobform(){
     this.dialogRef.close();
   }

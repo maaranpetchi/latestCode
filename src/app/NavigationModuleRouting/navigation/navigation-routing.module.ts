@@ -53,6 +53,8 @@ import { CompletedjobsComponent } from 'src/app/Components/TopToolbarComponents/
 import { ClientordersComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorders/clientorders.component';
 import { ClientorderstableComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderstable/clientorderstable.component';
 import { ClientorderviewComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/ClientOrder/clientorderview/clientorderview.component';
+// import { ProofReadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation/proof-reading-allocation.component';
+// import { ProofReadingAllocationTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReading/proof-reading-allocation-table/proof-reading-allocation-table.component';
 import { ProofreadingComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proofreading/proofreading.component';
 import { ProofReadingTableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadings/proof-reading-table/proof-reading-table.component';
 import { BuddyProofComponent } from 'src/app/Components/TopToolbarComponents/BuddyProof/buddy-proof/buddy-proof.component';
@@ -86,12 +88,15 @@ import { BenchStatusComponent } from 'src/app/Components/Master/BenchStatus/benc
 import { OneTimemasterComponent } from 'src/app/Components/Master/one-timemaster/one-timemaster.component';
 import { JobHistoryComponent } from 'src/app/Components/JobHistory/job-history/job-history.component';
 import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfer/job-transfer.component';
+import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
+import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
 import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
 import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
 import { ViewUnapprovaljobsComponent } from 'src/app/Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
 import { CustomerSalesmappingComponent } from 'src/app/Components/Sales/customer-salesmapping/customer-salesmapping.component';
 import { PricingApprovalprocessComponent } from 'src/app/Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
+import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
 
 const routes: Routes = [
 
@@ -140,10 +145,11 @@ const routes: Routes = [
       //Productionmaincomponent
       { path: 'productionmain', component: ProductionComponent },
       { path: 'productionmaintable', component: ProductiontableComponent },
+      { path: 'prodjobpopup', component: ProdjobpopupComponent },
+      { path: 'prodworkflow', component: ProductionworkflowComponent },
 
       //ProofReadingAllocation
       {path:'proofreadingallocation', component: ProofreadingAllocationComponent},
-
       //ProofReading
       { path: 'proofreading', component: ProofreadingComponent },
       { path: 'proofreadingtable', component: ProofReadingTableComponent },
@@ -249,9 +255,11 @@ const routes: Routes = [
       {path:'unapprovalJobs', component:UnApprovaljobsComponent},
       {path:'view-unapprovalJobs', component:ViewUnapprovaljobsComponent},
       {path:'customer-salesmapping', component: CustomerSalesmappingComponent},
-      {path:'pricing-Approval', component: PricingApprovalprocessComponent}
+      {path:'pricing-Approval', component: PricingApprovalprocessComponent},
 
 
+       //Bank
+       {path:'bank', component:BankComponent},
     ]
   },
 

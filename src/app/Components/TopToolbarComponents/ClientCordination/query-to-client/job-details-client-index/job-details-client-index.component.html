@@ -128,33 +128,53 @@
         </table>
       </div>
     </div>
-
-
   </div>
-
-<div class="querydropdown">
-  <mat-form-field>
-    <mat-label>Process Status</mat-label>
-    <mat-select [(value)]="selectedQureryStatus">
-      <mat-option value="Select status">Select status</mat-option>
-      <mat-option value="Query">Query</mat-option>
-      <mat-option value="Query Response">Query Response</mat-option>
-      <mat-option value="Query sent for special pricing">Query sent for special pricing</mat-option>
-      <mat-option value="Query for SP Response">Query for SP Response</mat-option>
-      <mat-option value="Cancelled">Cancelled</mat-option>
-      <mat-option value="Duplicate">Duplicate</mat-option>
-      <mat-option value="Client Cancelled">Client Cancelled</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="bottomDropdown">
+    <div class="querydropdown">
+      <mat-form-field>
+        <mat-label>Process Status</mat-label>
+        <mat-select [(value)]="selectedQureryStatus">
+          <mat-option value="Select status">Select status</mat-option>
+          <mat-option value="6">Query</mat-option>
+          <mat-option value="7">Query Response</mat-option>
+          <mat-option value="8">Query sent for special pricing</mat-option>
+          <mat-option value="9">Query for SP Response</mat-option>
+          <mat-option value="5">Cancelled</mat-option>
+          <mat-option value="3">Duplicate</mat-option>
+          <mat-option value="13">Client Cancelled</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   
-</div>
-
-  <div class="remarks">
-    <mat-form-field>
-      <textarea matInput placeholder="Remarks" [(ngModel)]="remarks"></textarea>
-    </mat-form-field>
+    <div class="remarks">
+      <mat-form-field>
+        <textarea matInput placeholder="Remarks" [(ngModel)]="remarks"></textarea>
+      </mat-form-field>
+    </div>
+  
+    <div class="estimatedTime" *ngIf="selectedQureryStatus === '8' || selectedQureryStatus === '9'">
+      <p>Estimated Time</p>
+    </div>
+  
+    <div class="scope" *ngIf="selectedQureryStatus === '8' || selectedQureryStatus === '9'">
+      <p>Scope</p>
+    </div>
+  
+    <div class="specialprice" *ngIf="selectedQureryStatus === '9'">
+      <p>Special Price</p>
+    </div>
+  
+    <div class="pricingAmount" *ngIf="selectedQureryStatus === '8' || selectedQureryStatus === '9'">
+      <mat-label>Pricing Amount</mat-label>&nbsp;&nbsp;<input matInput type="number" [(ngModel)]="pricingAmount"> 
+    </div>
+  <br>
+    <div class="getamountbutton">
+      <button class="btn btn-primary" (click)="getAmountForSpecialPrice(data)">Get Amount</button>
+    </div>
   </div>
-
+  
+  <br>
+  <br>
   <div>
     <button type="button" class="btn btn-danger">Close</button> &nbsp;<button type="button" class="btn btn-success" (click)="postQueryData(data)" >Submit</button>
   </div>

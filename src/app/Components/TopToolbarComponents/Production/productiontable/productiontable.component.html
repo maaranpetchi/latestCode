@@ -13,7 +13,7 @@
                 <!-- Job ID Column -->
                 <ng-container matColumnDef="jobId">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Job ID </th>
-                    <td mat-cell *matCellDef="let job"> {{ job.jobId }} </td>
+                    <td mat-cell *matCellDef="let job">  <a class="workflow" (click)="openJobDetailsDialog(job)">  {{ job.jobId }} </a> </td>
                 </ng-container>
 
                 <!-- Job Name Column -->
@@ -24,7 +24,7 @@
                 <!-- Client Column -->
                 <ng-container matColumnDef="action">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let job"> {{ job.action }} </td>
+                    <td mat-cell *matCellDef="let job"> <a class="workflow" (click)="lnkviewedit(job)" > Workflow</a> </td>
                 </ng-container>
                 <ng-container matColumnDef="client">
                     <th mat-sort-header mat-header-cell *matHeaderCellDef> Client </th>
