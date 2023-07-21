@@ -82,6 +82,7 @@ export class BenchOptionsComponent implements OnInit {
           this.Remarks = "";
           this.disableWorkType = false;
           this.disableWorkTypeEnd = true;
+          this._coreService.openSnackBar("End files successfully!")
         }
       });
       // else {
