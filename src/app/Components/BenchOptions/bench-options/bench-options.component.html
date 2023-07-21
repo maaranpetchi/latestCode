@@ -1,50 +1,65 @@
-<div class="panel panel-primary">
-    <div class="panel-heading" style="text-align: center;"><b> Idle Bench Option </b></div>
-    <div class="panel-body" style="height: 550px;">
-        <div align="right">
-            <!-- <a routerLink="/LatestBenchJob">Bench History job</a> -->
-        </div>
-
-        <form (ngSubmit)="submit()">
-            <div class="col-md-12 text-center">
-                <div class="col-sm-offset-5">
-                    <button class="btn btn-success" (click)="changeBench('Start')" id="start"
-                        [disabled]="disableWorkType">Start</button> &nbsp;
-                    <button class="btn btn-warning" (click)="changeBench('Break')" id="Break"
-                        [disabled]="!disableWorkType">Break</button>
-                </div>
-                <div class="clearfix padding-bottom-10"></div>
-                <div *ngIf="!disableWorkType">
-
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="Status" class="col-sm-4 control-label">Status<span
-                                    style="color: red;">*</span></label>
-                            <select class="form-control" id="Status" [(ngModel)]="Statusid" name="statusid" required>
-                                <option value="">--Select--</option>
-                                <option *ngFor="let item of GetStatuslist" [value]="item.id">{{ item.description }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="remarks" class="col-sm-4 control-label">Remarks<span
-                                    style="color: red;">*</span></label>
-                            <textarea id="remarks" class="form-control" [(ngModel)]="Remarks" name="remarks"
-                                required></textarea>
-
-                        </div>
-                    </div>
-
-                    <div class="clearfix padding-bottom-10"></div>
-                    <div class="col-sm-offset-5">
-                        <button class="btn btn-info" type="submit" id="End">End</button>
-                    </div>
-                </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="text-align: center;"><b> Idle Bench Option </b></div>
+        <div class="panel-body" style="height: 750px;">
+            <div align="right">
+                <!-- <a routerLink="/LatestBenchJob">Bench History job</a> -->
             </div>
-        </form>
+    
+            <form (ngSubmit)="submit()">
+                <div class="col-md-12 text-center">
+                    <div class="col-sm-offset-5">
+                        <button class="btn btn-success" (click)="changeBench('Start')" id="start"
+                            [disabled]="disableWorkType">Start</button> &nbsp;
+                        <button class="btn btn-warning" (click)="changeBench('Break')" id="Break"
+                            [disabled]="!disableWorkType">Break</button>
+                    </div>
+                    <div class="clearfix padding-bottom-10"></div>
+                    <br>
+                    <div *ngIf="!disableWorkType" style="display:grid;align-items: center;justify-content: center;">
+    
+                        <div class="row">
+                            <div class="col">
+                                <label for="Status" class="col-sm-4 control-label">Status<span
+                                    style="color: red;">*</span></label>
+                            </div>
+                            <div class="col">
+                                <select class="form-control" id="Status" [(ngModel)]="Statusid" name="statusid" required>
+                                    <option value="">--Select--</option>
+                                    <option *ngFor="let item of GetStatuslist" [value]="item.id">{{ item.description }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+    
+    
+                        <div class="row">
+                            <div class="col">
+                                <label for="remarks" class="col-sm-4 control-label">Remarks<span
+                                    style="color: red;">*</span></label>
+                            </div>
+                            <div class="col">
+                                <textarea id="remarks" class="form-control" [(ngModel)]="Remarks" name="remarks"
+                                    required></textarea>
+    
+                            </div>
+                        </div>
+    <br>
+                        <div class="clearfix padding-bottom-10"></div>
+                        <div class="col-sm-offset-5">
+                            <button class="btn btn-info" type="submit" id="End" (click)="changeBench('End')">End</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</body>
+</html>

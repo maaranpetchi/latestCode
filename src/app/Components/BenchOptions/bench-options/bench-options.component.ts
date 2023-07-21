@@ -36,6 +36,7 @@ export class BenchOptionsComponent implements OnInit {
     if (data == 'Start') {
       var Startbench = {
         EmployeeId: this.loginservice.getUsername(),
+        Status:''
       }
 
       this.http.post<any>(environment.apiURL + `BenchOption/Startbench?Worktype=Start`, Startbench).subscribe(result => {
@@ -52,7 +53,8 @@ export class BenchOptionsComponent implements OnInit {
     }
     else if (data == 'Break') {
       var Startbench = {
-        EmployeeId: this.loginservice.getUsername()
+        EmployeeId: this.loginservice.getUsername(),
+        Status:''
       }
       this.http.post<any>(environment.apiURL + `BenchOption/Startbench?Worktype=Break`, Startbench).subscribe(result => {
         console.log(result, "Break");
