@@ -20,18 +20,42 @@ export class SalesMultiStepFormComponent implements OnInit {
   apiResponseData: any;
   CountryId: any;
   timezone: any;
+  AppCustomerDetails: any;
   ngOnInit(): void {
     this.apiResponseData = this.sharedDataService.getData();
     console.log(this.apiResponseData, "gettingdatafromindex");
-
+this.fetchUpdateData();
   }
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private _coreService: CoreService, private sharedDataService: CustomerSalesApprovalService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router) {
     this.getCustomerData();
     this.getDepartments();
     this.getCountry();
   }
+///fetch update data into ngmodel when edit button clicked
+fetchUpdateData(){
 
-
+this.ShortName = this.apiResponseData.shortName;
+  this.CustomerClassificationId = this.apiResponseData.customerClassificationId;
+  this.selectedDepartments = this.apiResponseData.selectedDepartments;
+  this.CreditDays = this.apiResponseData.creditDays;
+  this.CreditLimit = this.apiResponseData.creditLimit;
+  this.CustomerJobType = this.apiResponseData.customerJobType;
+  this.Country= this.apiResponseData.country;
+  this.State =  this.apiResponseData.state;
+  this.City = this.apiResponseData.city;
+  this.BillingCycleType= this.apiResponseData.billingCycleType;
+  this.PaymentMode=this.apiResponseData.paymentMode;
+  this.PrivilegedClient=this.apiResponseData.privilegedClient;
+  this.InputType =this.apiResponseData.inputType;
+  this.OutputType=this.apiResponseData.outputType;
+  this.isBulk = this.apiResponseData.isBulk ;
+  this.isRushed = this.apiResponseData.isRush ;
+  this.manualupload =this.apiResponseData.isManualUpload ;
+  this.ScheduledMail =this.apiResponseData.bunchMail ;
+  this.Checklist = this.apiResponseData.checklist ;
+  this.ModeofSales = this.apiResponseData.modeofSales ;
+  this.CurrencyMode =  this.apiResponseData.currencyMode ;
+}
 
   //customerclassification-dropdown
   getCustomerData(): void {
@@ -81,20 +105,21 @@ export class SalesMultiStepFormComponent implements OnInit {
   CreditDays: '';
   CreditLimit: '';
   CustomerJobType: '';
-  Country: '';
+  Country: any;
   State = '';
-
   City = '';
-
-
-
-
-
-
-
-
-
-
+  BillingCycleType='';
+  PaymentMode='';
+  PrivilegedClient='';
+  InputType ='';
+  OutputType='';
+  isBulk: boolean = false;
+  isRushed: boolean = false;
+  manualupload: boolean = false;
+  ScheduledMail: boolean = false;
+  Checklist: boolean = false;
+  ModeofSales:any;
+  CurrencyMode:any;
   //change method to display state and places realted to country dropdown
   GetStatesList() {
     this.http.get<any>(environment.apiURL + `Customer/GetAllStateListbyCountryId?CountryId=${this.Country}`).subscribe(results => {      
@@ -115,4 +140,11 @@ export class SalesMultiStepFormComponent implements OnInit {
       
     });
   }
+
+// getDatecreation(){
+//   this.http.get<any>(environment.apiURL+`Customer/getAppCustomerSalesId?CustomerId=${this.apiResponseData.id}`).subscribe( results =>{
+//     console.log(results,"date");
+    
+//     this.AppCustomerDetails = results.createdUTC
+//   });
 }

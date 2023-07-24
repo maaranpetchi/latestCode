@@ -158,31 +158,190 @@
                                     <select name="state" [(ngModel)]="State" class="form-control"
                                         (ngModelChange)="GetCitiesList()" [required]="true" id="state">
                                         <option value="">Select</option>
-                                        <option *ngFor="let item of placeList" [value]="item.id">{{ item.stateName }}</option>
-                                        </select>
+                                        <option *ngFor="let item of placeList" [value]="item.id">{{ item.stateName }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="col">
                                     <label>
                                         City:
                                         <span style="color:red;">*</span> </label>
-                                    <select name="City"
-                                    [(ngModel)]="City"
-                                    (ngModelChange)="GetTimeZoneList()"
-                                    class="form-control"
-                                    id="city">
-                              <option *ngFor="let item of citiesList" [value]="item.id">{{ item.cityName }}</option>
-                            </select>
-                            
+                                    <select name="City" [(ngModel)]="City" (ngModelChange)="GetTimeZoneList()"
+                                        class="form-control" id="city">
+                                        <option *ngFor="let item of citiesList" [value]="item.id">{{ item.cityName }}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label>
+                                        Actual TimeZone:
+                                        <span style="color:red;">*</span> &nbsp; <strong>{{timezone ?
+                                            timezone:''}}</strong>
+                                    </label>
+                                </div>
+
+                                <div class="col">
+                                    <label for="ddlBillingCycle">
+                                        Billing Cycle
+                                    </label>
+                                    <select name="BillingCycle" class="form-control" [(ngModel)]="BillingCycleType"
+                                        required tabindex="3">
+                                        <option value="">Select</option>
+                                        <option value="Fiscal">Fiscal</option>
+                                        <option value="As and when">As and when</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Weekly">Weekly</option>
+                                        <option value="Customer">Customer</option>
+                                    </select>
+                                </div>
+
+                                <div class="col">
+                                    <label for="ddlPaymentMode">
+                                        Payment Mode
+                                    </label>
+                                    <select name="PaymentMode" [(ngModel)]="PaymentMode" class="form-control" required
+                                        tabindex="3">
+                                        <option value="">Select</option>
+                                        <option value="PayPal-US">PayPal-US</option>
+                                        <option value="PayPal-CAN">PayPal-CAN</option>
+                                        <option value="PayPal-AUS">PayPal-AUS</option>
+                                        <option value="Self-PayPal">Self-PayPal</option>
+                                        <option value="US-Wireless Transfer">US-Wireless Transfer</option>
+                                        <option value="CAN-Wireless Transfer">CAN-Wireless Transfer</option>
+                                        <option value="AUS-WirelessTransfer">AUS-WirelessTransfer</option>
+                                    </select>
                                 </div>
                             </div>
 
 
                             <div class="row">
                                 <div class="col">
-                                    <label >
-                                        Actual TimeZone:
-                                        <span style="color:red;">*</span> &nbsp;  <strong>{{timezone ? timezone:''}}</strong>
+                                    <label for="ddlPriClient">
+                                        Privileged Client
                                     </label>
+                                    <select name="PrivClient" [(ngModel)]="PrivilegedClient" class="form-control"
+                                        required tabindex="3">
+                                        <option value="">Select</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col">
+                                    <label for="ddlInputMode">
+                                        Input Mode
+                                    </label>
+                                    <select name="InputType" [(ngModel)]="InputType" class="form-control" required
+                                        tabindex="3">
+                                        <option value="">Select</option>
+                                        <option value="Direct">Direct</option>
+                                        <option value="FTP">FTP</option>
+                                        <option value="Podio">Podio</option>
+                                        <option value="Email">Email</option>
+                                        <option value="CRM">CRM</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col">
+                                    <label for="ddlInputMode">
+                                        Output Mode
+                                    </label>
+                                    <select name="OutputType" [(ngModel)]="OutputType" class="form-control" required
+                                        tabindex="3">
+                                        <option value="">Select</option>
+                                        <option value="Direct">Direct</option>
+                                        <option value="FTP">FTP</option>
+                                        <option value="Podio">Podio</option>
+                                        <option value="We Transfer">We Transfer</option>
+                                        <option value="Email">Email</option>
+                                        <option value="CRM">CRM</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <mat-checkbox [(ngModel)]="isBulk" name="IsBulk">Is Bulk</mat-checkbox>
+                                </div>
+
+                                <div class="col">
+                                    <mat-checkbox [(ngModel)]="isRushed" name="IsRushed">Is Rush</mat-checkbox>
+                                </div>
+                                <div class="col">
+                                    <mat-checkbox [(ngModel)]="manualupload" name="manualupload">Manual Upload</mat-checkbox>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <mat-checkbox [(ngModel)]="ScheduledMail" name="ScheduledMail">Scheduled Mail</mat-checkbox>
+                                </div>
+
+                                <div class="col">
+                                    <label class="col-sm-2 control-label">
+                                        Date of Creation :
+                                    <span>{{AppCustomerDetails}}</span></label> 
+                                </div>
+
+                                <div class="col">
+                                    <label class="col-sm-2 control-label">
+                                        Approved By : <span></span>
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label>
+                                        Approved On :
+                                     </label> 
+                                         &nbsp;
+                                         <span style="color:#333333;  font-weight:normal;">{{this.apiResponseData.approvedDate  }}</span> 
+
+                                </div>
+                                <div class="col">
+                                    <mat-checkbox [(ngModel)]="Checklist" name="Checklist">Is Bulk</mat-checkbox>
+                                </div>
+                                <div class="col">
+                                    <label class="col-sm-2 control-label">
+                                        Trial Period
+                                    </label>  
+                                    <!-- <span>{{CustomerapprovalAllDetails.TrialStartDate | date:"MM/dd/yyyy"}}</span> -->
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div>
+                                        <label>
+                                            Mode of Sales
+                                        </label>
+                                        <select name="ddlModeofSales" class="form-control" [(ngModel)]="ModeofSales" tabindex="6">
+                                          <option value="">Select</option>
+                                          <option value="Cold Calls">Cold Calls</option>
+                                          <option value="Meeting">Meeting</option>
+                                          <option value="Calls & Meeting">Calls & Meeting</option>
+                                          <option value="Referral">Referral</option>
+                                          <option value="Email Marketing">Email Marketing</option>
+                                        </select>
+                                      </div>
+                                      
+                                </div>
+                                <div class="col-4">
+                                    <mat-label>Currency Mode</mat-label>
+                                    <input type="text" class="form-control" name="CurrencyMode" id="CurrencyMode" [(ngModel)]="CurrencyMode" placeholder="Currency Mode" required tabindex="2">
+
                                 </div>
                             </div>
                         </div>
