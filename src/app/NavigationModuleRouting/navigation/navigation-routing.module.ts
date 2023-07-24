@@ -106,6 +106,9 @@ import { ViewchecklistComponent } from 'src/app/Components/CustomerVSChecklist/v
 import { ItAssetindexComponent } from 'src/app/Components/ITAssets/it-assetindex/it-assetindex.component';
 import { AddItassetsComponent } from 'src/app/Components/ITAssets/add-itassets/add-itassets.component';
 import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-options/bench-options.component';
+import { IndexCustomerSalesApprovalComponent } from 'src/app/Components/Sales/CustomerSalesApproval/index-customer-sales-approval/index-customer-sales-approval.component';
+import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSalesApproval/tabcustomertable/tabcustomertable.component';
+import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
 
 const routes: Routes = [
 
@@ -287,9 +290,33 @@ const routes: Routes = [
       {path:'customer-salesmapping', component: CustomerSalesmappingComponent},
       {path:'pricing-Approval', component: PricingApprovalprocessComponent},
 
+      //Sales- CustomerSalesApproval
+      {path:'customerSalesApproval', component: IndexCustomerSalesApprovalComponent},
+      {path:'customerSalesTable', component:     TabcustomertableComponent },
+      {path:'multistepform', component: SalesMultiStepFormComponent    },
 
-       //Bank
-       {path:'bank', component:BankComponent},
+
+      //Bank
+      { path: 'bank', component: BankComponent },
+
+      //VENDOR
+      { path: 'vendor', component: VendorComponent },
+      { path: 'editvendor', component: EditVendorComponent },
+      { path: 'updatevendor', component: UpdatevendorComponent },
+
+      //CUSTOMERVSCHECKLIST
+      { path: 'CustomerVsChecklist', component: IndexchecklistComponent },
+      { path: 'edit', component: AddchecklistComponent },
+      { path: 'view', component:ViewchecklistComponent},
+
+
+      //ITASSET
+      { path: 'ITAsset', component:ItAssetindexComponent},
+      { path: 'addITAsset', component:AddItassetsComponent},
+
+      //Bench Options
+      { path: 'benchOptions', component:BenchOptionsComponent},
+
     ]
   },
 

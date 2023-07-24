@@ -123,6 +123,9 @@ import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays
 import { EmployeePopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
+import { IndexCustomerSalesApprovalComponent } from 'src/app/Components/Sales/CustomerSalesApproval/index-customer-sales-approval/index-customer-sales-approval.component';
+import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSalesApproval/tabcustomertable/tabcustomertable.component';
+import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
 
 @NgModule({
   declarations: [
@@ -243,6 +246,10 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
     //SALES CONTROLLER
     //  1.PRICING
     PricingComponent,
+    //2.CustomerSalesApproval,
+    IndexCustomerSalesApprovalComponent,
+    TabcustomertableComponent,
+    SalesMultiStepFormComponent,
 
     // Master.
     UserMasterComponent,

@@ -20,10 +20,6 @@ import { PricingApprovalprocessComponent } from './Components/Sales/pricing-appr
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
-import { ViewchecklistComponent } from './Components/CustomerVSChecklist/viewchecklist/viewchecklist.component';
-import { ItAssetindexComponent } from './Components/ITAssets/it-assetindex/it-assetindex.component';
-import { AddItassetsComponent } from './Components/ITAssets/add-itassets/add-itassets.component';
-import { BenchOptionsComponent } from './Components/BenchOptions/bench-options/bench-options.component';
 @NgModule({
   declarations: [
     AppComponent,
