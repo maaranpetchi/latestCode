@@ -14,6 +14,9 @@ import { MovetointegrationComponent } from './Components/AccountsController/Tall
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
 import { SpinnerComponent } from './Components/Spinner/spinner/spinner.component';
 import { DialogComponent } from './Components/dialog/dialog.component';
+import { ViewUnapprovaljobsComponent } from './Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
+import { CustomerSalesmappingComponent } from './Components/Sales/customer-salesmapping/customer-salesmapping.component';
+import { PricingApprovalprocessComponent } from './Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
@@ -28,6 +31,11 @@ import { BenchOptionsComponent } from './Components/BenchOptions/bench-options/b
     UpdateExchangeRateComponent,
     SpinnerComponent,
     DialogComponent,
+    ViewUnapprovaljobsComponent,
+    CustomerSalesmappingComponent,
+    PricingApprovalprocessComponent,
+      
+
     EmployeePopupComponent,
     JobCategorypopupComponent,
    

@@ -119,6 +119,10 @@ import { ViewchecklistComponent } from 'src/app/Components/CustomerVSChecklist/v
 import { ItAssetindexComponent } from 'src/app/Components/ITAssets/it-assetindex/it-assetindex.component';
 import { AddItassetsComponent } from 'src/app/Components/ITAssets/add-itassets/add-itassets.component';
 import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-options/bench-options.component';
+import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
+import { EmployeePopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
+import { JobCategorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
+import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
 
 @NgModule({
   declarations: [
@@ -173,7 +177,7 @@ import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-opt
     ProductionAllocatedPopupComponent,
     JoballocatedEmplpopupComponent,
     ProofreadingAllocationComponent,
-    ProofreadingAlocationtableComponent,
+      ProofreadingAlocationtableComponent,
     //ProofReading
     ProofreadingComponent,
     ProofReadingTableComponent,
@@ -274,6 +278,11 @@ import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-opt
     JobhistoryDetailsComponent,
     // Job Transfer
     JobTransferComponent,
+
+    // SALES
+    CreditdaysApprovalComponent,
+    UnApprovaljobsComponent,
+    
 
     //Bank
     BankComponent,

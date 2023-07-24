@@ -16,7 +16,6 @@ export class ProcessService {
   setFormData(formData: any) {
     this.formDataSubject.next(formData);
   }
-
   //  View Table List
   getProcessList():Observable<any>{
     return this.http.get(environment.apiURL+'Process/ListProcess')

@@ -91,6 +91,11 @@ import { JobTransferComponent } from 'src/app/Components/JobTransfer/job-transfe
 import { ProdjobpopupComponent } from 'src/app/Components/TopToolbarComponents/Production/prodjobpopup/prodjobpopup.component';
 import { ProductionworkflowComponent } from 'src/app/Components/TopToolbarComponents/Production/productionworkflow/productionworkflow.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
+import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
+import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
+import { ViewUnapprovaljobsComponent } from 'src/app/Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
+import { CustomerSalesmappingComponent } from 'src/app/Components/Sales/customer-salesmapping/customer-salesmapping.component';
+import { PricingApprovalprocessComponent } from 'src/app/Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
 import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
 import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
 import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
@@ -275,6 +280,16 @@ const routes: Routes = [
       //Bench Options
       { path: 'benchOptions', component:BenchOptionsComponent},
 
+      // SALES
+      {path:'creditSales', component:CreditdaysApprovalComponent},
+      {path:'unapprovalJobs', component:UnApprovaljobsComponent},
+      {path:'view-unapprovalJobs', component:ViewUnapprovaljobsComponent},
+      {path:'customer-salesmapping', component: CustomerSalesmappingComponent},
+      {path:'pricing-Approval', component: PricingApprovalprocessComponent},
+
+
+       //Bank
+       {path:'bank', component:BankComponent},
     ]
   },
 
