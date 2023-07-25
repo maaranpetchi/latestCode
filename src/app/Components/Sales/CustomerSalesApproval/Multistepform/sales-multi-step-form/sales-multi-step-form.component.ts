@@ -141,10 +141,77 @@ this.ShortName = this.apiResponseData.shortName;
     });
   }
 
-// getDatecreation(){
-//   this.http.get<any>(environment.apiURL+`Customer/getAppCustomerSalesId?CustomerId=${this.apiResponseData.id}`).subscribe( results =>{
-//     console.log(results,"date");
-    
-//     this.AppCustomerDetails = results.createdUTC
-//   });
+  AppCustomerupdate(){
+let payload= {
+  "id": this.apiResponseData.id,
+  "companyId": 0,
+  "name": "string",
+  "shortName":this.ShortName ,
+  "customerClassificationId":this.CustomerClassificationId,
+  "creditDays": this.CreditDays,
+  "isBlacklisted": true,
+  "isApproved": true,
+  "blacklistedReasons": "string",
+  "department": [] ,
+  "creditLimit": this.CreditLimit,
+  "creditLimitAvailed": 0,
+  "timeZone": this.timezone ? this.timezone:'',
+  "reportTimeZone": "string",
+  "dropdownTimeZone": "string",
+  "departmentId": 0,
+  "establishmentType": "string",
+  "billingCycleType": "string",
+  "employeeId": 0,
+  "address1": "string",
+  "address2": "string",
+  "address3": "string",
+  "locationId": 0,
+  "emailAddress": "string",
+  "phone1": "string",
+  "phone2": "string",
+  "webAddress": "string",
+  "contactName": "string",
+  "contactPhone": "string",
+  "contactEmail": "string",
+  "customerDepartmentName": "string",
+  "createdUTC": "2023-07-24T12:37:19.961Z",
+  "createdBy": 0,
+  "updatedUTC": "2023-07-24T12:37:19.961Z",
+  "updatedBy": 0,
+  "selectedDepartments": this.selectedDepartments,
+  "userName": "string",
+  "emailID": "string",
+  "phoneNo": "string",
+  "active": true,
+  "verifyCode": "string",
+  "country": this.Country,
+  "state": this.State,
+  "city": this.City,
+  "customerJobType": this.CustomerJobType,
+  "inputType": this.InputType ? this.InputType:'',
+  "outputType": this.OutputType ? this.OutputType:'',
+  "privilegedClient": this.PrivilegedClient ? this.PrivilegedClient:'',
+  "paymentMode": "string",
+  "isBulk":this.isBulk,
+  "checklist": this.Checklist,
+  "isRush": this.isRushed,
+  "bunchMail": this.ScheduledMail,
+  "isManualUpload": this.manualupload,
+  "rptTimeZoneDifference": 0,
+  "trialStartDate": new Date().toISOString,
+  "liveStartDate": new Date().toISOString,
+  "modeofSales": this.ModeofSales ? this.ModeofSales:'',
+  "currencyMode": this.CurrencyMode
+}
+    this.http.post<any>(environment.apiURL +`Customer/EditCustomerDetails`,payload).subscribe(results => {
+      console.log(results,"see results")
+      
+      localStorage.setItem("CustomerId123", results.id);
+      localStorage.setItem("ShortName", results.shortName);
+      localStorage.setItem("CustomerName", results.name);
+      localStorage.setItem("CusRegId123", this.apiResponseData.id);
+
+      
+    })
+  }
 }
