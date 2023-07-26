@@ -317,7 +317,7 @@
 
                                 </div>
                                 <div class="col">
-                                    <mat-checkbox [(ngModel)]="Checklist" name="Checklist">Is Bulk</mat-checkbox>
+                                    <mat-checkbox [(ngModel)]="Checklist" name="Checklist">Is Approved</mat-checkbox>
                                 </div>
                                 <div class="col">
                                     <label class="col-sm-2 control-label">
@@ -402,14 +402,15 @@
                                 <div class="col">
                                     <label for="scope">Scope:</label>
                                     <mat-form-field appearance="fill">
-                                      <mat-label>Scope</mat-label>
-                                      <mat-select multiple [(ngModel)]="SelectedScope" (selectionChange)="onScopeChange()">
-                                        <mat-option *ngFor="let item of ScopeBillings" [value]="item">
-                                          {{ item.description }}
-                                        </mat-option>
-                                      </mat-select>
+                                        <mat-label>Scope</mat-label>
+                                        <mat-select multiple [(ngModel)]="SelectedScope"
+                                            (selectionChange)="onScopeChange()">
+                                            <mat-option *ngFor="let item of ScopeBillings" [value]="item">
+                                                {{ item.description }}
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
-                                    
+
 
 
 
@@ -543,12 +544,17 @@
                                     </label> &nbsp; {{editCustomerName}}
                                 </div>
                                 <div class="col" *ngIf="jobstatusdropdown">
-                                    <label for="jobstatus">Job Status:</label>
-                                    <select style="height: 200px;" multiple class="form-control" id="ddlscope"
-                                        [(ngModel)]="SelectedJobStatus">
-                                        <option *ngFor="let item of jobstatus" [value]="item">{{
-                                            item.jobStatusDescription}}</option>
-                                    </select>
+                                    <!-- Don't forget to add the appropriate MatFormFieldModule and ReactiveFormsModule imports in your module file if they're not already present -->
+                                    <mat-form-field appearance="fill">
+                                        <mat-label for="jobstatus">Job Status:</mat-label>
+                                        <mat-select multiple [(ngModel)]="SelectedJobStatus"
+                                            name="jobstatus"  (selectionChange)="onJobChange()">
+                                            <mat-option *ngFor="let item of jobstatus" [value]="item">
+                                                {{ item.jobStatusDescription }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
                                 </div>
                                 <div class="col" *ngIf="jobStatusdisplay">
 

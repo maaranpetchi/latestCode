@@ -37,6 +37,9 @@ export class SalesMultiStepFormComponent implements OnInit {
   customertatinput: any;
   selectedScopeID: any;
   selectedDeptDescription: any;
+  selectedJobStatusID: any;
+  selectedJobStatusDescription: any;
+  customerTatid: any;
   employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -166,7 +169,7 @@ export class SalesMultiStepFormComponent implements OnInit {
   Checklist: boolean = false;
   ModeofSales: any;
   CurrencyMode: any;
-  SelectedScope: any[]=[];
+  SelectedScope: any[] = [];
   SelectedCustType: string = '';
   selectedDept: any;
   SelectedJobStatus: any;
@@ -373,15 +376,15 @@ export class SalesMultiStepFormComponent implements OnInit {
       for (const selectedScope of this.SelectedScope) {
         const selectedDeptId = selectedScope.id;
         const selectedDeptDescription = selectedScope.description;
-      
-      
+
+
         this.selectedScopeID = selectedDeptId;
         this.selectedDeptDescription = selectedDeptDescription;
         console.log('Selected ID:', this.selectedScopeID);
         console.log('Selected Description:', this.selectedDeptDescription);
         // Do whatever you need with the selectedDeptId and selectedDeptDescription here
       }
-    }  
+    }
   }
 
 
@@ -401,12 +404,31 @@ export class SalesMultiStepFormComponent implements OnInit {
   getCustomerTatTable() {
     this.http.get<any>(environment.apiURL + `CustomerMapping/GetAllCustomerTATbyCusId?custId=${this.apiResponseData.id}`).subscribe(results => {
       this.customertatdatasource = results;
+      this.customerTatid = results[0].id;
       this.jobStatusDescription = results[0].jobStatusDescription;
     });
   }
 
   addcustattable() {
-
+    let payload = [
+      {
+        "jobStatusId": this.selectedJobStatusID,
+        "customerId": this.apiResponseData.id,
+        "tat": this.tatValue,
+        "customerShortName": this.apiResponseData.shortName,
+        "jobStatusDescription": this.selectedJobStatusDescription,
+        "createdBy": this.loginservice.getUsername(),
+        "createdUTC": new Date().toISOString,
+        "updatedBy": this.loginservice.getUsername(),
+        "updatedUTC": new Date().toISOString,
+        "isActive": true
+      }
+    ]
+    this.http.post<any>(environment.apiURL + `CustomerMapping/AddCustomerTAT`, payload).subscribe(results => {
+      this._coreService.openSnackBar("Data Added successfully!")
+      this.customertatdatasource = results;
+      this.getCustomerTatTable();
+    });
   }
 
   deleteTatEmployee(id: number) {
@@ -430,7 +452,6 @@ export class SalesMultiStepFormComponent implements OnInit {
   openEditForm() {
     this.http.get<any>(environment.apiURL + `CustomerMapping/GetAllCustomerTATbyCusId?custId=${this.apiResponseData.id}`).subscribe(results => {
       console.log(results, "Tatavaluefromapi");
-
       this.jobStatusdisplay = true;
       this.jobstatusdropdown = false;
       this.addcustat = false;
@@ -449,6 +470,37 @@ export class SalesMultiStepFormComponent implements OnInit {
   }
 
   updatecustattable() {
+    let payload = {
+      "id": this.customerTatid,
+      "customerId": this.apiResponseData.id,
+      "jobStatusId": 0,
+      "customerShortName": "string",
+      "jobStatusDescription": "string",
+      "tat": this.tatValue,
+      "createdBy": this.loginservice.getUsername(),
+      "createdUtc": new Date().toISOString,
+      "updatedBy": this.loginservice.getUsername(),
+      "updatedUtc": new Date().toISOString,
+      "isActive": true
+    }
+    this.http.post<any>(environment.apiURL + `CustomerMapping/UpdateCustomerTATData`, payload).subscribe(results => {
+      this.customertatdatasource = results;
+      this._coreService.openSnackBar("Data Updated Succesfully!");
+      this.getCustomerTatTable();
+      this.tatValue="";
+      this.returnForm();
+    });
+  }
 
+
+  onJobChange() {
+    if (this.SelectedJobStatus.length > 0) { 
+      for (const selectedJobStatus of this.SelectedJobStatus) {
+        const selectedJobId = selectedJobStatus.id;
+        const selectedJobDescription = selectedJobStatus.jobStatusDescription;
+        this.selectedJobStatusID = selectedJobId;
+        this.selectedJobStatusDescription = selectedJobDescription;
+      }
+    }
   }
 }
