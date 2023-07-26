@@ -35,6 +35,8 @@ export class SalesMultiStepFormComponent implements OnInit {
   displayedColumns: string[] = ['customername', 'department', 'scope', 'status', 'Action'];
   displayedTATColumns: string[] = ['customernametat', 'customershortnametat', 'jobstatustat', 'tat', 'Actiontat'];
   customertatinput: any;
+  selectedScopeID: any;
+  selectedDeptDescription: any;
   employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -55,6 +57,9 @@ export class SalesMultiStepFormComponent implements OnInit {
     this.getDepartments();
     this.getCountry();
   }
+
+
+
 
   ///fetch update data into ngmodel when edit button clicked
   fetchUpdateData() {
@@ -161,7 +166,7 @@ export class SalesMultiStepFormComponent implements OnInit {
   Checklist: boolean = false;
   ModeofSales: any;
   CurrencyMode: any;
-  SelectedScope: any; 
+  SelectedScope: any[]=[];
   SelectedCustType: string = '';
   selectedDept: any;
   SelectedJobStatus: any;
@@ -339,11 +344,11 @@ export class SalesMultiStepFormComponent implements OnInit {
       "shortName": localStorage.getItem("ShortName"),
       "name": localStorage.getItem("CustomerName"),
       "custId": this.apiResponseData.id,
-      "scopeId": this.SelectedScope.id,
+      "scopeId": this.selectedScopeID,
       "deptId": this.selectedDept.id,
       "custName": "string",
       "description": "string",
-      "scopeName": this.SelectedScope.description,
+      "scopeName": this.selectedDeptDescription,
       "scopeGroupDescription": "string",
       "scopeGroupId": 0,
       "deptName": this.selectedDept.description,
@@ -357,12 +362,27 @@ export class SalesMultiStepFormComponent implements OnInit {
     }]
 
     this.http.post<any>(environment.apiURL + `CustomerMapping/AddCustomerVsScope`, payload).subscribe(results => {
-      console.log(results, "Addtotable");
-
       this.dataSource = results
+      this._coreService.openSnackBar("Data Added successfully!");
+      this.getTableData();
     });
   }
-
+  onScopeChange() {
+    // Access the ID and Description of the selected department
+    if (this.SelectedScope.length > 0) { // Check if there are any selected options
+      for (const selectedScope of this.SelectedScope) {
+        const selectedDeptId = selectedScope.id;
+        const selectedDeptDescription = selectedScope.description;
+      
+      
+        this.selectedScopeID = selectedDeptId;
+        this.selectedDeptDescription = selectedDeptDescription;
+        console.log('Selected ID:', this.selectedScopeID);
+        console.log('Selected Description:', this.selectedDeptDescription);
+        // Do whatever you need with the selectedDeptId and selectedDeptDescription here
+      }
+    }  
+  }
 
 
   ///customerTAT

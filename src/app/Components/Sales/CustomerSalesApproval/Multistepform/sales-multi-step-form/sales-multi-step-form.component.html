@@ -386,12 +386,14 @@
                                 <div class="col">
                                     <label>
                                         Department:
-                                      </label>
-                                      <select class="form-control" id="ddldepartment" [(ngModel)]="selectedDept" name="Department" (ngModelChange)="onDepartmentChange()" required>
+                                    </label>
+                                    <select class="form-control" id="ddldepartment" [(ngModel)]="selectedDept"
+                                        name="Department" (ngModelChange)="onDepartmentChange()" required>
                                         <option value="">-- Choose Department --</option>
-                                        <option *ngFor="let item of CustomerVsSCopedepartments" [ngValue]="item">{{ item.description }}</option>
-                                      </select>
-                                      
+                                        <option *ngFor="let item of CustomerVsSCopedepartments" [ngValue]="item">{{
+                                            item.description }}</option>
+                                    </select>
+
                                 </div>
                             </div>
 
@@ -401,14 +403,16 @@
                                     <label for="scope">Scope:</label>
                                     <mat-form-field appearance="fill">
                                       <mat-label>Scope</mat-label>
-                                      <mat-select multiple [(ngModel)]="SelectedScope">
+                                      <mat-select multiple [(ngModel)]="SelectedScope" (selectionChange)="onScopeChange()">
                                         <mat-option *ngFor="let item of ScopeBillings" [value]="item">
                                           {{ item.description }}
                                         </mat-option>
                                       </mat-select>
                                     </mat-form-field>
                                     
-                                    
+
+
+
                                 </div>
                                 <div class="col">
                                     <label for="status">Status</label>
@@ -654,7 +658,7 @@
                 </div>
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
-                    <button class="btn btn-success"  style="float:right">Submit</button>
+                    <button class="btn btn-success" style="float:right">Submit</button>
                 </div>
             </div>
         </mat-step>
