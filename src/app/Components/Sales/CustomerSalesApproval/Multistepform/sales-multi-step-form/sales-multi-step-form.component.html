@@ -380,8 +380,8 @@
                             <div class="row">
                                 <div class="col">
                                     <label>
-                                        Customer <span style="color:red;">*</span>
-                                    </label>
+                                        Customer <span style="color:red;">*</span> 
+                                    </label> &nbsp; {{editCustomerName}}
                                 </div>
                                 <div class="col">
                                     <label>
@@ -390,7 +390,7 @@
                                     <select class="form-control" id="ddldepartment" [(ngModel)]="selectedDept"
                                         name="Department" (ngModelChange)="onDepartmentChange()" required>
                                         <option value="">-- Choose Department --</option>
-                                        <option *ngFor="let item of CustomerVsSCopedepartments" [value]="item.id">{{
+                                        <option *ngFor="let item of CustomerVsSCopedepartments" [value]="item">{{
                                             item.description }}</option>
                                     </select>
                                 </div>

@@ -131,6 +131,10 @@ export class SalesMultiStepFormComponent implements OnInit {
   departments: any[] = [];
   CountriesList: any[] = [];
   ClassificationList: any[] = [];
+
+  //String intertpolation
+
+  editCustomerName= localStorage.getItem("CustomerName");
   //ngmodels to save the current value
   ShortName: '';
   CustomerClassificationId: '';
@@ -153,9 +157,12 @@ export class SalesMultiStepFormComponent implements OnInit {
   Checklist: boolean = false;
   ModeofSales: any;
   CurrencyMode: any;
-  SelectedScope: string = '';
+  SelectedScope: any;
   SelectedCustType: string = '';
   selectedDept: any;
+
+
+
 
   //change method to display state and places realted to country dropdown
   GetStatesList() {
@@ -302,6 +309,9 @@ export class SalesMultiStepFormComponent implements OnInit {
 
 
   ///Customer vs scope
+
+
+
   getTableData() {
     this.http.get<any>(environment.apiURL + `CustomerMapping/CustomerScopeByCusId?cusId=${this.apiResponseData.id}`).subscribe(results => {
       this.dataSource = results;
@@ -310,30 +320,32 @@ export class SalesMultiStepFormComponent implements OnInit {
     });
   }
   addDataToTable(){
-    let payload={
+    let payload=[{
       "id": 0,
-      "shortName": "string",
-      "name": "string",
+      "shortName":localStorage.getItem("ShortName"),
+      "name": localStorage.getItem("CustomerName"),
       "custId": this.apiResponseData.id,
-      "scopeId": 0,
-      "deptId": 0,
+      "scopeId": this.SelectedScope.id,
+      "deptId": this.selectedDept.id,
       "custName": "string",
       "description": "string",
-      "scopeName": "string",
+      "scopeName": this.SelectedScope.description,
       "scopeGroupDescription": "string",
       "scopeGroupId": 0,
-      "deptName": "string",
-      "custJobType": "string",
-      "isDeleted": true,
-      "isActive": true,
+      "deptName": this.selectedDept.description,
+      "custJobType": this.SelectedCustType,
+      "isDeleted": 0,
+      "isActive": 1,
       "createdBy": this.loginservice.getUsername(),
       "createdUTC": new Date().toISOString,
       "updatedBy": 0,
       "updatedUTC": new Date().toISOString,
-    }
+    }]
+    
     this.http.post<any>(environment.apiURL +`CustomerMapping/AddCustomerVsScope`,payload).subscribe( results =>{
+console.log(results,"Addtotable");
 
-
+this.dataSource = results
     });
   }
 
