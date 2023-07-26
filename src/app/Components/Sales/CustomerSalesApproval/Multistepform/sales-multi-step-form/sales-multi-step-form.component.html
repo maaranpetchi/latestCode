@@ -22,50 +22,53 @@
                             <h2 class="panel-title" style="color:#fff">
                                 Customer Details
                                 <span class="pull-right" style="padding-right: 6px;" style="color:#fff">Customer Name :
-                                    <!--{{AppCustomerDetails.UserName}}--></span>
+                                    {{AppCustomerDetails?.userName}}</span>
                             </h2>
                         </div>
 
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                    <label class="required">Customer Name</label>
+                                    <label class="required">Customer Name</label> &nbsp;
+                                    {{AppCustomerDetails?.userName}}
                                 </div>
                                 <div class="col">
-                                    <label>Middle Name</label>
+                                    <label>Middle Name</label> &nbsp; {{AppCustomerDetails?.middleName}}
                                 </div>
                                 <div class="col">
-                                    <label class="required">Last Name</label>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col">
-                                    <label>Company Name</label>
-                                </div>
-                                <div class="col">
-                                    <label class="required">Address</label>
-                                </div>
-                                <div class="col">
-                                    <label class="required">Email Id</label>
+                                    <label class="required">Last Name</label> &nbsp; {{AppCustomerDetails?.lastName}}
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col">
-                                    <label class="required">Phone Number</label>
+                                    <label>Company Name</label> &nbsp; {{AppCustomerDetails?.companyName}}
                                 </div>
                                 <div class="col">
-                                    <label class="required">Phone Number2</label>
+                                    <label class="required">Address</label> &nbsp; {{AppCustomerDetails?.address}}
                                 </div>
                                 <div class="col">
-                                    <label class="required">Fax Number</label>
+                                    <label class="required">Email Id</label> &nbsp; {{AppCustomerDetails?.address}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class="required">Phone Number</label> &nbsp; {{AppCustomerDetails?.phoneNo}}
+                                </div>
+                                <div class="col">
+                                    <label class="required">Phone Number2</label> &nbsp; {{AppCustomerDetails?.phoneNo}}
+                                </div>
+                                <div class="col">
+                                    <label class="required">Fax Number</label> &nbsp; <!--{{AppCustomerDetails.fax}}-->
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="required">Web site</label>
+                                    <label class="required">Web site</label> &nbsp;
+                                    <!--{{AppCustomerDetails.website}} -->
+
                                 </div>
                             </div>
 
@@ -276,20 +279,22 @@
                                     <mat-checkbox [(ngModel)]="isRushed" name="IsRushed">Is Rush</mat-checkbox>
                                 </div>
                                 <div class="col">
-                                    <mat-checkbox [(ngModel)]="manualupload" name="manualupload">Manual Upload</mat-checkbox>
+                                    <mat-checkbox [(ngModel)]="manualupload" name="manualupload">Manual
+                                        Upload</mat-checkbox>
                                 </div>
                             </div>
 
 
                             <div class="row">
                                 <div class="col">
-                                    <mat-checkbox [(ngModel)]="ScheduledMail" name="ScheduledMail">Scheduled Mail</mat-checkbox>
+                                    <mat-checkbox [(ngModel)]="ScheduledMail" name="ScheduledMail">Scheduled
+                                        Mail</mat-checkbox>
                                 </div>
 
                                 <div class="col">
                                     <label class="col-sm-2 control-label">
                                         Date of Creation :
-                                    <span>{{AppCustomerDetails}}</span></label> 
+                                        <span>{{AppCustomerDetails?.createdUTC}}</span></label>
                                 </div>
 
                                 <div class="col">
@@ -304,9 +309,11 @@
                                 <div class="col">
                                     <label>
                                         Approved On :
-                                     </label> 
-                                         &nbsp;
-                                         <span style="color:#333333;  font-weight:normal;">{{this.apiResponseData.approvedDate  }}</span> 
+                                    </label>
+                                    &nbsp;
+                                    <span
+                                        style="color:#333333;  font-weight:normal;">{{this.apiResponseData.approvedDate
+                                        }}</span>
 
                                 </div>
                                 <div class="col">
@@ -315,7 +322,7 @@
                                 <div class="col">
                                     <label class="col-sm-2 control-label">
                                         Trial Period
-                                    </label>  
+                                    </label>
                                     <!-- <span>{{CustomerapprovalAllDetails.TrialStartDate | date:"MM/dd/yyyy"}}</span> -->
                                 </div>
                             </div>
@@ -327,20 +334,22 @@
                                         <label>
                                             Mode of Sales
                                         </label>
-                                        <select name="ddlModeofSales" class="form-control" [(ngModel)]="ModeofSales" tabindex="6">
-                                          <option value="">Select</option>
-                                          <option value="Cold Calls">Cold Calls</option>
-                                          <option value="Meeting">Meeting</option>
-                                          <option value="Calls & Meeting">Calls & Meeting</option>
-                                          <option value="Referral">Referral</option>
-                                          <option value="Email Marketing">Email Marketing</option>
+                                        <select name="ddlModeofSales" class="form-control" [(ngModel)]="ModeofSales"
+                                            tabindex="6">
+                                            <option value="">Select</option>
+                                            <option value="Cold Calls">Cold Calls</option>
+                                            <option value="Meeting">Meeting</option>
+                                            <option value="Calls & Meeting">Calls & Meeting</option>
+                                            <option value="Referral">Referral</option>
+                                            <option value="Email Marketing">Email Marketing</option>
                                         </select>
-                                      </div>
-                                      
+                                    </div>
+
                                 </div>
                                 <div class="col-4">
                                     <mat-label>Currency Mode</mat-label>
-                                    <input type="text" class="form-control" name="CurrencyMode" id="CurrencyMode" [(ngModel)]="CurrencyMode" placeholder="Currency Mode" required tabindex="2">
+                                    <input type="text" class="form-control" name="CurrencyMode" id="CurrencyMode"
+                                        [(ngModel)]="CurrencyMode" placeholder="Currency Mode" required tabindex="2">
 
                                 </div>
                             </div>
@@ -360,7 +369,143 @@
             <ng-template matStepLabel>Software</ng-template>
             <div>
                 <!-- Content for Software step goes here -->
+                <div class="customerProfile">
+                    <div class="backgroundcolor">
+                        <div class="panel-heading">
+                            <h2 class="panel-title" style="color:#fff">Customer VS Scope</h2>
+                        </div>
 
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label>
+                                        Customer <span style="color:red;">*</span>
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <label>
+                                        Department :
+                                    </label>
+                                    <select class="form-control" id="ddldepartment" [(ngModel)]="selectedDept"
+                                        name="Department" (ngModelChange)="onDepartmentChange()" required>
+                                        <option value="">-- Choose Department --</option>
+                                        <option *ngFor="let item of CustomerVsSCopedepartments" [value]="item.id">{{
+                                            item.description }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row" *ngIf="displayscope">
+                                <div class="col">
+                                    <label for="scope">Scope:</label>
+                                    <select style="height: 200px;" multiple class="form-control" id="ddlscope"
+                                        [(ngModel)]="SelectedScope">
+                                        <option *ngFor="let item of ScopeBillings" [value]="item">{{ item.description
+                                            }}</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="status">Status</label>
+                                    <select id="ddlCustType" class="form-control" name="ddlCustType"
+                                        [(ngModel)]="SelectedCustType">
+                                        <option value="">--Choose Status--</option>
+                                        <option value="Live">Live</option>
+                                        <option value="Trial">Trial</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row" style="display:flex;text-align: center;justify-content: center;">
+                                <div class="col">
+                                    <button type="button" class="btn btn-success" id="button-gap" (click)="addDataToTable()">Add</button> <button
+                                        type="button" id="button-gap" class="btn btn-warning">Cancel</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="example-container mat-elevation-z8">
+
+                                <mat-table class="table table-sm table-responsive" mat-table #table
+                                    [dataSource]="dataSource" matSort>
+
+                                    <ng-container matColumnDef="customername">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start"> Customer Name </div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.customerName }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="department">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start">Department</div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.deptName}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="scope">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start">Scope</div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.scopeName}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start">Status</div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.customerJobType}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="Action">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                                        <td mat-cell *matCellDef="let element">
+
+                                            <a class="red-btn" matTooltip="delete" matTooltipPosition="below"
+                                                (click)="deleteEmployee(element.id)">
+                                                <mat-icon>delete</mat-icon>
+                                            </a>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </mat-table>
+                                <mat-paginator [pageSizeOptions]="[25, 50]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
