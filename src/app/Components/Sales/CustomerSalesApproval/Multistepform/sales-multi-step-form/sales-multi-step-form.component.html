@@ -380,19 +380,18 @@
                             <div class="row">
                                 <div class="col">
                                     <label>
-                                        Customer <span style="color:red;">*</span> 
+                                        Customer <span style="color:red;">*</span>
                                     </label> &nbsp; {{editCustomerName}}
                                 </div>
                                 <div class="col">
                                     <label>
-                                        Department :
-                                    </label>
-                                    <select class="form-control" id="ddldepartment" [(ngModel)]="selectedDept"
-                                        name="Department" (ngModelChange)="onDepartmentChange()" required>
+                                        Department:
+                                      </label>
+                                      <select class="form-control" id="ddldepartment" [(ngModel)]="selectedDept" name="Department" (ngModelChange)="onDepartmentChange()" required>
                                         <option value="">-- Choose Department --</option>
-                                        <option *ngFor="let item of CustomerVsSCopedepartments" [value]="item">{{
-                                            item.description }}</option>
-                                    </select>
+                                        <option *ngFor="let item of CustomerVsSCopedepartments" [ngValue]="item">{{ item.description }}</option>
+                                      </select>
+                                      
                                 </div>
                             </div>
 
@@ -400,11 +399,16 @@
                             <div class="row" *ngIf="displayscope">
                                 <div class="col">
                                     <label for="scope">Scope:</label>
-                                    <select style="height: 200px;" multiple class="form-control" id="ddlscope"
-                                        [(ngModel)]="SelectedScope">
-                                        <option *ngFor="let item of ScopeBillings" [value]="item">{{ item.description
-                                            }}</option>
-                                    </select>
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Scope</mat-label>
+                                      <mat-select multiple [(ngModel)]="SelectedScope">
+                                        <mat-option *ngFor="let item of ScopeBillings" [value]="item">
+                                          {{ item.description }}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                    
+                                    
                                 </div>
                                 <div class="col">
                                     <label for="status">Status</label>
@@ -419,8 +423,9 @@
 
                             <div class="row" style="display:flex;text-align: center;justify-content: center;">
                                 <div class="col">
-                                    <button type="button" class="btn btn-success" id="button-gap" (click)="addDataToTable()">Add</button> <button
-                                        type="button" id="button-gap" class="btn btn-warning">Cancel</button>
+                                    <button type="button" class="btn btn-success" id="button-gap"
+                                        (click)="addDataToTable()">Add</button> <button type="button" id="button-gap"
+                                        class="btn btn-warning">Cancel</button>
                                 </div>
                             </div>
                             <br>
@@ -509,21 +514,148 @@
             </div>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext style="float:right">Next</button>
+                <button mat-button matStepperNext style="float:right" (click)="nextbutton()">Next</button>
             </div>
         </mat-step>
 
 
         <!--CustomerVSTAT-->
         <mat-step [stepControl]="customerVsTAT">
-            <ng-template matStepLabel>Software</ng-template>
+            <ng-template matStepLabel>customer TAT</ng-template>
             <div>
                 <!-- Content for Software step goes here -->
+                <div class="customerProfile">
+                    <div class="backgroundcolor">
+                        <div class="panel-heading">
+                            <h2 class="panel-title" style="color:#fff">Customer TAT</h2>
+                        </div>
 
-            </div>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext style="float:right">Next</button>
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label>
+                                        Customer <span style="color:red;">*</span>
+                                    </label> &nbsp; {{editCustomerName}}
+                                </div>
+                                <div class="col" *ngIf="jobstatusdropdown">
+                                    <label for="jobstatus">Job Status:</label>
+                                    <select style="height: 200px;" multiple class="form-control" id="ddlscope"
+                                        [(ngModel)]="SelectedJobStatus">
+                                        <option *ngFor="let item of jobstatus" [value]="item">{{
+                                            item.jobStatusDescription}}</option>
+                                    </select>
+                                </div>
+                                <div class="col" *ngIf="jobStatusdisplay">
+
+                                    <label for="jobstatus">Job Status:</label>&nbsp; {{jobStatusDescription}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="tatInput">TAT in Minutes:</label>
+                                    <input type="number" id="tatInput" [(ngModel)]="tatValue" name="TAT in Minutes" />
+
+                                </div>
+                            </div>
+
+                            <div class="row" style="display:flex;text-align: center;justify-content: center;">
+                                <div class="col">
+                                    <button *ngIf="addcustat" type="button" class="btn btn-success" id="button-gap"
+                                        (click)="addcustattable()">Add</button> <button *ngIf="uptcustat" type="button"
+                                        class="btn btn-success" id="button-gap"
+                                        (click)="updatecustattable()">Update</button> <button type="button"
+                                        id="button-gap" class="btn btn-warning" (click)="returnForm()">Cancel</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="example-container mat-elevation-z8">
+
+                                <mat-table class="table table-sm table-responsive" mat-table #table
+                                    [dataSource]="customertatdatasource" matSort>
+                                    <ng-container matColumnDef="customernametat">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start"> Customer Name </div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.name }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="customershortnametat">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start">Customer Short Name</div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.shortName}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="jobstatustat">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start">Job Status</div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.jobStatusDescription}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tat">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            <div class="header-wrapper">
+                                                <div class="department-name text-start">TAT</div>
+                                                <div class="filter-input">
+                                                    <input matInput (keyup)="employeeFilter($event)"
+                                                        placeholder="Filter" #input>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.tat}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="Actiontat">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <a class="btn btn-success actionbtn" matTooltip="Edit"
+                                                matTooltipPosition="below" (click)="openEditForm()">
+                                                <mat-icon>edit</mat-icon>
+                                            </a>
+                                            <a class="red-btn" matTooltip="delete" matTooltipPosition="below"
+                                                (click)="deleteTatEmployee(element.id)">
+                                                <mat-icon>delete</mat-icon>
+                                            </a>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedTATColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedTATColumns;"></tr>
+                                </mat-table>
+                                <mat-paginator [pageSizeOptions]="[25, 50]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button class="btn btn-success"  style="float:right">Submit</button>
+                </div>
             </div>
         </mat-step>
     </mat-horizontal-stepper>

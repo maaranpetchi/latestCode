@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { ResourceLoader } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -27,10 +28,13 @@ export class SalesMultiStepFormComponent implements OnInit {
 
 
   dataSource: MatTableDataSource<any>;
+  customertatdatasource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = ['customername', 'department', 'scope', 'status', 'Action'];
+  displayedTATColumns: string[] = ['customernametat', 'customershortnametat', 'jobstatustat', 'tat', 'Actiontat'];
+  customertatinput: any;
   employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -131,10 +135,10 @@ export class SalesMultiStepFormComponent implements OnInit {
   departments: any[] = [];
   CountriesList: any[] = [];
   ClassificationList: any[] = [];
-
+  jobstatus: any[] = [];
   //String intertpolation
 
-  editCustomerName= localStorage.getItem("CustomerName");
+  editCustomerName = localStorage.getItem("CustomerName");
   //ngmodels to save the current value
   ShortName: '';
   CustomerClassificationId: '';
@@ -157,11 +161,11 @@ export class SalesMultiStepFormComponent implements OnInit {
   Checklist: boolean = false;
   ModeofSales: any;
   CurrencyMode: any;
-  SelectedScope: any;
+  SelectedScope: any; 
   SelectedCustType: string = '';
   selectedDept: any;
-
-
+  SelectedJobStatus: any;
+  tatValue: any;
 
 
   //change method to display state and places realted to country dropdown
@@ -273,11 +277,21 @@ export class SalesMultiStepFormComponent implements OnInit {
   ScopeBillings: any[] = [];
 
   onDepartmentChange() {
-    this.displayscope = true;
-    this.http.get<any>(environment.apiURL + `CustomerMapping/ScopeByDeptIdCusId?departmentId=${this.selectedDept}&custId=${this.apiResponseData.id}`).subscribe(results => {
-      this.ScopeBillings = results
-    });
+    if (this.selectedDept) {
+      // Access the ID and Description of the selected department
+      const selectedDeptId = this.selectedDept.id;
+      const selectedDeptDescription = this.selectedDept.description;
+      console.log('Selected ID:', selectedDeptId);
+      console.log('Selected Description:', selectedDeptDescription);
+      this.displayscope = true;
+      console.log(this.selectedDept, "selectedDepartment")
+      this.http.get<any>(environment.apiURL + `CustomerMapping/ScopeByDeptIdCusId?departmentId=${selectedDeptId}&custId=${this.apiResponseData.id}`).subscribe(results => {
+        this.ScopeBillings = results
+      });
+    }
   }
+
+
 
   getDepartmentObjects(): any[] {
     let department: any[] = []
@@ -319,10 +333,10 @@ export class SalesMultiStepFormComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
   }
-  addDataToTable(){
-    let payload=[{
+  addDataToTable() {
+    let payload = [{
       "id": 0,
-      "shortName":localStorage.getItem("ShortName"),
+      "shortName": localStorage.getItem("ShortName"),
       "name": localStorage.getItem("CustomerName"),
       "custId": this.apiResponseData.id,
       "scopeId": this.SelectedScope.id,
@@ -341,12 +355,80 @@ export class SalesMultiStepFormComponent implements OnInit {
       "updatedBy": 0,
       "updatedUTC": new Date().toISOString,
     }]
-    
-    this.http.post<any>(environment.apiURL +`CustomerMapping/AddCustomerVsScope`,payload).subscribe( results =>{
-console.log(results,"Addtotable");
 
-this.dataSource = results
+    this.http.post<any>(environment.apiURL + `CustomerMapping/AddCustomerVsScope`, payload).subscribe(results => {
+      console.log(results, "Addtotable");
+
+      this.dataSource = results
     });
   }
 
+
+
+  ///customerTAT
+  jobStatusdisplay = false
+
+  nextbutton() {
+    this.getjobstatus();
+    this.getCustomerTatTable();
+  }
+  getjobstatus() {
+    this.http.get<any>(environment.apiURL + `CustomerMapping/JobStatusByCusId?custId=${this.apiResponseData.id}`).subscribe(results => {
+      this.jobstatus = results;
+    });
+  }
+
+  getCustomerTatTable() {
+    this.http.get<any>(environment.apiURL + `CustomerMapping/GetAllCustomerTATbyCusId?custId=${this.apiResponseData.id}`).subscribe(results => {
+      this.customertatdatasource = results;
+      this.jobStatusDescription = results[0].jobStatusDescription;
+    });
+  }
+
+  addcustattable() {
+
+  }
+
+  deleteTatEmployee(id: number) {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `CustomerMapping/RemoveCustomerTAT?custTATId=${id}`).subscribe({
+      next: (res) => {
+        this.spinnerService.requestEnded();
+
+        this._coreService.openSnackBar('Employee deleted!', 'done');
+        this.getCustomerTatTable();
+      }
+    });
+  }
+  jobStatusDescription: '';
+
+
+
+  jobstatusdropdown: boolean = true;
+  uptcustat: boolean = false;
+  addcustat: boolean = true;
+  openEditForm() {
+    this.http.get<any>(environment.apiURL + `CustomerMapping/GetAllCustomerTATbyCusId?custId=${this.apiResponseData.id}`).subscribe(results => {
+      console.log(results, "Tatavaluefromapi");
+
+      this.jobStatusdisplay = true;
+      this.jobstatusdropdown = false;
+      this.addcustat = false;
+      this.uptcustat = true;
+      this.tatValue = results[0].tat;
+      console.log(results[0].tat, "tatvalue");
+
+    });
+
+  }
+  returnForm() {
+    this.jobStatusdisplay = false;
+    this.jobstatusdropdown = true;
+    this.addcustat = true;
+    this.uptcustat = false;
+  }
+
+  updatecustattable() {
+
+  }
 }
