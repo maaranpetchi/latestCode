@@ -1,12 +1,11 @@
 .dashboard {
     border: 1px solid black;
-    width: 72VW;
-    padding:2rem;
-    
+    width: 62VW;
+    padding: 2rem;
 }
-
-.parentdashboard {
+.parentdashboard{
     justify-content: center;
+    width: 781px;
     display: grid;
     place-items: center;
 }
@@ -28,7 +27,7 @@ mat-grid-tile {
 
 .Reports {
     left: 0px;
-    width: 263px;
+    width: 221px;
     top: 0px;
     height: calc(100px);
 }

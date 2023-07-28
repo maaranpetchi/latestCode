@@ -29,7 +29,7 @@ export class LoginService {
     return this.cookieService.get('username');
   }
 
-
+ 
   getProcessId() {
     return this.cookieService.get('processId');
   }
