@@ -29,3 +29,10 @@
     ". . ."; 
 }
 .formgroup { grid-area: formgroup; }
+
+
+.mat-mdc-table {
+  table-layout: auto;
+  white-space: normal;
+  height: 600px;
+}

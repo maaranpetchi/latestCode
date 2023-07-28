@@ -121,3 +121,66 @@ a{
 .Reportstitle:hover{
     background-color: #8b8b8b;
 }
+
+///////////////////Demo////////////////////////////////
+.myProcess-color-0 {
+    background-color: #4793ac;
+}
+
+.myProcess-color-1 {
+    /*background-color: rgb(0,73,84);*/
+    background-color: mediumvioletred;
+}
+
+.myProcess-color-2 {
+    background-color: seagreen;
+}
+
+.myProcess-color-3 {
+    background-color: forestgreen;
+}
+
+.myProcess-color-4 {
+    background-color: orangered;
+}
+
+.myProcess-color-5 {
+    background-color: cornflowerblue;
+}
+
+.myProcess-color-6 {
+    background-color: rgb(188,101,41);
+}
+
+.myProcess-color-7 {
+    background-color: rgb(0,177,81);
+}
+.myProcess-color-8
+{
+    background-color: #61619e;
+}
+.myProcess-color-9
+{
+    background-color: orange;
+}
+
+.myProcess-color-0, .myProcess-color-1, .myProcess-color-2, .myProcess-color-3, .myProcess-color-4, .myProcess-color-5, .myProcess-color-6, .myProcess-color-7,.myProcess-color-8,.myProcess-color-9 {
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+    .myProcess-color-0:hover, .myProcess-color-1:hover, .myProcess-color-2:hover, .myProcess-color-3:hover, .myProcess-color-4:hover, .myProcess-color-5:hover, .myProcess-color-6:hover, .myProcess-color-7:hover,.myProcess-color-8:hover,.myProcess-color-9:hover {
+        background-color: grey;
+    }
+
+.myProcess {
+    width: 70px;
+    height: 40px;
+    cursor: pointer;
+    padding: 0px 15px;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
