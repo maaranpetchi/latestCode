@@ -6,28 +6,91 @@
   <title>Document</title>
 </head>
 <body style="height: 130vh;">
-  <div class="col-xs-8">
-    <div *ngFor="let process of employeeProcess; let i = index" class="col-xs-4">
-      <div (click)="gotoProcess(process)" [ngClass]="{
-        'myProcess-color-0': (i === 0),
-        'myProcess-color-1': (i === 1),
-        'myProcess-color-2': (i === 2),
-        'myProcess-color-3': (i === 3),
-        'myProcess-color-4': (i === 4),
-        'myProcess-color-5': (i === 5),
-        'myProcess-color-6': (i === 6),
-        'myProcess-color-7': (i === 7),
-        'myProcess-color-8': (i === 8),
-        'myProcess-color-9': (i === 9)
-      }">
-        <div style="display: table; width: 100%">
-          <div style="display: table-cell; vertical-align: middle; height: 50px;">
-            {{ process.Name }}
-          </div>
-        </div>
-      </div>
+  <div class="parentdashboard">
+    <div class="dashboard">
+      <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px">
+        <a routerLink="/topnavbar/clientindex">
+          <mat-grid-tile class="ClientCoordination">
+            <!-- first card component goes here -->
+            ClientCoordination
+          </mat-grid-tile>
+        </a>
+  
+        <a routerLink="/topnavbar/production">
+          <mat-grid-tile class=" ProductionAllocation">
+            <!-- second card component goes here -->
+            Production Allocation
+          </mat-grid-tile>
+        </a>
+  
+  
+        <a routerLink="/topnavbar/productionmain">
+          <mat-grid-tile class=" Production">
+            <!-- third card component goes here -->
+            Production
+          </mat-grid-tile>
+        </a>
+      </mat-grid-list>
+  
+  
+      <br>
+  
+      <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px">
+        <a routerLink="/topnavbar/qualityallocation">
+          <mat-grid-tile class="QualityAllocation">
+            <!-- first card component goes here -->
+            Quality Allocation
+          </mat-grid-tile>
+        </a>
+  
+        <a routerLink="/topnavbar/quality">
+          <mat-grid-tile class="quality">
+            <!-- second card component goes here -->
+            Quality
+          </mat-grid-tile>
+        </a>
+  
+        <a routerLink="/topnavbar/proofreadingallocation">
+          <mat-grid-tile class=" ProofReadingAllocation">
+            <!-- third card component goes here -->
+            Proof Reading Allocation
+          </mat-grid-tile>
+        </a>
+      </mat-grid-list>
+      <br>
+      <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px">
+        <a routerLink="/topnavbar/proofreading">
+          <mat-grid-tile class="ProofReading">
+            <!-- first card component goes here -->
+            Proof Reading
+          </mat-grid-tile>
+        </a>
+        <a routerLink="/topnavbar/buddyproof">
+          <mat-grid-tile class="BuddyProof">
+            <!-- second card component goes here -->
+            Buddy Proof
+          </mat-grid-tile>
+        </a>
+  
+        <a routerLink="/topnavbar/sewout">
+          <mat-grid-tile class="SewOut">
+            <!-- third card component goes here -->
+            Sew Out
+          </mat-grid-tile>
+        </a>
+      </mat-grid-list>
+      <br>
+  
+  
+      <mat-grid-list cols="1" rowHeight="100px" class="Reports" gutterSize="16px">
+        <a routerLink="/topnavbar/index">
+          <mat-grid-tile class="Reportstitle">
+            <!-- first card component goes here -->
+            Reports
+          </mat-grid-tile>
+        </a>
+      </mat-grid-list>
     </div>
   </div>
-  
 </body>
 </html>

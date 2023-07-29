@@ -64,8 +64,8 @@ export class TopnavbarComponent implements OnInit {
     this.logoutService.logout().subscribe(
       response => {
         // do something with the response if needed
-        this.cookieService.delete('username', '/');
-        this.cookieService.delete('token', '/');
+        this.cookieService.delete('token');
+        this.cookieService.delete('username');
         this.router.navigate(['/login']);
       },
       error => {

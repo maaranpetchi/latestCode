@@ -20,6 +20,7 @@ import { PricingApprovalprocessComponent } from './Components/Sales/pricing-appr
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
+import { authGuard } from './AuthGuard/auth.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import { VendorService } from './Services/Vendor/vendor.service';
     EditadvanceadjustmentComponent,
     AdvanceadjustmentComponent,
     VendorService,
+    
   ],
   bootstrap: [AppComponent]
 })

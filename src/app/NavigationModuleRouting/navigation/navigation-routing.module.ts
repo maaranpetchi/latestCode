@@ -109,213 +109,215 @@ import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-opt
 import { IndexCustomerSalesApprovalComponent } from 'src/app/Components/Sales/CustomerSalesApproval/index-customer-sales-approval/index-customer-sales-approval.component';
 import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSalesApproval/tabcustomertable/tabcustomertable.component';
 import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
+import { authGuard } from 'src/app/AuthGuard/auth.guard';
 
 const routes: Routes = [
 
-  { path: "", component: LoginComponent },
-  { path: "login", component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent, },
-  // { path: 'topnavbar/clientindex/joborder', component: JoborderComponent },
+  { path: "", component: LoginComponent , canActivate: [authGuard]},
+  { path: "login", component: LoginComponent , canActivate: [authGuard]},
+  { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]},
+  { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent, canActivate: [authGuard]},
+  // { path: 'topnavbar/clientindex/joborder', component: JoborderComponent , canActivate: [authGuard]},
 
   {
     path: 'topnavbar',
     component: TopnavbarComponent,
+    canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'changepassword', component: ChangepasswordComponent },
+      { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]},
+      { path: 'changepassword', component: ChangepasswordComponent , canActivate: [authGuard]},
       //TOPNAVBAR COMPONENTS
       {
         path: 'clientindex', component: ClientordinationindexComponent
-      },
-      { path: 'clientindex/joborder', component: JoborderComponent }, // Added redirect path
-      { path: 'production', component: ProductionallocationComponent },
-      { path: 'productiontable', component: ProductionallocationtableComponent },
-      { path: 'JobAssignPopup', component: JobAssignedDetailsPopupComponent, },
+      , canActivate: [authGuard]},
+      { path: 'clientindex/joborder', component: JoborderComponent , canActivate: [authGuard]}, // Added redirect path
+      { path: 'production', component: ProductionallocationComponent , canActivate: [authGuard]},
+      { path: 'productiontable', component: ProductionallocationtableComponent , canActivate: [authGuard]},
+      { path: 'JobAssignPopup', component: JobAssignedDetailsPopupComponent, canActivate: [authGuard]},
       //ClientCordination
-      { path: 'clientindex/Jobexcel', component: JoborderexcelComponent },
-      { path: 'clientindex/completedjobs', component: CompletedjobsComponent },
-      { path: 'clientindex/clientorder', component: ClientordersComponent },
-      { path: 'clientindex/clientordertable', component: ClientorderstableComponent },
-      { path: 'clientindex/clientordertable', component: ClientorderstableComponent },
-      { path: 'clientindex/clientorder/clientorderview', component: ClientorderviewComponent },
-      { path: 'clientindex/clientorder/clientdetailpopup', component: ClientdetailspopupComponent, },
-      { path: 'clientindex/clientorder/fileconvert', component: FileconvertComponent, },
-      { path: 'clientindex/clientorder/fileconvert', component: JobDetailsClientIndexComponent },  //Main index Jobdetailpopup
+      { path: 'clientindex/Jobexcel', component: JoborderexcelComponent , canActivate: [authGuard]},
+      { path: 'clientindex/completedjobs', component: CompletedjobsComponent , canActivate: [authGuard]},
+      { path: 'clientindex/clientorder', component: ClientordersComponent , canActivate: [authGuard]},
+      { path: 'clientindex/clientordertable', component: ClientorderstableComponent , canActivate: [authGuard]},
+      { path: 'clientindex/clientordertable', component: ClientorderstableComponent , canActivate: [authGuard]},
+      { path: 'clientindex/clientorder/clientorderview', component: ClientorderviewComponent , canActivate: [authGuard]},
+      { path: 'clientindex/clientorder/clientdetailpopup', component: ClientdetailspopupComponent,  canActivate: [authGuard]},
+      { path: 'clientindex/clientorder/fileconvert', component: FileconvertComponent,  canActivate: [authGuard]},
+      { path: 'clientindex/clientorder/fileconvert', component: JobDetailsClientIndexComponent , canActivate: [authGuard]},  //Main index Jobdetailpopup
 
       //QualityAlloactionsComponent
-      { path: 'qualityallocation', component: QualityallocationComponent, },
-      { path: 'qualityallocationtable', component: QualityallocationtableComponent },
-      { path: 'qualitypopup', component: QualitypopupjobassignComponent },
+      { path: 'qualityallocation', component: QualityallocationComponent,  canActivate: [authGuard]},
+      { path: 'qualityallocationtable', component: QualityallocationtableComponent , canActivate: [authGuard]},
+      { path: 'qualitypopup', component: QualitypopupjobassignComponent , canActivate: [authGuard]},
 
       //Quality
-      { path: 'quality', component: QualityComponent },
-      { path: 'qualitytable', component: QualitytableComponent },
-      { path: 'qualityjobpop', component: QualityjobdetailpopupComponent },
-      { path: 'qualityworkflow', component: QualityWorkflowComponent },
-      { path: 'jobhistorytable', component: JobhistorypopuptableComponent, },
+      { path: 'quality', component: QualityComponent , canActivate: [authGuard]},
+      { path: 'qualitytable', component: QualitytableComponent , canActivate: [authGuard]},
+      { path: 'qualityjobpop', component: QualityjobdetailpopupComponent , canActivate: [authGuard]},
+      { path: 'qualityworkflow', component: QualityWorkflowComponent , canActivate: [authGuard]},
+      { path: 'jobhistorytable', component: JobhistorypopuptableComponent, canActivate: [authGuard]},
       //Productionmaincomponent
-      { path: 'productionmain', component: ProductionComponent },
-      { path: 'productionmaintable', component: ProductiontableComponent },
-      { path: 'prodjobpopup', component: ProdjobpopupComponent },
-      { path: 'prodworkflow', component: ProductionworkflowComponent },
+      { path: 'productionmain', component: ProductionComponent , canActivate: [authGuard]},
+      { path: 'productionmaintable', component: ProductiontableComponent , canActivate: [authGuard]},
+      { path: 'prodjobpopup', component: ProdjobpopupComponent , canActivate: [authGuard]},
+      { path: 'prodworkflow', component: ProductionworkflowComponent , canActivate: [authGuard]},
 
       //ProofReadingAllocation
-      { path: 'proofreadingallocation', component: ProofreadingAllocationComponent },
+      { path: 'proofreadingallocation', component: ProofreadingAllocationComponent , canActivate: [authGuard]},
       //ProofReading
-      { path: 'proofreading', component: ProofreadingComponent },
-      { path: 'proofreadingtable', component: ProofReadingTableComponent },
-      { path: 'proofreadingdetails', component: ProofjobdetailpopupComponent },
-      { path: 'proofhistory', component: ProofjobhistorypopupComponent },
-      { path: 'proofworkflow', component: ProofworkflowComponent },
+      { path: 'proofreading', component: ProofreadingComponent , canActivate: [authGuard]},
+      { path: 'proofreadingtable', component: ProofReadingTableComponent , canActivate: [authGuard]},
+      { path: 'proofreadingdetails', component: ProofjobdetailpopupComponent , canActivate: [authGuard]},
+      { path: 'proofhistory', component: ProofjobhistorypopupComponent , canActivate: [authGuard]},
+      { path: 'proofworkflow', component: ProofworkflowComponent , canActivate: [authGuard]},
 
       //BuddyProof
-      { path: 'buddyproof', component: BuddyProofComponent },
-      { path: 'buddyprooftable', component: BuddyProofTableComponent },
+      { path: 'buddyproof', component: BuddyProofComponent , canActivate: [authGuard]},
+      { path: 'buddyprooftable', component: BuddyProofTableComponent , canActivate: [authGuard]},
       //SewoutProof
-      { path: 'sewout', component: SewOutComponent },
-      { path: 'sewtable', component: SewOutTableComponent },
-      { path: 'sewJobDetails', component: JobDetailsSewPopComponent, },
-      { path: 'sewoutworkflow', component: SewoutworkflowComponent },
+      { path: 'sewout', component: SewOutComponent , canActivate: [authGuard]},
+      { path: 'sewtable', component: SewOutTableComponent , canActivate: [authGuard]},
+      { path: 'sewJobDetails', component: JobDetailsSewPopComponent, canActivate: [authGuard]},
+      { path: 'sewoutworkflow', component: SewoutworkflowComponent , canActivate: [authGuard]},
       //SideNavbarMenu
       //EmployeeController
-      { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent },
-      { path: 'Emp-addeditEmpcontroller', component: AddEditEmployeecontrollerComponent },
+      { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent , canActivate: [authGuard]},
+      { path: 'Emp-addeditEmpcontroller', component: AddEditEmployeecontrollerComponent , canActivate: [authGuard]},
       //EmployeevsdivController
-      { path: 'Emp-empvsdiv', component: indexemployeevsdivisionComponent },
-      { path: 'Emp-addeditempvsdiv', component: AddeditemployeevsdivisionComponent },
+      { path: 'Emp-empvsdiv', component: indexemployeevsdivisionComponent , canActivate: [authGuard]},
+      { path: 'Emp-addeditempvsdiv', component: AddeditemployeevsdivisionComponent , canActivate: [authGuard]},
       //customercontroller
       //CustomerVSEmployee
-      { path: 'cus-cusvsemp', component: CustomerVSEmployeeComponent },
-      { path: 'cus-addeditcusvsemp', component: AddEditCustomerVSEmployeeComponent },
+      { path: 'cus-cusvsemp', component: CustomerVSEmployeeComponent , canActivate: [authGuard]},
+      { path: 'cus-addeditcusvsemp', component: AddEditCustomerVSEmployeeComponent , canActivate: [authGuard]},
       //CustomerVSprocess
-      { path: 'cus-cusvsprocess', component: CustomervsprocessComponent },
+      { path: 'cus-cusvsprocess', component: CustomervsprocessComponent , canActivate: [authGuard]},
       //AccountsController
       //pricingcalculation
-      { path: 'acc-pricing', component: PricingcalculationComponent },
-      { path: 'acc-pricingpopup', component: InformationpopupComponent },
+      { path: 'acc-pricing', component: PricingcalculationComponent , canActivate: [authGuard]},
+      { path: 'acc-pricingpopup', component: InformationpopupComponent , canActivate: [authGuard]},
       //Non-billable
-      { path: 'acc-nonbill', component: NonbillablejobsComponent },
+      { path: 'acc-nonbill', component: NonbillablejobsComponent , canActivate: [authGuard]},
       //Customerreceipts
-      { path: 'acc-customer', component: CustomerreceiptsindexComponent },
-      { path: 'acc-addeditcustomer', component: AddEditCustomerreceiptsComponent },
+      { path: 'acc-customer', component: CustomerreceiptsindexComponent , canActivate: [authGuard]},
+      { path: 'acc-addeditcustomer', component: AddEditCustomerreceiptsComponent , canActivate: [authGuard]},
       //ScopeChange
-      { path: 'acc-scopechange', component: ScopechangeComponent },
+      { path: 'acc-scopechange', component: ScopechangeComponent , canActivate: [authGuard]},
       //Advance-Adjustment
-      { path: 'acc-advance', component: AdvanceadjustmentComponent },
-      { path: 'acc-editadvance', component: EditadvanceadjustmentComponent },
+      { path: 'acc-advance', component: AdvanceadjustmentComponent , canActivate: [authGuard]},
+      { path: 'acc-editadvance', component: EditadvanceadjustmentComponent , canActivate: [authGuard]},
       //credit-note
-      { path: 'acc-creditnote', component: CreditnoteindexComponent },
-      { path: 'acc-addcredit', component: AddCreditnoteComponent },
+      { path: 'acc-creditnote', component: CreditnoteindexComponent , canActivate: [authGuard]},
+      { path: 'acc-addcredit', component: AddCreditnoteComponent , canActivate: [authGuard]},
       //wavier
-      { path: 'acc-wavier', component: WavierComponent },
+      { path: 'acc-wavier', component: WavierComponent , canActivate: [authGuard]},
       //popupwaiver
-      { path: 'acc-wavierpop', component: PopupwavierconfirmationComponent },
+      { path: 'acc-wavierpop', component: PopupwavierconfirmationComponent , canActivate: [authGuard]},
       //Tally
-      { path: 'acc-tally', component: TallyComponent },
+      { path: 'acc-tally', component: TallyComponent , canActivate: [authGuard]},
       // Invoicecancellation,
-      { path: 'acc-invcan', component: InvoicecancellationComponent },
+      { path: 'acc-invcan', component: InvoicecancellationComponent , canActivate: [authGuard]},
       // ViewinvoicecancelComponent,
-      { path: 'acc-viewinvcan', component: ViewinvoicecancelComponent, },
+      { path: 'acc-viewinvcan', component: ViewinvoicecancelComponent,  canActivate: [authGuard]},
       // InvoicecancelleddetailsComponent,
-      { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent, },
+      { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent,  canActivate: [authGuard]},
       //popupinvoicecancelledlist
-      { path: 'acc-popinvcan', component: PopupinvoicecancellistComponent, },
+      { path: 'acc-popinvcan', component: PopupinvoicecancellistComponent, canActivate: [authGuard]},
       //Invoicecomponent
-      { path: 'acc-invoice', component: InvoiceComponent, },
-      { path: 'acc-details', component: DetailsComponent, },
-      { path: 'acc-generatedinvoice', component: GeneratedinvoiceComponent, },
-      { path: 'acc-confirminvoice', component: ConfirminvoiceComponent, },
-      { path: 'acc-popupinvoice', component: PopupinvoiceComponent, },
+      { path: 'acc-invoice', component: InvoiceComponent,  canActivate: [authGuard]},
+      { path: 'acc-details', component: DetailsComponent,  canActivate: [authGuard]},
+      { path: 'acc-generatedinvoice', component: GeneratedinvoiceComponent,  canActivate: [authGuard]},
+      { path: 'acc-confirminvoice', component: ConfirminvoiceComponent, canActivate: [authGuard]},
+      { path: 'acc-popupinvoice', component: PopupinvoiceComponent,  canActivate: [authGuard]},
       //SALES CONTROLLER
       //1.PRICING    
-      { path: 'sales-pricing', component: PricingComponent, },
+      { path: 'sales-pricing', component: PricingComponent , canActivate: [authGuard]},
 
       // Master Order
-      { path: 'master-user', component: UserMasterComponent },
+      { path: 'master-user', component: UserMasterComponent , canActivate: [authGuard]},
       // Scope
-      { path: 'master-scope', component: ScopeComponent },
-      { path: 'master-scopeAdd', component: AddScopeComponent },
-      { path: 'master-scope/edit', component: ViewEditScopeComponent },
-      { path: 'master-scope/view', component: ViewScopeComponent },
+      { path: 'master-scope', component: ScopeComponent , canActivate: [authGuard]},
+      { path: 'master-scopeAdd', component: AddScopeComponent , canActivate: [authGuard]},
+      { path: 'master-scope/edit', component: ViewEditScopeComponent , canActivate: [authGuard]},
+      { path: 'master-scope/view', component: ViewScopeComponent , canActivate: [authGuard]},
 
       // Error Category
-      { path: 'errorCategory', component: ErrorCategoryComponent },
-      { path: 'error-Categoryadd', component: AddErrorcategoryComponent },
-      { path: 'error-Categoryview', component: ViewErrorCategoryComponent },
-      { path: 'error-Categoryedit', component: EditErrorcategoryComponent },
+      { path: 'errorCategory', component: ErrorCategoryComponent , canActivate: [authGuard]},
+      { path: 'error-Categoryadd', component: AddErrorcategoryComponent , canActivate: [authGuard]},
+      { path: 'error-Categoryview', component: ViewErrorCategoryComponent , canActivate: [authGuard]},
+      { path: 'error-Categoryedit', component: EditErrorcategoryComponent , canActivate: [authGuard]},
 
 
       //  Process Master
-      { path: 'processMaster', component: ProcessComponent },
-      { path: 'process-addEdit', component: AddEditprocessComponent },
-      { path: 'process-view', component: ViewProcessComponent },
+      { path: 'processMaster', component: ProcessComponent , canActivate: [authGuard]},
+      { path: 'process-addEdit', component: AddEditprocessComponent , canActivate: [authGuard]},
+      { path: 'process-view', component: ViewProcessComponent , canActivate: [authGuard]},
 
       //  Bench Status
-      { path: 'benchStatus', component: BenchStatusComponent },
+      { path: 'benchStatus', component: BenchStatusComponent , canActivate: [authGuard]},
 
       // OneTime Master
-      { path: 'oneTimeMaster', component: OneTimemasterComponent },
+      { path: 'oneTimeMaster', component: OneTimemasterComponent , canActivate: [authGuard]},
       //  Job History
-      { path: 'jobHistory', component: JobHistoryComponent },
+      { path: 'jobHistory', component: JobHistoryComponent , canActivate: [authGuard]},
 
       // Job Transfer
-      { path: 'jobTransfer', component: JobTransferComponent },
+      { path: 'jobTransfer', component: JobTransferComponent , canActivate: [authGuard]},
 
       //Bank
-      { path: 'bank', component: BankComponent },
+      { path: 'bank', component: BankComponent , canActivate: [authGuard]},
 
       //VENDOR
-      { path: 'vendor', component: VendorComponent },
-      { path: 'editvendor', component: EditVendorComponent },
-      { path: 'updatevendor', component: UpdatevendorComponent },
+      { path: 'vendor', component: VendorComponent , canActivate: [authGuard]},
+      { path: 'editvendor', component: EditVendorComponent , canActivate: [authGuard]},
+      { path: 'updatevendor', component: UpdatevendorComponent , canActivate: [authGuard]},
 
       //CUSTOMERVSCHECKLIST
-      { path: 'CustomerVsChecklist', component: IndexchecklistComponent },
-      { path: 'edit', component: AddchecklistComponent },
-      { path: 'view', component:ViewchecklistComponent},
+      { path: 'CustomerVsChecklist', component: IndexchecklistComponent , canActivate: [authGuard]},
+      { path: 'edit', component: AddchecklistComponent , canActivate: [authGuard]},
+      { path: 'view', component:ViewchecklistComponent, canActivate: [authGuard]},
 
 
       //ITASSET
-      { path: 'ITAsset', component:ItAssetindexComponent},
-      { path: 'addITAsset', component:AddItassetsComponent},
+      { path: 'ITAsset', component:ItAssetindexComponent, canActivate: [authGuard]},
+      { path: 'addITAsset', component:AddItassetsComponent, canActivate: [authGuard]},
 
       //Bench Options
-      { path: 'benchOptions', component:BenchOptionsComponent},
+      { path: 'benchOptions', component:BenchOptionsComponent, canActivate: [authGuard]},
 
       // SALES
-      {path:'creditSales', component:CreditdaysApprovalComponent},
-      {path:'unapprovalJobs', component:UnApprovaljobsComponent},
-      {path:'view-unapprovalJobs', component:ViewUnapprovaljobsComponent},
-      {path:'customer-salesmapping', component: CustomerSalesmappingComponent},
-      {path:'pricing-Approval', component: PricingApprovalprocessComponent},
+      {path:'creditSales', component:CreditdaysApprovalComponent, canActivate: [authGuard]},
+      {path:'unapprovalJobs', component:UnApprovaljobsComponent, canActivate: [authGuard]},
+      {path:'view-unapprovalJobs', component:ViewUnapprovaljobsComponent, canActivate: [authGuard]},
+      {path:'customer-salesmapping', component: CustomerSalesmappingComponent, canActivate: [authGuard]},
+      {path:'pricing-Approval', component: PricingApprovalprocessComponent, canActivate: [authGuard]},
 
       //Sales- CustomerSalesApproval
-      {path:'customerSalesApproval', component: IndexCustomerSalesApprovalComponent},
-      {path:'customerSalesTable', component:     TabcustomertableComponent },
-      {path:'multistepform', component: SalesMultiStepFormComponent    },
+      {path:'customerSalesApproval', component: IndexCustomerSalesApprovalComponent, canActivate: [authGuard]},
+      {path:'customerSalesTable', component:     TabcustomertableComponent , canActivate: [authGuard]},
+      {path:'multistepform', component: SalesMultiStepFormComponent    , canActivate: [authGuard]},
 
 
       //Bank
-      { path: 'bank', component: BankComponent },
+      { path: 'bank', component: BankComponent , canActivate: [authGuard]},
 
       //VENDOR
-      { path: 'vendor', component: VendorComponent },
-      { path: 'editvendor', component: EditVendorComponent },
-      { path: 'updatevendor', component: UpdatevendorComponent },
+      { path: 'vendor', component: VendorComponent , canActivate: [authGuard]},
+      { path: 'editvendor', component: EditVendorComponent , canActivate: [authGuard]},
+      { path: 'updatevendor', component: UpdatevendorComponent , canActivate: [authGuard]},
 
       //CUSTOMERVSCHECKLIST
-      { path: 'CustomerVsChecklist', component: IndexchecklistComponent },
-      { path: 'edit', component: AddchecklistComponent },
-      { path: 'view', component:ViewchecklistComponent},
+      { path: 'CustomerVsChecklist', component: IndexchecklistComponent , canActivate: [authGuard]},
+      { path: 'edit', component: AddchecklistComponent , canActivate: [authGuard]},
+      { path: 'view', component:ViewchecklistComponent, canActivate: [authGuard]},
 
 
       //ITASSET
-      { path: 'ITAsset', component:ItAssetindexComponent},
-      { path: 'addITAsset', component:AddItassetsComponent},
+      { path: 'ITAsset', component:ItAssetindexComponent, canActivate: [authGuard]},
+      { path: 'addITAsset', component:AddItassetsComponent, canActivate: [authGuard]},
 
       //Bench Options
-      { path: 'benchOptions', component:BenchOptionsComponent},
+      { path: 'benchOptions', component:BenchOptionsComponent, canActivate: [authGuard]},
 
     ]
   },
@@ -326,6 +328,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [],
 })
 export class NavigationRoutingModule { }
