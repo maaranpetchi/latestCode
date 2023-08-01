@@ -110,11 +110,12 @@ import { IndexCustomerSalesApprovalComponent } from 'src/app/Components/Sales/Cu
 import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSalesApproval/tabcustomertable/tabcustomertable.component';
 import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
 import { authGuard } from 'src/app/AuthGuard/auth.guard';
+import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 
 const routes: Routes = [
 
-  { path: "", component: LoginComponent , canActivate: [authGuard]},
-  { path: "login", component: LoginComponent , canActivate: [authGuard]},
+  { path: "", component: LoginComponent},
+  { path: "login", component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent , canActivate: [authGuard]},
   { path: 'acc-viewinvdet', component: InvoicecancelleddetailsComponent, canActivate: [authGuard]},
   // { path: 'topnavbar/clientindex/joborder', component: JoborderComponent , canActivate: [authGuard]},
@@ -183,6 +184,7 @@ const routes: Routes = [
       //EmployeeController
       { path: 'Emp-Empcontroller', component: EmployeecontrollerComponent , canActivate: [authGuard]},
       { path: 'Emp-addeditEmpcontroller', component: AddEditEmployeecontrollerComponent , canActivate: [authGuard]},
+      { path: 'Emp-editaddEmpcontroller', component: EditaddemployeecontrollerComponent , canActivate: [authGuard]},
       //EmployeevsdivController
       { path: 'Emp-empvsdiv', component: indexemployeevsdivisionComponent , canActivate: [authGuard]},
       { path: 'Emp-addeditempvsdiv', component: AddeditemployeevsdivisionComponent , canActivate: [authGuard]},

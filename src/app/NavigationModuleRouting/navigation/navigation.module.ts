@@ -126,6 +126,7 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
 import { IndexCustomerSalesApprovalComponent } from 'src/app/Components/Sales/CustomerSalesApproval/index-customer-sales-approval/index-customer-sales-approval.component';
 import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSalesApproval/tabcustomertable/tabcustomertable.component';
 import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
+import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 
 @NgModule({
   declarations: [
@@ -201,6 +202,8 @@ import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSa
     //EmployeeController
     EmployeecontrollerComponent,
     AddEditEmployeecontrollerComponent,
+    EditaddemployeecontrollerComponent,
+
     //EmployeeVsDivController
     AddeditemployeevsdivisionComponent,
     indexemployeevsdivisionComponent,

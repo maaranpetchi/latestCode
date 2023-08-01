@@ -9,7 +9,7 @@ import { LoginService } from '../Login/login.service';
 })
 export class EmployeeService {
 
-   
+   public sharedData:any;
   
   constructor(private _http: HttpClient,private loginservice:LoginService) {}
  
@@ -39,4 +39,18 @@ export class EmployeeService {
   deleteEmployee(id: number): Observable<any> {
     return this._http.delete(`https://localhost:7208/api/Employee/PostDeleteEmployee?data=${id}&data1=${this.loginservice.getUsername()}`);
   }
+
+
+  setData(data: any) {
+    this.sharedData = data;
+  }
+
+  getData() {
+    return this.sharedData;
+  }
+
+  clearData() {
+    this.sharedData = null;
+  }
+
 }

@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,6 +14,8 @@ import { EventEmitter, Output } from '@angular/core';
 import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { EditaddemployeecontrollerComponent } from '../../editaddemployeecontroller/editaddemployeecontroller.component';
 @Component({
   selector: 'app-employeecontroller',
   templateUrl: './employeecontroller.component.html',
@@ -21,16 +24,6 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 export class EmployeecontrollerComponent implements OnInit {
   
 
-  displayedColumns: string[] = [
-    'employeeCode',
-    'employeeName',
-    'departmentId',
-    'designationId',
-    'profiencyId',
-    'reportingManager1',
-    'reportLeader1',
-    'action',
-  ];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,75 +33,30 @@ export class EmployeecontrollerComponent implements OnInit {
   isResignInclude = false;
 
   constructor(private _dialog: MatDialog,
+    private router: Router,
     private editService: EditService,
     private _empService: EmployeeService,
+    private loginservice:LoginService,
     private _coreService: CoreService,
     private http: HttpClient,
     private spinnerService:SpinnerService) { }
 
 
   ngOnInit(): void {
-    this.getEmployeeList();
-  }
-
-  openAddEditEmpForm() {
-    const dialogRef = this._dialog.open(AddEditEmployeecontrollerComponent);
-    dialogRef.afterClosed().subscribe({
-      next: (val) => {
-        if (val) {
-          this.getEmployeeList();
-        }
-      },
-    });
-
-  }
-
-  getEmployeeList() {
-    this.spinnerService.requestStarted();
-    this._empService.getEmployeeList().subscribe({
-
-      next: (res) => {
-        this.spinnerService.requestEnded();
-        this.dataSource = new MatTableDataSource(res);
-        console.log(res,"employeelist");
-        
-
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-
-      },
-      error: console.log,
-    });
-  }
-  // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
-
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.fetchtableData();
   }
 
 
 
-  openEditForm(data: any) {
-    this.editService.showEditForm();
-    console.log(data, "openeditform");
-    const dialogRef = this._dialog.open(AddEditEmployeecontrollerComponent, {
-      data,
-    });
-    dialogRef.afterClosed().subscribe({
-      next: (val) => {
-        if (val) {
-          this.getEmployeeList();
 
-        }
-      },
+
+  openEditForm(id: number) {
+
+    this.http.get<any[]>(environment.apiURL + `Employee/GetEmployeeDetailsByID?employeeID=${id}`).subscribe(results => {
+      this._empService.setData(results);
+      this.router.navigate(['/topnavbar/Emp-editaddEmpcontroller']);
     });
-   
+    
   }
 
   deleteEmployee(id: number) {
@@ -119,11 +67,58 @@ export class EmployeecontrollerComponent implements OnInit {
         this.spinnerService.requestEnded();
 
         this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
+        this.fetchtableData();
       },
       error: console.log,
     });
   }
+
+
+
+
+  ///////////////////
+  apiResponseData: any;
+
+  
+  displayedColumns: string[] = [
+    'employeeCode',
+    'employeeName',
+    'departmentId',
+    'designationId',
+    'profiencyId',
+    'reportingManager1',
+    'reportLeader1',
+    'action',
+  ];
+
+  fetchtableData() {
+    this.spinnerService.requestStarted();
+    this._empService.getEmployeeList().subscribe({
+
+      next: (res) => {
+        this.spinnerService.requestEnded();
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+
+      },
+      error: console.log,
+    });
+  }
+
+
+  employeeFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  openAddEditEmployee() {
+    this.router.navigate(['/topnavbar/Emp-editaddEmpcontroller']);
+  }
+
 
   onCheckboxChange(event, id: number) {
     if (id == 1) {
@@ -137,8 +132,8 @@ export class EmployeecontrollerComponent implements OnInit {
         this.dataSource.data = data;
       });
     } else {
-      this.getEmployeeList();
+      this.fetchtableData();
     }
   }
 
-}
+  }

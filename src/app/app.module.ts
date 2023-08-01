@@ -21,6 +21,7 @@ import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofR
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
 import { authGuard } from './AuthGuard/auth.guard';
+import { EditaddemployeecontrollerComponent } from './Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,8 +32,6 @@ import { authGuard } from './AuthGuard/auth.guard';
     ViewUnapprovaljobsComponent,
     CustomerSalesmappingComponent,
     PricingApprovalprocessComponent,
-      
-
     EmployeePopupComponent,
     JobCategorypopupComponent,
    
