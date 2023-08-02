@@ -283,10 +283,10 @@ console.log(this.selectedFile ,"selected file");
         let orderDetails: any = {};
         this.selectedFile = [];
         this.joborder.reset();
-        this.coreService.openSnackBar('Data added successfully');
+        this.coreService.openSnackBar("Job Order added successfully");
       });
     //}
-      this.coreService.openSnackBar("Job Order added successfully");
+      this.coreService.openSnackBar(data.jobId);
     });
         
    

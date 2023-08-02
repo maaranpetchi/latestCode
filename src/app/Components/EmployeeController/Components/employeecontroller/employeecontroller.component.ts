@@ -51,8 +51,7 @@ export class EmployeecontrollerComponent implements OnInit {
 
 
   openEditForm(id: number) {
-
-    this.http.get<any[]>(environment.apiURL + `Employee/GetEmployeeDetailsByID?employeeID=${id}`).subscribe(results => {
+    this.http.get<any>(environment.apiURL + `Employee/GetEmployeeDetailsByID?employeeID=${id}`).subscribe(results => {
       this._empService.setData({ type: 'EDIT', data: results });
       this._empService.shouldFetchData = true;
       this.router.navigate(['/topnavbar/Emp-editaddEmpcontroller']);

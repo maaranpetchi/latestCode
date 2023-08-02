@@ -24,7 +24,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     this.getMangerLeaderHierarchy();
     this.getRole();
     this.getEmployeeProcess();
-
+    let data:any[]=[];
     if (this._empservice.shouldFetchData) {
       const data = this._empservice.getData();
       console.log(data,"Data");
@@ -198,9 +198,9 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       .subscribe(data => {
         this.EmployeeRolesoptions = data;
         this.roleDescription = data.description,
-          this.roleId = data.id,
-          this.createdBy = data.createdBy,
-          this.updatedBy = data.updatedBy
+          this.roleId = data.id
+          // this.createdBy = data.createdBy,
+          // this.updatedBy = data.updatedBy
       });
   }
 
@@ -228,9 +228,9 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "id": 0,
       "description": this.newRole,
       "companyId": 0,
-      "createdBy": this.loginservice.getUsername(),
+      "createdBy":this.loginservice.getUsername(),
       "createdUtc": new Date().toISOString,
-      "updatedBy": this.loginservice.getUsername(),
+      "updatedBy":0,
       "updatedUtc": new Date().toISOString,
       "isActive": true
     }
@@ -272,8 +272,8 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     });
     this.employeehierarchy.forEach((item) => {
       this.subEmpId = item.employeeId,
-        this.subEmpName = item.employeeName,
-        this.createdBy = this.loginservice.getUsername()
+        this.subEmpName = item.employeeName
+        //this.createdBy = this.loginservice.getUsername()
     });
     let payload = {
       "employeeId": this.loginservice.getUsername(),
@@ -293,9 +293,9 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "email": this.officialemailaddress,
       "personalEmail": this.personalEmail,
       "createdUTC": new Date().toISOString,
-      "createdBy": this.loginservice.getUsername(),
+      "createdBy":this.loginservice.getUsername(),
       "updatedUTC": new Date().toISOString,
-      "updatedBy": this.loginservice.getUsername(),
+      "updatedBy": 0,
       "reportingManager1": this.reportingManager1,
       "reportLeader1": this.reportingLeader1,
       "reportingManager2": this.reportingManager2,
@@ -330,7 +330,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
         {
           "subEmpId": this.subEmpId,
           "subEmpName": this.subEmpName,
-          "createdBy": this.createdBy
+          "createdBy": this.loginservice.getUsername(),
         }
       ],
       "isInternetConnection": this.internetAvailable,
@@ -362,8 +362,8 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     });
     this.employeehierarchy.forEach((item) => {
       this.subEmpId = item.employeeId,
-        this.subEmpName = item.employeeName,
-        this.createdBy = this.loginservice.getUsername()
+        this.subEmpName = item.employeeName
+       // this.createdBy = this.loginservice.getUsername()
     });
     let payload = {
       "employeeId": this.loginservice.getUsername(),
@@ -383,7 +383,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "email": this.officialemailaddress,
       "personalEmail": this.personalEmail,
       "createdUTC": new Date().toISOString,
-      "createdBy": this.loginservice.getUsername(),
+      "createdBy": 0,
       "updatedUTC": new Date().toISOString,
       "updatedBy": this.loginservice.getUsername(),
       "reportingManager1": this.reportingManager1,
@@ -401,7 +401,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "addressType": "",
       "mobileNo": this.mobileNumber,
       "phoneNo": this.phonenum,
-      "resignReasons": 0,
+      "resignReasons": this.resignReason,
       "dateOfResignation": this.dor,
       "processCode":this.employeeProcess,
       "result": this.outsource,
@@ -411,15 +411,15 @@ export class EditaddemployeecontrollerComponent implements OnInit {
         {
           "roleDescription": this.roleDescription,
           "roleId": this.roleId,
-          "createdBy": this.loginservice.getUsername(),
-          "updatedBy": 0
+          "createdBy":0,
+          "updatedBy": this.loginservice.getUsername()
         }
       ],
       "empHierarchyList": [
         {
           "subEmpId": this.subEmpId,
           "subEmpName": this.subEmpName,
-          "createdBy": this.createdBy
+          "createdBy": 0
         }
       ],
       "isInternetConnection": this.internetAvailable,
