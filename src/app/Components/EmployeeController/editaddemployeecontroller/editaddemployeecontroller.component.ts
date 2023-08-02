@@ -24,11 +24,20 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     this.getMangerLeaderHierarchy();
     this.getRole();
     this.getEmployeeProcess();
-    this.apiResponseData = this._empservice.getData();
-    console.log(this.apiResponseData, "Apiresponsedata");
-    this.fetchUpdateData();
+
+    if (this._empservice.shouldFetchData) {
+      const data = this._empservice.getData();
+      console.log(data,"Data");
+      this.apiResponseData = data.data;
+      console.log(this.apiResponseData, "apiresponsedata");
+      this.fetchUpdateData();
+      this._empservice.shouldFetchData = false;
+    }
+
+
   }
-  constructor(private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private router: Router, private _empservice: EmployeeService) { }
+  constructor(private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private router: Router, private _empservice: EmployeeService) {
+  }
   submitButton: boolean = true;
   updateButton: boolean = false;
   fetchUpdateData() {
@@ -146,8 +155,8 @@ export class EditaddemployeecontrollerComponent implements OnInit {
   emergencyContactName: string = ''
   emergencyMobilenumber: string = ''
   officialemailaddress: string = ''
-  employeeRoles: any;
-  employeeProcess: string = ''
+  employeeRoles: any[]=[];
+  employeeProcess:any[]=[];
   newRole: string = ''
   personalEmail: string = ''
   //DROPDOWN 1.personal-Department Dropdown
@@ -196,7 +205,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
   }
 
   getEmployeeProcess() {
-    this.http.get<any>(environment.apiURL + 'Process/ListProcess').subscribe(employeeprocessdata => {
+    this.http.get<any[]>(environment.apiURL + 'Process/ListProcess').subscribe(employeeprocessdata => {
       this.employeeprocessOptions = employeeprocessdata;
     });
   }
@@ -304,9 +313,8 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "phoneNo": this.phonenum,
       "resignReasons": 0,
       "dateOfResignation": this.dor,
-      "processCode": [
-        this.employeeProcess
-      ],
+      "processCode": 
+        this.employeeProcess,
       "result": this.outsource,
       "roleDescription": "",
       "isOutsource": true,
@@ -346,9 +354,9 @@ export class EditaddemployeecontrollerComponent implements OnInit {
 
   }
 
-  onUpdate(){
-     ///Employee Added SuccessFully
-     this.employeeRoles.forEach((item) => {
+  onUpdate() {
+    ///Employee Added SuccessFully
+    this.employeeRoles.forEach((item) => {
       this.roleID = item.id;
       this.roleDescription = item.description;
     });
@@ -395,9 +403,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "phoneNo": this.phonenum,
       "resignReasons": 0,
       "dateOfResignation": this.dor,
-      "processCode": [
-        this.employeeProcess
-      ],
+      "processCode":this.employeeProcess,
       "result": this.outsource,
       "roleDescription": "",
       "isOutsource": true,

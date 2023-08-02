@@ -10,7 +10,7 @@ import { LoginService } from '../Login/login.service';
 export class EmployeeService {
 
    public sharedData:any;
-  
+   shouldFetchData: boolean = true;
   constructor(private _http: HttpClient,private loginservice:LoginService) {}
  
  

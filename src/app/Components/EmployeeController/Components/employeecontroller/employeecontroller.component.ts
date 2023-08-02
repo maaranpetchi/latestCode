@@ -23,7 +23,7 @@ import { EditaddemployeecontrollerComponent } from '../../editaddemployeecontrol
 })
 export class EmployeecontrollerComponent implements OnInit {
   
-
+  @ViewChild(EditaddemployeecontrollerComponent, { static: false }) editComponent: EditaddemployeecontrollerComponent;
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -53,7 +53,8 @@ export class EmployeecontrollerComponent implements OnInit {
   openEditForm(id: number) {
 
     this.http.get<any[]>(environment.apiURL + `Employee/GetEmployeeDetailsByID?employeeID=${id}`).subscribe(results => {
-      this._empService.setData(results);
+      this._empService.setData({ type: 'EDIT', data: results });
+      this._empService.shouldFetchData = true;
       this.router.navigate(['/topnavbar/Emp-editaddEmpcontroller']);
     });
     
@@ -116,6 +117,7 @@ export class EmployeecontrollerComponent implements OnInit {
   }
 
   openAddEditEmployee() {
+    this._empService.shouldFetchData = false;
     this.router.navigate(['/topnavbar/Emp-editaddEmpcontroller']);
   }
 

@@ -151,7 +151,7 @@
                       </mat-form-field>
                 </div>
             </div>
-            <div class="row">
+            <div class="row"  *ngIf="internetAvailable === 'yes'">
                 <div class="col-6">
                     <mat-form-field>
                         <mat-label> Internet Type </mat-label>
@@ -178,7 +178,9 @@
                       
                 </div>
             </div>
-            <div class="row">
+
+            
+            <div class="row" >
                 <div class="col-6"> 
                     <mat-form-field appearance="fill">
                     <mat-label>System/Laptop </mat-label>
@@ -190,7 +192,7 @@
                   </mat-form-field>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="systemlaptop === 'Yes'">
                 <div class="col-6">
                     <mat-form-field appearance="fill">
                         <mat-label>System Configuration </mat-label>
@@ -404,7 +406,7 @@
                                         
                         <mat-form-field appearance="fill">
                             <mat-label>EmployeeProcess</mat-label>
-                            <mat-select [(ngModel)]="employeeProcess" name="employeeProcess">
+                            <mat-select [(ngModel)]="employeeProcess" name="employeeProcess" multiple>
                               <mat-option  *ngFor="let employeeprocessoption of employeeprocessOptions" [value]="employeeprocessoption.id">
                                 {{ employeeprocessoption.name }}
                               </mat-option>
@@ -453,6 +455,7 @@
                     <button mat-button matStepperNext style="float:right" *ngIf="updateButton" (click)="onUpdate()">Update</button>
                 </div>
             </mat-step>
+
     </mat-horizontal-stepper>
 
 

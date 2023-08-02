@@ -88,7 +88,7 @@ this.spinnerService.requestStarted();
       }).subscribe({
         next:(result) =>{
           this.spinnerService.requestEnded();
-          this._coreService.openSnackBar("Created data successfully");
+          this._coreService.openSnackBar("updated data successfully");
         }
       })
       // console.log(this.myForm.value)
