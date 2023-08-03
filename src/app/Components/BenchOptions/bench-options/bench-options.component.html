@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <div class="panel panel-primary">
-        <div class="panel-heading" style="text-align: center;"><b> Idle Bench Option </b></div>
-        <div class="panel-body" style="height: 750px;">
-            <div align="right">
-                <!-- <a routerLink="/LatestBenchJob">Bench History job</a> -->
-            </div>
-    
-            <form (ngSubmit)="submit()">
+<body style="height: 123vh;">
+
+
+
+    <div class="grid-container">
+        <h2 style="display:flex;text-align: center;justify-content: center;color: white;font-family: 'Times New Roman', Times, serif;">Idle Bench Option</h2>
+        <div>
+            <form >
                 <div class="col-md-12 text-center">
                     <div class="col-sm-offset-5">
                         <button class="btn btn-success" (click)="changeBench('Start')" id="start"
@@ -23,7 +22,7 @@
                     </div>
                     <div class="clearfix padding-bottom-10"></div>
                     <br>
-                    <div *ngIf="!disableWorkType" style="display:grid;align-items: center;justify-content: center;">
+                    <div *ngIf="disableWorkType" style="display:grid;align-items: center;justify-content: center;">
     
                         <div class="row">
                             <div class="col">
@@ -60,6 +59,7 @@
                 </div>
             </form>
         </div>
-    </div>
+       
+      </div>
 </body>
 </html>

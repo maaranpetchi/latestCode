@@ -22,7 +22,7 @@ export class BenchOptionsComponent implements OnInit {
     this.getStatus();
   }
   constructor(private http: HttpClient, private _coreService: CoreService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router) { }
-  disableWorkType: boolean;
+  disableWorkType: boolean = false;
 
 
   GetStatuslist: any[] = [];
@@ -56,6 +56,10 @@ export class BenchOptionsComponent implements OnInit {
         EmployeeId: this.loginservice.getUsername(),
         Status:''
       }
+
+
+
+      
       this.http.post<any>(environment.apiURL + `BenchOption/Startbench?Worktype=Break`, Startbench).subscribe(result => {
         console.log(result, "Break");
         this.list = result;
@@ -92,7 +96,5 @@ export class BenchOptionsComponent implements OnInit {
   }
 
 
-  submit() {
-
-  }
+ 
 }
