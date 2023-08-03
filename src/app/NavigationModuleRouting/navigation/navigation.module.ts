@@ -42,7 +42,6 @@ import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wa
 import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
 import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PricingComponent } from 'src/app/Components/SalesController/Pricing/pricing/pricing.component';
 import { ClientordinationindexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/clientordinationindex/clientordinationindex.component';
 import { QueryToClientComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/query-to-client.component';
 import { JoborderComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborder/joborder.component';
@@ -111,9 +110,11 @@ import { JoballocatedEmplpopupComponent } from 'src/app/Components/TopToolbarCom
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
 import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-alocationtable/proofreading-alocationtable.component';
 import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
-import { EmployeePopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
-import { JobCategorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
+import { PricingApprovalprocessComponent } from 'src/app/Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
+import { ViewUnapprovaljobsComponent } from 'src/app/Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
+import { CustomerSalesmappingComponent } from 'src/app/Components/Sales/customer-salesmapping/customer-salesmapping.component';
+import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 
 @NgModule({
   declarations: [
@@ -232,8 +233,6 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
     //tally
     TallyComponent,
     //SALES CONTROLLER
-    //  1.PRICING
-    PricingComponent,
 
     // Master.
     UserMasterComponent,
@@ -273,6 +272,11 @@ import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljob
     // SALES
     CreditdaysApprovalComponent,
     UnApprovaljobsComponent,
+    PricingApprovalprocessComponent,
+    ViewUnapprovaljobsComponent,
+    CustomerSalesmappingComponent,
+    
+    PricingComponent,
     
 
     //Bank

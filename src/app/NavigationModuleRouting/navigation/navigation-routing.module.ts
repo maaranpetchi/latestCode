@@ -33,7 +33,6 @@ import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Inv
 import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wavier/wavier.component';
 import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
 import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
-import { PricingComponent } from 'src/app/Components/SalesController/Pricing/pricing/pricing.component';
 import { ClientordinationindexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/clientordinationindex/clientordinationindex.component';
 import { QueryToClientComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/query-to-client.component';
 import { JoborderComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborder/joborder.component';
@@ -97,6 +96,7 @@ import { ViewUnapprovaljobsComponent } from 'src/app/Components/Sales/view-unapp
 import { CustomerSalesmappingComponent } from 'src/app/Components/Sales/customer-salesmapping/customer-salesmapping.component';
 import { PricingApprovalprocessComponent } from 'src/app/Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
 import { BankComponent } from 'src/app/Components/Bank/bank/bank.component';
+import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 
 const routes: Routes = [
 
@@ -215,9 +215,6 @@ const routes: Routes = [
       { path: 'acc-generatedinvoice', component: GeneratedinvoiceComponent, },
       { path: 'acc-confirminvoice', component: ConfirminvoiceComponent, },
       { path: 'acc-popupinvoice', component: PopupinvoiceComponent, },
-      //SALES CONTROLLER
-      //1.PRICING    
-      { path: 'sales-pricing', component: PricingComponent, },
 
       // Master Order
       {path:'master-user', component: UserMasterComponent},
@@ -256,6 +253,7 @@ const routes: Routes = [
       {path:'view-unapprovalJobs', component:ViewUnapprovaljobsComponent},
       {path:'customer-salesmapping', component: CustomerSalesmappingComponent},
       {path:'pricing-Approval', component: PricingApprovalprocessComponent},
+      { path: 'sales-pricing', component: PricingComponent, },
 
 
        //Bank
