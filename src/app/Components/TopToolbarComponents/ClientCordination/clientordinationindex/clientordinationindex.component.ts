@@ -3,15 +3,16 @@ import { QueryToClientComponent } from '../query-to-client/query-to-client.compo
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-clientordinationindex',
   templateUrl: './clientordinationindex.component.html',
   styleUrls: ['./clientordinationindex.component.scss']
 })
-export class ClientordinationindexComponent  implements OnInit {
+export class ClientordinationindexComponent implements OnInit {
   @ViewChild(QueryToClientComponent) QueryToClientComponent: QueryToClientComponent;
-  constructor(private http:HttpClient,private loginservice:LoginService){}
+  constructor(private http: HttpClient, private loginservice: LoginService, private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     this.queriesToClient();
@@ -48,88 +49,72 @@ export class ClientordinationindexComponent  implements OnInit {
     }
   }
 
-  queriesToClient(){
+  queriesToClient() {
     if (this.QueryToClientComponent) {
       this.QueryToClientComponent.tab('1');
     }
   };
 
-queryResponse(){
-  if (this.QueryToClientComponent) {
-    this.QueryToClientComponent.tab('2');
+  queryResponse() {
+    if (this.QueryToClientComponent) {
+      this.QueryToClientComponent.tab('2');
+    }
+  };
+  cancelledJobs() {
+    if (this.QueryToClientComponent) {
+      this.QueryToClientComponent.tab('3');
+    }
+  };
+  quotationJobs() {
+    if (this.QueryToClientComponent) {
+      this.QueryToClientComponent.tab('4');
+    }
   }
-};
-cancelledJobs(){
-  if (this.QueryToClientComponent) {
-    this.QueryToClientComponent.tab('3');
+
+  CompletedJobsCount: number;
+  getcompleteordercount() {
+    this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(response => {
+      this.CompletedJobsCount = response.clientDetails.resultForCompletedList;
+    });
   }
-};
-quotationJobs(){
-  if (this.QueryToClientComponent) {
-    this.QueryToClientComponent.tab('4');
+
+  NewJobCount: any;
+  QuoteJobCount: any;
+  getclientordercount() {
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersExts/1`).subscribe(responsedata1 => {
+      console.log(responsedata1, "responsedata1");
+
+      this.NewJobCount = responsedata1.data[0].workType;
+    });
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersExts/2`).subscribe(responsedata2 => {
+      console.log(responsedata2, "responsedata2");
+
+      this.QuoteJobCount = responsedata2.data[0].workType;
+
+      console.log(this.NewJobCount + this.QuoteJobCount, "completedcountvalues");
+    });
+
   }
-}
-
-CompletedJobsCount:number;
-getcompleteordercount(){
- this.http.get<any>(environment.apiURL+`Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(response =>{
-  this.CompletedJobsCount= response.clientDetails.resultForCompletedList;
-  });
-}
-
-NewJobCount:any;
-QuoteJobCount:any;
-getclientordercount(){
-this.http.get<any>(environment.apiURL+`ClientOrderService/ClientOrdersExts/1`).subscribe(responsedata1 =>{
-  console.log(responsedata1,"responsedata1");
-  
- this.NewJobCount = responsedata1.data[0].workType;
-});
-this.http.get<any>(environment.apiURL+`ClientOrderService/ClientOrdersExts/2`).subscribe(responsedata2 =>{
-  console.log(responsedata2,"responsedata2");
-  
-  this.QuoteJobCount = responsedata2.data[0].workType;
-
-  console.log(this.NewJobCount+this.QuoteJobCount,"completedcountvalues");
- });
-
-}
 
 
-QueryJobCount:any;
-getquerytoclientcount(){
- return this.http.get<any>(environment.apiURL+`Allocation/getcountforcc/${this.loginservice.getUsername()}/1`).subscribe(getquerycount =>{
-    this.QueryJobCount = getquerycount.queriesJobsCount;
-    console.log(this.QueryJobCount,"getquerytoclientcount");
-  });
-}
+  QueryJobCount: any;
+  querycount: any;
+  cancelledcount: any;
+  quotationcount: any;
+
+  getquerytoclientcount() {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Allocation/getcountforcc/${this.loginservice.getUsername()}/1`).subscribe(getquerycount => {
+      this.spinnerService.requestEnded();
+      this.QueryJobCount = getquerycount.queriesJobsCount;
+      this.querycount = getquerycount.queryResponseJobsCount;
+      this.cancelledcount = getquerycount.cancelledJobsCount
+      this.quotationcount = getquerycount.quotationJobCount;
+    },error => {
+      this.spinnerService.resetSpinner();
+    });
+  }
 
 
-querycount:any;
-getqueryresponse(){
-  this.http.get<any>(environment.apiURL+`getcountforcc/${this.loginservice.getUsername()}/1`).subscribe(getquerycount =>{
-    console.log(getquerycount,"getquerycount");
-    this.querycount = getquerycount.queryResponseJobsCount
-  });
-}
-
-
-cancelledcount:any;
-getcancelledjobscount(){
-  this.http.get<any>(environment.apiURL+`getcountforcc/${this.loginservice.getUsername()}/1`).subscribe(getquerycount =>{
-    console.log(getquerycount,"getcancelledjobs");
-    this.cancelledcount = getquerycount.cancelledJobsCount
-  });
-}
-
-
-quotationcount:any;
-getquotationjobscount(){
-  this.http.get<any>(environment.apiURL+`getcountforcc/${this.loginservice.getUsername()}/1`).subscribe(getquerycount =>{
-    console.log(getquerycount,"getquotationcount");
-    
-    this.quotationcount = getquerycount.quotationJobCount;
-  });
-}
 
 }

@@ -40,10 +40,12 @@ export class EditaddemployeecontrollerComponent implements OnInit {
   }
   submitButton: boolean = true;
   updateButton: boolean = false;
+  EmployeeEditName:boolean=false;
   fetchUpdateData() {
     this.resignShow = true;
     this.submitButton = false;
     this.updateButton = true;
+    this.EmployeeEditName=true;
     this.employeeCode = this.apiResponseData.emp.addressDetail.employeeCode,
       this.employeeName = this.apiResponseData.emp.addressDetail.employeeName,
       this.dob = this.apiResponseData.emp.addressDetail.dateOfBirth

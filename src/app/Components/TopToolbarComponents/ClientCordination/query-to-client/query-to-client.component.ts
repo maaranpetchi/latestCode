@@ -120,14 +120,17 @@ export class QueryToClientComponent implements OnInit {
 
   convertedDate:string;
 queriesToClient(){
-  // this.spinnerService.requestStarted();
+  this.spinnerService.requestStarted();
   this.http.get<any>( environment.apiURL+ `Allocation/getQueryPendingJobs/${this.loginservice.getUsername()}/1/0`).subscribe(data => {
-    // this.spinnerService.requestEnded();
+   this.spinnerService.requestEnded();
     this.dataSource = data.queryPendingJobs;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = true;
     const apiDate = data.date; // Assuming the API response has a 'date' property
+  },
+  error => {
+    this.spinnerService.resetSpinner(); // Reset the spinner if the request times out
   });  
 }
 queryResponse(){
@@ -137,7 +140,9 @@ queryResponse(){
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = true;
-    console.log(" queryResponse")
+  },
+  error => {
+    this.spinnerService.resetSpinner(); // Reset the spinner if the request times out
   });  
 }
 cancelledJobs(){
@@ -148,7 +153,9 @@ cancelledJobs(){
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = true;
-    console.log("cancelledJobs")
+  },
+  error => {
+    this.spinnerService.resetSpinner(); // Reset the spinner if the request times out
   });  
 }
 quotationJobs(){
@@ -159,7 +166,9 @@ quotationJobs(){
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = false;
-    console.log("quotationJobs")
+  },
+  error => {
+    this.spinnerService.resetSpinner(); // Reset the spinner if the request times out
   });  
 }
 
