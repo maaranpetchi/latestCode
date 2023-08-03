@@ -119,14 +119,13 @@ import { ItAssetindexComponent } from 'src/app/Components/ITAssets/it-assetindex
 import { AddItassetsComponent } from 'src/app/Components/ITAssets/add-itassets/add-itassets.component';
 import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-options/bench-options.component';
 import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
+import { EmployeePopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
+import { JobCategorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
 import { IndexCustomerSalesApprovalComponent } from 'src/app/Components/Sales/CustomerSalesApproval/index-customer-sales-approval/index-customer-sales-approval.component';
 import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSalesApproval/tabcustomertable/tabcustomertable.component';
 import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
 import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
-import { PricingApprovalprocessComponent } from 'src/app/Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
-import { ViewUnapprovaljobsComponent } from 'src/app/Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
-import { CustomerSalesmappingComponent } from 'src/app/Components/Sales/customer-salesmapping/customer-salesmapping.component';
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 
 @NgModule({
@@ -182,7 +181,7 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     ProductionAllocatedPopupComponent,
     JoballocatedEmplpopupComponent,
     ProofreadingAllocationComponent,
-      ProofreadingAlocationtableComponent,
+    ProofreadingAlocationtableComponent,
     //ProofReading
     ProofreadingComponent,
     ProofReadingTableComponent,
@@ -293,12 +292,7 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     // SALES
     CreditdaysApprovalComponent,
     UnApprovaljobsComponent,
-    PricingApprovalprocessComponent,
-    ViewUnapprovaljobsComponent,
-    CustomerSalesmappingComponent,
-    
-    PricingComponent,
-    
+
 
     //Bank
     BankComponent,

@@ -231,9 +231,6 @@ const routes: Routes = [
       { path: 'acc-generatedinvoice', component: GeneratedinvoiceComponent,  canActivate: [authGuard]},
       { path: 'acc-confirminvoice', component: ConfirminvoiceComponent, canActivate: [authGuard]},
       { path: 'acc-popupinvoice', component: PopupinvoiceComponent,  canActivate: [authGuard]},
-      //SALES CONTROLLER
-      //1.PRICING    
-      { path: 'sales-pricing', component: PricingComponent , canActivate: [authGuard]},
 
       // Master Order
       { path: 'master-user', component: UserMasterComponent , canActivate: [authGuard]},
@@ -288,11 +285,16 @@ const routes: Routes = [
       { path: 'benchOptions', component:BenchOptionsComponent, canActivate: [authGuard]},
 
       // SALES
+
+
       {path:'creditSales', component:CreditdaysApprovalComponent, canActivate: [authGuard]},
       {path:'unapprovalJobs', component:UnApprovaljobsComponent, canActivate: [authGuard]},
       {path:'view-unapprovalJobs', component:ViewUnapprovaljobsComponent, canActivate: [authGuard]},
       {path:'customer-salesmapping', component: CustomerSalesmappingComponent, canActivate: [authGuard]},
       {path:'pricing-Approval', component: PricingApprovalprocessComponent, canActivate: [authGuard]},
+   //SALES CONTROLLER
+      //1.PRICING    
+      {path:'pricing', component: PricingComponent, canActivate: [authGuard]},
 
       //Sales- CustomerSalesApproval
       {path:'customerSalesApproval', component: IndexCustomerSalesApprovalComponent, canActivate: [authGuard]},
