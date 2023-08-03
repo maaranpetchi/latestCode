@@ -33,7 +33,6 @@ import { PopupinvoiceComponent } from 'src/app/Components/AccountsController/Inv
 import { WavierComponent } from 'src/app/Components/AccountsController/Wavier/wavier/wavier.component';
 import { TallyComponent } from 'src/app/Components/AccountsController/Tally/tally/tally.component';
 import { PopupwavierconfirmationComponent } from 'src/app/Components/AccountsController/Wavier/popupwavierconfirmation/popupwavierconfirmation.component';
-import { PricingComponent } from 'src/app/Components/SalesController/Pricing/pricing/pricing.component';
 import { ClientordinationindexComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/clientordinationindex/clientordinationindex.component';
 import { QueryToClientComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/query-to-client/query-to-client.component';
 import { JoborderComponent } from 'src/app/Components/TopToolbarComponents/ClientCordination/joborder/joborder.component';
@@ -111,6 +110,7 @@ import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSale
 import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
 import { authGuard } from 'src/app/AuthGuard/auth.guard';
 import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
+import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 
 const routes: Routes = [
 
