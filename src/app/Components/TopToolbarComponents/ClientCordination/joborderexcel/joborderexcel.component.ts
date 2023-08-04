@@ -8,7 +8,7 @@ import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientC
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import * as XLSX from 'xlsx';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 @Component({
   selector: 'app-joborderexcel',
@@ -64,7 +64,7 @@ export class JoborderexcelComponent implements OnInit {
       fd.append('Files', this.selectedFile[i]);
     }
      fd.append('Id', employeeId);
-    this.http.post<any>(environment.apiURL+`JobOrder/PostImportExcel?EmployeeId=${this.loginservice.getUsername()}`, fd).subscribe(response => {
+    this.http.post<any>(environment.apiURL+`JobOrder/PostImportExcel?EmployeeId=${parseInt(this.loginservice.getUsername())}`, fd).subscribe(response => {
       console.log(response, "FileImport");
       this.postBindFileInward();
       this.postFileInwardType();
@@ -153,7 +153,12 @@ export class JoborderexcelComponent implements OnInit {
         this.ViewImportExcelFinal = postdataresult;
         console.log(this.ViewImportExcelFinal,"ViewImportExcelFinal");
          this.clientcordinationservice.getBindFileInward();
-         this._coreService.openSnackBar('File Inward Successfully.');
+         Swal.fire(
+          'Good job!',
+          'File Inward Successfully.'       ,
+         'success'
+        );
+         this.postBindFileInward();
       });
       
     }
@@ -168,8 +173,8 @@ export class JoborderexcelComponent implements OnInit {
       this._coreService.openSnackBar('Inward File Cancelled Successfully.');
       this.clientcordinationservice.getBindFileInward();
       this.clientcordinationservice.getBindFileInwardOnlyTrue();  
+      this.postBindFileInward();
     });
   }
 
 }
-

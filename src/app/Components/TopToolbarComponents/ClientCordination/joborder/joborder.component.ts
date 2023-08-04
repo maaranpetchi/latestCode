@@ -7,6 +7,8 @@ import { environment } from 'src/Environments/environment';
 import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2/src/sweetalert2.js'
+
 @Component({
   selector: 'app-joborder',
   templateUrl: './joborder.component.html',
@@ -166,9 +168,9 @@ export class JoborderComponent implements OnInit {
 
 
   onFormSubmit() {
-    if (this.selectedFile.length === 0) {
+    if (this.selectedFile.length === 0 ) {
       // If no file is selected, show an alert message
-      alert('Please select a file before submitting.');
+      Swal.fire('Please select a file before submitting.');
     }
 
     let exisitingJordervalue = {
@@ -290,7 +292,11 @@ export class JoborderComponent implements OnInit {
         let orderDetails: any = {};
         this.selectedFile = [];
         this.joborder.reset();
-        this.coreService.openSnackBar("Job Order added successfully");
+        Swal.fire(
+          'Done!',
+          'Job Order added successfully!',
+          'success'
+        )
       });
     //}
       this.coreService.openSnackBar(data.jobId);
