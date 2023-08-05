@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { CoreService } from 'src/app/Services/EmployeeController/Core/core.service';
 import { EmployeeService } from 'src/app/Services/EmployeeController/employee.service';
 import { json } from 'stream/consumers';
-import { AddEditEmployeecontrollerComponent } from '../add-edit-employeecontroller/add-edit-employeecontroller.component';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Output } from '@angular/core';
 import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
@@ -22,7 +21,7 @@ import { EditaddemployeecontrollerComponent } from '../../editaddemployeecontrol
   styleUrls: ['./employeecontroller.component.scss']
 })
 export class EmployeecontrollerComponent implements OnInit {
-  
+
   @ViewChild(EditaddemployeecontrollerComponent, { static: false }) editComponent: EditaddemployeecontrollerComponent;
   dataSource!: MatTableDataSource<any>;
 
@@ -36,10 +35,10 @@ export class EmployeecontrollerComponent implements OnInit {
     private router: Router,
     private editService: EditService,
     private _empService: EmployeeService,
-    private loginservice:LoginService,
+    private loginservice: LoginService,
     private _coreService: CoreService,
     private http: HttpClient,
-    private spinnerService:SpinnerService) { }
+    private spinnerService: SpinnerService) { }
 
 
   ngOnInit(): void {
@@ -56,9 +55,16 @@ export class EmployeecontrollerComponent implements OnInit {
       this._empService.shouldFetchData = true;
       this.router.navigate(['/topnavbar/Emp-editaddEmpcontroller']);
     });
-    
-  }
 
+  }
+  viewEmployee(id: number) {
+    this.http.get<any>(environment.apiURL + `Employee/GetEmployeeDetailsByID?employeeID=${id}`).subscribe(results => {
+      this._empService.setViewData({ type: 'View', data: results });
+      this._empService.shouldFetchViewData = true;
+      this.router.navigate(['/topnavbar/Emp-addeditEmpcontroller']);
+
+    })
+  }
   deleteEmployee(id: number) {
     this.spinnerService.requestStarted();
 
@@ -79,7 +85,7 @@ export class EmployeecontrollerComponent implements OnInit {
   ///////////////////
   apiResponseData: any;
 
-  
+
   displayedColumns: string[] = [
     'employeeCode',
     'employeeName',
@@ -129,7 +135,7 @@ export class EmployeecontrollerComponent implements OnInit {
       this.isResignInclude = event.checked;
     }
     if (this.isDeletedInclude || this.isResignInclude) {
-      this.http.get<any[]>(environment.apiURL+`Employee/GetEmployeeWithDelete?IsDeleted=${this.isDeletedInclude ? 1 : 0}&IsResigned=${this.isResignInclude ? 1 : 0}`).subscribe(data => {
+      this.http.get<any[]>(environment.apiURL + `Employee/GetEmployeeWithDelete?IsDeleted=${this.isDeletedInclude ? 1 : 0}&IsResigned=${this.isResignInclude ? 1 : 0}`).subscribe(data => {
         this.dataSource.data = data;
       });
     } else {
@@ -137,4 +143,5 @@ export class EmployeecontrollerComponent implements OnInit {
     }
   }
 
-  }
+
+}

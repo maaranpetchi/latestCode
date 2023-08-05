@@ -17,3 +17,16 @@
   overflow: auto;
   max-height: 500px;
 }
+
+.green-button {
+  background-color: green;
+  padding: 1px;
+  border-radius: 5px;
+  display: inline-block;
+}
+.red-button {
+  background-color: rgb(222, 31, 31);
+  padding: 1px;
+  border-radius: 5px;
+  display: inline-block;
+}

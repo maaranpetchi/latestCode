@@ -7,7 +7,7 @@
   <title>Document</title>
 </head>
 
-<body>
+<body style="height: 160vh;">
   <mat-horizontal-stepper linear>
     <!-- Step 1: personal information -->
     <mat-step [stepControl]="personalStepFormGroup">
@@ -470,6 +470,7 @@
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext style="float:right" *ngIf="submitButton" (click)="onSubmit()">Submit</button>
         <button mat-button matStepperNext style="float:right" *ngIf="updateButton" (click)="onUpdate()">Update</button>
+        <button mat-button matStepperNext style="float:right" *ngIf="homeButton" (click)="onHome()">Home</button>
       </div>
     </mat-step>
 

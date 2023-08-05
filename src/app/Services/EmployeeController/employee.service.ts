@@ -11,6 +11,7 @@ export class EmployeeService {
 
    public sharedData:any;
    shouldFetchData: boolean = true;
+   shouldFetchViewData: boolean = true;
   constructor(private _http: HttpClient,private loginservice:LoginService) {}
  
  
@@ -46,6 +47,13 @@ export class EmployeeService {
   }
 
   getData() {
+    return this.sharedData;
+  }
+  setViewData(data: any) {
+    this.sharedData = data;
+  }
+
+  getViewData() {
     return this.sharedData;
   }
 

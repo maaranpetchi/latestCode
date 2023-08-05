@@ -248,7 +248,7 @@ openJobDetailsDialog(data){
               localStorage.setItem("JId", data.jid);
               localStorage.setItem("processid", data.processId);
               // $location.path('/ProcessTransaction');
-              this.dialog.open(QualityWorkflowComponent,{
+              this.dialog.open(ProdjobpopupComponent,{
                 width: '80vw',
                 height: '80vh',
                 data

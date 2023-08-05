@@ -18,34 +18,95 @@ export class EditaddemployeecontrollerComponent implements OnInit {
   subEmpId: number;
   subEmpName: string;
   apiResponseData: any;
+  apiViewResponseData: any;
+  data: any;
   ngOnInit(): void {
     this.getDropdownList();
     this.getResignReasons();
     this.getMangerLeaderHierarchy();
     this.getRole();
     this.getEmployeeProcess();
-    let data:any[]=[];
+    let data: any[] = [];
     if (this._empservice.shouldFetchData) {
       const data = this._empservice.getData();
-      console.log(data,"Data");
+      console.log(data, "Data 1");
       this.apiResponseData = data.data;
       console.log(this.apiResponseData, "apiresponsedata");
+
       this.fetchUpdateData();
       this._empservice.shouldFetchData = false;
     }
 
 
+
+    if (this._empservice.shouldFetchViewData) {
+      const viewdata = this._empservice.getViewData();
+      console.log(data, "Data 2");
+      this.apiViewResponseData = viewdata.data;
+      console.log(this.apiViewResponseData, "apiViewResponseData");
+      this.homeButton = true;
+      this.updateButton = false;
+      this.fetchViewData();
+      this._empservice.shouldFetchViewData = false;
+    }
+  }
+  fetchViewData() {
+    console.log("ftechviewdataa");
+
+    this.resignShow = true;
+    this.submitButton = false;
+    this.updateButton = false;
+    this.homeButton = true;
+    this.EmployeeEditName = true;
+    this.employeeCode = this.apiViewResponseData.emp.addressDetail.employeeCode,
+      this.employeeName = this.apiViewResponseData.emp.addressDetail.employeeName,
+      this.dob = this.apiViewResponseData.emp.addressDetail.dateOfBirth
+    this.doj = this.apiViewResponseData.emp.addressDetail.dateOfJoining,
+      this.selectedDestination = this.apiViewResponseData.emp.addressDetail.designationId,
+      this.selectedDepartment = this.apiViewResponseData.emp.addressDetail.departmentId,
+      this.dor = this.apiViewResponseData.emp.addressDetail.dateOfResignation,
+      this.martialStatus = this.apiViewResponseData.emp.addressDetail.maritalStatus,
+      this.gender = this.apiViewResponseData.emp.addressDetail.gender,
+      this.BloodGroup = this.apiViewResponseData.emp.addressDetail.bloodGroup,
+      this.internetAvailable = this.apiViewResponseData.emp.addressDetail.isInternetConnection,
+      this.outsource = this.apiViewResponseData.emp.addressDetail.isOutsource,
+      this.internetType = this.apiViewResponseData.emp.addressDetail.netWorkType,
+      this.ServiceProvider = this.apiViewResponseData.emp.addressDetail.serviceProvider,
+      this.systemlaptop = this.apiViewResponseData.emp.addressDetail.isSystem,
+      this.systemconfiguration = this.apiViewResponseData.emp.addressDetail.systemConfig,
+      this.reportingManager1 = this.apiViewResponseData.emp.addressDetail.reportingManager1,
+      this.reportingManager2 = this.apiViewResponseData.emp.addressDetail.reportingManager2,
+      this.reportingLeader1 = this.apiViewResponseData.emp.addressDetail.reportLeader1,
+      this.reportingLeader2 = this.apiViewResponseData.emp.addressDetail.reportingLeader2,
+      this.employeehierarchy = this.apiViewResponseData.emp.empHry[0].employeeId,
+      this.proficiency = this.apiViewResponseData.emp.addressDetail.profiencyId,
+      this.presentAddress1 = this.apiViewResponseData.emp.addressDetail.address1,
+      this.permanentAddress1 = this.apiViewResponseData.emp.addressDetail.address11,
+      this.presentAddress2 = this.apiViewResponseData.emp.addressDetail.address2,
+      this.permanentAddress2 = this.apiViewResponseData.emp.addressDetail.address22,
+      this.presentaddress3 = this.apiViewResponseData.emp.addressDetail.address3,
+      this.permanentaddress3 = this.apiViewResponseData.emp.addressDetail.address33,
+      this.phonenum = this.apiViewResponseData.emp.addressDetail.phoneNo,
+      this.mobileNumber = this.apiViewResponseData.emp.addressDetail.mobileNo,
+      this.emergencyContactName = this.apiViewResponseData.emp.addressDetail.emergencyContactName,
+      this.emergencyMobilenumber = this.apiViewResponseData.emp.addressDetail.emergencyContactNo,
+      this.officialemailaddress = this.apiViewResponseData.emp.addressDetail.email,
+      this.employeeRoles = this.apiViewResponseData.emp.role
+    this.employeeProcess = this.apiViewResponseData.emp.code
+    this.personalEmail = this.apiViewResponseData.emp.addressDetail.personalEmail
   }
   constructor(private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private router: Router, private _empservice: EmployeeService) {
+
   }
+  updateButton:boolean = false;
   submitButton: boolean = true;
-  updateButton: boolean = false;
-  EmployeeEditName:boolean=false;
+  EmployeeEditName: boolean = false;
   fetchUpdateData() {
+    console.log("ftechUpdateData");
     this.resignShow = true;
     this.submitButton = false;
     this.updateButton = true;
-    this.EmployeeEditName=true;
+    this.EmployeeEditName = true;
     this.employeeCode = this.apiResponseData.emp.addressDetail.employeeCode,
       this.employeeName = this.apiResponseData.emp.addressDetail.employeeName,
       this.dob = this.apiResponseData.emp.addressDetail.dateOfBirth
@@ -82,7 +143,11 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       this.employeeRoles = this.apiResponseData.emp.role
     this.employeeProcess = this.apiResponseData.emp.code
     this.personalEmail = this.apiResponseData.emp.addressDetail.personalEmail
+    if(this.data.type === "view"){
+      this.homeButton = true;
+    }
   }
+  homeButton: boolean = false;
 
 
 
@@ -157,8 +222,8 @@ export class EditaddemployeecontrollerComponent implements OnInit {
   emergencyContactName: string = ''
   emergencyMobilenumber: string = ''
   officialemailaddress: string = ''
-  employeeRoles: any[]=[];
-  employeeProcess:any[]=[];
+  employeeRoles: any[] = [];
+  employeeProcess: any[] = [];
   newRole: string = ''
   personalEmail: string = ''
   //DROPDOWN 1.personal-Department Dropdown
@@ -201,8 +266,8 @@ export class EditaddemployeecontrollerComponent implements OnInit {
         this.EmployeeRolesoptions = data;
         this.roleDescription = data.description,
           this.roleId = data.id
-          // this.createdBy = data.createdBy,
-          // this.updatedBy = data.updatedBy
+        // this.createdBy = data.createdBy,
+        // this.updatedBy = data.updatedBy
       });
   }
 
@@ -230,15 +295,16 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "id": 0,
       "description": this.newRole,
       "companyId": 0,
-      "createdBy":this.loginservice.getUsername(),
+      "createdBy": this.loginservice.getUsername(),
       "createdUtc": new Date().toISOString,
-      "updatedBy":0,
+      "updatedBy": 0,
       "updatedUtc": new Date().toISOString,
       "isActive": true
     }
     this.http.post<any>(environment.apiURL + 'Employee/AddEmpNewRoles', payload).subscribe(data => {
       // Show a success message to the user
       this.coreservice.openSnackBar(data.message)
+      this.getRole();
       // Close the form
       this.hideForm();
     }, () => {
@@ -275,7 +341,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     this.employeehierarchy.forEach((item) => {
       this.subEmpId = item.employeeId,
         this.subEmpName = item.employeeName
-        //this.createdBy = this.loginservice.getUsername()
+      //this.createdBy = this.loginservice.getUsername()
     });
     let payload = {
       "employeeId": this.loginservice.getUsername(),
@@ -295,7 +361,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "email": this.officialemailaddress,
       "personalEmail": this.personalEmail,
       "createdUTC": new Date().toISOString,
-      "createdBy":this.loginservice.getUsername(),
+      "createdBy": this.loginservice.getUsername(),
       "updatedUTC": new Date().toISOString,
       "updatedBy": 0,
       "reportingManager1": this.reportingManager1,
@@ -315,7 +381,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "phoneNo": this.phonenum,
       "resignReasons": 0,
       "dateOfResignation": this.dor,
-      "processCode": 
+      "processCode":
         this.employeeProcess,
       "result": this.outsource,
       "roleDescription": "",
@@ -365,7 +431,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     this.employeehierarchy.forEach((item) => {
       this.subEmpId = item.employeeId,
         this.subEmpName = item.employeeName
-       // this.createdBy = this.loginservice.getUsername()
+      // this.createdBy = this.loginservice.getUsername()
     });
     let payload = {
       "employeeId": this.loginservice.getUsername(),
@@ -405,7 +471,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       "phoneNo": this.phonenum,
       "resignReasons": this.resignReason,
       "dateOfResignation": this.dor,
-      "processCode":this.employeeProcess,
+      "processCode": this.employeeProcess,
       "result": this.outsource,
       "roleDescription": "",
       "isOutsource": true,
@@ -413,7 +479,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
         {
           "roleDescription": this.roleDescription,
           "roleId": this.roleId,
-          "createdBy":0,
+          "createdBy": 0,
           "updatedBy": this.loginservice.getUsername()
         }
       ],
@@ -444,4 +510,8 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     });
   }
 
+
+  onHome() {
+    this.router.navigate(['/topnavbar/Emp-Empcontroller']);
+  }
 }

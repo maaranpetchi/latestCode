@@ -1,44 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms"
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ThisReceiver } from '@angular/compiler';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
-import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-import { EditService } from 'src/app/Services/Displayorhideform/edit-service.service';
-import { CoreService } from 'src/app/Services/EmployeeController/Core/core.service';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { EmployeeService } from 'src/app/Services/EmployeeController/employee.service';
+import { LoginService } from 'src/app/Services/Login/login.service';
 
-//MARTIAL INTERFACE
-interface MARTIAL {
-  value: string;
-  viewValue: string;
-}
-//Resign INTERFACE
-interface RESIGN {
-  resignvalue: string;
-  resignViewValue: string;
-}
-//GENDER INTERFACE
-interface GENDER {
-  gendervalue: string;
-  genderViewValue: string;
-}
-
-//GENDER INTERFACE
-interface BLOOD {
-  bloodvalue: string;
-  bloodViewValue: string;
-}
-//Internetavailable INTERFACE
-interface INTERNET {
-  internetvalue: string;
-  internetViewValue: string;
-}
-//system INTERFACE
-interface SYSTEM {
-  systemvalue: string;
-  systemViewValue: string;
-}
 
 
 @Component({
@@ -49,499 +18,261 @@ interface SYSTEM {
 })
 
 export class AddEditEmployeecontrollerComponent implements OnInit {
-  editFormVisible$ = this.editService.editFormVisible;
-  //adrress same as temporary field
-  public firstValue: string = '';
-  public secondValue: string = '';
-  public thirdValue: string = '';
-  public isBoxChecked: boolean = true;
-  //store value for editing the page 
-  public storingformvalue:any = { employeeCode:'',   
-    employeeName:'',
-  department:0,
-  dob: new Date(''),
-  doj: new Date(''),
-  martialstatus: 0,
-  dor:new Date(''),
-  resignReasons:0,
-  gender: 0,
-  destination: 0,
-  bloodGroup: 0,
-  internet: 0,
-  system: 0,
-  ischecked: 0,
-  reportingManager1:0,
-  reportingLeader1: 0,
-  reportingManager2:0 ,
-  reportingLeader2: 0,
-  proficiency:0,
-  employeeHierachy: [],
-  presentaddress1: '',
-  permanentaddress1: '',
-  presentaddress2: '',
-  permanentaddress2: '',
-  presentaddress3: '',
-  permanentaddress3: '',
-  phonenum: '',
-  mobileNumber: '',
-  emergencyContactName: '',
-  emergencyMobilenumber:'', 
-  officialemailaddress: '',
-  employeeProcess: 0,
-  employeeRoles: [],
-  personalEmail: ''
+  roleID: any;
+  subEmpId: number;
+  subEmpName: string;
+  apiResponseData: any;
+  apiViewResponseData: any;
+  data: any;
+  isInputDisabled: boolean = true;
+  ngOnInit(): void {
+    this.getDropdownList();
+    this.getResignReasons();
+    this.getMangerLeaderHierarchy();
+    this.getRole();
+    this.getEmployeeProcess();
+    let data: any[] = [];
+    if (this._empservice.shouldFetchData) {
+      const data = this._empservice.getData();
+      console.log(data, "Data 1");
+      this.apiResponseData = data.data;
+      console.log(this.apiResponseData, "apiresponsedata");
 
-}
-  //Reporting Manager 1
-  rm1options: any[] | any;
-  selectedmanger1Value: string | any;
-
-  //Reporting Leader 1
-  rl1options: any[] | any;
-  selectedleader1Value: string | any;
-  //Reporting Manager 2
-  rm2options: any[] | any;
-  selectedmanger2Value: string | any;
-
-  //Reporting Leader 2
-  rl2options: any[] | any;
-  selectedleader2Value: string | any;
+      this.fetchUpdateData();
+      this._empservice.shouldFetchData = false;
+    }
 
 
-  //EmployeeHierarchy
-  selectControl = new FormControl();
-  EmployeeHierarchyOptions: any[] | any;
 
-  //EmployeeProcess
-  selectEmployeeprocessControl = new FormControl();
-  //EmployeeRole
-  selectEmployeeRoleControl = new FormControl();
+  }
+  fetchViewData() {
+    console.log("ftechUpdateData");
 
-
-  employeeprocessOptions: any[] | any;
-  //step validation
-  isChecked = false;
-  //martial status dropdown values
-  martials: MARTIAL[] = [
-    { value: '0', viewValue: 'SINGLE' },
-    { value: '1', viewValue: 'MARRIED' },
-  ];
-
-  //resignValue status dropdown values
-  resigns: RESIGN[] = [
-    { resignvalue: '1', resignViewValue: 'HEALTHPROBLEM' },
-    { resignvalue: '2', resignViewValue: 'PERSONALPROBLEM' },
-    { resignvalue: '3', resignViewValue: 'BETTEROFFER' },
-  ];
-  //Gender dropdown values
-  genders: GENDER[] = [
-    { gendervalue: 'MALE', genderViewValue: 'MALE' },
-    { gendervalue: 'FEMALE', genderViewValue: 'FEMALE' },
-  ];
-  //internet dropdown values
-  internets: INTERNET[] = [
-    { internetvalue: 'Yes', internetViewValue: 'Yes' },
-    { internetvalue: 'No', internetViewValue: 'No' },
-  ];
-  //system dropdown values
-  systems: SYSTEM[] = [
-    { systemvalue: '0', systemViewValue: 'Yes' },
-    { systemvalue: '1', systemViewValue: 'No' },
-  ];
-  //Gender dropdown values
-  bloods: BLOOD[] = [
-    { bloodvalue: 'A+-0', bloodViewValue: 'A+' },
-    { bloodvalue: 'A--1', bloodViewValue: 'A-' },
-    { bloodvalue: 'B+-1', bloodViewValue: 'B+' },
-    { bloodvalue: 'B--1', bloodViewValue: 'B-' },
-    { bloodvalue: 'AB+-1', bloodViewValue: 'AB+' },
-    { bloodvalue: 'AB--1', bloodViewValue: 'AB-' },
-    { bloodvalue: '0+-1', bloodViewValue: 'O+' },
-    { bloodvalue: '0--1', bloodViewValue: '0-' },
-  ];
-  
-  public updatedata: any;
-
-  constructor(private builder: FormBuilder,
-    private spinnerService:SpinnerService,
-    private editService:EditService,
-     private http: HttpClient, 
-     private _empservice: EmployeeService, 
-     private _dialogRef: MatDialogRef<AddEditEmployeecontrollerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private _coreService: CoreService) 
-    
-    
-    {
-      console.log(this.data);
-      console.log(this.Empregister);
-    const savedChecked = localStorage.getItem('isChecked');
-    if (savedChecked) {
-      this.isChecked = JSON.parse(savedChecked);
+    this.resignShow = true;
+    this.submitButton = false;
+    this.updateButton = false;
+    this.homeButton = true;
+    this.EmployeeEditName = true;
+    this.employeeCode = this.apiViewResponseData.emp.addressDetail.employeeCode,
+      this.employeeName = this.apiViewResponseData.emp.addressDetail.employeeName,
+      this.dob = this.apiViewResponseData.emp.addressDetail.dateOfBirth
+    this.doj = this.apiViewResponseData.emp.addressDetail.dateOfJoining,
+      this.selectedDestination = this.apiViewResponseData.emp.addressDetail.designationId,
+      this.selectedDepartment = this.apiViewResponseData.emp.addressDetail.departmentId,
+      this.dor = this.apiViewResponseData.emp.addressDetail.dateOfResignation,
+      this.martialStatus = this.apiViewResponseData.emp.addressDetail.maritalStatus,
+      this.gender = this.apiViewResponseData.emp.addressDetail.gender,
+      this.BloodGroup = this.apiViewResponseData.emp.addressDetail.bloodGroup,
+      this.internetAvailable = this.apiViewResponseData.emp.addressDetail.isInternetConnection,
+      this.outsource = this.apiViewResponseData.emp.addressDetail.isOutsource,
+      this.internetType = this.apiViewResponseData.emp.addressDetail.netWorkType,
+      this.ServiceProvider = this.apiViewResponseData.emp.addressDetail.serviceProvider,
+      this.systemlaptop = this.apiViewResponseData.emp.addressDetail.isSystem,
+      this.systemconfiguration = this.apiViewResponseData.emp.addressDetail.systemConfig,
+      this.reportingManager1 = this.apiViewResponseData.emp.addressDetail.reportingManager1,
+      this.reportingManager2 = this.apiViewResponseData.emp.addressDetail.reportingManager2,
+      this.reportingLeader1 = this.apiViewResponseData.emp.addressDetail.reportLeader1,
+      this.reportingLeader2 = this.apiViewResponseData.emp.addressDetail.reportingLeader2,
+      this.employeehierarchy = this.apiViewResponseData.emp.empHry[0].employeeId,
+      this.proficiency = this.apiViewResponseData.emp.addressDetail.profiencyId,
+      this.presentAddress1 = this.apiViewResponseData.emp.addressDetail.address1,
+      this.permanentAddress1 = this.apiViewResponseData.emp.addressDetail.address11,
+      this.presentAddress2 = this.apiViewResponseData.emp.addressDetail.address2,
+      this.permanentAddress2 = this.apiViewResponseData.emp.addressDetail.address22,
+      this.presentaddress3 = this.apiViewResponseData.emp.addressDetail.address3,
+      this.permanentaddress3 = this.apiViewResponseData.emp.addressDetail.address33,
+      this.phonenum = this.apiViewResponseData.emp.addressDetail.phoneNo,
+      this.mobileNumber = this.apiViewResponseData.emp.addressDetail.mobileNo,
+      this.emergencyContactName = this.apiViewResponseData.emp.addressDetail.emergencyContactName,
+      this.emergencyMobilenumber = this.apiViewResponseData.emp.addressDetail.emergencyContactNo,
+      this.officialemailaddress = this.apiViewResponseData.emp.addressDetail.email,
+      this.employeeRoles = this.apiViewResponseData.emp.role
+    this.employeeProcess = this.apiViewResponseData.emp.code
+    this.personalEmail = this.apiViewResponseData.emp.addressDetail.personalEmail
+  }
+  constructor(private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private router: Router, private _empservice: EmployeeService) {
+  }
+  submitButton: boolean = true;
+  updateButton: boolean = false;
+  EmployeeEditName: boolean = false;
+  fetchUpdateData() {
+    console.log("ftechUpdateData");
+    this.resignShow = true;
+    this.submitButton = false;
+    this.updateButton = true;
+    this.EmployeeEditName = true;
+    this.employeeCode = this.apiResponseData.emp.addressDetail.employeeCode,
+      this.employeeName = this.apiResponseData.emp.addressDetail.employeeName,
+      this.dob = this.apiResponseData.emp.addressDetail.dateOfBirth
+    this.doj = this.apiResponseData.emp.addressDetail.dateOfJoining,
+      this.selectedDestination = this.apiResponseData.emp.addressDetail.designationId,
+      this.selectedDepartment = this.apiResponseData.emp.addressDetail.departmentId,
+      this.dor = this.apiResponseData.emp.addressDetail.dateOfResignation,
+      this.martialStatus = this.apiResponseData.emp.addressDetail.maritalStatus,
+      this.gender = this.apiResponseData.emp.addressDetail.gender,
+      this.BloodGroup = this.apiResponseData.emp.addressDetail.bloodGroup,
+      this.internetAvailable = this.apiResponseData.emp.addressDetail.isInternetConnection,
+      this.outsource = this.apiResponseData.emp.addressDetail.isOutsource,
+      this.internetType = this.apiResponseData.emp.addressDetail.netWorkType,
+      this.ServiceProvider = this.apiResponseData.emp.addressDetail.serviceProvider,
+      this.systemlaptop = this.apiResponseData.emp.addressDetail.isSystem,
+      this.systemconfiguration = this.apiResponseData.emp.addressDetail.systemConfig,
+      this.reportingManager1 = this.apiResponseData.emp.addressDetail.reportingManager1,
+      this.reportingManager2 = this.apiResponseData.emp.addressDetail.reportingManager2,
+      this.reportingLeader1 = this.apiResponseData.emp.addressDetail.reportLeader1,
+      this.reportingLeader2 = this.apiResponseData.emp.addressDetail.reportingLeader2,
+      this.employeehierarchy = this.apiResponseData.emp.empHry[0].employeeId,
+      this.proficiency = this.apiResponseData.emp.addressDetail.profiencyId,
+      this.presentAddress1 = this.apiResponseData.emp.addressDetail.address1,
+      this.permanentAddress1 = this.apiResponseData.emp.addressDetail.address11,
+      this.presentAddress2 = this.apiResponseData.emp.addressDetail.address2,
+      this.permanentAddress2 = this.apiResponseData.emp.addressDetail.address22,
+      this.presentaddress3 = this.apiResponseData.emp.addressDetail.address3,
+      this.permanentaddress3 = this.apiResponseData.emp.addressDetail.address33,
+      this.phonenum = this.apiResponseData.emp.addressDetail.phoneNo,
+      this.mobileNumber = this.apiResponseData.emp.addressDetail.mobileNo,
+      this.emergencyContactName = this.apiResponseData.emp.addressDetail.emergencyContactName,
+      this.emergencyMobilenumber = this.apiResponseData.emp.addressDetail.emergencyContactNo,
+      this.officialemailaddress = this.apiResponseData.emp.addressDetail.email,
+      this.employeeRoles = this.apiResponseData.emp.role
+    this.employeeProcess = this.apiResponseData.emp.code
+    this.personalEmail = this.apiResponseData.emp.addressDetail.personalEmail
+    if(this.data.type === "view"){
+      this.homeButton = true;
     }
   }
-  isLinear = false;
-  destinationoptions: any[] | any;
+  homeButton: boolean = false;
 
-  //proficiency
-  proficiencyoptions: any[] | any;
-  //EmployeeRole
+
+
+  //////////Form Group//////
+  personalStepFormGroup: FormGroup;
+  productStepFormGroup: FormGroup;
+  CommunicationStepFormGroup: FormGroup;
+
+  //Display
+  resignShow: boolean = false;
+
+
+  copyAddress: boolean = false;
+
+  //DropDown assign 
+  //1.personal
+  departments: any[] = [];
+  selectedDepartment: any;
+
+  destinations: any[] = [];
+  selectedDestination: any;
+
+  resignReason: any = '';
+  Resigndropdownvalues: any[] = [];
+
+
+  //2.Product
+  rm1options: any[] = [];
+  rm2options: any[] = [];
+  rl1options: any[] = [];
+  rl2options: any[] = [];
+  EmployeeHierarchyOptions: any[] = [];
+  proficiencyoptions: any[] = [];
+
+  //3.communication
+  employeeprocessOptions: any[] = [];
   EmployeeRolesoptions: any[] | any;
+  ////NGMODEL to store the values///
+  //1.personal
+  employeeCode: any;
+  employeeName: any;
+  dob: any;
+  doj: any;
+  dor: any;
+  martialStatus: any;
+  gender: any;
+  BloodGroup: any;
+  internetAvailable: any;
+  outsource: boolean = false;
+  internetType: any;
+  ServiceProvider: any;
+  systemlaptop: string = "";
+  systemconfiguration: string = "";
 
-  selecteddepartmentOption: any = '';
-  //store the sort values of employee hierarchy
-  sortedData: any[];
+  //2.PRODUCT
+  reportingManager1: String = ''
+  reportingManager2: String = ''
+  reporting: String = ''
+  reportingLeader1: string = ''
+  reportingLeader2: string = ''
+  employeehierarchy: any[] = [];
+  proficiency: string = ''
+  //3.Communication
+  presentAddress1: string = ''
+  permanentAddress1: string = ''
+  presentAddress2: string = ''
+  permanentAddress2: string = ''
+  presentaddress3: string = ''
+  permanentaddress3: string = ''
+  phonenum: any;
+  mobileNumber: any;
+  emergencyContactName: string = ''
+  emergencyMobilenumber: string = ''
+  officialemailaddress: string = ''
+  employeeRoles: any[] = [];
+  employeeProcess: any[] = [];
+  newRole: string = ''
+  personalEmail: string = ''
+  //DROPDOWN 1.personal-Department Dropdown
+  getDropdownList() {
 
-  Departmentdropdownvalues: any[] = [];
+    this.http.get<any>(environment.apiURL + `Employee/GetDropDownList`).subscribe(dropdownsResponse => {
+      this.departments = dropdownsResponse.departmentList;
+      this.destinations = dropdownsResponse.designationList;
+      this.proficiencyoptions = dropdownsResponse.proficiencyList;
+    })
+  }
 
-    //Resign dropdowndeclaration
-    selectedresignOption: any = '';
-    Resigndropdownvalues: any[] =[];
-
-  ngOnInit(): void {
- 
-    this.Empregister.patchValue(this.data);
-    // department dropdown fetch the values from the API
-    this.http.get<any>(environment.apiURL+'Employee/GetDropDownList').subscribe(departmentdata => {
-      this.Departmentdropdownvalues = departmentdata.departmentList;
-    });
-
-    //destination dropdown fetch the api value to show it in dropdown
-    this.http.get<any>(environment.apiURL+'Employee/GetDropDownList').subscribe(departmentdata => {
-      this.destinationoptions = departmentdata.designationList;
-    });
-
-    //Employee Hierarchy dropdown fetch the api value to show it in dropdown
-    this.http.get<any>(environment.apiURL+'Employee/GetEmployeeList').subscribe(departmentdata => {
-      this.EmployeeHierarchyOptions = departmentdata;
-      this.sortData();
-    });
-
- // resign reason dropdown fetch the values from the API
-    this.http.get<any>(environment.apiURL+'Employee/getresignresaonslist').subscribe(resignreasons => {
+  getResignReasons() {
+    this.http.get<any>(environment.apiURL + 'Employee/getresignresaonslist').subscribe(resignreasons => {
       this.Resigndropdownvalues = resignreasons;
     });
+  }
 
-    //Employee Process dropdown fetch the api value to show it in dropdown
-    this.http.get(environment.apiURL+'Process/ListProcess').subscribe(employeeprocessdata => {
+
+  //2.product
+  getMangerLeaderHierarchy() {
+    this.http.get<any[]>(environment.apiURL + 'Employee/GetEmployeeList').subscribe(productDropdownResponse => {
+      this.rm1options = productDropdownResponse;
+      this.rm2options = productDropdownResponse;
+      this.rl1options = productDropdownResponse;
+      this.rl2options = productDropdownResponse;
+      this.EmployeeHierarchyOptions = productDropdownResponse;
+    });
+  }
+
+  //3.communication
+
+  roleDescription: any;
+  roleId: any;
+  createdBy: any;
+  updatedBy: any;
+  getRole() {
+    this.http.get<any>(environment.apiURL + 'Employee/GetRolesList')
+      .subscribe(data => {
+        this.EmployeeRolesoptions = data;
+        this.roleDescription = data.description,
+          this.roleId = data.id
+        // this.createdBy = data.createdBy,
+        // this.updatedBy = data.updatedBy
+      });
+  }
+
+  getEmployeeProcess() {
+    this.http.get<any[]>(environment.apiURL + 'Process/ListProcess').subscribe(employeeprocessdata => {
       this.employeeprocessOptions = employeeprocessdata;
     });
-    //proficiency dropdown fetch the api value to show it in dropdown
-    this.http.get<any>(environment.apiURL+'Employee/GetDropDownList').subscribe(departmentdata => {
-      this.proficiencyoptions = departmentdata.proficiencyList;
-    });
-    //EmployeeRoles dropdown fetch the api value to show it in dropdown
-    this.http.get(environment.apiURL+'Employee/GetRolesList')
-      .subscribe(data => {
-        this.EmployeeRolesoptions = data as any[];
-      });
-    //reporting manager 1
-    // this.http.get('https://api.example.com/options').subscribe(reportingmanager1options => {
-    //   this.rm1options = reportingmanager1options;
-    // });
-    this.http.get<any>(environment.apiURL+'Employee/GetEmployeeList').subscribe(departmentdata => {
-      this.rm1options = departmentdata;
-      this.rm2options = departmentdata;
-      this.rl1options = departmentdata;
-      this.rl2options = departmentdata;
-      this.EmployeeHierarchyOptions = departmentdata;
-    });
-
-
-    // //reporting leader 1
-    // this.http.get('https://api.example.com/options').subscribe(reportingleader1options => {
-    //   this.rl1options = reportingleader1options;
-    // });
-    // //reporting manager 2
-    // this.http.get('https://api.example.com/options').subscribe(reportingmanager2options => {
-    //   this.rm2options = reportingmanager2options;
-    // });
-    // //reporting leader 2
-    // this.http.get('https://api.example.com/options').subscribe(reportingleader2options => {
-    //   this.rl2options = reportingleader2options;
-    // });
-
-  }
-  sortData() {
-    this.sortedData = this.EmployeeHierarchyOptions.sort((a, b) => {
-      return a - b; // Change this to the property name you want to sort by
-    });
   }
 
-  //checkbox
-  ngOnChanges() {
-    localStorage.setItem('isChecked', JSON.stringify(this.isChecked));
-  }
-
-
-   
-  Empregister = this.builder.group({
-    basic: this.builder.group({
-      // employeeCode: this.builder.control(this.storingformvalue.employeeCode, Validators.required),
-       employeeCode: this.builder.control(this.data?.employeeCode, Validators.required),
-      employeeName: this.builder.control(this.data?.employeeName, Validators.required),
-      department: this.builder.control(this.data?.departmentId, Validators.required),
-      dob: this.builder.control(this.data?.dateOfBirth, Validators.required),
-      doj: this.builder.control(this.data?.dateOfJoining, Validators.required),
-      martialstatus: this.builder.control(this.data?.maritalStatus, Validators.required),
-      dor: this.builder.control(this.data?.dateOfResignation ),
-      resignReasons: this.builder.control(this.data?.resignReasons, ),
-      gender: this.builder.control(this.data?.gender, Validators.required),
-      destination: this.builder.control(this.data?.designationId, Validators.required),
-      bloodGroup: this.builder.control(this.data?.bloodGroup, Validators.required),
-      internet: this.builder.control(this.data?.isInternetConnection, Validators.required),
-      system: this.builder.control(this.data?.isSystem, Validators.required),
-      isOutOfSourceChecked: this.builder.control(this.data?.isOutsource, Validators.required),
-
-    }),
-    contact: this.builder.group({
-      reportingManager1: this.builder.control(this.data?.reportingManager1, Validators.required),
-      reportingLeader1: this.builder.control(this.data?.reportLeader1, Validators.required),
-      reportingManager2: this.builder.control(this.data?.reportingManager2, Validators.required),
-      reportingLeader2: this.builder.control(this.data?.reportingLeader2, Validators.required),
-      proficiency: this.builder.control(this.data?.proficiency, Validators.required),
-      employeeHierachy: this.builder.control(this.data?.employeeHierachy, Validators.required),
-
-    }),
-    address: this.builder.group({
-      presentaddress1: this.builder.control(this.data?.presentaddress1, Validators.required),
-      permanentaddress1: this.builder.control(this.data?.permanentaddress1, Validators.required),
-      presentaddress2: this.builder.control(this.data?.presentaddress2, Validators.required),
-      permanentaddress2: this.builder.control(this.data?.permanentaddress2, Validators.required),
-      presentaddress3: this.builder.control(this.data?.presentaddress3, Validators.required),
-      permanentaddress3: this.builder.control(this.data?.permanentaddress3, Validators.required),
-      phonenum: this.builder.control(this.data?.phonenum, Validators.required),
-      mobileNumber: this.builder.control(this.data?.mobileNumber, Validators.required),
-      emergencyContactName: this.builder.control(this.data?.emergencyContactName, Validators.required),
-      emergencyMobilenumber: this.builder.control(this.data?.emergencyMobilenumber, Validators.required),
-      officialemailaddress: this.builder.control(this.data?.officialemailaddress, Validators.required),
-      employeeProcess: this.builder.control(this.data?.employeeProcess, Validators.required),
-      employeeRoles: this.builder.control(this.data?.employeeRoles, Validators.required),
-      personalEmail: this.builder.control(this.data?.personalEmail, Validators.required),
-    })
-  });
-
-  get Basicform() {
-    return this.Empregister.get("basic") as FormGroup;
-  }
-  get contactform() {
-    return this.Empregister.get("contact") as FormGroup;
-  }
-  get addressform() {
-    return this.Empregister.get("address") as FormGroup;
-  }
-  HandleSubmit() {
-    if (this.Empregister.valid) {
-      console.log(this.Empregister.value);
-    }
-  }
-
-  onFormSubmit() {
-    this.spinnerService.requestStarted();
-    const roleValues = [{}];
-    const storingrolevariable = this.EmployeeRolesoptions.filter(x => {
-      this.Empregister.value.address?.employeeRoles?.forEach((y): any => {
-
-        if (x.id == y) {
-          roleValues.push(
-            {
-              roleDescription: x.description,
-              roleId: x.id,
-              createdBy: 152,
-              updatedBy: 0
-            }
-          );
-
-          return {
-            roleValues
-          }
-        }
-      })
-    })
-
-    const hierarchyvalues = [{}];
-    const storinghierarchyvariable = this.EmployeeHierarchyOptions.filter(x => {
-      this.Empregister.value.contact?.employeeHierachy?.forEach((y): any => {
-
-        if (x.employeeId == y) {
-          hierarchyvalues.push(
-            {
-              subEmpId: x.employeeId,
-              subEmpName: x.employeeName,
-              createdBy: 152
-            }
-          );
-
-          return {
-            hierarchyvalues
-          }
-        }
-      })
-    })
-
-    //  console.log(hierarchyvalues)
-    //  console.log(roleValues)
-
-    
-   
-    if (this.Empregister.valid) {
-
-
-      if (this.data) {
-        var updatedata = {
-          employeeId: 0,
-          employeeCode: this.Empregister.value.basic?.employeeCode,
-          employeeName: this.Empregister.value.basic?.employeeName,
-          departmentId: this.Empregister.value.basic?.department,
-          designationId: this.Empregister.value.basic?.destination,
-          dateOfJoining: this.Empregister.value.basic?.doj,
-          dateOfResigning: this.Empregister.value.basic?.dor,
-          dateOfBirth: this.Empregister.value.basic?.dob,
-          bloodGroup: this.Empregister.value.basic?.bloodGroup,
-          gender: this.Empregister.value.basic?.gender,
-          maritalStatus: this.Empregister.value.basic?.martialstatus,
-          companyId: 0,
-          profiencyId: this.Empregister.value.contact?.proficiency,
-          emergencyContactName: this.Empregister.value.address?.emergencyContactName,
-          emergencyContactNo: this.Empregister.value.address?.emergencyMobilenumber,
-          email: this.Empregister.value.address?.officialemailaddress,
-          personalEmail: this.Empregister.value.address?.personalEmail,
-          createdUTC: "2023-03-14T11:28:30.034Z",
-          createdBy: 152,
-          updatedUTC: "2023-03-14T11:28:30.034Z",
-          updatedBy: 152,
-          reportingManager1: this.Empregister.value.contact?.reportingManager1,
-          reportLeader1: this.Empregister.value.contact?.reportingLeader1,
-          reportingManager2: this.Empregister.value.contact?.reportingManager2,
-          reportingLeader2: this.Empregister.value.contact?.reportingLeader2,
-          address1: this.Empregister.value.address?.permanentaddress1,
-          address2: this.Empregister.value.address?.permanentaddress2,
-          address3: this.Empregister.value.address?.permanentaddress3,
-          address11: this.Empregister.value.address?.presentaddress1,
-          address22: this.Empregister.value.address?.presentaddress2,
-          address33: this.Empregister.value.address?.presentaddress3,
-          locationId: 0,
-          locationId1: 0,
-          addressType: "Permanent",
-          mobileNo: this.Empregister.value.address?.mobileNumber,
-          phoneNo: this.Empregister.value.address?.phonenum,
-          resignReasons: this.Empregister.value.basic?.resignReasons,
-          dateOfResignation: this.Empregister.value.basic?.dor,
-          processCode: this.Empregister.value.address?.employeeProcess,
-          result: true,
-          roleDescription: '',
-          isOutsource: this.Empregister.value.basic?.isOutOfSourceChecked,
-          isInternetConnection: this.Empregister.value.basic?.internet,
-          isSystem: this.Empregister.value.basic?.system,
-          netWorkType: "",
-          serviceProvider: "",
-          systemConfig: "",
-          empRolesList: roleValues.slice(1),
-          empHierarchyList: hierarchyvalues.slice(1),
-          
-        }
-        console.log(this.data,"updatedata")
-        this._empservice
-          .updateEmployee(updatedata)
-          .subscribe({
-            next: (val: any) => {
-              this._coreService.openSnackBar('Employee detail updated!');
-              this._dialogRef.close(true);
-            },
-            error: (err: any) => {
-              console.error(err);
-            },
-          });
-      } else {
-        var data = {
-          employeeId: 0,
-          employeeCode: this.Empregister.value.basic?.employeeCode,
-          employeeName: this.Empregister.value.basic?.employeeName,
-          departmentId: this.Empregister.value.basic?.department,
-          designationId: this.Empregister.value.basic?.destination,
-          dateOfJoining: this.Empregister.value.basic?.doj,
-          dateOfResigning: this.Empregister.value.basic?.dor,
-          dateOfBirth: this.Empregister.value.basic?.dob,
-          bloodGroup: this.Empregister.value.basic?.bloodGroup,
-          gender: this.Empregister.value.basic?.gender,
-          maritalStatus: this.Empregister.value.basic?.martialstatus,
-          companyId: 0,
-          profiencyId: this.Empregister.value.contact?.proficiency,
-          emergencyContactName: this.Empregister.value.address?.emergencyContactName,
-          emergencyContactNo: this.Empregister.value.address?.emergencyMobilenumber,
-          email: this.Empregister.value.address?.officialemailaddress,
-          personalEmail: this.Empregister.value.address?.personalEmail,
-          createdUTC: "2023-03-14T11:28:30.034Z",
-          createdBy: 152,
-          updatedUTC: "2023-03-14T11:28:30.034Z",
-          updatedBy: 0,
-          reportingManager1: this.Empregister.value.contact?.reportingManager1,
-          reportLeader1: this.Empregister.value.contact?.reportingLeader1,
-          reportingManager2: this.Empregister.value.contact?.reportingManager2,
-          reportingLeader2: this.Empregister.value.contact?.reportingLeader2,
-          address1: this.Empregister.value.address?.permanentaddress1,
-          address2: this.Empregister.value.address?.permanentaddress2,
-          address3: this.Empregister.value.address?.permanentaddress3,
-          address11: this.Empregister.value.address?.presentaddress1,
-          address22: this.Empregister.value.address?.presentaddress2,
-          address33: this.Empregister.value.address?.presentaddress3,
-          locationId: 0,
-          locationId1: 0,
-          addressType: "Permanent",
-          mobileNo: this.Empregister.value.address?.mobileNumber,
-          phoneNo: this.Empregister.value.address?.phonenum,
-          // resignReasons: this.Empregister.value.basic?.resignReasons,
-          // dateOfResignation: this.Empregister.value.basic?.dor,
-          processCode: this.Empregister.value.address?.employeeProcess,
-          result: true,
-          roleDescription: '',
-          isOutsource: this.Empregister.value.basic?.isOutOfSourceChecked,
-          isInternetConnection: this.Empregister.value.basic?.internet,
-          isSystem: this.Empregister.value.basic?.system,
-          netWorkType: "",
-          serviceProvider: "",
-          systemConfig: "",
-          empRolesList: roleValues.slice(1),
-          empHierarchyList: hierarchyvalues.slice(1),
-        }
-        
-        console.log(data,"Before data");
-        this._empservice.addEmployee(data).subscribe({
-          next: (val: any) => {
-            this.spinnerService.requestStarted();
-
-            this._coreService.openSnackBar('Employee added successfully');
-            this._dialogRef.close(true);
-          },
-          error: (err: any) => {
-            console.error(err);
-          },
-        });
-        console.log(data,"after data");
-      }
-    }
-  }
-
-
-
-
-
-  //Entering new role will store into the database
-  formVisible = false;
-  formData = {
-    id: 0,
-    description: '',
-    companyId: 0,
-    createdBy: 152,
-    createdUtc: "2023-03-14T11:28:30.034Z",
-    updatedBy: 0,
-    updatedUtc: "2023-03-14T11:28:30.034Z",
-    isActive: true
-
-    // add more form fields here as needed
-  };
-
-
+  //Method 3.communication
+  formVisible: boolean = false;
   showForm() {
     this.formVisible = true;
   }
@@ -553,16 +284,228 @@ export class AddEditEmployeecontrollerComponent implements OnInit {
 
 
   newRoleSubmit() {
-    // Send the form data to the backend to store in the database
-    // For example, using Angular's HttpClient module:
-    this.http.post(environment.apiURL+'Employee/AddEmpNewRoles', this.formData).subscribe(() => {
+
+    let payload = {
+      "id": 0,
+      "description": this.newRole,
+      "companyId": 0,
+      "createdBy": this.loginservice.getUsername(),
+      "createdUtc": new Date().toISOString,
+      "updatedBy": 0,
+      "updatedUtc": new Date().toISOString,
+      "isActive": true
+    }
+    this.http.post<any>(environment.apiURL + 'Employee/AddEmpNewRoles', payload).subscribe(data => {
       // Show a success message to the user
-      alert('Data saved successfully!');
+      this.coreservice.openSnackBar(data.message)
+      this.getRole();
       // Close the form
       this.hideForm();
     }, () => {
       // Show an error message to the user
       alert('An error occurred while saving the data.');
     });
+  }
+
+
+  onCheckboxChange(event: Event) {
+    this.copyAddress = (event.target as HTMLInputElement).checked;
+    console.log(this.copyAddress, "Copy Address");
+    if (this.copyAddress) {
+      this.presentAddress1 = this.permanentAddress1;
+      this.presentAddress2 = this.permanentAddress2;
+      this.presentaddress3 = this.permanentaddress3;
+
+    } else {
+      this.presentAddress1 = "";
+      this.presentAddress2 = "";
+      this.presentaddress3 = "";
+    }
+  }
+
+
+
+  /////////////////submit an update /////
+  onSubmit() {
+    ///Employee Added SuccessFully
+    this.employeeRoles.forEach((item) => {
+      this.roleID = item.id;
+      this.roleDescription = item.description;
+    });
+    this.employeehierarchy.forEach((item) => {
+      this.subEmpId = item.employeeId,
+        this.subEmpName = item.employeeName
+      //this.createdBy = this.loginservice.getUsername()
+    });
+    let payload = {
+      "employeeId": this.loginservice.getUsername(),
+      "employeeCode": this.employeeCode,
+      "employeeName": this.employeeName,
+      "departmentId": this.selectedDepartment,
+      "designationId": this.selectedDestination,
+      "dateOfJoining": this.doj,
+      "dateOfBirth": this.dob,
+      "bloodGroup": this.BloodGroup,
+      "gender": this.gender,
+      "maritalStatus": this.martialStatus,
+      "companyId": 0,
+      "profiencyId": this.proficiency,
+      "emergencyContactName": this.emergencyContactName,
+      "emergencyContactNo": this.emergencyContactName,
+      "email": this.officialemailaddress,
+      "personalEmail": this.personalEmail,
+      "createdUTC": new Date().toISOString,
+      "createdBy": this.loginservice.getUsername(),
+      "updatedUTC": new Date().toISOString,
+      "updatedBy": 0,
+      "reportingManager1": this.reportingManager1,
+      "reportLeader1": this.reportingLeader1,
+      "reportingManager2": this.reportingManager2,
+      "reportingLeader2": this.reportingLeader2,
+      "address1": this.presentAddress1,
+      "address2": this.presentAddress2,
+      "address3": this.presentaddress3,
+      "address11": this.permanentAddress1,
+      "address22": this.permanentAddress2,
+      "address33": this.permanentaddress3,
+      "locationId": 0,
+      "locationId1": 0,
+      "addressType": "",
+      "mobileNo": this.mobileNumber,
+      "phoneNo": this.phonenum,
+      "resignReasons": 0,
+      "dateOfResignation": this.dor,
+      "processCode":
+        this.employeeProcess,
+      "result": this.outsource,
+      "roleDescription": "",
+      "isOutsource": true,
+      "empRolesList": [
+        {
+          "roleDescription": this.roleDescription,
+          "roleId": this.roleId,
+          "createdBy": this.loginservice.getUsername(),
+          "updatedBy": 0
+        }
+      ],
+      "empHierarchyList": [
+        {
+          "subEmpId": this.subEmpId,
+          "subEmpName": this.subEmpName,
+          "createdBy": this.loginservice.getUsername(),
+        }
+      ],
+      "isInternetConnection": this.internetAvailable,
+      "isSystem": this.systemlaptop,
+      "netWorkType": this.internetType,
+      "serviceProvider": this.ServiceProvider,
+      "systemConfig": this.systemconfiguration,
+    }
+    this.http.post<any>(environment.apiURL + `Employee/AddEmployee`, payload).subscribe({
+      next: (val: any) => {
+        // this.spinnerService.requestStarted();
+        console.log(val, "value");
+
+        this.coreservice.openSnackBar('Employee added successfully');
+        this.router.navigate(['/topnavbar/Emp-Empcontroller']);
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
+
+  }
+
+  onUpdate() {
+    ///Employee Added SuccessFully
+    this.employeeRoles.forEach((item) => {
+      this.roleID = item.id;
+      this.roleDescription = item.description;
+    });
+    this.employeehierarchy.forEach((item) => {
+      this.subEmpId = item.employeeId,
+        this.subEmpName = item.employeeName
+      // this.createdBy = this.loginservice.getUsername()
+    });
+    let payload = {
+      "employeeId": this.loginservice.getUsername(),
+      "employeeCode": this.employeeCode,
+      "employeeName": this.employeeName,
+      "departmentId": this.selectedDepartment,
+      "designationId": this.selectedDestination,
+      "dateOfJoining": this.doj,
+      "dateOfBirth": this.dob,
+      "bloodGroup": this.BloodGroup,
+      "gender": this.gender,
+      "maritalStatus": this.martialStatus,
+      "companyId": 0,
+      "profiencyId": this.proficiency,
+      "emergencyContactName": this.emergencyContactName,
+      "emergencyContactNo": this.emergencyContactName,
+      "email": this.officialemailaddress,
+      "personalEmail": this.personalEmail,
+      "createdUTC": new Date().toISOString,
+      "createdBy": 0,
+      "updatedUTC": new Date().toISOString,
+      "updatedBy": this.loginservice.getUsername(),
+      "reportingManager1": this.reportingManager1,
+      "reportLeader1": this.reportingLeader1,
+      "reportingManager2": this.reportingManager2,
+      "reportingLeader2": this.reportingLeader2,
+      "address1": this.presentAddress1,
+      "address2": this.presentAddress2,
+      "address3": this.presentaddress3,
+      "address11": this.permanentAddress1,
+      "address22": this.permanentAddress2,
+      "address33": this.permanentaddress3,
+      "locationId": 0,
+      "locationId1": 0,
+      "addressType": "",
+      "mobileNo": this.mobileNumber,
+      "phoneNo": this.phonenum,
+      "resignReasons": this.resignReason,
+      "dateOfResignation": this.dor,
+      "processCode": this.employeeProcess,
+      "result": this.outsource,
+      "roleDescription": "",
+      "isOutsource": true,
+      "empRolesList": [
+        {
+          "roleDescription": this.roleDescription,
+          "roleId": this.roleId,
+          "createdBy": 0,
+          "updatedBy": this.loginservice.getUsername()
+        }
+      ],
+      "empHierarchyList": [
+        {
+          "subEmpId": this.subEmpId,
+          "subEmpName": this.subEmpName,
+          "createdBy": 0
+        }
+      ],
+      "isInternetConnection": this.internetAvailable,
+      "isSystem": this.systemlaptop,
+      "netWorkType": this.internetType,
+      "serviceProvider": this.ServiceProvider,
+      "systemConfig": this.systemconfiguration,
+    }
+    this.http.post<any>(environment.apiURL + `Employee/EditEmployee`, payload).subscribe({
+      next: (val: any) => {
+        // this.spinnerService.requestStarted();
+        console.log(val, "value");
+
+        this.coreservice.openSnackBar('Employee updated successfully');
+        this.router.navigate(['/topnavbar/Emp-Empcontroller']);
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
+  }
+
+
+  onHome() {
+    this.router.navigate(['/topnavbar/Emp-Empcontroller']);
   }
 }
