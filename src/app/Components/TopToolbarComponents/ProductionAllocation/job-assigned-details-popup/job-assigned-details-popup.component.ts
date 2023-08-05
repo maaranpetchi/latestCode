@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 
 @Component({
@@ -17,7 +19,10 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   constructor(
   @Inject(MAT_DIALOG_DATA) public data: any,
   private http: HttpClient,
-  private loginservice:LoginService
+  private loginservice:LoginService,
+  private _coreService: CoreService,
+  private router :Router,
+  public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
   ){
   }
   
@@ -55,6 +60,9 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 //   getIsVisible():any{
 //       return this.dataQuerySource.data.length >0;
 //  }
+close(){
+  this.dialogRef.close();
+}
   onFilterChange() {
     if (this.selectedQureryStatus == 'Query') {
       this.remarksdata = true;
