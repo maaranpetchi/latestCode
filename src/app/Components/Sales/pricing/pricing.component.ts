@@ -35,7 +35,7 @@ export class PricingComponent implements OnInit {
   StaffingCountTable: boolean = false;
   showtodate: boolean = false;
 
-  Customer: any;
+  Customer: any[] = [];
   customers: any;
   departments: any;
   selectedValue: any;
@@ -55,7 +55,7 @@ export class PricingComponent implements OnInit {
   selectedTo: any;
   selectedCountPrice: any;
   selectedDesignation: any;
-  Scopes: any;
+  Scopes: any[] = [];
   dropdownOptions: any;
   ViewFileCountTable: any;
   i: any;
@@ -69,15 +69,15 @@ export class PricingComponent implements OnInit {
     private builder: FormBuilder,
     private http: HttpClient,
     private spinner: SpinnerService,
-    private loginservice:LoginService,
-    private _coreService: CoreService,
+    private loginservice: LoginService,
+    private _coreService: CoreService
   ) {}
   departmentFormControl = new FormControl('', Validators.required);
   ngOnInit(): void {
     this.loadDepartments();
     this.loadCustomer();
     this.userRegistrationForm = this.builder.group({
-      departmentFormControl:this.departmentFormControl,
+      departmentFormControl: this.departmentFormControl,
       pricingFormControl: ['', Validators.required],
       customersFormControl: ['', Validators.required],
       additionalRateFormControl: ['', Validators.required],
@@ -301,12 +301,12 @@ export class PricingComponent implements OnInit {
   // }
 
   CreateRateBasedFileCountAndConcession() {
-    console.log("outside createbased file count");
-    
+    console.log('outside createbased file count');
+
     this.submitted = true;
     if (this.userRegistrationForm.valid) {
       this.userRegistrationForm.markAllAsTouched();
-    console.log("inside createbased file count");
+      console.log('inside createbased file count');
       let filecountdata = {
         ScopeId: this.selectedScope.id,
         ScopeTempDesc: this.selectedScope.description,
@@ -327,11 +327,11 @@ export class PricingComponent implements OnInit {
     this.ScopeBasedRateBasedFileCountTable = true;
   }
   CreateEstimatedTime() {
-    console.log("outside CreateEstimatedTime file count");
+    console.log('outside CreateEstimatedTime file count');
     this.submitted = true;
     if (this.userRegistrationForm.valid) {
       this.userRegistrationForm.markAllAsTouched();
-    console.log("inside CreateEstimatedTime file count");
+      console.log('inside CreateEstimatedTime file count');
       //  form control
       if (
         this.selectedFrom < this.selectedTo &&
@@ -401,145 +401,347 @@ export class PricingComponent implements OnInit {
   }
   CreatePricing() {
     let datas: any;
-    // if (this.userRegistrationForm.valid) {
-    //   this.userRegistrationForm.markAllAsTouched();
-      if (this.selectedPricing == 1 || this.selectedPricing == 9) {
-        datas = {
-          CustomerId: this.selectedCustomers.id,
-          DepartmentId: this.selectedValue.id,
-          ScopeId: this.selectedScope.Id,
-          PricingTypeId: this.selectedPricing.id,
-          WEFromDate: this.selectedfromDate,
-          Price: this.selectedPrice,
-          ScopeTempDesc: this.selectedScope.description,
-          CreatedBy: this.loginservice.getUsername(),
-          JobStatusId: this.selectedValueEfect,
-        };
-      } else if (this.selectedPricing == 2) {
-        datas = {
-          CustomerId: this.selectedCustomers.id,
-          DepartmentId: this.selectedValue.id,
-          ScopeId: this.selectedScope.Id,
-          PricingTypeId: this.selectedPricing.id,
-          RatePerHour: this.selectedAdditionalRate,
-          EstimatedTime: this.selectedEstTime,
-          WEFromDate: this.selectedfromDate,
-          Price: this.selectedPrice,
-          ScopeTempDesc: this.selectedScope.description,
-          CreatedBy: this.loginservice.getUsername(),
-          JobStatusId: this.selectedValueEfect,
-        };
-      } else if (this.selectedPricing == 13 || this.selectedPricing == 14) {
-        datas = {
-          CustomerId: this.selectedCustomers.id,
-          DepartmentId: this.selectedValue.id,
-          ScopeId: this.selectedScope.Id,
-          PricingTypeId: this.selectedPricing.id,
-          RatePerHour: this.selectedAdditionalRate,
-          WEFromDate: this.selectedfromDate,
-          ScopeTempDesc: this.selectedScope.description,
-          CreatedBy: this.loginservice.getUsername(),
-          JobStatusId: this.selectedValueEfect,
-        };
-      } else if (
-        this.selectedPricing == 11 ||
-        this.selectedPricing == 12
-      ) {
-        datas = {
-          CustomerId: this.selectedCustomers.id,
-          DepartmentId: this.selectedValue.id,
-          PricingTypeId: this.selectedPricing.id,
-          CreatedBy: this.loginservice.getUsername(),
-          WEFromDate: this.selectedfromDate,
-          AddCountDatas: this.ViewFileCountTable,
-          JobStatusId: this.selectedValueEfect,
-        };
-      } else if (
-        this.selectedPricing == 3 ||
-        this.selectedPricing == 4 ||
-        this.selectedPricing == 10
-      ) {
-        datas = {
-          CustomerId: this.selectedCustomers.id,
-          DepartmentId: this.selectedValue.id,
-          PricingTypeId: this.selectedPricing.id,
-          CreatedBy: this.loginservice.getUsername(),
-          WEFromDate: this.selectedfromDate,
-          AddCountDatas: this.ViewFileCountTable,
-          JobStatusId: this.selectedValueEfect,
-        };
-      } else if (
-        this.selectedPricing == 5 ||
-        this.selectedPricing == 15
-      ) {
-        datas = {
-          CustomerId: this.selectedCustomers.id,
-          DepartmentId: this.selectedValue.id,
-          PricingTypeId: this.selectedPricing.id,
-          CreatedBy: this.loginservice.getUsername(),
-          WEFromDate: this.selectedfromDate,
-          WEToDate: this.selectedEffectivetoDate,
-          AddCountDatas: this.ViewFileCountTable,
-        };
-      } else if (this.selectedPricing == 6) {
-        datas = {
-          CustomerId: this.selectedCustomers.id,
-          DepartmentId: this.selectedValue.id,
-          ScopeId: 21,
-          PricingTypeId: this.selectedPricing.id,
-          RatePerHour: this.selectedAdditionalRate,
-          WEFromDate: this.selectedfromDate,
-          Price: this.selectedPrice,
-          ScopeTempDesc: 'Embroidery Digitizing',
-          CreatedBy: this.loginservice.getUsername(),
-          JobStatusId: this.selectedValueEfect,
-        };
-      }
-      this.http
-        .post(environment.apiURL + `Pricing/AddPricingWithScope`, datas)
-        .subscribe((response) => {
-          this.jobStatusFormControl = response;
-        });
-    }
+    if (this.userRegistrationForm.valid) {
+      this.userRegistrationForm.markAllAsTouched();
+    if (this.selectedPricing == 1 || this.selectedPricing == 9) {
+      datas = {
+        departments: [],
+        selectedDepartment: null,
+        pricingTypes: [],
+        selectedPricingType: null,
+        customers: [],
+        selectedCustomer: null,
+        pricings: [],
+        selectedScope: null,
+        scopeTempDesc: this.Scopes.find((x) => x.id === this.selectedScope)
+          .description,
+        estimatedTime: 'string',
+        ratePerHour: 0,
+        fromRange: 0,
+        toRange: 0,
+        price: this.selectedPrice,
+        createdBy: this.loginservice.getUsername(),
+        customerId: this.selectedCustomers,
+        departmentId: this.selectedValue,
+        scopeId: this.selectedScope,
+        jobStatusId: this.selectedValueEfect,
+        pricingTypeId: this.selectedPricing,
+        fromDate: this.selectedfromDate,
+        toDate: '2023-08-03T06:48:55.900Z',
+        designation: 'string',
+        cusShortName: 'string',
+        numberofArtist: 0,
+        weFromDate: '2023-08-03T06:48:55.900Z',
+        weToDate: '2023-08-03T06:48:55.900Z',
+        id: 0,
+        addCountDatas: [],
+      };
+    } else if (this.selectedPricing == 2) {
+      datas = {
+        departments: [],
+        selectedDepartment: null,
+        pricingTypes: [],
+        selectedPricingType: null,
+        customers: [],
+        selectedCustomer: null,
+        pricings: [],
+        selectedScope: null,
+        scopeTempDesc: this.Scopes.find((x) => x.id === this.selectedScope)
+        .description,
+        estimatedTime:  this.selectedEstTime,
+        ratePerHour: this.selectedAdditionalRate,
+        fromRange: 0,
+        toRange: 0,
+        price:  this.selectedPrice,
+        createdBy: this.loginservice.getUsername(),
+        customerId: this.selectedCustomers,
+        departmentId: this.selectedValue,
+        scopeId:this.selectedScope,
+        jobStatusId: this.selectedValueEfect,
+        pricingTypeId: this.selectedPricing,
+        fromDate: '2023-08-03T06:48:55.900Z',
+        toDate: '2023-08-03T06:48:55.900Z',
+        designation: 'string',
+        cusShortName: 'string',
+        numberofArtist: 0,
+        weFromDate: this.selectedfromDate,
+        weToDate: this.selectedEffectivetoDate,
+        id: 0,
+        addCountDatas: [],
+        //
+        // CustomerId: this.selectedCustomers,
+        // DepartmentId: this.selectedValue,
+        // ScopeId: this.selectedScope,
+        // PricingTypeId: this.selectedPricing,
+        // RatePerHour: this.selectedAdditionalRate,
+        // EstimatedTime: this.selectedEstTime,
+        // WEFromDate: this.selectedfromDate,
+        // Price: this.selectedPrice,
+        // ScopeTempDesc: this.selectedScope.description,
+        // CreatedBy: this.loginservice.getUsername(),
+        // JobStatusId: this.selectedValueEfect,
+      };
+    } else if (this.selectedPricing == 13 || this.selectedPricing == 14) {
+      datas = {
+        departments: [],
+        selectedDepartment: null,
+        pricingTypes: [],
+        selectedPricingType: null,
+        customers: [],
+        selectedCustomer: null,
+        pricings: [],
+        selectedScope: null,
+        scopeTempDesc: this.Scopes.find((x) => x.id === this.selectedScope)
+        .description,
+        estimatedTime: 'string',
+        ratePerHour: this.selectedAdditionalRate,
+        fromRange: 0,
+        toRange: 0,
+        price:  this.selectedPrice,
+        createdBy: this.loginservice.getUsername(),
+        customerId: this.selectedCustomers,
+        departmentId: this.selectedValue,
+        scopeId: 0,
+        jobStatusId: this.selectedValueEfect,
+        pricingTypeId: this.selectedPricing,
+        fromDate: '2023-08-03T06:48:55.900Z',
+        toDate: '2023-08-03T06:48:55.900Z',
+        designation: 'string',
+        cusShortName: 'string',
+        numberofArtist: 0,
+        weFromDate: this.selectedfromDate,
+        weToDate: this.selectedEffectivetoDate,
+        id: 0,
+        addCountDatas: [],
 
-    // $('#CreateDialog').on('hidden.bs.modal', function (e) {
-    //     $('#CreateDialog').modal('hide');
-    //     $scope.submitted = false;
-    //     $scope.PricingForm.$setPristine();
-    //     $scope.type2 = false;
-    //     $scope.type22 = false;
-    //     $scope.type6 = false;
-    //     $scope.showeffective = true;
-    //     $scope.notshowntodigi = true;
-    //     $scope.showpricedetails = false;
-    //     //$scope.showstaffing = false;
-    //     $scope.showcounttable = false;
-    //     $scope.showcounttabletime = false;
-    //     $scope.notshowntocount = true;
-    //     $scope.showstaffingcounttable = false;
-    //     $scope.StaffingCountTable = false;
-    //     $scope.ScopeBasedRateBasedFileCountTable = false;
-    //     $scope.EstimatedTimeTable = false;
-    //     $("#ddldepartment").val('');
-    //     $("#ddlpricingtype").val('');
-    //     $("#ddlclient").val('');
-    //     $("#ddlscope").val('');
-    //     $("#txtaditionalrate").val('');
-    //     $("#txtesttime").val('');
-    //     $("#txttype6adirate").val('');
-    //     $("#txtfromdate").val('');
-    //     $("#txtwefromdate").val('');
-    //     $("#txttodate").val('');
-    //     $("#ddldesignation").val('');
-    //     $("#txtnoofartist").val('');
-    //     $("#txtprice").val('');
-    //     $("#ddlCurrentStaff").val('');
-    //     $("#countfrom").val('');
-    //     $("#countto").val('');
-    //     $("#countprice").val('');
-    //     $timeout(function callAtTimeout() {
-    //         $location.path('/CreatePricingWithScope');
-    //     }, 500);
-    // })
+        // CustomerId: this.selectedCustomers,
+        // DepartmentId: this.selectedValue,
+        // ScopeId: this.selectedScope,
+        // PricingTypeId: this.selectedPricing,
+        // RatePerHour: this.selectedAdditionalRate,
+        // WEFromDate: this.selectedfromDate,
+        // ScopeTempDesc: this.selectedScope.description,
+        // CreatedBy: this.loginservice.getUsername(),
+        // JobStatusId: this.selectedValueEfect,
+      };
+    } else if (this.selectedPricing == 11 || this.selectedPricing == 12) {
+      datas = {
+        departments: [],
+        selectedDepartment: null,
+        pricingTypes: [],
+        selectedPricingType: null,
+        customers: [],
+        selectedCustomer: null,
+        pricings: [],
+        selectedScope: null,
+        scopeTempDesc: this.Scopes.find((x) => x.id === this.selectedScope)
+        .description,
+        estimatedTime: 'string',
+        ratePerHour: this.selectedAdditionalRate,
+        fromRange: 0,
+        toRange: 0,
+        price:  this.selectedPrice,
+        createdBy: this.loginservice.getUsername(),
+        customerId: this.selectedCustomers,
+        departmentId: this.selectedValue,
+        scopeId: 0,
+        jobStatusId: this.selectedValueEfect,
+        pricingTypeId: this.selectedPricing,
+        fromDate: '2023-08-03T06:48:55.900Z',
+        toDate: '2023-08-03T06:48:55.900Z',
+        designation: 'string',
+        cusShortName: 'string',
+        numberofArtist: 0,
+        weFromDate: this.selectedfromDate,
+        weToDate: this.selectedEffectivetoDate,
+        id: 0,
+        addCountDatas: [],
+
+        // CustomerId: this.selectedCustomers,
+        // DepartmentId: this.selectedValue,
+        // PricingTypeId: this.selectedPricing,
+        // CreatedBy: this.loginservice.getUsername(),
+        // WEFromDate: this.selectedfromDate,
+        // AddCountDatas: [],
+        // JobStatusId: this.selectedValueEfect,
+      };
+    } else if (
+      this.selectedPricing == 3 ||
+      this.selectedPricing == 4 ||
+      this.selectedPricing == 10
+    ) {
+      datas = {
+        departments: [],
+        selectedDepartment: null,
+        pricingTypes: [],
+        selectedPricingType: null,
+        customers: [],
+        selectedCustomer: null,
+        pricings: [],
+        selectedScope: null,
+        scopeTempDesc: this.Scopes.find((x) => x.id === this.selectedScope)
+        .description,
+        estimatedTime: 'string',
+        ratePerHour: this.selectedAdditionalRate,
+        fromRange: 0,
+        toRange: 0,
+        price:  this.selectedPrice,
+        createdBy: this.loginservice.getUsername(),
+        customerId: this.selectedCustomers,
+        departmentId: this.selectedValue,
+        scopeId: 0,
+        jobStatusId: this.selectedValueEfect,
+        pricingTypeId: this.selectedPricing,
+        fromDate: '2023-08-03T06:48:55.900Z',
+        toDate: '2023-08-03T06:48:55.900Z',
+        designation: 'string',
+        cusShortName: 'string',
+        numberofArtist: 0,
+        weFromDate: this.selectedfromDate,
+        weToDate: this.selectedEffectivetoDate,
+        id: 0,
+        addCountDatas: [],
+
+        // CustomerId: this.selectedCustomers,
+        // DepartmentId: this.selectedValue,
+        // PricingTypeId: this.selectedPricing,
+        // CreatedBy: this.loginservice.getUsername(),
+        // WEFromDate: this.selectedfromDate,
+        // AddCountDatas: [],
+        // JobStatusId: this.selectedValueEfect,
+      };
+    } else if (this.selectedPricing == 5 || this.selectedPricing == 15) {
+      datas = {
+        departments: [],
+        selectedDepartment: null,
+        pricingTypes: [],
+        selectedPricingType: null,
+        customers: [],
+        selectedCustomer: null,
+        pricings: [],
+        selectedScope: null,
+        scopeTempDesc: this.Scopes.find((x) => x.id === this.selectedScope)
+        .description,
+        estimatedTime: 'string',
+        ratePerHour: this.selectedAdditionalRate,
+        fromRange: 0,
+        toRange: 0,
+        price:  this.selectedPrice,
+        createdBy: this.loginservice.getUsername(),
+        customerId: this.selectedCustomers,
+        departmentId: this.selectedValue,
+        scopeId: 0,
+        jobStatusId: this.selectedValueEfect,
+        pricingTypeId: this.selectedPricing,
+        fromDate: '2023-08-03T06:48:55.900Z',
+        toDate: '2023-08-03T06:48:55.900Z',
+        designation: 'string',
+        cusShortName: 'string',
+        numberofArtist: 0,
+        weFromDate: this.selectedfromDate,
+        weToDate: this.selectedEffectivetoDate,
+        id: 0,
+        addCountDatas: [],
+
+        // CustomerId: this.selectedCustomers,
+        // DepartmentId: this.selectedValue,
+        // PricingTypeId: this.selectedPricing,
+        // CreatedBy: this.loginservice.getUsername(),
+        // WEFromDate: this.selectedfromDate,
+        // WEToDate: this.selectedEffectivetoDate,
+        // AddCountDatas: [],
+      };
+    } else if (this.selectedPricing == 6) {
+      datas = {
+        departments: [],
+        selectedDepartment: null,
+        pricingTypes: [],
+        selectedPricingType: null,
+        customers: [],
+        selectedCustomer: null,
+        pricings: [],
+        selectedScope: null,
+        scopeTempDesc: this.Scopes.find((x) => x.id === this.selectedScope)
+        .description,
+        estimatedTime: 'string',
+        ratePerHour: this.selectedAdditionalRate,
+        fromRange: 0,
+        toRange: 0,
+        price:  this.selectedPrice,
+        createdBy: this.loginservice.getUsername(),
+        customerId: this.selectedCustomers,
+        departmentId: this.selectedValue,
+        scopeId: 0,
+        jobStatusId: this.selectedValueEfect,
+        pricingTypeId: this.selectedPricing,
+        fromDate: '2023-08-03T06:48:55.900Z',
+        toDate: '2023-08-03T06:48:55.900Z',
+        designation: 'string',
+        cusShortName: 'string',
+        numberofArtist: 0,
+        weFromDate: this.selectedfromDate,
+        weToDate: '2023-08-03T06:48:55.900Z',
+        id: 0,
+        addCountDatas: [],
+// 
+        // CustomerId: this.selectedCustomers,
+        // DepartmentId: this.selectedValue,
+        // ScopeId: 21,
+        // PricingTypeId: this.selectedPricing,
+        // RatePerHour: this.selectedAdditionalRate,
+        // WEFromDate: this.selectedfromDate,
+        // Price: this.selectedPrice,
+        // ScopeTempDesc: 'Embroidery Digitizing',
+        // CreatedBy: this.loginservice.getUsername(),
+        // JobStatusId: this.selectedValueEfect,
+      };
+    }
+    this.http
+      .post(environment.apiURL + `Pricing/AddPricingWithScope`, datas)
+      .subscribe((response) => {
+        this.jobStatusFormControl = response;
+      });
+    }
+  }
+
+  // $('#CreateDialog').on('hidden.bs.modal', function (e) {
+  //     $('#CreateDialog').modal('hide');
+  //     $scope.submitted = false;
+  //     $scope.PricingForm.$setPristine();
+  //     $scope.type2 = false;
+  //     $scope.type22 = false;
+  //     $scope.type6 = false;
+  //     $scope.showeffective = true;
+  //     $scope.notshowntodigi = true;
+  //     $scope.showpricedetails = false;
+  //     //$scope.showstaffing = false;
+  //     $scope.showcounttable = false;
+  //     $scope.showcounttabletime = false;
+  //     $scope.notshowntocount = true;
+  //     $scope.showstaffingcounttable = false;
+  //     $scope.StaffingCountTable = false;
+  //     $scope.ScopeBasedRateBasedFileCountTable = false;
+  //     $scope.EstimatedTimeTable = false;
+  //     $("#ddldepartment").val('');
+  //     $("#ddlpricingtype").val('');
+  //     $("#ddlclient").val('');
+  //     $("#ddlscope").val('');
+  //     $("#txtaditionalrate").val('');
+  //     $("#txtesttime").val('');
+  //     $("#txttype6adirate").val('');
+  //     $("#txtfromdate").val('');
+  //     $("#txtwefromdate").val('');
+  //     $("#txttodate").val('');
+  //     $("#ddldesignation").val('');
+  //     $("#txtnoofartist").val('');
+  //     $("#txtprice").val('');
+  //     $("#ddlCurrentStaff").val('');
+  //     $("#countfrom").val('');
+  //     $("#countto").val('');
+  //     $("#countprice").val('');
+  //     $timeout(function callAtTimeout() {
+  //         $location.path('/CreatePricingWithScope');
+  //     }, 500);
+  // })
   // }
 }

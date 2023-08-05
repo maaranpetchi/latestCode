@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 
 @Component({
@@ -16,7 +18,11 @@ export class ProductionAllocatedPopupComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private http: HttpClient,
-    private loginservice: LoginService
+    private loginservice: LoginService,
+    private _coreService: CoreService,
+    private router :Router,
+  public dialogRef: MatDialogRef<ProductionAllocatedPopupComponent>
+
   ) {console.log(data,"ProductionAllocatedPopupComponent");
   }
 
@@ -176,49 +182,12 @@ export class ProductionAllocatedPopupComponent implements OnInit {
       // Handle the case when no option is selected or handle any other condition
     }
   }
+  close(){
+      this.dialogRef.close();
+
+  }
 
   processMovement() {
-    // let selectedRows: any[] = [
-    //   {
-    //     id: 0,
-    //     processId: 3,
-    //     statusId: this.selectedQureryStatus,
-    //     selectedScopeId: 0,
-    //     autoUploadJobs: true,
-    //     employeeId: this.loginservice.getUsername(),
-    //     remarks: this.remarks,
-    //     isBench: true,
-    //     jobId: this.data.jobId,
-    //     value: 0,
-    //     amount: 0,
-    //     stitchCount: 0,
-    //     dateofDelivery: '2023-07-01T11:15:03.552Z',
-    //     comments: 'string',
-    //     validity: 0,
-    //     copyFiles: true,
-    //     updatedBy: this.loginservice.getUsername(),
-    //     jId: this.data.jId,
-    //     estimatedTime: this.estimatedTime,
-    //     tranMasterId: this.data.tranMasterId,
-    //     selectedRows: [],
-    //     selectedEmployees: [],
-    //     departmentId: this.data.departmentId,
-    //     updatedUTC: '2023-07-01T11:15:03.552Z',
-    //     categoryDesc: 'string',
-    //     allocatedEstimatedTime: 0,
-    //     tranId: 0,
-    //     fileInwardType: 'string',
-    //     timeStamp: this.data.timeStamp,
-    //     scopeId: 0,
-    //     quotationRaisedby: 0,
-    //     quotationraisedOn: '2023-07-01T11:15:03.552Z',
-    //     clientId: 0,
-    //     customerId: this.data.customerId,
-    //     fileReceivedDate: '2023-07-01T11:15:03.553Z',
-    //     commentsToClient: 'string',
-    //     isJobFilesNotTransfer: true,
-    //   },
-    // ];
     let saveData = {
       id: 0,
       processId: 3,

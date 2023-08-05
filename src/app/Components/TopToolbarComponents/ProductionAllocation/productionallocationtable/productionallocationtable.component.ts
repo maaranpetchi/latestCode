@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { ProductionAllocatedPopupComponent } from '../production-allocated-popup/production-allocated-popup.component';
 import { JoballocatedEmplpopupComponent } from '../joballocated-emplpopup/joballocated-emplpopup.component';
 import { EmployeePopupTableComponent } from '../../QualityAllocation/employee-popup-table/employee-popup-table.component';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-productionallocationtable',
@@ -58,6 +59,7 @@ export class ProductionallocationtableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   pendingJobsCount: any;
   exchangeHeader: any;
+  exmployeeEstTime:any
   freshJobsCount: number;
   revisionJobsCount: number;
   reworkJobsCount: number;
@@ -269,6 +271,7 @@ export class ProductionallocationtableComponent implements OnInit {
     console.log(this.selectedQuery, 'selectrow');
 
     let temparray: any[] = [];
+    let selected:any[]=[];
     let skip: boolean;
     this.dataSource.data.filter((y: any) => {
       skip = false;
@@ -280,6 +283,15 @@ export class ProductionallocationtableComponent implements OnInit {
             allocatedEstimatedTime: this.exchangeHeader,
             isSelected: true,
           });
+          selected.push({
+            ...y,
+            CategoryDesc: '',
+            Comments: '',
+            CommentsToClient: '',
+            Remarks: '',
+            SelectedEmployees: [],
+            SelectedRows: [],
+            allocatedEstimatedTime: this.exchangeHeader})
           skip = true;
         }
       });
@@ -288,7 +300,13 @@ export class ProductionallocationtableComponent implements OnInit {
       }
     });
     this.dataSource.data = temparray;
+    this.selectedQuery=selected;
   }
+  // getSelectedJobs(){
+  //   this.dataEmployeeSource.data.filter((y:any)=>{
+  //     this.selectedQuery.
+  //   })
+  // }
 
   benchChecked: boolean = false;
   onBenchCheckboxChange(event: any) {
@@ -568,6 +586,12 @@ export class ProductionallocationtableComponent implements OnInit {
       });
   }
 
+
+  onKeyPress(event: KeyboardEvent, job: any) {
+    // if (event.key === 'Enter') {
+      this.afterCellEdit(job);
+    // }
+  }
   afterCellEdit(rowEntity: any) {
     console.log('editfield', rowEntity);
 
@@ -607,12 +631,6 @@ export class ProductionallocationtableComponent implements OnInit {
           return { ...x, estTime: rowEntity.estTime, status: rowEntity.status };
         } else return x;
       });
-    }
-  }
-
-  onKeyPress(event: KeyboardEvent, job: any) {
-    if (event.key === 'Enter') {
-      this.afterCellEdit(job);
     }
   }
 
@@ -675,9 +693,11 @@ export class ProductionallocationtableComponent implements OnInit {
 
   selectedJobs: any[] = [];
   onSubmit() {
+    
     if (this.selectedQuery.length > 0) {
       this.selectedJobs = this.selectedQuery;
     }
+    // this.spinnerService.requestStarted();
 
     var selectedJobCount = this.selectedJobs.length;
     var selectedEmployeeCount = this.selectedEmployee.length;
@@ -689,18 +709,16 @@ export class ProductionallocationtableComponent implements OnInit {
         if (selectedJobCount > 1) {
           if (selectedEmployeeCount > 1) {
             alert('Please select one Employee!');
-            // $('#alertPopup').modal('show');
-          } else {
+          }
+          else {
+            console.log();
+            
             for (var i = 0; i < selectedJobCount; i++) {
-              if (
-                this.selectedJobs[i].allocatedEstimatedTime == undefined ||
-                this.selectedJobs[i].allocatedEstimatedTime == '' ||
-                this.selectedJobs[i].allocatedEstimatedTime == 0
-              ) {
-                alert('Please enter Estimated Time for Selected Job');
-                // $('#alertPopup').modal('show');
-                return;
-              }
+            console.log(this.selectedQuery, "est time for job");
+                if (this.selectedJobs[i].allocatedEstimatedTime == undefined || this.selectedJobs[i].allocatedEstimatedTime == "" || this.selectedJobs[i].allocatedEstimatedTime == 0) {
+                    alert('Please enter Estimated Time for Selected Job');
+                    return;
+                }
             }
             this.postJobs();
           }
@@ -712,7 +730,6 @@ export class ProductionallocationtableComponent implements OnInit {
               this.selectedEmployee[i].estTime == 0
             ) {
               alert('Please enter Estimated Time for Selected Employee');
-              // $('#alertPopup').modal('show');
               return;
             }
           }
@@ -720,13 +737,13 @@ export class ProductionallocationtableComponent implements OnInit {
         }
       } else {
         alert('Please select Job and Employeesss');
-        // $('#alertPopup').modal('show');
+        
+        
       }
     } else {
       if (selectedJobCount != 0 && selectedEmployeeCount != 0) {
         if (selectedEmployeeCount > 1) {
           alert('Please select one Employee!');
-          // $('#alertPopup').modal('show');
           return;
         }
         this.postJobs();
@@ -735,6 +752,7 @@ export class ProductionallocationtableComponent implements OnInit {
         // $('#alertPopup').modal('show');
       }
     }
+    
   }
 
   ScopeId: any;
@@ -770,7 +788,7 @@ export class ProductionallocationtableComponent implements OnInit {
       departmentId: 0,
       updatedUTC: '2023-06-22T11:47:25.193Z',
       categoryDesc: 'string',
-      allocatedEstimatedTime: 0,
+      allocatedEstimatedTime:this.exchangeHeader ,
       tranId: 0,
       fileInwardType: 'string',
       timeStamp: '',
@@ -831,8 +849,22 @@ export class ProductionallocationtableComponent implements OnInit {
     this.selectedEmployee = processMovement.SelectedEmployees;
     this.http
       .post(environment.apiURL + 'Allocation/processMovement', processMovement)
-      .subscribe((result) => {
-        confirmationMessage = result;
+      .subscribe((response:any) => {
+        confirmationMessage = response;
+        this.spinnerService.requestEnded();
+      if (response.success === "true" || response.success === "false") {
+        // Assuming response is a string "true" or "false"
+        window.location.reload();
+      } else {
+        // window.location.reload();
+      }
+    
+    (error) => {
+      console.error('Error occurred during API call:', error);
+      this.spinnerService.resetSpinner();
+      // Handle error responses here
+      // For example, show an error message to the user
+    }
       });
 
     this.http
