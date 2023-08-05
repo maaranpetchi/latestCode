@@ -203,11 +203,11 @@ export class EditaddemployeecontrollerComponent implements OnInit {
   systemconfiguration: string = "";
 
   //2.PRODUCT
-  reportingManager1: String = ''
-  reportingManager2: String = ''
+  reportingManager1:any;
+  reportingManager2: any;
   reporting: String = ''
-  reportingLeader1: string = ''
-  reportingLeader2: string = ''
+  reportingLeader1:any;
+  reportingLeader2: any;
   employeehierarchy: any[] = [];
   proficiency: string = ''
   //3.Communication

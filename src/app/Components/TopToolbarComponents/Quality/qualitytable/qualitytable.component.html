@@ -84,8 +84,9 @@
                 <!-- Table Rows -->
                 <tr mat-row *matRowDef="let job; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator #paginator [pageSizeOptions]="[25, 50,75,100]" aria-label="Select page of users"></mat-paginator>
         </div>
+        <mat-paginator #paginator [pageSizeOptions]="[25, 50,75,100]" aria-label="Select page of users"></mat-paginator>
+
         <br>
         <br>
         <br>

@@ -166,7 +166,6 @@ openJobDetailsDialog(data){
     })
     }
 
-
     lnkviewedit(data) {
       if (data.processId == 8 || data.processId == 10) {
           let selectedJobs = [{
@@ -248,7 +247,7 @@ openJobDetailsDialog(data){
               localStorage.setItem("JId", data.jid);
               localStorage.setItem("processid", data.processId);
               // $location.path('/ProcessTransaction');
-              this.dialog.open(ProdjobpopupComponent,{
+              this.dialog.open(QualityWorkflowComponent,{
                 width: '80vw',
                 height: '80vh',
                 data
