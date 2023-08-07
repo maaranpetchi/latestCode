@@ -14,6 +14,7 @@ import { ProductionAllocatedPopupComponent } from '../production-allocated-popup
 import { JoballocatedEmplpopupComponent } from '../joballocated-emplpopup/joballocated-emplpopup.component';
 import { EmployeePopupTableComponent } from '../../QualityAllocation/employee-popup-table/employee-popup-table.component';
 import { error } from 'jquery';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-productionallocationtable',
@@ -74,7 +75,8 @@ export class ProductionallocationtableComponent implements OnInit {
     private loginservice: LoginService,
     private productionallocation: ProductionAllocationService,
     private _dialog: MatDialog,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private router: Router
   ) {
     // Initialize the `editing` flag for each job object to `false`
     this.dataEmployeeSource.data.forEach((job) => {
@@ -697,7 +699,7 @@ export class ProductionallocationtableComponent implements OnInit {
     if (this.selectedQuery.length > 0) {
       this.selectedJobs = this.selectedQuery;
     }
-    // this.spinnerService.requestStarted();
+    this.spinnerService.requestStarted();
 
     var selectedJobCount = this.selectedJobs.length;
     var selectedEmployeeCount = this.selectedEmployee.length;
@@ -841,7 +843,9 @@ export class ProductionallocationtableComponent implements OnInit {
       this.jobMovement(processMovement);
     }
   }
-
+  refreshPage() {
+    window.location.reload();
+  }
   jobMovement(processMovement) {
     var confirmationMessage: any;
     let AttachedFiles = [];
@@ -852,18 +856,16 @@ export class ProductionallocationtableComponent implements OnInit {
       .subscribe((response:any) => {
         confirmationMessage = response;
         this.spinnerService.requestEnded();
-      if (response.success === "true" || response.success === "false") {
-        // Assuming response is a string "true" or "false"
-        window.location.reload();
-      } else {
-        // window.location.reload();
-      }
-    
+        if (response.success === false) {
+          alert("Error the job assigned")
+        }else if(response.success === true){
+          alert("Job assigned successfully")
+          this.router.navigate(["topnavbar/production"]);
+          this.refreshPage();
+        }
     (error) => {
       console.error('Error occurred during API call:', error);
       this.spinnerService.resetSpinner();
-      // Handle error responses here
-      // For example, show an error message to the user
     }
       });
 
