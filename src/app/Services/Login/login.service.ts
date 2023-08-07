@@ -17,7 +17,14 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean {
-    return this.cookieService.check('token') && this.cookieService.check('username');
+    let loginCheck = this.cookieService.check('token') && this.cookieService.check('username');
+    console.log(loginCheck,"logincheck");
+    
+    return loginCheck;
+  }
+
+  isCheck(){
+    return false;
   }
 
   // username eg:pras

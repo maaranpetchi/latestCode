@@ -41,7 +41,7 @@ export class ChangepasswordComponent implements OnInit {
 
   onSubmit() {
     if (this.passwordForm.valid) {
-      const userId = 0;
+      const userId = this.loginservice.getUsername();
       const oldPassword = this.passwordForm.value.oldPassword; 
       this.spinnerService.requestStarted();
       this.http.post(environment.apiURL+'Account/ChangePassword', {

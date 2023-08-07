@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="checklist">
+        <form (ngSubmit)="onFormSubmit()">
+            <div class="row">
+                <div class="col">
+                    <h1 style="font-family: 'Times New Roman', Times, serif;color:#007ad7">Checklist</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Department</mat-label>
+                        <mat-select [(ngModel)]="selectedDepartment" name="department">
+                          <mat-option *ngFor="let department of dept" [value]="department.id">{{ department.name }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>                                       
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Customer Short Name</mat-label>
+                        <mat-select [(ngModel)]="selectedCustomer" name="shortname">
+                            <mat-option *ngFor="let customer of customers" [value]="customer.id">{{ customer.shortName
+                                }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Checklist Description</mat-label>
+                        <textarea matInput [(ngModel)]="checklistDescription" name="description"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div mat-dialog-actions class="action">
+                <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+                <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Save'}}</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -7,6 +7,8 @@ import { environment } from 'src/Environments/environment';
 import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2/src/sweetalert2.js'
+
 @Component({
   selector: 'app-joborder',
   templateUrl: './joborder.component.html',
@@ -30,21 +32,21 @@ export class JoborderComponent implements OnInit {
     this.joborder = this._fb.group({
       jobno: [{value:'',disabled:true}],
       jobdate: [{ value: new Date().toLocaleDateString('en-GB'), disabled: true }],
-      jobdescription: [''],
+      jobdescription: ['',[Validators.required]],
       instruction: [''],
-      jobstatus: [''],
-      department: [''],
-      clientname: [''],
-      customercontactname: [''],
+      jobstatus: ['',[Validators.required]],
+      department: ['',[Validators.required]],
+      clientname: ['',[Validators.required]],
+      customercontactname: ['',[Validators.required]],
       clientjobid: [''],
-      filename: [''],
-      filerecddate: [''],
+      filename: ['',[Validators.required]],
+      filerecddate: ['',[Validators.required]],
       referencedate: [''],
       referencenumber: [''],
-      fileinwardtype: [''],
-      fileattachment: [''],
+      fileinwardtype: ['',[Validators.required]],
+      fileattachment: ['',[Validators.required]],
       employee: [{value:this.loginservice.getToken(),disabled:true}],
-      division: [''],
+      division: ['',[Validators.required]],
       jobreferenceid: [''],
       username: [''],
       customer: [''],
@@ -57,7 +59,7 @@ export class JoborderComponent implements OnInit {
       logowidth: [''],
       logolength: [''],
       gender: [''],
-      clientstatus: [''],
+      clientstatus: ['',[Validators.required]],
       apparellogo: [''],
       garmentcolor: [''],
       imprintcolor1: [''],
@@ -93,8 +95,12 @@ export class JoborderComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.selectedCustomerContactName, "selectedCustomerContactName");
-
+    this.joborder.controls['username'].valueChanges.subscribe((value) => {
+      this.updateUserCharCountHint(value);
+    });
+    this.joborder.controls['salesperson'].valueChanges.subscribe((value) => {
+      this.updateSalesCharCountHint(value);
+    });
     //JOb status dropdown
     this.http.get<any>(environment.apiURL+'ClientOrderService/getJobStatusForJO').subscribe(statuses => {
       this.jobStatuses = statuses;
@@ -162,7 +168,10 @@ export class JoborderComponent implements OnInit {
 
 
   onFormSubmit() {
-console.log(this.selectedFile ,"selected file");
+    if (this.selectedFile.length === 0 ) {
+      // If no file is selected, show an alert message
+      Swal.fire('Please select a file before submitting.');
+    }
 
     let exisitingJordervalue = {
       "id": 0,
@@ -283,12 +292,35 @@ console.log(this.selectedFile ,"selected file");
         let orderDetails: any = {};
         this.selectedFile = [];
         this.joborder.reset();
-        this.coreService.openSnackBar('Data added successfully');
+        Swal.fire(
+          'Done!',
+          'Job Order added successfully!',
+          'success'
+        )
       });
     //}
-      this.coreService.openSnackBar("Job Order added successfully");
+      this.coreService.openSnackBar(data.jobId);
     });
         
    
+  }
+
+
+  ///upddate char limit
+  maxCharLimit = 25;
+
+  updateUserCharCountHint(value: string) {
+    const remainingChars = this.maxCharLimit - value.length;
+    const hintElement = document.getElementById('UsercharCountHint');
+    if (hintElement) {
+      hintElement.innerText = `limit upto ${remainingChars} Char`;
+    }
+  }
+  updateSalesCharCountHint(value: string) {
+    const remainingChars = this.maxCharLimit - value.length;
+    const hintElement = document.getElementById('SalescharCountHint');
+    if (hintElement) {
+      hintElement.innerText = `limit upto ${remainingChars} Char`;
+    }
   }
   }

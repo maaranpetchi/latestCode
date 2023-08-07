@@ -9,8 +9,12 @@
     margin: 0 auto;
     max-width: 1348px;
     mat-form-field {
-      width: 50%;
+      width: 60%;
     }
+  }
+
+  .employee{
+    font-weight: bold;
   }
   
   .action {
@@ -28,4 +32,6 @@
       ". formgroup ."
       ". . ."; 
   }
-  .formgroup { grid-area: formgroup; }
+  .no-asterisk .mat-form-field-required-marker {
+    display: none;
+  }

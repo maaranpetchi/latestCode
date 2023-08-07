@@ -21,7 +21,7 @@ changepassword(userId:number,oldPassword:string,latestPassword:string,conformPas
 
 
   logout(): Observable<any> {
-    return this.http.get('https://localhost:7208/api/Account/logout', {});
+    return this.http.get(environment.apiURL+'Account/logout', {});
   }
  
 

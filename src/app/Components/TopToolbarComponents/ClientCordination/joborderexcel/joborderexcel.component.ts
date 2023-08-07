@@ -8,7 +8,8 @@ import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientC
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import * as XLSX from 'xlsx';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-joborderexcel',
@@ -34,7 +35,7 @@ export class JoborderexcelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private loginservice: LoginService, private clientcordinationservice: ClientcordinationService,private _coreService:CoreService) { }
+  constructor(private http: HttpClient, private loginservice: LoginService, private clientcordinationservice: ClientcordinationService, private _coreService: CoreService, private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
 
@@ -63,34 +64,52 @@ export class JoborderexcelComponent implements OnInit {
     for (let i = 0; i < this.selectedFile.length; i++) {
       fd.append('Files', this.selectedFile[i]);
     }
-     fd.append('Id', employeeId);
-    this.http.post<any>(environment.apiURL+`JobOrder/PostImportExcel?EmployeeId=${this.loginservice.getUsername()}`, fd).subscribe(response => {
-      console.log(response, "FileImport");
+    fd.append('Id', employeeId);
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + `JobOrder/PostImportExcel?EmployeeId=${parseInt(this.loginservice.getUsername())}`, fd).subscribe(response => {
+      this.spinnerService.requestEnded;
       this.postBindFileInward();
       this.postFileInwardType();
-    })
+    }, (error) => {
+      // Handle error (optional)
+      this.spinnerService.requestEnded();
+      console.error('API call failed:', error);
+    }
+    );
   }
 
   postBindFileInward() {
+    this.spinnerService.requestStarted();
     this.clientcordinationservice.getBindFileInward().subscribe(fileinwarddata => {
+      this.spinnerService.requestEnded();
       this.ViewImportExcel = fileinwarddata;
       this.dataSource = fileinwarddata;
       console.log(fileinwarddata, "postbindfile");
 
+    }, (error) => {
+      // Handle error (optional)
+      this.spinnerService.resetSpinner();
+      console.error('API call failed:', error);
     });
   }
 
   postFileInwardType() {
+    this.spinnerService.requestStarted();
     this.clientcordinationservice.getBindFileInwardOnlyTrue().subscribe(inwarddata => {
+      this.spinnerService.requestEnded();
       this.ViewImportExcelTrue = inwarddata;
       console.log(inwarddata, "postbindfile");
+    }, (error) => {
+      // Handle error (optional)
+      this.spinnerService.resetSpinner();
+      console.error('API call failed:', error);
     });
   }
 
 
   //submit
   InwardExcelDatas() {
-    let payload ={
+    let payload = {
       "id": 0,
       "dateofReceived": "2023-06-21T11:58:24.045Z",
       "clientName": "string",
@@ -133,7 +152,7 @@ export class JoborderexcelComponent implements OnInit {
       "customerJobType": "string",
       "jobDate": "2023-06-21T11:58:24.045Z",
       "clientOrderId": 0,
-      "viewDatas":  this.ViewImportExcelTrue,
+      "viewDatas": this.ViewImportExcelTrue,
       "createdBy": this.loginservice.getUsername(),
       "poDate": "2023-06-21T11:58:24.045Z",
       "ccId": 0,
@@ -148,14 +167,24 @@ export class JoborderexcelComponent implements OnInit {
     // }
     var viewdata = JSON.stringify(this.ViewImportExcelTrue);
     if (viewdata != "{}" && viewdata != "[]") {
-
+this.spinnerService.requestStarted();
       this.clientcordinationservice.postexcelSubmit(payload).subscribe(postdataresult => {
+        this.spinnerService.requestEnded();
         this.ViewImportExcelFinal = postdataresult;
-        console.log(this.ViewImportExcelFinal,"ViewImportExcelFinal");
-         this.clientcordinationservice.getBindFileInward();
-         this._coreService.openSnackBar('File Inward Successfully.');
+        console.log(this.ViewImportExcelFinal, "ViewImportExcelFinal");
+        this.clientcordinationservice.getBindFileInward();
+        Swal.fire(
+          'Good job!',
+          'File Inward Successfully.',
+          'success'
+        );
+        this.postBindFileInward();
+      }, (error) => {
+        // Handle error (optional)
+        this.spinnerService.resetSpinner();
+        console.error('API call failed:', error);
       });
-      
+
     }
     else {
       alert("No Success file imported.");
@@ -163,13 +192,19 @@ export class JoborderexcelComponent implements OnInit {
   };
 
   //deletetemptable
-  CancelInward(){
-    this.clientcordinationservice.deletetempexcel().subscribe(data=>{
+  CancelInward() {
+    this.spinnerService.requestStarted();
+    this.clientcordinationservice.deletetempexcel().subscribe(data => {
+      this.spinnerService.requestEnded();
       this._coreService.openSnackBar('Inward File Cancelled Successfully.');
       this.clientcordinationservice.getBindFileInward();
-      this.clientcordinationservice.getBindFileInwardOnlyTrue();  
+      this.clientcordinationservice.getBindFileInwardOnlyTrue();
+      this.postBindFileInward();
+    }, (error) => {
+      // Handle error (optional)
+      this.spinnerService.resetSpinner();
+      console.error('API call failed:', error);
     });
   }
 
 }
-

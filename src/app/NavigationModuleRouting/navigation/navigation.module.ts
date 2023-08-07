@@ -109,11 +109,23 @@ import { ProductionAllocatedPopupComponent } from 'src/app/Components/TopToolbar
 import { JoballocatedEmplpopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/joballocated-emplpopup/joballocated-emplpopup.component';
 import { ProofreadingAllocationComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-allocation/proofreading-allocation.component';
 import { ProofreadingAlocationtableComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/proofreading-alocationtable/proofreading-alocationtable.component';
+import { EditVendorComponent } from 'src/app/Components/Vendor/edit-vendor/edit-vendor.component';
+import { VendorComponent } from 'src/app/Components/Vendor/vendor/vendor.component';
+import { UpdatevendorComponent } from 'src/app/Components/Vendor/updatevendor/updatevendor.component';
+import { IndexchecklistComponent } from 'src/app/Components/CustomerVSChecklist/indexchecklist/indexchecklist.component';
+import { AddchecklistComponent } from 'src/app/Components/CustomerVSChecklist/addchecklist/addchecklist.component';
+import { ViewchecklistComponent } from 'src/app/Components/CustomerVSChecklist/viewchecklist/viewchecklist.component';
+import { ItAssetindexComponent } from 'src/app/Components/ITAssets/it-assetindex/it-assetindex.component';
+import { AddItassetsComponent } from 'src/app/Components/ITAssets/add-itassets/add-itassets.component';
+import { BenchOptionsComponent } from 'src/app/Components/BenchOptions/bench-options/bench-options.component';
 import { CreditdaysApprovalComponent } from 'src/app/Components/Sales/creditdays-approval/creditdays-approval.component';
+import { EmployeePopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
+import { JobCategorypopupComponent } from 'src/app/Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { UnApprovaljobsComponent } from 'src/app/Components/Sales/un-approvaljobs/un-approvaljobs.component';
-import { PricingApprovalprocessComponent } from 'src/app/Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
-import { ViewUnapprovaljobsComponent } from 'src/app/Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
-import { CustomerSalesmappingComponent } from 'src/app/Components/Sales/customer-salesmapping/customer-salesmapping.component';
+import { IndexCustomerSalesApprovalComponent } from 'src/app/Components/Sales/CustomerSalesApproval/index-customer-sales-approval/index-customer-sales-approval.component';
+import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSalesApproval/tabcustomertable/tabcustomertable.component';
+import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
+import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 
 @NgModule({
@@ -169,7 +181,7 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     ProductionAllocatedPopupComponent,
     JoballocatedEmplpopupComponent,
     ProofreadingAllocationComponent,
-      ProofreadingAlocationtableComponent,
+    ProofreadingAlocationtableComponent,
     //ProofReading
     ProofreadingComponent,
     ProofReadingTableComponent,
@@ -190,6 +202,8 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     //EmployeeController
     EmployeecontrollerComponent,
     AddEditEmployeecontrollerComponent,
+    EditaddemployeecontrollerComponent,
+
     //EmployeeVsDivController
     AddeditemployeevsdivisionComponent,
     indexemployeevsdivisionComponent,
@@ -233,6 +247,12 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     //tally
     TallyComponent,
     //SALES CONTROLLER
+    //  1.PRICING
+    PricingComponent,
+    //2.CustomerSalesApproval,
+    IndexCustomerSalesApprovalComponent,
+    TabcustomertableComponent,
+    SalesMultiStepFormComponent,
 
     // Master.
     UserMasterComponent,
@@ -272,15 +292,32 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     // SALES
     CreditdaysApprovalComponent,
     UnApprovaljobsComponent,
-    PricingApprovalprocessComponent,
-    ViewUnapprovaljobsComponent,
-    CustomerSalesmappingComponent,
-    
-    PricingComponent,
-    
+
 
     //Bank
-    BankComponent
+    BankComponent,
+
+    //VENDOR
+    VendorComponent,
+    EditVendorComponent,
+    UpdatevendorComponent,
+
+
+    //CUSTOMERVSCHECKLIST
+    IndexchecklistComponent,
+    AddchecklistComponent,
+    ViewchecklistComponent,
+
+
+
+    //ITAsset
+    ItAssetindexComponent,
+    AddItassetsComponent,
+
+
+    //Bench OPtions
+    BenchOptionsComponent,
+
   ],
   imports: [
     CommonModule,

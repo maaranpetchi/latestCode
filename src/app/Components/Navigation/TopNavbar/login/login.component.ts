@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     private loginservice: LoginService,
     private router: Router,
     private cookieService: CookieService,
-    private spinnerService:SpinnerService,
+    private spinnerService: SpinnerService,
   ) { }
 
   labelState = 'default';
@@ -46,29 +46,30 @@ export class LoginComponent implements OnInit {
   }
 
 
-  
+
   // showUsernameField = true;
   // showPasswordField = true;
 
-    onSubmit() {
+  onSubmit() {
     this.spinnerService.requestStarted();
     this.isSubmitted = true;
     this.showUsernameField = false;
     this.showPasswordField = false;
     this.loginservice.login(this.username, this.password).subscribe({
       next: (result) => {
-      this.spinnerService.requestEnded();
-      if (result) {
-        this.cookieService.set('token', result.user.employeeName);
-        this.cookieService.set('username', result.user.employeeId);
-        // this.cookieService.set('password',window.btoa( result.user.password));
-        this.username = this.user;
-        this.router.navigate(['/topnavbar/dashboard']);
+        this.spinnerService.requestEnded();
+        if (result) {
+          this.cookieService.set('token', result.user.employeeName);
+          this.cookieService.set('username', result.user.employeeId);
+          // this.cookieService.set('password',window.btoa( result.user.password));
+          this.username = this.user;
+          this.router.navigate(['/topnavbar/dashboard']);
+        }
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner();
       }
-    },
-    error:(err) =>{
-      this.spinnerService.resetSpinner();
-    }
     });
   }
+  
 }

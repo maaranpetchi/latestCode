@@ -166,7 +166,6 @@ openJobDetailsDialog(data){
     })
     }
 
-
     lnkviewedit(data) {
       if (data.processId == 8 || data.processId == 10) {
           let selectedJobs = [{

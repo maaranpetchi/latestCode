@@ -14,9 +14,14 @@ import { MovetointegrationComponent } from './Components/AccountsController/Tall
 import { UpdateExchangeRateComponent } from './Components/AccountsController/Tally/update-exchange-rate/update-exchange-rate.component';
 import { SpinnerComponent } from './Components/Spinner/spinner/spinner.component';
 import { DialogComponent } from './Components/dialog/dialog.component';
+import { ViewUnapprovaljobsComponent } from './Components/Sales/view-unapprovaljobs/view-unapprovaljobs.component';
+import { CustomerSalesmappingComponent } from './Components/Sales/customer-salesmapping/customer-salesmapping.component';
+import { PricingApprovalprocessComponent } from './Components/Sales/pricing-approvalprocess/pricing-approvalprocess.component';
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
-
+import { VendorService } from './Services/Vendor/vendor.service';
+import { authGuard } from './AuthGuard/auth.guard';
+import { EditaddemployeecontrollerComponent } from './Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,10 +29,13 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
     UpdateExchangeRateComponent,
     SpinnerComponent,
     DialogComponent,
+    ViewUnapprovaljobsComponent,
+    CustomerSalesmappingComponent,
+    PricingApprovalprocessComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
-    
-  ],
+   
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -41,6 +49,7 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
   providers: [
     EditadvanceadjustmentComponent,
     AdvanceadjustmentComponent,
+    VendorService,
     
   ],
   bootstrap: [AppComponent]

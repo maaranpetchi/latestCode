@@ -29,7 +29,7 @@
                 <mat-row *matRowDef="let row; columns: ['employeeCode', 'employeeName', 'selected']"></mat-row>
 
             </mat-table>
-            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)"></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[25, 50,75,100]" (page)="onPageChange($event)"></mat-paginator>
         </div>
         <div class="container-item">
             <mat-table [dataSource]="table2Data">
@@ -49,7 +49,7 @@
                 <mat-header-row *matHeaderRowDef="['divisionName', 'selected']"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: ['divisionName','selected']"></mat-row>
             </mat-table>
-            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange2($event)"></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[25, 50,75,100]" (page)="onPageChange2($event)"></mat-paginator>
         </div>
     </div>
 
