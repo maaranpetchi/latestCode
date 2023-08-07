@@ -697,7 +697,7 @@ export class ProductionallocationtableComponent implements OnInit {
     if (this.selectedQuery.length > 0) {
       this.selectedJobs = this.selectedQuery;
     }
-    // this.spinnerService.requestStarted();
+     this.spinnerService.requestStarted();
 
     var selectedJobCount = this.selectedJobs.length;
     var selectedEmployeeCount = this.selectedEmployee.length;
@@ -857,6 +857,7 @@ export class ProductionallocationtableComponent implements OnInit {
         window.location.reload();
       } else {
         // window.location.reload();
+        this.spinnerService.resetSpinner();
       }
     
     (error) => {
@@ -867,10 +868,10 @@ export class ProductionallocationtableComponent implements OnInit {
     }
       });
 
-    this.http
-      .post(environment.apiURL + 'Allocation/processMovement', processMovement)
-      .subscribe((result) => {
-        confirmationMessage = result;
+    // this.http
+    //   .post(environment.apiURL + 'Allocation/processMovement', processMovement)
+    //   .subscribe((result) => {
+    //     confirmationMessage = result;
         if (AttachedFiles.length > 0) {
           var fd = new FormData();
           for (let i = 0; i < AttachedFiles.length; i++) {
@@ -920,7 +921,7 @@ export class ProductionallocationtableComponent implements OnInit {
               }
             })
         }
-      });
+      // });
   }
   ProcessMovementData(url: string, data: any): Observable<any> {
     return this.http.post(

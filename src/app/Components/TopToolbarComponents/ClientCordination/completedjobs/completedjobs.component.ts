@@ -8,6 +8,8 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { GetJobHistoryPopupComponent } from './completedjobpopupjobhistory/get-job-history-popup/get-job-history-popup.component';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-completedjobs',
@@ -39,24 +41,32 @@ export class CompletedjobsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient, private loginservice: LoginService, private dialog: MatDialog) { }
+  constructor(private http: HttpClient, private loginservice: LoginService, private dialog: MatDialog, private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     this.getCompletedJobData();
-
+    this.getcompleteordercount();
   }
   //getting count
   CompletedJobsCount: number;
   getcompleteordercount() {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(response => {
+      this.spinnerService.requestEnded();
       this.CompletedJobsCount = response.clientDetails.resultForCompletedList;
+    }, error => {
+      this.spinnerService.resetSpinner();
     });
   }
   getCompletedJobData(): void {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
+      this.spinnerService.requestEnded();
       this.dataSource = new MatTableDataSource(data.clientDetails.resultCompletedJobsList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    }, error => {
+      this.spinnerService.resetSpinner();
     });
   }
 
@@ -92,9 +102,9 @@ export class CompletedjobsComponent implements OnInit {
   }
   postdatabulk: any;
   bulkUpload() {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
-      console.log("bulkdataemployee", data);
-
+      this.spinnerService.requestEnded();
       this.postdatabulk = data.clientDetails.resultCompletedJobsList;
     });
     let bulkuploaddata = {
