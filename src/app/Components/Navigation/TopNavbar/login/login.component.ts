@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 @Component({
   selector: 'app-login',
@@ -58,16 +58,22 @@ export class LoginComponent implements OnInit {
     this.loginservice.login(this.username, this.password).subscribe({
       next: (result) => {
         this.spinnerService.requestEnded();
-        if (result) {
+        console.log(result,"Result");
+        
+        if (result.success== true) {
           this.cookieService.set('token', result.user.employeeName);
           this.cookieService.set('username', result.user.employeeId);
           // this.cookieService.set('password',window.btoa( result.user.password));
           this.username = this.user;
           this.router.navigate(['/topnavbar/dashboard']);
         }
-      },
-      error: (err) => {
-        this.spinnerService.resetSpinner();
+        else{
+          Swal.fire(
+            'Login failed!',
+            'Invalid Username or password!',
+            'error'
+          )
+        }
       }
     });
   }

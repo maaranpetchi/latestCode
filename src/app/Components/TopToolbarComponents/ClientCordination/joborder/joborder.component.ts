@@ -291,15 +291,20 @@ export class JoborderComponent implements OnInit {
         let submitted = false;
         let orderDetails: any = {};
         this.selectedFile = [];
-        this.joborder.reset();
         Swal.fire(
           'Done!',
           'Job Order added successfully!',
           'success'
         )
+        this.joborder.reset();
+
       });
     //}
-      this.coreService.openSnackBar(data.jobId);
+    Swal.fire(
+      'Done!',
+      'Job Order Not added successfully!',
+      'error'
+    )
     });
         
    

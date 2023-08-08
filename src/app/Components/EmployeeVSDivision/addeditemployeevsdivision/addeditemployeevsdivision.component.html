@@ -2,8 +2,8 @@
 
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
     <h1 style="font-family: 'Times New Roman', Times, serif;color:#186be9;text-align: center;">Employee VS Divsion</h1>
-    <div class="container">
-        <div class="container-item">
+    <div class="row">
+        <div class="col">
 
             <mat-table [dataSource]="table1Data">
                 <!-- Define columns and rows here -->
@@ -31,7 +31,7 @@
             </mat-table>
             <mat-paginator [pageSizeOptions]="[25, 50,75,100]" (page)="onPageChange($event)"></mat-paginator>
         </div>
-        <div class="container-item">
+        <div class="col">
             <mat-table [dataSource]="table2Data">
                 <!-- Define columns and rows here -->
                 <ng-container matColumnDef="divisionName">

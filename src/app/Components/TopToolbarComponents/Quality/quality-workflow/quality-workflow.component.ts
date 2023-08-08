@@ -149,9 +149,10 @@ export class QualityWorkflowComponent implements OnInit {
   AttachedFiles1: File[] = [];
 
   onFileSelected(event: any) {
+    console.log(event)
     const file: File = event.target.files[0];
     this.AttachedFiles = [event.target.files[0], ...this.AttachedFiles];//store the selected file in selectdfile;
-    this.AttachedFiles1 = [event.target.files[0], ...this.AttachedFiles];//store the selected file in selectdfile;
+    this.AttachedFiles1 = [event.target.files[0].name, ...this.AttachedFiles1];//store the selected file in selectdfile;
   }
 
 
