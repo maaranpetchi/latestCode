@@ -15,6 +15,7 @@ import { JoballocatedEmplpopupComponent } from '../joballocated-emplpopup/joball
 import { EmployeePopupTableComponent } from '../../QualityAllocation/employee-popup-table/employee-popup-table.component';
 import { error } from 'jquery';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-productionallocationtable',
@@ -699,7 +700,7 @@ export class ProductionallocationtableComponent implements OnInit {
     if (this.selectedQuery.length > 0) {
       this.selectedJobs = this.selectedQuery;
     }
-    this.spinnerService.requestStarted();
+     this.spinnerService.requestStarted();
 
     var selectedJobCount = this.selectedJobs.length;
     var selectedEmployeeCount = this.selectedEmployee.length;
@@ -710,6 +711,7 @@ export class ProductionallocationtableComponent implements OnInit {
       if (selectedJobCount != 0 && selectedEmployeeCount != 0) {
         if (selectedJobCount > 1) {
           if (selectedEmployeeCount > 1) {
+            
             alert('Please select one Employee!');
           }
           else {
@@ -859,7 +861,11 @@ export class ProductionallocationtableComponent implements OnInit {
         if (response.success === false) {
           alert("Error the job assigned")
         }else if(response.success === true){
-          alert("Job assigned successfully")
+          Swal.fire(
+            'Done!',
+            'Job assigned successfully!',
+            'success'
+          )
           this.router.navigate(["topnavbar/production"]);
           this.refreshPage();
         }
@@ -869,10 +875,10 @@ export class ProductionallocationtableComponent implements OnInit {
     }
       });
 
-    this.http
-      .post(environment.apiURL + 'Allocation/processMovement', processMovement)
-      .subscribe((result) => {
-        confirmationMessage = result;
+    // this.http
+    //   .post(environment.apiURL + 'Allocation/processMovement', processMovement)
+    //   .subscribe((result) => {
+    //     confirmationMessage = result;
         if (AttachedFiles.length > 0) {
           var fd = new FormData();
           for (let i = 0; i < AttachedFiles.length; i++) {
@@ -922,7 +928,7 @@ export class ProductionallocationtableComponent implements OnInit {
               }
             })
         }
-      });
+      // });
   }
   ProcessMovementData(url: string, data: any): Observable<any> {
     return this.http.post(

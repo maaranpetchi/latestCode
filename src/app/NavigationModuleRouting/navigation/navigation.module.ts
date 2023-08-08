@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from 'src/app/AngularMaterialModule/material/material.module';
@@ -333,10 +333,10 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     MatDialogModule,
     MatIconModule,
     MatSelectModule
-
   ],
   providers: [
-    FileconvertComponent
+    FileconvertComponent,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ]
 })
 export class NavigationModule { }

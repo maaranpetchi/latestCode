@@ -22,7 +22,8 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     private _coreService: CoreService,
     private router: Router,
     public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
-  ) {}
+  ) {console.log(data,"nambiaki");
+  }
 
   displayedJobColumns: string[] = [
     'movedFrom',
