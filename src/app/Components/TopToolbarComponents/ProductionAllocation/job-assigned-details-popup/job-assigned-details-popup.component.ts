@@ -12,57 +12,65 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 @Component({
   selector: 'app-job-assigned-details-popup',
   templateUrl: './job-assigned-details-popup.component.html',
-  styleUrls: ['./job-assigned-details-popup.component.scss']
+  styleUrls: ['./job-assigned-details-popup.component.scss'],
 })
 export class JobAssignedDetailsPopupComponent implements OnInit {
-
   constructor(
-  @Inject(MAT_DIALOG_DATA) public data: any,
-  private http: HttpClient,
-  private loginservice:LoginService,
-  private _coreService: CoreService,
-  private router :Router,
-  public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
-  ){
-  }
-  
- displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy','MovedTo', 'remarks'];
- dataJobSource: MatTableDataSource<any>;
- displayedQueryColumns: string[] = ['movedFrom', 'movedTo', 'jobStatus', 'movedDate', 'movedBy','MovedTo', 'remarks'];
- dataQuerySource: MatTableDataSource<any>;
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private http: HttpClient,
+    private loginservice: LoginService,
+    private _coreService: CoreService,
+    private router: Router,
+    public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
+  ) {}
 
- remarks: string;  // to store the remark value
- selectedQureryStatus: string; // to store the selected query status
- estimatedTime: string;
+  displayedJobColumns: string[] = [
+    'movedFrom',
+    'movedTo',
+    'movedDate',
+    'movedBy',
+    'MovedTo',
+    'remarks',
+  ];
+  dataJobSource: MatTableDataSource<any>;
+  displayedQueryColumns: string[] = [
+    'movedFrom',
+    'movedTo',
+    'jobStatus',
+    'movedDate',
+    'movedBy',
+    'MovedTo',
+    'remarks',
+  ];
+  dataQuerySource: MatTableDataSource<any>;
 
- EstimatedTime: boolean = false;
- remarksdata: boolean = false;
- EmployeData: boolean = false;
+  remarks: string; // to store the remark value
+  selectedQureryStatus: string; // to store the selected query status
+  estimatedTime: string;
 
- Scopes: any[] = [];
- selectedScope: any = 0;
- estTime: number;
- restApiData: any[];
- 
- @ViewChild(MatPaginator) paginator: MatPaginator;
- @ViewChild(MatPaginator) paginator1: MatPaginator;
- @ViewChild(MatSort) sort: MatSort;
+  EstimatedTime: boolean = false;
+  remarksdata: boolean = false;
+  EmployeData: boolean = false;
 
+  Scopes: any[] = [];
+  selectedScope: any = 0;
+  estTime: number;
+  restApiData: any[];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator1: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
     this.fetchData();
     this.QueryDetailspost();
     this.fetchScopes();
     this.getAssignedEmployeesToChangeEstTime();
-    
   }
-//   getIsVisible():any{
-//       return this.dataQuerySource.data.length >0;
-//  }
-close(){
-  this.dialogRef.close();
-}
+
+  close() {
+    this.dialogRef.close();
+  }
   onFilterChange() {
     if (this.selectedQureryStatus == 'Query') {
       this.remarksdata = true;
@@ -89,13 +97,14 @@ close(){
           `Allocation/getScopeValues/${this.loginservice.getUsername()}`
       )
       .subscribe((scopedata) => {
-        this.Scopes = scopedata.scopeDetails // Sort the scopes based on the 'name' property
+        this.Scopes = scopedata.scopeDetails; // Sort the scopes based on the 'name' property
       });
   }
   fetchData() {
     const apiUrl = environment.apiURL + 'JobOrder/getJobHistory';
 
-    this.http.post<any>(apiUrl, this.data.jId?this.data.jId:0).subscribe((response: any) => {
+    this.http.post<any>(apiUrl, this.data.jId ? this.data.jId : 0).subscribe(
+      (response: any) => {
         this.dataJobSource = response;
         this.dataJobSource = new MatTableDataSource(response.jobHistory);
         this.dataJobSource.paginator = this.paginator;
@@ -110,14 +119,14 @@ close(){
       }
     );
   }
-  
+
   QueryDetailspost() {
     const apiUrl = environment.apiURL + `ClientOrderService/QueryDetailspost`;
     var datas = {
       wftid: 0,
       jid: this.data.jId,
     };
-     return this.http.post(apiUrl, datas).subscribe(
+    return this.http.post(apiUrl, datas).subscribe(
       (response: any) => {
         this.restApiData = response; // Assuming the REST API response is an array of objects
       },
@@ -142,21 +151,27 @@ close(){
     );
   }
   workFiles(id: number): void {
-    this.http.get(environment.apiURL+`Allocation/getFileNames/PRAS_01-17-2022_AllocErrorBugFixing%203-VLA-Fr-0117-221_Quality%20Allocation_Pending-1`).subscribe((response: any) => {
-      const fileUrls: string[] = response.files;
-      fileUrls.forEach(url => {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = this.getFileNameFromPath(url);
-        link.click();
+    this.http
+      .get(
+        environment.apiURL +
+          `Allocation/getFileNames/PRAS_01-17-2022_AllocErrorBugFixing%203-VLA-Fr-0117-221_Quality%20Allocation_Pending-1`
+      )
+      .subscribe((response: any) => {
+        const fileUrls: string[] = response.files;
+        fileUrls.forEach((url) => {
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.getFileNameFromPath(url);
+          link.click();
+        });
       });
-    });
   }
   getFileNameFromPath(filePath: string): string {
     const pathParts = filePath.split('/');
     return pathParts[pathParts.length - 1];
   }
   onSubmit() {
+    console.log(this.selectedQureryStatus, "stATUS");
     if (this.selectedQureryStatus == 'Query') {
       this.processMovement();
     } else if (this.selectedQureryStatus === 'specialpricing') {
@@ -191,7 +206,24 @@ close(){
       jId: this.data.jId,
       estimatedTime: 0,
       tranMasterId: 0,
-      selectedRows: this.data.selectedJobs,
+      selectedRows: [
+        {
+          customerId: this.data.customerId,
+          departmentId: this.data.departmentId,
+          estimatedTime: this.estimatedTime,
+          jId: this.data.jId,
+          tranMasterId: this.data.tranMasterId,
+          Comments:'',
+          TimeStamp:'',
+          SelectedEmployees:'',
+          JobId:'',
+          FileInwardType:'',
+          CommentsToClient:'',
+          CategoryDesc:'',
+          selectedEmployees:[],
+          selectedRows:[]
+        },
+      ],
       selectedEmployees: [],
       departmentId: 0,
       updatedUTC: '2023-07-01T10:02:55.095Z',
@@ -199,7 +231,7 @@ close(){
       allocatedEstimatedTime: 0,
       tranId: 0,
       fileInwardType: 'string',
-      timeStamp: 'string',
+      timeStamp: '',
       scopeId: 0,
       quotationRaisedby: 0,
       quotationraisedOn: '2023-07-01T10:02:55.095Z',
@@ -209,13 +241,21 @@ close(){
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
-    this.http.post<any>(apiUrl, saveData).subscribe((response) => {});
+    console.log(saveData,"savedata");
+    this.http.post<any>(apiUrl, saveData).subscribe((response) => {
+      if(response.status=== true){
+        alert("success")
+      }
+      else{
+        console.log("error");
+      }
+    });
   }
 
   changeEstTime() {
     let estTimeData = {
       id: 0,
-      processId:3,
+      processId: 3,
       statusId: 0,
       selectedScopeId: 0,
       autoUploadJobs: true,
@@ -242,7 +282,7 @@ close(){
       allocatedEstimatedTime: 0,
       tranId: 0,
       fileInwardType: 'string',
-      timeStamp: this.data.timeStamp,
+      timeStamp: '',
       scopeId: 0,
       quotationRaisedby: 0,
       quotationraisedOn: '2023-07-01T11:15:03.552Z',
@@ -252,18 +292,22 @@ close(){
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
-    this.http.post<any>(environment.apiURL+'Allocation/changeEstimatedTime', estTimeData).subscribe(
-      (response) => {
-        console.log(response);
-        
-        // Handle the API response
-      },
-      (error) => {
-        console.log(error);
-        
-        // Handle the API error
-      }
-    );
-  
+    this.http
+      .post<any>(
+        environment.apiURL + 'Allocation/changeEstimatedTime',
+        estTimeData
+      )
+      .subscribe(
+        (response) => {
+          console.log(response);
+
+          // Handle the API response
+        },
+        (error) => {
+          console.log(error);
+
+          // Handle the API error
+        }
+      );
   }
 }

@@ -174,6 +174,8 @@ export class ProductionAllocatedPopupComponent implements OnInit {
     return pathParts[pathParts.length - 1];
   }
   onSubmit() {
+    console.log(this.selectedQureryStatus, "stATUS");
+    
     if (this.selectedQureryStatus == 'Query') {
       this.processMovement();
     } else if (this.selectedQureryStatus === 'specialpricing') {
@@ -225,7 +227,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
       allocatedEstimatedTime: 0,
       tranId: 0,
       fileInwardType: 'string',
-      timeStamp: this.data.timeStamp,
+      timeStamp: '',
       scopeId: 0,
       quotationRaisedby: 0,
       quotationraisedOn: '2023-07-01T11:15:03.552Z',
@@ -235,6 +237,8 @@ export class ProductionAllocatedPopupComponent implements OnInit {
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
+    console.log(saveData,"savedata");
+    
     this.http
       .post<any>(environment.apiURL + 'Allocation/processMovement', saveData)
       .subscribe((response) => {});
@@ -271,7 +275,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
         allocatedEstimatedTime: 0,
         tranId: 0,
         fileInwardType: 'string',
-        timeStamp: this.data.timeStamp,
+        timeStamp: '',
         scopeId: 0,
         quotationRaisedby: 0,
         quotationraisedOn: '2023-07-01T11:15:03.552Z',
