@@ -127,6 +127,7 @@ import { TabcustomertableComponent } from 'src/app/Components/Sales/CustomerSale
 import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSalesApproval/Multistepform/sales-multi-step-form/sales-multi-step-form.component';
 import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
+import { AddReceivablesComponent } from 'src/app/Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
 
 @NgModule({
   declarations: [
@@ -220,6 +221,8 @@ import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.compo
     //3.customerreceipts
     CustomerreceiptsindexComponent,
     AddEditCustomerreceiptsComponent,
+    AddReceivablesComponent,
+
     //4.scopeChange
     ScopechangeComponent,
     //5.AdvanceAdjustment

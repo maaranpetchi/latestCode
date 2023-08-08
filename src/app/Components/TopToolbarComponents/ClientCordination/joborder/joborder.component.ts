@@ -4,6 +4,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
@@ -28,25 +29,25 @@ export class JoborderComponent implements OnInit {
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
   };
-  constructor(private http: HttpClient, private coreService: CoreService, private _fb: FormBuilder, private loginservice: LoginService, private clientcordinationservice: ClientcordinationService,) {
+  constructor(private http: HttpClient, private coreService: CoreService, private _fb: FormBuilder, private loginservice: LoginService, private clientcordinationservice: ClientcordinationService, private spinnerservice: SpinnerService) {
     this.joborder = this._fb.group({
-      jobno: [{value:'',disabled:true}],
+      jobno: [{ value: '', disabled: true }],
       jobdate: [{ value: new Date().toLocaleDateString('en-GB'), disabled: true }],
-      jobdescription: ['',[Validators.required]],
+      jobdescription: ['', [Validators.required]],
       instruction: [''],
-      jobstatus: ['',[Validators.required]],
-      department: ['',[Validators.required]],
-      clientname: ['',[Validators.required]],
-      customercontactname: ['',[Validators.required]],
+      jobstatus: ['', [Validators.required]],
+      department: ['', [Validators.required]],
+      clientname: ['', [Validators.required]],
+      customercontactname: ['', [Validators.required]],
       clientjobid: [''],
-      filename: ['',[Validators.required]],
-      filerecddate: ['',[Validators.required]],
+      filename: ['', [Validators.required]],
+      filerecddate: ['', [Validators.required]],
       referencedate: [''],
       referencenumber: [''],
-      fileinwardtype: ['',[Validators.required]],
-      fileattachment: ['',[Validators.required]],
-      employee: [{value:this.loginservice.getToken(),disabled:true}],
-      division: ['',[Validators.required]],
+      fileinwardtype: ['', [Validators.required]],
+      fileattachment: ['', [Validators.required]],
+      employee: [{ value: this.loginservice.getToken(), disabled: true }],
+      division: ['', [Validators.required]],
       jobreferenceid: [''],
       username: [''],
       customer: [''],
@@ -59,7 +60,7 @@ export class JoborderComponent implements OnInit {
       logowidth: [''],
       logolength: [''],
       gender: [''],
-      clientstatus: ['',[Validators.required]],
+      clientstatus: ['', [Validators.required]],
       apparellogo: [''],
       garmentcolor: [''],
       imprintcolor1: [''],
@@ -102,21 +103,21 @@ export class JoborderComponent implements OnInit {
       this.updateSalesCharCountHint(value);
     });
     //JOb status dropdown
-    this.http.get<any>(environment.apiURL+'ClientOrderService/getJobStatusForJO').subscribe(statuses => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/getJobStatusForJO').subscribe(statuses => {
       this.jobStatuses = statuses;
     });
     //DEPARTMENT status dropdown
-    this.http.get<any>(environment.apiURL+'ClientOrderService/getDepartmentsForJO').subscribe(Departmentstatus => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/getDepartmentsForJO').subscribe(Departmentstatus => {
       this.Department = Departmentstatus;
     });
     // ClientNamedropdown
-    this.http.get<any>(environment.apiURL+'ClientOrderService/getCustomersForJO').subscribe(clientname => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/getCustomersForJO').subscribe(clientname => {
       this.ClientName = clientname;
     });
     // CustomerContactName
 
     //Division
-    this.http.get<any>(environment.apiURL+'ClientOrderService/nGetDivisionForJO').subscribe(Divisionstatus => {
+    this.http.get<any>(environment.apiURL + 'ClientOrderService/nGetDivisionForJO').subscribe(Divisionstatus => {
       this.Division = Divisionstatus;
     })
 
@@ -129,14 +130,14 @@ export class JoborderComponent implements OnInit {
   selectedFile: File[] = [];
 
   onFileSelected(event: any) {
-    this.selectedFile = [event.target.files[0],...this.selectedFile];//store the selected file in selectdfile
+    this.selectedFile = [event.target.files[0], ...this.selectedFile];//store the selected file in selectdfile
   }
 
 
 
   //Selectionchange method to get customer contact
   getcustomername() {
-    this.http.get<any>(environment.apiURL+`ClientOrderService/CCByCusId?custId=${this.selectedClientName.id}`).subscribe(CustomerContactName => {
+    this.http.get<any>(environment.apiURL + `ClientOrderService/CCByCusId?custId=${this.selectedClientName.id}`).subscribe(CustomerContactName => {
       this.CustomerContactName = CustomerContactName;
       console.log(this.CustomerContactName = CustomerContactName, "GetCustomer")
     });
@@ -168,7 +169,7 @@ export class JoborderComponent implements OnInit {
 
 
   onFormSubmit() {
-    if (this.selectedFile.length === 0 ) {
+    if (this.selectedFile.length === 0) {
       // If no file is selected, show an alert message
       Swal.fire('Please select a file before submitting.');
     }
@@ -226,7 +227,7 @@ export class JoborderComponent implements OnInit {
     }
 
     let jobordervalues = {
-        "id": 0,
+      "id": 0,
       "dateofReceived": new Date().toISOString,
       "clientName": this.selectedClientName.name,
       "clientJobId": this.joborder.value.clientjobid,
@@ -266,7 +267,7 @@ export class JoborderComponent implements OnInit {
       "dateofUpload": new Date().toISOString,
       "dateofClose": new Date().toISOString,
       "customerJobType": "string",
-      "jobDate":this.joborder.value.referencedate,
+      "jobDate": this.joborder.value.referencedate,
       "clientOrderId": 0,
       "viewDatas": [],
       "createdBy": this.loginservice.getUsername(),
@@ -276,38 +277,43 @@ export class JoborderComponent implements OnInit {
       "dateofDelivery": new Date().toISOString,
       "getAllValues": []
     }
-    console.log( "ccId", this.joborder.value.clientSalesperson);
-    
-    this.http.post<any>(environment.apiURL+`JobOrder/InternalOrder`, jobordervalues).subscribe(data => {
+
+    this.spinnerservice.requestStarted();
+    this.http.post<any>(environment.apiURL + `JobOrder/InternalOrder`, jobordervalues).subscribe(data => {
+      this.spinnerservice.requestEnded();
       const orderId = data.orderId;
       const processId = data.processId;
       const statusId = data.statusId;
-   //  if (this.selectedFile?.length > 0) {
-      const fd = new FormData();
-      for (let i = 0; i < this.selectedFile.length; i++) {
-        fd.append('FormCollection[]', this.selectedFile[i]);
-      }
-      this.http.post<any>(environment.apiURL+`File/uploadFiles/${orderId}/0/${processId}/${statusId}/1/${processId}/${statusId}`, fd).subscribe(filedata => {
-        let submitted = false;
-        let orderDetails: any = {};
-        this.selectedFile = [];
-        Swal.fire(
-          'Done!',
-          'Job Order added successfully!',
-          'success'
-        )
-        this.joborder.reset();
+      if (this.selectedFile?.length > 0) {
+        const fd = new FormData();
+        for (let i = 0; i < this.selectedFile.length; i++) {
+          fd.append('FormCollection[]', this.selectedFile[i]);
+        }
+        this.spinnerservice.requestStarted();
+        this.http.post<any>(environment.apiURL + `File/uploadFiles/${orderId}/0/${processId}/${statusId}/1/${processId}/${statusId}`, fd).subscribe(filedata => {
+          this.spinnerservice.requestEnded();
+          let submitted = false;
+          let orderDetails: any = {};
+          this.selectedFile = [];
+          Swal.fire(
+            'Done!',
+            'Job Order added successfully!',
+            'success'
+          )
+          this.joborder.reset();
 
-      });
-    //}
-    Swal.fire(
-      'Done!',
-      'Job Order Not added successfully!',
-      'error'
-    )
+        });
+      }
+      else {
+        Swal.fire(
+          'Error!',
+          'Job Order Not added successfully!',
+          'error'
+        )
+      }
     });
-        
-   
+
+
   }
 
 
@@ -328,4 +334,4 @@ export class JoborderComponent implements OnInit {
       hintElement.innerText = `limit upto ${remainingChars} Char`;
     }
   }
-  }
+}

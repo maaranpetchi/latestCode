@@ -22,6 +22,7 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
 import { VendorService } from './Services/Vendor/vendor.service';
 import { authGuard } from './AuthGuard/auth.guard';
 import { EditaddemployeecontrollerComponent } from './Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
+import { AddReceivablesComponent } from './Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
 @NgModule({
   declarations: [
     AppComponent,

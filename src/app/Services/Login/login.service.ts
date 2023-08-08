@@ -43,4 +43,7 @@ export class LoginService {
   getProcessName() {
     return this.cookieService.get('processName');
   }
+  getUserId(){
+    return this.cookieService.get('UserId');
+  }
 }

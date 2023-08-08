@@ -6,6 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-changepassword',
@@ -15,7 +17,8 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 export class ChangepasswordComponent implements OnInit {
   passwordForm: FormGroup;
   passwordsMatch: boolean = true;
- 
+  dialogRef: MatDialogRef<ChangepasswordComponent>;
+
 
   constructor(private fb: FormBuilder, private getCookie:CookieService ,private snackBar: MatSnackBar,private http: HttpClient, private loginservice: LoginService,private spinnerService:SpinnerService) { }
 
@@ -41,7 +44,7 @@ export class ChangepasswordComponent implements OnInit {
 
   onSubmit() {
     if (this.passwordForm.valid) {
-      const userId = this.loginservice.getUsername();
+      const userId = this.loginservice.getUserId();
       const oldPassword = this.passwordForm.value.oldPassword; 
       this.spinnerService.requestStarted();
       this.http.post(environment.apiURL+'Account/ChangePassword', {
@@ -52,14 +55,20 @@ export class ChangepasswordComponent implements OnInit {
       }).subscribe(
         (response) => {
           this.spinnerService.requestEnded();
-          console.log('Password change successful!');
-          this.snackBar.open('Password changed successfully!', 'Close', {
-            duration: 3000
-          });
+          this.dialogRef.close()
+          Swal.fire(
+            'Done!',
+            'Password Changed Successfully!',
+            'success'
+          )
         },
         (error) => {
-          console.error('Password change failed:', error);
-          this.spinnerService.resetSpinner();
+          Swal.fire(
+            'Error!',
+            'Password Not Changed Successfully!',
+            'error'
+          ),
+                    this.spinnerService.resetSpinner();
         }
       );
     }

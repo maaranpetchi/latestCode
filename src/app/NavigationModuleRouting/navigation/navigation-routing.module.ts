@@ -111,6 +111,7 @@ import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSa
 import { authGuard } from 'src/app/AuthGuard/auth.guard';
 import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
+import { AddReceivablesComponent } from 'src/app/Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
 
 const routes: Routes = [
 
@@ -203,6 +204,7 @@ const routes: Routes = [
       //Customerreceipts
       { path: 'acc-customer', component: CustomerreceiptsindexComponent , canActivate: [authGuard]},
       { path: 'acc-addeditcustomer', component: AddEditCustomerreceiptsComponent , canActivate: [authGuard]},
+      { path: 'addreceivables', component:AddReceivablesComponent, canActivate: [authGuard]},
       //ScopeChange
       { path: 'acc-scopechange', component: ScopechangeComponent , canActivate: [authGuard]},
       //Advance-Adjustment

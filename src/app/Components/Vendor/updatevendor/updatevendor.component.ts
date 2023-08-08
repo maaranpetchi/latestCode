@@ -116,7 +116,7 @@ export class UpdatevendorComponent implements OnInit {
       "pendingAmount": this.empForm.value.pendingAmount,
       "amountbePaid": this.empForm.value.amountsToBePaid,
       "amountPaid": this.empForm.value.amtPaid,
-      "employeeId": this.loginservice.getUsername(),
+      "employeeId": this.loginservice.getUserId(),
     }
     this.http.post<any>(environment.apiURL + `ITAsset/nSetVendorDetails`, payload).subscribe(result => {
       this._coreService.openSnackBar(result.setVDetailList)

@@ -61,7 +61,7 @@
             <div class="col">
               <mat-form-field>
                 <mat-label>CustomerName</mat-label>
-                <mat-select ngDefaultControl formControlName="customername" [(value)]="selectedCustomerNameOption">
+                <mat-select ngDefaultControl formControlName="customername" [(value)]="selectedCustomerNameOption" >
                   <mat-option *ngFor="let customernamedropdownvalues of CustomerNamedropdownvalues"
                     [value]="customernamedropdownvalues.id">
                     {{ customernamedropdownvalues.name }}

@@ -47,15 +47,7 @@ constructor( private _dialog: MatDialog,
   }
 
   openAddEditEmpForm() {
-    // const dialogRef = this._dialog.open(AddEditCustomerreceiptsComponent);
-    // dialogRef.afterClosed().subscribe({
-    //   next: (val) => {
-    //     if (val) {
-    //       this.getEmployeeList();
-    //     }
-    //   },
-    // });
-    this.router.navigate(['/topnavbar/acc-addeditcustomer']);
+    this.router.navigate(['/topnavbar/addreceivables']);
 
   }
 

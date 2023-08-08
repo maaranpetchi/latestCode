@@ -65,9 +65,7 @@ export class JoborderexcelComponent implements OnInit {
       fd.append('Files', this.selectedFile[i]);
     }
     fd.append('Id', employeeId);
-    this.spinnerService.requestStarted();
     this.http.post<any>(environment.apiURL + `JobOrder/PostImportExcel?EmployeeId=${parseInt(this.loginservice.getUsername())}`, fd).subscribe(response => {
-      this.spinnerService.requestEnded;
       this.postBindFileInward();
       this.postFileInwardType();
     }, (error) => {
@@ -167,14 +165,14 @@ export class JoborderexcelComponent implements OnInit {
     // }
     var viewdata = JSON.stringify(this.ViewImportExcelTrue);
     if (viewdata != "{}" && viewdata != "[]") {
-this.spinnerService.requestStarted();
+// this.spinnerService.requestStarted();
       this.clientcordinationservice.postexcelSubmit(payload).subscribe(postdataresult => {
-        this.spinnerService.requestEnded();
+        // this.spinnerService.requestEnded();
         this.ViewImportExcelFinal = postdataresult;
         console.log(this.ViewImportExcelFinal, "ViewImportExcelFinal");
         this.clientcordinationservice.getBindFileInward();
         Swal.fire(
-          'Good job!',
+          'Done!',
           'File Inward Successfully.',
           'success'
         );
@@ -193,9 +191,9 @@ this.spinnerService.requestStarted();
 
   //deletetemptable
   CancelInward() {
-    this.spinnerService.requestStarted();
+    // this.spinnerService.requestStarted();
     this.clientcordinationservice.deletetempexcel().subscribe(data => {
-      this.spinnerService.requestEnded();
+      // this.spinnerService.requestEnded();
       this._coreService.openSnackBar('Inward File Cancelled Successfully.');
       this.clientcordinationservice.getBindFileInward();
       this.clientcordinationservice.getBindFileInwardOnlyTrue();
