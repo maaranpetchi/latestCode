@@ -38,7 +38,7 @@ export class AddReceivablesComponent implements OnInit {
   amountadjusted: any;
   adjustedamount: any;
   balanceadjusted: any;
-  invoiceNumber:any;
+  invoiceNumber: any;
 
 
   //dropdown array declaration
@@ -75,12 +75,19 @@ export class AddReceivablesComponent implements OnInit {
     this.http.get<any>(environment.apiURL + `Receivable/GetInvoice?invoiceNo=${this.invoiceNumber}&customerId=${this.CustomerId}`).subscribe(result => {
 
       this.InvoiceDetails = result;
+      this.invoiceDate = result.invoiceDate,
+        this.invoiceValue = result.invoiceValue,
+        this.amounttobeadjusted = result.invoiceValue
+        this.adjustedamount = result.adjustmentAmount,
+      this.balanceadjusted =  this.invoiceValue - this.amounttobeadjusted
 
-      var AdjustmentAmount = this.adjustedamount;
-      var InvoiceValue = this.invoiceValue;
-     let  CurrentAdjustmentCheck = InvoiceValue - AdjustmentAmount;
-    let  InvoiceValueCheck = CurrentAdjustmentCheck + AdjustmentAmount;
-     // $scope.InvoiceDetails.CurrentAdjustedAmount = InvoiceValue - AdjustmentAmount;
+console.log(this.balanceadjusted, "balanceadjusted");
+
+      // var AdjustmentAmount = this.adjustedamount;
+      // var InvoiceValue = this.invoiceValue;
+      // let CurrentAdjustmentCheck = InvoiceValue - AdjustmentAmount;
+      // let InvoiceValueCheck = CurrentAdjustmentCheck + AdjustmentAmount;
+      // $scope.InvoiceDetails.CurrentAdjustedAmount = InvoiceValue - AdjustmentAmount;
     });
   }
 

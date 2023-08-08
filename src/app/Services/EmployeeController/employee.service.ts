@@ -49,6 +49,11 @@ export class EmployeeService {
   getData() {
     return this.sharedData;
   }
+  
+  
+  
+  
+  
   setViewData(data: any) {
     this.sharedData = data;
   }

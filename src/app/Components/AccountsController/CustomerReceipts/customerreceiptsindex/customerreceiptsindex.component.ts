@@ -10,6 +10,7 @@ import { CustomerreceiptsService } from 'src/app/Services/AccountController/Cust
 
 
 import { AddEditCustomerreceiptsComponent } from '../add-edit-customerreceipts/add-edit-customerreceipts.component';
+import { environment } from 'src/Environments/environment';
 @Component({
   selector: 'app-customerreceiptsindex',
   templateUrl: './customerreceiptsindex.component.html',
@@ -65,8 +66,6 @@ constructor( private _dialog: MatDialog,
       error: console.log,
     });
   }
-    // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
-
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -77,42 +76,15 @@ constructor( private _dialog: MatDialog,
     }
   }
 
-  deleteEmployee(id: number) {
-    this._empService.deleteEmployee(id).subscribe({
-      next: (res) => {
-        this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
-      },
-      error: console.log,
-    });
-  }
 
-  // openEditForm(data: any) {
-  //   const dialogRef = this._dialog.open(AddEditEmployeecontrollerComponent, {
-  //     data,
-  //   });
 
-  //   dialogRef.afterClosed().subscribe({
-  //     next: (val) => {
-  //       if (val) {
-  //         this.getEmployeeList();
-  //       }
-  //     },
-  //   });
-  // }
-  openEditForm(data: any) {
-    const dialogRef = this._dialog.open(AddEditCustomerreceiptsComponent, {
-      data,
-    });
-    dialogRef.afterClosed().subscribe({
-      next: (val) => {
-        if (val) {
-          this.getEmployeeList();
+  viewEmployee(id: number) {
+    this.http.get<any>(environment.apiURL + `Receivable/GetReceivableById?receivableId=${id}`).subscribe(results => {
+      this._empService.setData({ type: 'View', data: results });
+      this._empService.shouldFetchData = true;
+      this.router.navigate(['/topnavbar/acc-viewcustomer']);
 
-        }
-      },
-    });
-    // this.router.navigate(['/topnavbar/dashboard']);
+    })
   }
 
 

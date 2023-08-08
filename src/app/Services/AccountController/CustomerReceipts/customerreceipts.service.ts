@@ -8,6 +8,9 @@ import { environment } from 'src/Environments/environment';
   providedIn: 'root'
 })
 export class CustomerreceiptsService {
+  public sharedData:any;
+  shouldFetchData: boolean = true;
+
   constructor(private _http: HttpClient) {}
 
   addEmployee(data: any): Observable<any> {
@@ -30,4 +33,15 @@ export class CustomerreceiptsService {
   deleteEmployee(id: number): Observable<any> {
     return this._http.delete(environment.apiURL+`Employee/PostDeleteEmployee?data=${id}&data1=152`);
   }
+
+  
+  setData(data: any) {
+    this.sharedData = data;
+  }
+
+  getData() {
+    return this.sharedData;
+  }
+  
+  
 }

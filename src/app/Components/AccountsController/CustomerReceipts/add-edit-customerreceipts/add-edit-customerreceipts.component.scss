@@ -1,36 +1,31 @@
-// .container {  display: grid;
-//     grid-template-columns: 1.1fr 3.7fr 1.7fr;
-//     grid-template-rows: 0.4fr 1.2fr 1.6fr;
-//     gap: 0px 0px;
-//     grid-auto-flow: row;
-//     grid-template-areas:
-//       ". . ."
-//       ". fullform ."
-//       ". . .";
-//     width: 50%;
-//     height: 50%;
-//   }
-  
-//   .fullform {  display: grid;
-//     grid-template-columns: 1fr 1.3fr 0.7fr;
-//     grid-template-rows: 1fr 1fr 1fr;
-//     gap: 0px 0px;
-//     grid-auto-flow: row;
-//     grid-template-areas:
-//       ". . ."
-//       ". . ."
-//       ". . .";
-//     grid-area: fullform;
-//   }
-  .receiptdetails{
+.customerReceiptDetails{
+  border-style: solid; 
+  border-color: #428bca;
+}
 
-    height: auto;
-    width: 70vw;
-    border:1px solid rgb(207, 207, 207)
-  }
-  .invoicedetails{
+.panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px;
+}
 
-    height: auto;
-    width: 70vw;
-    border:1px solid rgb(207, 207, 207)
-  }
+
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 15px;
+  color: inherit;
+}
+
+
+.pull-right {
+  float: right !important;
+}
+.backgroundcolor{
+  background-color: #428bca;
+}
+
+.container {
+  background-color: white;
+}

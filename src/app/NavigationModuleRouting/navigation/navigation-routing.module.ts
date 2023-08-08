@@ -203,7 +203,7 @@ const routes: Routes = [
       { path: 'acc-nonbill', component: NonbillablejobsComponent , canActivate: [authGuard]},
       //Customerreceipts
       { path: 'acc-customer', component: CustomerreceiptsindexComponent , canActivate: [authGuard]},
-      { path: 'acc-addeditcustomer', component: AddEditCustomerreceiptsComponent , canActivate: [authGuard]},
+      { path: 'acc-viewcustomer', component: AddEditCustomerreceiptsComponent , canActivate: [authGuard]},
       { path: 'addreceivables', component:AddReceivablesComponent, canActivate: [authGuard]},
       //ScopeChange
       { path: 'acc-scopechange', component: ScopechangeComponent , canActivate: [authGuard]},

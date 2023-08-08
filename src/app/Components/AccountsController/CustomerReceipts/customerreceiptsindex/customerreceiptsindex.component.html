@@ -1,78 +1,75 @@
 <div class="container">
-    <div class="fullform">
+  <div class="fullform">
 
-        <div class="main-body">
-            <button mat-raised-button (click)="openAddEditEmpForm()">
-              ADD COLLECTION
-            </button>
-            <mat-form-field>
-              <mat-label>Filter</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="ex.prasana" #input>
-            </mat-form-field>
-        <div class="table-container">
-            
-              <table  mat-table [dataSource]="dataSource" matSort>
-        
-                <!-- ID Column -->
-                <ng-container matColumnDef="voucherNo">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Voucher Number </th>
-                  <td mat-cell *matCellDef="let row"> {{row.voucherNo}} </td>
-                </ng-container>
-        
-                <!-- Progress Column -->
-                <ng-container matColumnDef="collectionDate">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Voucher Date </th>
-                  <td mat-cell *matCellDef="let row"> {{row.collectionDate}}</td>
-                </ng-container>
-        
-                <ng-container matColumnDef="shortName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
-                  <td mat-cell *matCellDef="let row"> {{row.shortName}}</td>
-                </ng-container>
-        
-                <ng-container matColumnDef="collectionAmount">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Receipt Amount </th>
-                  <td mat-cell *matCellDef="let row"> {{row.collectionAmount}}</td>
-                </ng-container>
-        
-                <ng-container matColumnDef="referenceNo">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference Number </th>
-                  <td mat-cell *matCellDef="let row"> {{row.referenceNo}}</td>
-                </ng-container>
-        
-                <ng-container matColumnDef="referenceDate">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference Date </th>
-                  <td mat-cell *matCellDef="let row"> {{row.referenceDate}}</td>
-                </ng-container>
-        
-                <ng-container matColumnDef="description">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                  <td mat-cell *matCellDef="let row"> {{row.description}}</td>
-                </ng-container>
-        
-                <ng-container matColumnDef="action">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-                  <td mat-cell *matCellDef="let row">
-                    <button mat-icon-button color="primary" (click)="openEditForm(row)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button color="warn" (click)="deleteEmployee(row.employeeId)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
-        
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        
-                <!-- Row shown when there is no matching data. -->
-                <tr class="mat-row" *matNoDataRow>
-                  <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-                </tr>
-              </table>
-        
-              <mat-paginator [pageSizeOptions]="[25, 100,150]" aria-label="Select page of users"></mat-paginator>
-            </div>
-          </div>
+    <div class="main-body">
+      <button mat-raised-button (click)="openAddEditEmpForm()">
+        ADD COLLECTION
+      </button>
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="ex.prasana" #input>
+      </mat-form-field>
+      <div class="table-container">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="voucherNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Voucher Number </th>
+            <td mat-cell *matCellDef="let row"> {{row.voucherNo}} </td>
+          </ng-container>
+
+          <!-- Progress Column -->
+          <ng-container matColumnDef="collectionDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Voucher Date </th>
+            <td mat-cell *matCellDef="let row"> {{row.collectionDate}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="shortName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
+            <td mat-cell *matCellDef="let row"> {{row.shortName}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="collectionAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Receipt Amount </th>
+            <td mat-cell *matCellDef="let row"> {{row.collectionAmount}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="referenceNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference Number </th>
+            <td mat-cell *matCellDef="let row"> {{row.referenceNo}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="referenceDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference Date </th>
+            <td mat-cell *matCellDef="let row"> {{row.referenceDate}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+            <td mat-cell *matCellDef="let row"> {{row.description}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+            <td mat-cell *matCellDef="let row">
+              <a matTooltip="view" matTooltipPosition="below" (click)="viewEmployee(row.id)">
+                <mat-icon>visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[25, 100,150]" aria-label="Select page of users"></mat-paginator>
+      </div>
     </div>
   </div>
+</div>

@@ -176,9 +176,9 @@
                 <div class="col">
                     <mat-form-field>
                         <mat-label>Balance to be Adjusted </mat-label>
-                        <input matInput placeholder="balance" [(ngModel)]="balanceadjusted" name="balanceadjusted"
-                            type="number">
-                    </mat-form-field>
+                        <input matInput placeholder="balance" [(ngModel)]="this.invoiceValue - this.amounttobeadjusted" [disabled]="isInputDisabled" name="balanceadjusted" type="number">
+                      </mat-form-field>
+                      
                 </div>
             </div>
     
