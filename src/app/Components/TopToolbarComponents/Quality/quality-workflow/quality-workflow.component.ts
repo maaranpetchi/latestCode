@@ -12,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { writeFile } from 'xlsx';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -362,7 +363,7 @@ export class QualityWorkflowComponent implements OnInit {
       Remarks: this.Remarks,
       EmployeeId: this.loginService.getUsername(),
       CopyFiles: this.CopyPreviousFiles,
-      StitchCount: this.data.stitchCount,
+      StitchCount: this.data.stitchCount ? this.data.stitchCount : 0,
       ErrorCategoryId: this.errorId,
       Value: this.data.estimatedTime
     };
@@ -391,10 +392,10 @@ export class QualityWorkflowComponent implements OnInit {
             Remarks: this.Remarks,
             EmployeeId: this.loginService.getUsername(),
             CopyFiles: this.CopyPreviousFiles,
-            StitchCount: this.data.stitchCount,
+            StitchCount: this.data.stitchCount ? this.data.stitchCount : 0,
             ErrorCategoryId: this.errorId,
             Value: this.data.estimatedTime,
-            files: this.AttachedFiles1,
+            files: "",
           };
 
           fd.append('data', JSON.stringify(processTransaction));
@@ -415,7 +416,11 @@ export class QualityWorkflowComponent implements OnInit {
             this.BindWorkDetails();
             this.confirmationMessage = ChangeWorkflowResult.message;
             this.spinnerService.requestEnded();
-            alert(this.confirmationMessage);
+            Swal.fire(
+              'Done!',
+              this.confirmationMessage,
+              'success'
+            )
           });
         }
       }
@@ -425,7 +430,11 @@ export class QualityWorkflowComponent implements OnInit {
         this.http.post<any>(environment.apiURL + `Workflow/ChangeWorkflow/${this.data.wftid}`, fd).subscribe(ChangeWorkflowResult => {
           this.BindWorkDetails();
           this.confirmationMessage = ChangeWorkflowResult.message;
-          alert(this.confirmationMessage);
+          Swal.fire(
+            'Done!',
+            this.confirmationMessage,
+            'success'
+          )
           this.spinnerService.requestEnded();
         });
       }
