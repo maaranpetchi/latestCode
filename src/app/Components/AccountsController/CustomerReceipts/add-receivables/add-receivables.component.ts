@@ -121,6 +121,7 @@ export class AddReceivablesComponent implements OnInit {
         InvoiceNo: this.invoiceNumber,
         InvoiceDate: this.invoiceDate,
         InvoiceValue: this.invoiceValue,
+        InvoiceId:this.invoicenumberdropdownvalue.find(x =>x.invoiceNo == this.invoiceNumber).id,
         AdjustmentAmount: this.adjustedamount,
         CurrentAdjustedAmount: this.amounttobeadjusted
       };
@@ -155,6 +156,7 @@ export class AddReceivablesComponent implements OnInit {
     let adjustedAmount:any[]=[];
     let receivableAdjustment:any[]=[];
     if (this.CollectionBalanceAmount == 0) {
+console.log(this.AddedInvoice,"AddedInvoice");
 
             if (this.AddedInvoice.length != 0) {
               this.AddedInvoice.forEach( function (adjustments) {
@@ -164,9 +166,9 @@ export class AddReceivablesComponent implements OnInit {
                         isInvoiceAdjustment = true;
                         adjustmentDetails = {
                             IsInvoiceAdjustment: isInvoiceAdjustment,
-                            InvoiceId: adjustments.invoiceId,
-                            InvoiceNo: adjustments.invoiceNo,
-                            AdjustmentAmount: adjustments.currentAdjustedAmount
+                            InvoiceId: adjustments.InvoiceId,
+                            InvoiceNo: adjustments.InvoiceNo,
+                            AdjustmentAmount: adjustments.CurrentAdjustedAmount
                         };
                     }
                     else {
@@ -174,16 +176,16 @@ export class AddReceivablesComponent implements OnInit {
                         adjustmentDetails = {
                             IsInvoiceAdjustment: isInvoiceAdjustment,
                             InvoiceId: null,
-                            InvoiceNo: adjustments.invoiceNo,
-                            AdjustmentAmount: adjustments.currentAdjustedAmount
+                            InvoiceNo: adjustments.InvoiceNo,
+                            AdjustmentAmount: adjustments.CurrentAdjustedAmount
                         };
                     }
                     var AlreadyAdjustedDetails = {
-                        InvoiceId: adjustments.invoiceId,
-                        InvoiceNo: adjustments.invoiceNo,
-                        AlreadyAdjustedAmount: adjustments.adjustmentAmount,
-                        InvoiceValue: adjustments.invoiceValue,
-                        CurrentAdjustedAmount: adjustments.currentAdjustedAmount,
+                        InvoiceId: adjustments.InvoiceId,
+                        InvoiceNo: adjustments.InvoiceNo,
+                        AlreadyAdjustedAmount: adjustments.AdjustmentAmount,
+                        InvoiceValue: adjustments.InvoiceValue,
+                        CurrentAdjustedAmount: adjustments.CurrentAdjustedAmount,
                     };
                   adjustedAmount.push(AlreadyAdjustedDetails);
                     receivableAdjustment.push(adjustmentDetails);
@@ -201,9 +203,12 @@ export class AddReceivablesComponent implements OnInit {
                     ReferenceDate: this.referencedate,
                     Description: this.description,
                     CreatedBy: this.loginservice.getUsername(),
-                    CustomerId: 0
+                    CustomerId: this.CustomerId,
+                  
                 },
                 AlreadyAdjusted: adjustedAmount,
+                
+                
             };
 
 
@@ -211,7 +216,9 @@ export class AddReceivablesComponent implements OnInit {
 
             this.http.post<any>(environment.apiURL+`Receivable/CreateReceivable`,receivable).subscribe(result => {
                 //alert(JSON.stringify(result.Receivables));
-                if (result.Receivables == "False") {
+                console.log(result,"ReceivableResult");
+                
+                if (result.receivables == "False") {
                   
                     Swal.fire({
                       position: 'top-end',

@@ -1,14 +1,31 @@
-.container {  
-  // display: grid;
-    grid-template-columns: 0.6fr 5.4fr 0.5fr;
-    grid-template-rows: 0.2fr 1.2fr 1.8fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      ". . ."
-      ". fullform ."
-      ". . .";
-  }
+// .container {  
+//   // display: grid;
+//     grid-template-columns: 0.6fr 5.4fr 0.5fr;
+//     grid-template-rows: 0.2fr 1.2fr 1.8fr;
+//     gap: 0px 0px;
+//     grid-auto-flow: row;
+//     grid-template-areas:
+//       ". . ."
+//       ". fullform ."
+//       ". . .";
+//   }
   
-  .fullform { grid-area: fullform; }
+//   .fullform { grid-area: fullform; }
   
+
+  
+//   .mat-mdc-table {
+//     table-layout: auto;
+//     white-space: normal;
+//     height: 312px;
+// }
+
+// .example-container {
+//   display: flex;
+//   flex-direction: column;
+//   min-width: 400px;
+// }
+
+mat-table.mat-mdc-table.mdc-data-table__table.cdk-table.mat-sort.table.table-sm.table-responsive {
+  height: 600px;
+}

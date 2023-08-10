@@ -64,7 +64,7 @@ export class indexemployeevsdivisionComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
-      error: console.log,
+      error:console.log,
     });
   }
 
@@ -81,7 +81,7 @@ export class indexemployeevsdivisionComponent implements OnInit {
     this.spinnerService.requestStarted();
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
-        this.spinnerService.requestStarted();
+        this.spinnerService.requestEnded();
 
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this.getEmployeeList();

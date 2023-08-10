@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CoreService } from 'src/app/Services/AccountController/ScopeChange/Core/core.service';
 import { ScopechangeService } from 'src/app/Services/AccountController/ScopeChange/scopechange.service';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { error } from 'jquery';
 //MARTIAL INTERFACE
 interface Department {
   value: string;
@@ -49,7 +51,8 @@ export class ScopechangeComponent implements OnInit {
     private http: HttpClient,
     private _empService: ScopechangeService,
     private snackBar: MatSnackBar,
-    private _coreService: CoreService
+    private _coreService: CoreService,
+    private spinnerService:SpinnerService
   ) {
 
     this.empForm = this._fb.group({
@@ -147,8 +150,12 @@ export class ScopechangeComponent implements OnInit {
   }
 
   getScopeList() {
+    this.spinnerService.requestStarted();
     this.http.get(environment.apiURL+`CustomerMapping/DDLforScopeChange?departmentId=${this.empForm.value.department}&custId=${this.empForm.value.client}`).subscribe((data: any) => {
+     this.spinnerService.requestEnded();
       this.Scopedropdownvalues = data;
+    },(error) =>{
+      this.spinnerService.resetSpinner();
     })
   }
 
@@ -168,18 +175,19 @@ export class ScopechangeComponent implements OnInit {
   }
 
   getJobOrderList() {
+    this.spinnerService.requestStarted();
     this._empService.getJobOrderList({
       "clientId": this.empForm.value.client,
       "departmentId": this.empForm.value.department,
       "fromDate": this.empForm.value.fromdate,
       "toDate": this.empForm.value.todate
     }).subscribe((results: any) => {
-      // Set the search results in the data source
-      console.log(results, "results")
+      this.spinnerService.requestEnded();
       this.dataSource.data = results.jobOrderDetailsReport;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(results, "results")
+    },(error) =>{
+      this.spinnerService.resetSpinner();
     }
     )
     this.getScopeList();
