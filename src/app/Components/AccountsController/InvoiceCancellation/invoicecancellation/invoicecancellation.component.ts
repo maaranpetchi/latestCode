@@ -7,6 +7,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { InvoicecancelleddetailsComponent } from '../invoicecancelleddetails/invoicecancelleddetails.component';
 import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-invoicecancellation',
@@ -18,8 +20,9 @@ export class InvoicecancellationComponent {
  
  
   invoicenumbers: any;
+  invoiceNumber: any;
 
-  constructor(private http: HttpClient,private dialog: MatDialog) { }
+  constructor(private http: HttpClient,private dialog: MatDialog,private loginservice:LoginService) { }
 
   displayedColumns: string[] = [
     'invoicenumber',
@@ -130,13 +133,43 @@ export class InvoicecancellationComponent {
     }).subscribe((results: any) => {
       // Set the search results in the data source
 
+
       this.dataSource.data = results.invoicesc;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(results, "results")
+
+      this.invoiceNumber = results.invoicesc.invoiceNo;
+
+
     }
     )
   }
 
-
+  cancelInvoice(){
+    console.log(this.myForm.value.invoicenumber,"InvoiceNumber2");
+    let payload={
+      "id": 0,
+      "customerID": 0,
+      "employeeId": this.loginservice.getUsername(),
+      "invoiceNo": this.myForm.value.invoicenumber,
+      "invoicesc": [ ]
+    }
+    this.http.post<any>(environment.apiURL+`Invoice/GetUpdateMasterforSalesCancel`,payload).subscribe(data=>{
+      console.log(data,"Cancelledbutton");
+      
+      Swal.fire({
+        title: 'Are you sure wanting to cancel this Invoice?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire(data.stringList)
+        } else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })    })
+  }
 }
