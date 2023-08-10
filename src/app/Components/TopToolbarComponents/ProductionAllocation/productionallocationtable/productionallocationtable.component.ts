@@ -867,11 +867,16 @@ export class ProductionallocationtableComponent implements OnInit {
             'success'
           )
           this.router.navigate(["topnavbar/production"]);
-          this.refreshPage();
+          // this.refreshPage();
         }
     (error) => {
       console.error('Error occurred during API call:', error);
       this.spinnerService.resetSpinner();
+      Swal.fire(
+        'Done!',
+        'Job assigned Failed!',
+        'error'
+      )
     }
       });
 

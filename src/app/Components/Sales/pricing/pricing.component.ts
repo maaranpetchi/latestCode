@@ -57,7 +57,7 @@ export class PricingComponent implements OnInit {
   selectedDesignation: any;
   Scopes: any[] = [];
   dropdownOptions: any;
-  ViewFileCountTable: any;
+  ViewFileCountTable: any[]=[];
   i: any;
   AddedRecord: any = [];
 
@@ -295,12 +295,12 @@ export class PricingComponent implements OnInit {
       }
     })
   }
-  onSubmit() {
-    if (this.userRegistrationForm.invalid) {
-      this.userRegistrationForm.markAllAsTouched(); // Mark the control as touched to trigger validation messages
-      return; // Stop form submission if the form is invalid
-    }
-  }
+  // onSubmit() {
+  //   if (this.userRegistrationForm.invalid) {
+  //     this.userRegistrationForm.markAllAsTouched(); // Mark the control as touched to trigger validation messages
+  //     return; // Stop form submission if the form is invalid
+  //   }
+  // }
   onCancel() {
     this.router.navigate(['topnavbar/pricing'])
   }
@@ -317,20 +317,15 @@ export class PricingComponent implements OnInit {
       this.userRegistrationForm.markAllAsTouched();
       console.log('inside createbased file count');
       let filecountdata = {
-        ScopeId: this.selectedScope.id,
-        ScopeTempDesc: this.selectedScope.description,
-        FromRange: this.selectedFrom,
-        ToRange: this.selectedTo,
-        Price: this.selectedCountPrice,
+        scopeId: this.selectedScope.id,
+        scopeTempDesc: this.selectedScope.description,
+      fromRange: this.selectedFrom,
+        toRange: this.selectedTo,
+       price: this.selectedCountPrice,
       };
-      this.AddedRecord.push(filecountdata);
-      this.ViewFileCountTable = this.AddedRecord;
+      this.ViewFileCountTable.push(filecountdata);
+      // this.ViewFileCountTable = this.ViewFileCountTable;
       this.ScopeBasedRateBasedFileCountTable = true;
-      $('#ddlCurrentStaff').val('');
-      $('#countfrom').val('');
-      $('#countto').val('');
-      $('#countprice').val('');
-      $('#txtwefromdate').val('');
       return; // Stop form submission if the form is invalid
     }
     this.ScopeBasedRateBasedFileCountTable = true;
@@ -365,6 +360,7 @@ export class PricingComponent implements OnInit {
         alert('Check FromValue Less or Equal');
       }
     }
+    this.EstimatedTimeTable = true;
   }
   CreateStaffing() {
     this.submitted = true;
@@ -391,11 +387,11 @@ export class PricingComponent implements OnInit {
           Price: this.selectedCountPrice,
         };
       }
-      $('#ddlCurrentStaff').val('');
-      $('#countfrom').val('');
-      $('#countto').val('');
-      $('#countprice').val('');
-      this.AddedRecord.push(filecountdata);
+      // $('#ddlCurrentStaff').val('');
+      // $('#countfrom').val('');
+      // $('#countto').val('');
+      // $('#countprice').val('');
+      this.ViewFileCountTable.push(filecountdata);
       this.ViewFileCountTable = this.AddedRecord;
       this.ScopeBasedRateBasedFileCountTable = true;
     }
