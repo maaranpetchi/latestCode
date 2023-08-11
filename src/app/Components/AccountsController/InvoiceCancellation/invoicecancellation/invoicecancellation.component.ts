@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { InvoicecancelleddetailsComponent } from '../invoicecancelleddetails/invoicecancelleddetails.component';
 import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import Swal from 'sweetalert2/src/sweetalert2.js''sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 @Component({
   selector: 'app-invoicecancellation',

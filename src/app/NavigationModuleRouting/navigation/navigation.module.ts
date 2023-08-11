@@ -128,6 +128,7 @@ import { SalesMultiStepFormComponent } from 'src/app/Components/Sales/CustomerSa
 import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 import { AddReceivablesComponent } from 'src/app/Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
+import { CustomervsdivisionindexComponent } from 'src/app/Components/Sales/CustomerVSDivision/customervsdivisionindex/customervsdivisionindex.component';
 
 @NgModule({
   declarations: [
@@ -256,7 +257,8 @@ import { AddReceivablesComponent } from 'src/app/Components/AccountsController/C
     IndexCustomerSalesApprovalComponent,
     TabcustomertableComponent,
     SalesMultiStepFormComponent,
-
+//CustomerVsDivision
+CustomervsdivisionindexComponent,
     // Master.
     UserMasterComponent,
     AddEditUsermasterComponent,

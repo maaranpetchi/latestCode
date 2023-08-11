@@ -77,24 +77,21 @@ export class ClientordinationindexComponent implements OnInit {
       this.CompletedJobsCount = response.clientDetails.resultForCompletedList;
     });
   }
-
   NewJobCount: any;
   QuoteJobCount: any;
   getclientordercount() {
-    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersExts/1`).subscribe(responsedata1 => {
-      console.log(responsedata1, "responsedata1");
-
-      this.NewJobCount = responsedata1.data[0].workType;
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/1`).subscribe(responsedata1 => {
+      console.log(responsedata1,"NewJobTabCount");
+      this.NewJobCount = responsedata1.count;
     });
-    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersExts/2`).subscribe(responsedata2 => {
-      console.log(responsedata2, "responsedata2");
-
-      this.QuoteJobCount = responsedata2.data[0].workType;
-
+    this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/2`).subscribe(responsedata2 => {
+      console.log(responsedata2, "QuoteJobCountresponsedata2");
+      this.QuoteJobCount = responsedata2.count;
       console.log(this.NewJobCount + this.QuoteJobCount, "completedcountvalues");
     });
-
   }
+
+  
 
 
   QueryJobCount: any;

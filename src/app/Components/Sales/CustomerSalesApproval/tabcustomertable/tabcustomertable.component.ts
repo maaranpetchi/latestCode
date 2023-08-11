@@ -21,22 +21,22 @@ export class TabcustomertableComponent implements OnInit {
 this.ApprovedCustomer() 
   }
   constructor(private router : Router  ,private _coreService: CoreService, private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog, private spinnerService: SpinnerService,private sharedDataService:CustomerSalesApprovalService) { }
-  dataSource!: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
 
   displayedColumnsvisibility: any = {
-    'companyname': true,
-    'customername': false,
-    'address': true,
-    'customershortname': false,
-    'classification': false,
-    'emailid': true,
-    'phonenumber': true,
-    'approvedphonenumber':false,
-    'salesemployee': true,
-    'action': true,
+    companyname: true,
+    customername: false,
+    address: true,
+    customershortname: false,
+    classification: false,
+    emailid: true,
+    phonenumber: true,
+    approvedphonenumber:false,
+    salesemployee: true,
+    action: true,
 
   };
 
@@ -89,6 +89,15 @@ console.log(this.dataSource.paginator,"paginator");
   }
 
   
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
 
   openEditForm(id: number) {
     let payload = {

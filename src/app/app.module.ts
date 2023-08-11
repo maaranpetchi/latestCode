@@ -20,9 +20,6 @@ import { PricingApprovalprocessComponent } from './Components/Sales/pricing-appr
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
-import { authGuard } from './AuthGuard/auth.guard';
-import { EditaddemployeecontrollerComponent } from './Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
-import { AddReceivablesComponent } from './Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
 @NgModule({
   declarations: [
     AppComponent,

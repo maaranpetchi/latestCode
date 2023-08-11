@@ -3,11 +3,12 @@ import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { error } from 'jquery';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { EmployeeService } from 'src/app/Services/EmployeeController/employee.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-editaddemployeecontroller',
   templateUrl: './editaddemployeecontroller.component.html',
@@ -303,13 +304,21 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     }
     this.http.post<any>(environment.apiURL + 'Employee/AddEmpNewRoles', payload).subscribe(data => {
       // Show a success message to the user
-      this.coreservice.openSnackBar(data.message)
+      
+      Swal.fire(
+        'Done!',
+        data.message,
+        'success'
+      )
       this.getRole();
       // Close the form
       this.hideForm();
-    }, () => {
-      // Show an error message to the user
-      alert('An error occurred while saving the data.');
+    },error=>{
+      Swal.fire(
+        'Error!',
+        'Error occured ',
+        'error'
+      )
     });
   }
 
@@ -412,10 +421,19 @@ export class EditaddemployeecontrollerComponent implements OnInit {
         // this.spinnerService.requestStarted();
         console.log(val, "value");
 
-        this.coreservice.openSnackBar('Employee added successfully');
-        this.router.navigate(['/topnavbar/Emp-Empcontroller']);
+        Swal.fire(
+          'Done!',
+          'Employee Added Succesfully',
+          'success'
+        )   ,
+             this.router.navigate(['/topnavbar/Emp-Empcontroller']);
       },
       error: (err: any) => {
+        Swal.fire(
+          'Error!',
+          'Error Occured',
+          'error'
+        )   
         console.error(err);
       },
     });
@@ -500,11 +518,20 @@ export class EditaddemployeecontrollerComponent implements OnInit {
       next: (val: any) => {
         // this.spinnerService.requestStarted();
         console.log(val, "value");
-
+        Swal.fire(
+          'Updated!',
+          'Employee updated successfully',
+          'success'
+        )   ,
         this.coreservice.openSnackBar('Employee updated successfully');
         this.router.navigate(['/topnavbar/Emp-Empcontroller']);
       },
       error: (err: any) => {
+        Swal.fire(
+          'Error!',
+          'Error Occured',
+          'error'
+        )   
         console.error(err);
       },
     });

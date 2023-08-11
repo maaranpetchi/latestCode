@@ -57,8 +57,8 @@
 								<mat-form-field>
 									<mat-label>Select Role</mat-label>
 									<mat-select formControlName="adminRole">
-										<mat-option (click)="showAdminData()" value="employee">Admin</mat-option>
-										<mat-option (click)="showUserData()" value="user">User</mat-option>
+										<mat-option (click)="showAdminData()" value="Admin">Admin</mat-option>
+										<mat-option (click)="showUserData()" value="User">User</mat-option>
 									</mat-select>
 								</mat-form-field>
 								<div *ngIf="isAdmin">

@@ -8,7 +8,7 @@ import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientC
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import * as XLSX from 'xlsx';
-import Swal from 'sweetalert2/src/sweetalert2.js''sweetalert2/src/sweetalert2.js'
+import Swal from 'sweetalert2/src/sweetalert2.js'
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({

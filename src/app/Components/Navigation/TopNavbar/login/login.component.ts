@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import Swal from 'sweetalert2/src/sweetalert2.js''sweetalert2/src/sweetalert2.js'
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 @Component({
   selector: 'app-login',

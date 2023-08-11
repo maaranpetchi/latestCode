@@ -112,6 +112,7 @@ import { authGuard } from 'src/app/AuthGuard/auth.guard';
 import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeController/editaddemployeecontroller/editaddemployeecontroller.component';
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 import { AddReceivablesComponent } from 'src/app/Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
+import { CustomervsdivisionindexComponent } from 'src/app/Components/Sales/CustomerVSDivision/customervsdivisionindex/customervsdivisionindex.component';
 
 const routes: Routes = [
 
@@ -295,6 +296,10 @@ const routes: Routes = [
       {path:'customer-salesmapping', component: CustomerSalesmappingComponent, canActivate: [authGuard]},
       {path:'pricing-Approval', component: PricingApprovalprocessComponent, canActivate: [authGuard]},
    //SALES CONTROLLER
+   //CustomerVSDivision
+   {path:'sales-cusvsdiv', component:    CustomervsdivisionindexComponent   , canActivate: [authGuard]},
+
+
       //1.PRICING    
       {path:'pricing', component: PricingComponent, canActivate: [authGuard]},
 
