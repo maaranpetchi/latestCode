@@ -62,23 +62,23 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
       this.table2Data.paginator = this.paginator;
     });
   }
-  onPageChange(event: any) {
-    this.spinnerService.requestStarted();
-    const startIndex = event.pageIndex * event.pageSize;
-    const endIndex = startIndex + event.pageSize;
-    this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetEmployee?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
-      this.spinnerService.requestEnded();
-       this.table1Data.data = data.eEvDList;
-    });
-  }
-  onPageChange2(event: any) {
-    const startIndex = event.pageIndex * event.pageSize;
-    const endIndex = startIndex + event.pageSize;
-    this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetDivision?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
-      this.spinnerService.requestEnded();
-      this.table2Data.data = data.dEvDList;
-    });
-  }
+  // onPageChange(event: any) {
+  //   this.spinnerService.requestStarted();
+  //   const startIndex = event.pageIndex * event.pageSize;
+  //   const endIndex = startIndex + event.pageSize;
+  //   this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetEmployee?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
+  //     this.spinnerService.requestEnded();
+  //      this.table1Data.data = data.eEvDList;
+  //   });
+  // }
+  // onPageChange2(event: any) {
+  //   const startIndex = event.pageIndex * event.pageSize;
+  //   const endIndex = startIndex + event.pageSize;
+  //   this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetDivision?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
+  //     this.spinnerService.requestEnded();
+  //     this.table2Data.data = data.dEvDList;
+  //   });
+  // }
 
   onSubmit() {
     this.spinnerService.requestStarted();
