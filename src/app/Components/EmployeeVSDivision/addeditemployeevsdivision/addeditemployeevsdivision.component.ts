@@ -29,7 +29,9 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
   table1selectedarray: any[] = [];
   table2selectedarray: any[] = [];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @ViewChild('paginator1') paginator1: MatPaginator;
+  @ViewChild('paginator2') paginator2: MatPaginator;
   constructor(private spinnerService:SpinnerService, private fb: FormBuilder, private http: HttpClient) {
 
   }
@@ -49,7 +51,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
       this.table1Data.data.forEach(row => {
         this.myForm.addControl(row.employeeId.toString(), new FormControl());
       });
-      this.table1Data.paginator = this.paginator;
+      this.table1Data.paginator = this.paginator1;
 
     });
 
@@ -59,7 +61,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
       this.table2Data.data.forEach(row => {
         this.myForm.addControl(row.id.toString() + "hi", new FormControl());
       });
-      this.table2Data.paginator = this.paginator;
+      this.table2Data.paginator = this.paginator2;
     });
   }
   // onPageChange(event: any) {
@@ -101,9 +103,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
 
         // Handle the response from the API
         this.table1selectedarray = [];
-        this.table2selectedarray = [];
-        console.log(response, "response");
-        
+        this.table2selectedarray = [];        
         alert("Successfuly data added")
       });
     }

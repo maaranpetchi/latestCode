@@ -12,7 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { writeFile } from 'xlsx';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 
 @Component({

@@ -6,7 +6,7 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { SpinnerService } from '../../Spinner/spinner.service';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 import { IndexchecklistComponent } from '../indexchecklist/indexchecklist.component';
 
 @Component({

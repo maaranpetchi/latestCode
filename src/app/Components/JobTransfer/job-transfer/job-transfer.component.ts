@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogComponent } from '../../dialog/dialog.component';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 @Component({
   selector: 'app-job-transfer',

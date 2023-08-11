@@ -8,7 +8,7 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import Swal from 'sweetalert2/src/sweetalert2.js'
+import Swal from 'sweetalert2/src/sweetalert2.js''sweetalert2/src/sweetalert2.js'
 
 @Component({
   selector: 'app-joborder',

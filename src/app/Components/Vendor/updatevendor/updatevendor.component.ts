@@ -6,7 +6,7 @@ import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { VendorService } from 'src/app/Services/Vendor/vendor.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 @Component({
   selector: 'app-updatevendor',

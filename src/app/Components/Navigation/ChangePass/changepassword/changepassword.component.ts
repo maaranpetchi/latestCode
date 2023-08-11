@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js''sweetalert2';
 
 @Component({
   selector: 'app-changepassword',

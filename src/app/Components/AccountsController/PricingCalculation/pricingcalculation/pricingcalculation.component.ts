@@ -11,7 +11,7 @@ import { log } from 'console';
 import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 @Component({
   selector: 'app-pricingcalculation',

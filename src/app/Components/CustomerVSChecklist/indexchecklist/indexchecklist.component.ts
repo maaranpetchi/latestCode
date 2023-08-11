@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomervschecklistService } from 'src/app/Services/CustomerVSChecklist/customervschecklist.service';
 import { SpinnerService } from '../../Spinner/spinner.service';
 import { ViewchecklistComponent } from '../viewchecklist/viewchecklist.component';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 @Component({
   selector: 'app-indexchecklist',
   templateUrl: './indexchecklist.component.html',

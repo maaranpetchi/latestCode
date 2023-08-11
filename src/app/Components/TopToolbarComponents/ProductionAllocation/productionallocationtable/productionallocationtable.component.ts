@@ -15,7 +15,7 @@ import { JoballocatedEmplpopupComponent } from '../joballocated-emplpopup/joball
 import { EmployeePopupTableComponent } from '../../QualityAllocation/employee-popup-table/employee-popup-table.component';
 import { error } from 'jquery';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 @Component({
   selector: 'app-productionallocationtable',
