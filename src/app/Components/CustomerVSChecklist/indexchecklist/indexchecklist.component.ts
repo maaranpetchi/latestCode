@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomervschecklistService } from 'src/app/Services/CustomerVSChecklist/customervschecklist.service';
 import { SpinnerService } from '../../Spinner/spinner.service';
 import { ViewchecklistComponent } from '../viewchecklist/viewchecklist.component';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-indexchecklist',
   templateUrl: './indexchecklist.component.html',
@@ -88,7 +89,11 @@ export class IndexchecklistComponent implements OnInit {
       next: (res) => {
         this.spinnerService.requestEnded();
 
-        this._coreService.openSnackBar('Employee deleted!', 'done');
+        Swal.fire(
+          'Done!',
+          'Employee deleted!',
+          'success'
+        )
         this.fetchtableData();
       },
       error: console.log,

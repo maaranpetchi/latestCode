@@ -6,6 +6,7 @@ import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { VendorService } from 'src/app/Services/Vendor/vendor.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-updatevendor',
@@ -119,7 +120,13 @@ export class UpdatevendorComponent implements OnInit {
       "employeeId": this.loginservice.getUserId(),
     }
     this.http.post<any>(environment.apiURL + `ITAsset/nSetVendorDetails`, payload).subscribe(result => {
-      this._coreService.openSnackBar(result.setVDetailList)
+
+      Swal.fire(
+        'Good job!',
+        result.setVDetailList,
+        'success'
+      )
+      window.location.reload();
     });
   }
 

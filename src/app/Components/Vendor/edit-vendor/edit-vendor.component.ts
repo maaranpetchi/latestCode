@@ -6,6 +6,7 @@ import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { SpinnerService } from '../../Spinner/spinner.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-vendor',
@@ -55,8 +56,13 @@ export class EditVendorComponent implements OnInit {
     this.http.post<any>(environment.apiURL + `ITAsset/nSetVendorDetails`, payload).subscribe({
       next: (val: any) => {
         this.spinnerService.requestEnded();
-        this._coreService.openSnackBar('Employee added successfully');
+        Swal.fire(
+          'Done!',
+          'Employee Added Succesfully!',
+          'success'
+        )
         this._dialogRef.close();
+        window.location.reload();
       },
       error: (err: any) => {
         this.spinnerService.resetSpinner();

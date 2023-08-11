@@ -9,6 +9,9 @@ import { PricingcalculationService } from 'src/app/Services/AccountController/Pr
 import { InformationpopupComponent } from '../Dialogpop/informationpopup/informationpopup.component';
 import { log } from 'console';
 import { environment } from 'src/Environments/environment';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pricingcalculation',
@@ -16,9 +19,10 @@ import { environment } from 'src/Environments/environment';
   styleUrls: ['./pricingcalculation.component.scss']
 })
 export class PricingcalculationComponent implements OnInit {
+  getClientId: any[] = [];
 
 
-  constructor(private http: HttpClient, private _empService: PricingcalculationService, private dialog: MatDialog) { }
+  constructor(private http: HttpClient, private _empService: PricingcalculationService, private dialog: MatDialog, private loginservice: LoginService, private spinnerService: SpinnerService) { }
 
   displayedColumns: string[] = [
     'selected',
@@ -68,11 +72,19 @@ export class PricingcalculationComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getClient();
 
+  }
+
+
+  getClient() {
     //client name dropdown
-    this.http.get<any>(environment.apiURL+'Invoice/GetClient').subscribe(data => {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + 'Invoice/GetClient').subscribe(data => {
+      this.spinnerService.requestEnded();
       this.data = data;
-      console.log(data);
+    }, error => {
+      this.spinnerService.resetSpinner();
     });
   }
 
@@ -92,23 +104,21 @@ export class PricingcalculationComponent implements OnInit {
   });
 
 
-  
+
 
   openDialog() {
     let clientid = 0;
     if (this.selectedInvoices.length == 0) {
-      const dialogRef = this.dialog.open(InformationpopupComponent, {
-        width: '500px',
-        height: '150px',
-        data: 'Please select the list items!'
-
-      }
-      );
+      Swal.fire(
+        'Alert!',
+        'Please Select the Items!',
+        'warning'
+      )
+  
     }
     else {
       let temporaryarray: any[] = [];
       clientid = parseInt(this.myForm?.value.ClientId ? this.myForm?.value.ClientId : "0")
-      let createdby = 152;
       temporaryarray = this.selectedInvoices.map(x => {
         return {
           "jobId": x.jobId,
@@ -118,7 +128,7 @@ export class PricingcalculationComponent implements OnInit {
           "clientId": x.clientId,
           "billingCycleType": x.billingCycleType,
           "dateofUpload": x.dateofUpload,
-          "createdBy": 152,
+          "createdBy": this.loginservice.getUsername(),
           "departmentId": x.departmentId,
           "tranId": 0,
           "id": x.id,
@@ -140,10 +150,10 @@ export class PricingcalculationComponent implements OnInit {
         "shortName": "string",
         "scopeId": 0,
         "scopeDesc": "string",
-        "clientId": 0,
+        "clientId": this.myForm.value?.ClientId,
         "billingCycleType": "string",
         "dateofUpload": "2023-04-06T08:51:10.069Z",
-        "createdBy": 0,
+        "createdBy": this.loginservice.getUsername(),
         "departmentId": 0,
         "tranId": 0,
         "id": 0,
@@ -179,31 +189,32 @@ export class PricingcalculationComponent implements OnInit {
   }
   onSubmit() {
     // Call the API to get the search results
-    this.http.post<any>(environment.apiURL+'Invoice/GetClientDetails', {
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + 'Invoice/GetClientDetails', {
       "clientId": this.myForm.value?.ClientId,
       "fromDate": this.myForm.value?.fromDate,
       "toDate": this.myForm.value?.toDate
     }).subscribe((results: any) => {
-      // Set the search results in the data source
-
+      this.spinnerService.requestEnded();
       this.dataSource.data = results.getInvoice;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(results, "results")
     }
     )
   }
 
   onInvoiceCalculation(item: any) {
     // Call the API to get the search results
-    this.http.post<any>(environment.apiURL+'Invoice/GetCalculatedInvoice', item).subscribe((results: any) => {
-      // Set the search results in the data source
-      const dialogRef = this.dialog.open(InformationpopupComponent, {
-        width: '500px',
-        height: '150px',
-        data: 'Updated successfully!'
-      }
-      );
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + 'Invoice/GetCalculatedInvoice', item).subscribe((results: any) => {
+      this.spinnerService.requestEnded();
+      Swal.fire(
+        'Done!',
+        results.stringList,
+        'success'
+      )
+    }, error => {
+      this.spinnerService.resetSpinner();
     }
     )
   }

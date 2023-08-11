@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { SpinnerService } from '../../Spinner/spinner.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { IndexchecklistComponent } from '../indexchecklist/indexchecklist.component';
 
 @Component({
   selector: 'app-addchecklist',
@@ -14,12 +16,13 @@ import { Router } from '@angular/router';
 })
 export class AddchecklistComponent implements OnInit {
 
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private _coreService: CoreService, private loginservice: LoginService, private spinnerService: SpinnerService,  private router: Router,public dialogRef: MatDialogRef<AddchecklistComponent>) {
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private _coreService: CoreService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router, public dialogRef: MatDialogRef<AddchecklistComponent>) {
     console.log(data, "injected");
     if (this.data && this.data.type === "edit") {
       this.fetchDataAndOpenForm();
     }
   }
+  @ViewChild(IndexchecklistComponent) indexchecklistComponent!: IndexchecklistComponent;
   ngOnInit(): void {
     this.fetchCustomers();
   }
@@ -69,11 +72,22 @@ export class AddchecklistComponent implements OnInit {
       this.spinnerService.requestStarted();
       this.http.post<any>(environment.apiURL + `CustomerVsChecklist/CreateChecklist`, payload).subscribe(results => {
         this.spinnerService.requestEnded();
-        this._coreService.openSnackBar(results.cvCList)
-        this.router.navigateByUrl('topnavbar/CustomerVsChecklist');
+        Swal.fire(
+          'Done!',
+          "Added Successfully",
+          'success'
+        )
+        window.location.reload();
+        
+       
+      }, (error) => {
+        Swal.fire(
+          'Error!',
+          'Error occurred',
+          'error'
+        )
 
-      },(error) => {
-        this._coreService.openSnackBar('Error occurred');
+
         this.spinnerService.resetSpinner();
       });
     }
@@ -222,9 +236,15 @@ export class AddchecklistComponent implements OnInit {
       this.http.post<any>(environment.apiURL + `CustomerVsChecklist/UpdateChecklist`, UploadPayload).subscribe({
         next: (val: any) => {
           this.spinnerService.requestEnded();
-          this._coreService.openSnackBar('Employee detail updated!');
-          // this.router.navigate(['/topnavbar/CustomerVsChecklist']);
-           this.dialogRef.close(true);
+          Swal.fire(
+            'Updated!',
+            'Employee detail updated!',
+            'success'
+          )
+         
+          this.dialogRef.close(true);
+          window.location.reload();
+
         },
         error: (err: any) => {
           this._coreService.openSnackBar('Employee detail Not updated!');
