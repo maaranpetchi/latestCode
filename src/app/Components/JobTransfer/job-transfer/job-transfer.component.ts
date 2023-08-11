@@ -5,6 +5,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JobTransferService } from 'src/app/Services/JobTransfer/job-transfer.service';
+import { environment } from 'src/Environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogComponent } from '../../dialog/dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-job-transfer',
@@ -17,7 +24,7 @@ export class JobTransferComponent implements OnInit {
   selectedClientId: number;
   selectedJobNumber: string | null;
   selectedFileName: string | null;
-  selectedfromDate:string | null;
+  selectedfromDate: string | null;
 
   fromDate: string | null;
   clients: any[];
@@ -30,6 +37,7 @@ export class JobTransferComponent implements OnInit {
 
   //  Table view heading
   displayedColumns: string[] = [
+    'selected',
     'fileName',
     'fileReceivedDate',
     'department',
@@ -39,10 +47,13 @@ export class JobTransferComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
   constructor(
     private _service: JobTransferService,
     private spinnerService: SpinnerService,
+    private http: HttpClient,
+    private loginservice: LoginService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {}
@@ -51,7 +62,7 @@ export class JobTransferComponent implements OnInit {
     client: new FormControl('', Validators.required),
     jobNumber: new FormControl(''),
     fromDate: new FormControl(''),
-    file:new FormControl(''),
+    file: new FormControl(''),
   });
 
   onFilterChange() {
@@ -93,41 +104,49 @@ export class JobTransferComponent implements OnInit {
     }
   }
   onSearchClick() {
-    console.log(this.selectedFileName, "selected");
-    
-    if (this.selectedClientId != undefined || this.selectedFileName != undefined || this.selectedFilter != undefined || this.fromDate != undefined ) {
-      if ((this.selectedClientId == undefined || this.selectedClientId == null)) {
+    console.log(this.selectedFileName, 'selected');
+
+    if (
+      this.selectedClientId != undefined ||
+      this.selectedFileName != undefined ||
+      this.selectedFilter != undefined ||
+      this.fromDate != undefined
+    ) {
+      if (this.selectedClientId == undefined || this.selectedClientId == null) {
         this.selectedClientId = 0;
       }
-      if ((this.selectedFileName == undefined || this.selectedFileName == null || this.selectedFileName == '')) {
+      if (
+        this.selectedFileName == undefined ||
+        this.selectedFileName == null ||
+        this.selectedFileName == ''
+      ) {
         this.selectedFileName = null;
       }
       var departmentId = this.selectedFilter;
-      if (departmentId == 3 || departmentId == 2 || departmentId == 1 ) {
+      if (departmentId == 3 || departmentId == 2 || departmentId == 1) {
         departmentId = 0;
       }
-    var jobOrder = {
-      
-      jobId: this.selectedJobNumber,
-      fileName: this.selectedFileName,
-      clientId: this.selectedClientId,
-      fileReceivedDate: this.selectedfromDate,
-    };
-    this.spinnerService.requestStarted();
-    this._service.jobOrderDetails(jobOrder).subscribe({
-      next: (response) => {
-        this.spinnerService.requestEnded();
-        this.dataSource = response.jobs;
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        console.log(response.jobs);
-      },
-      error: (err: any) => {
-        console.log(err);
-        this.spinnerService.resetSpinner();
-      },
-    });
-  }
+      var jobOrder = {
+        jobId: this.selectedJobNumber,
+        fileName: this.selectedFileName,
+        clientId: this.selectedClientId,
+        fileReceivedDate: this.selectedfromDate,
+      };
+      this.spinnerService.requestStarted();
+      this._service.jobOrderDetails(jobOrder).subscribe({
+        next: (response) => {
+          this.spinnerService.requestEnded();
+          this.dataSource = response.jobs;
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+          console.log(response.jobs);
+        },
+        error: (err: any) => {
+          console.log(err);
+          this.spinnerService.resetSpinner();
+        },
+      });
+    }
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -135,5 +154,82 @@ export class JobTransferComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  selectedJobs: any[] = [];
+  //   convert(): void {
+  //     this.selectedJobs = this.selectedQuery;
+  //     console.log(this.selectedQuery,"selected query");
+
+  //     if (this.selectedJobs.length == 0) {
+  //       alert('Please Select Job(s).');
+
+  //   }
+  //   else {
+  //       var convertdata = {
+  //           ConvertDepartment: this.selectedJobs,
+  //           UpdatedBy: this.loginservice.getUsername(),
+  //       }
+  //     this.http
+  //       .post(environment.apiURL + `JobTransfer/ConvertDepartment`, convertdata)
+  //       .subscribe((response: any) => {
+  //         if (response === true) {
+  //           alert("Value moved to Selected Jobs")
+  //         } else if(response === false){
+  //           console.log('Error');
+  //         }
+  //       });
+  //   }
+  // }
+  convert(): void {
+      this.selectedJobs = this.selectedQuery;
+
+      if (this.selectedJobs.length === 0) {
+        throw new Error('Please Select Job(s).');
+      }
+
+      const convertdata = {
+        ConvertDepartment: this.selectedJobs,
+        UpdatedBy: this.loginservice.getUsername(),
+      };
+
+      this.http
+        .post(environment.apiURL + `JobTransfer/ConvertDepartment`, convertdata)
+        .subscribe((response: any) => {
+          if (response) {
+            Swal.fire(
+              'Done!',
+              'Value moved to Selected Jobs!',
+              'success'
+            )
+            window.location.reload();
+          } else{
+            Swal.fire(
+              'Done!',
+              'Value Not moved to Selected Jobs!',
+              'success'
+            )
+          }
+        });
+    
+  }
+
+  selectedQuery: any[] = [];
+  setAll(completed: boolean, item: any) {
+    console.log('item: ' + item);
+    console.log('before', this.selectedQuery);
+    if (completed == true) {
+      this.selectedQuery.push({
+        ...item,
+      });
+    } else {
+      if (this.selectedQuery.find((x) => x.id == item.id)) {
+        this.selectedQuery = this.selectedQuery.filter((x) => {
+          if (x.id != item.id) {
+            return item;
+          }
+        });
+      }
+    }
+    console.log('after', this.selectedQuery);
   }
 }

@@ -22,7 +22,8 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     private _coreService: CoreService,
     private router: Router,
     public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
-  ) {}
+  ) {console.log(data,"nambiaki");
+  }
 
   displayedJobColumns: string[] = [
     'movedFrom',
@@ -243,10 +244,11 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     };
     console.log(saveData,"savedata");
     this.http.post<any>(apiUrl, saveData).subscribe((response) => {
-      if(response.status=== true){
+      if(response.success === true){
         alert("success")
       }
-      else{
+      else if(response.success === false){
+        alert("Failed to save data")
         console.log("error");
       }
     });
@@ -255,7 +257,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   changeEstTime() {
     let estTimeData = {
       id: 0,
-      processId: 3,
+      processId: 2,
       statusId: 0,
       selectedScopeId: 0,
       autoUploadJobs: true,
@@ -274,7 +276,24 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       jId: this.data.jId,
       estimatedTime: this.estimatedTime,
       tranMasterId: this.data.tranMasterId,
-      selectedRows: [],
+      selectedRows: [
+        {
+          customerId: this.data.customerId,
+          departmentId: this.data.departmentId,
+          estimatedTime: this.estimatedTime,
+          jId: this.data.jId,
+          tranMasterId: this.data.tranMasterId,
+          Comments:'',
+          TimeStamp:'',
+          SelectedEmployees:'',
+          JobId:'',
+          FileInwardType:'',
+          CommentsToClient:'',
+          CategoryDesc:'',
+          selectedEmployees:[],
+          selectedRows:[]
+        },
+      ],
       selectedEmployees: [],
       departmentId: 0,
       updatedUTC: '2023-07-01T11:15:03.552Z',
@@ -294,11 +313,18 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     };
     this.http
       .post<any>(
-        environment.apiURL + 'Allocation/changeEstimatedTime',
+        environment.apiURL + 'Allocation/processMovement',
         estTimeData
       )
       .subscribe(
         (response) => {
+          if(response.success === true){
+            alert("Estimated time updated successfully")
+          }
+          else if(response.success === false){
+            alert("Estimated time updated Failed")
+
+          }
           console.log(response);
 
           // Handle the API response

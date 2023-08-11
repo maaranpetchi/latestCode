@@ -440,12 +440,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of ViewFileCountTable">
+                  <tr *ngFor="let item of ViewFileCountTable; let i=index">
                     <td class="text-center">{{ i+1 }}</td>
-                    <td class="text-center">{{item.ScopeTempDesc}}</td>
-                    <td class="text-center">{{item.FromRange}}</td>
-                    <td class="text-center">{{item.ToRange}}</td>
-                    <td class="text-center">{{item.Price}}</td>
+                    <td class="text-center">{{item.scopeTempDesc}}</td>
+                    <td class="text-center">{{item.fromRange}}</td>
+                    <td class="text-center">{{item.toRange}}</td>
+                    <td class="text-center">{{item.price}}</td>
                     <td><a href="" class="btn btn-danger actionbtn" tooltip-html-unsafe="Remove"
                         tooltip-placement="bottom" (click)="btnRemoveScope(i)"><i
                           class="glyphicon glyphicon-trash"></i></a></td>

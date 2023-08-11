@@ -15,6 +15,7 @@ import { JoballocatedEmplpopupComponent } from '../joballocated-emplpopup/joball
 import { EmployeePopupTableComponent } from '../../QualityAllocation/employee-popup-table/employee-popup-table.component';
 import { error } from 'jquery';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-productionallocationtable',
@@ -710,6 +711,7 @@ export class ProductionallocationtableComponent implements OnInit {
       if (selectedJobCount != 0 && selectedEmployeeCount != 0) {
         if (selectedJobCount > 1) {
           if (selectedEmployeeCount > 1) {
+            
             alert('Please select one Employee!');
           }
           else {
@@ -859,13 +861,22 @@ export class ProductionallocationtableComponent implements OnInit {
         if (response.success === false) {
           alert("Error the job assigned")
         }else if(response.success === true){
-          alert("Job assigned successfully")
+          Swal.fire(
+            'Done!',
+            'Job assigned successfully!',
+            'success'
+          )
           this.router.navigate(["topnavbar/production"]);
-          this.refreshPage();
+          // this.refreshPage();
         }
     (error) => {
       console.error('Error occurred during API call:', error);
       this.spinnerService.resetSpinner();
+      Swal.fire(
+        'Done!',
+        'Job assigned Failed!',
+        'error'
+      )
     }
       });
 

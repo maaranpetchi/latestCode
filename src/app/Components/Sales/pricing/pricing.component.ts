@@ -57,7 +57,7 @@ export class PricingComponent implements OnInit {
   selectedDesignation: any;
   Scopes: any[] = [];
   dropdownOptions: any;
-  ViewFileCountTable: any;
+  ViewFileCountTable: any[]=[];
   i: any;
   AddedRecord: any = [];
 
@@ -70,7 +70,8 @@ export class PricingComponent implements OnInit {
     private http: HttpClient,
     private spinner: SpinnerService,
     private loginservice: LoginService,
-    private _coreService: CoreService
+    private _coreService: CoreService,
+    private router:Router
   ) {}
   departmentFormControl = new FormControl('', Validators.required);
   ngOnInit(): void {
@@ -284,21 +285,29 @@ export class PricingComponent implements OnInit {
         }
       );
   }
-  RejectClick(id: any): void {}
-  onSubmit() {
-    if (this.userRegistrationForm.invalid) {
-      this.userRegistrationForm.markAllAsTouched(); // Mark the control as touched to trigger validation messages
-      return; // Stop form submission if the form is invalid
-    }
+  RejectClick(id: any): void {
+    this.http.get(environment.apiURL+`Pricing/RemovePricing?pricingId=${id}`, id).subscribe((response:any)=>{
+      if(response == true){
+        alert("Success")
+      }
+      else{
+        alert("Failed to remove")
+      }
+    })
   }
-  onCancel() {}
+  // onSubmit() {
+  //   if (this.userRegistrationForm.invalid) {
+  //     this.userRegistrationForm.markAllAsTouched(); // Mark the control as touched to trigger validation messages
+  //     return; // Stop form submission if the form is invalid
+  //   }
+  // }
+  onCancel() {
+    this.router.navigate(['topnavbar/pricing'])
+  }
 
   back() {
     window.location.reload();
   }
-  // CreateStaffing(){
-  //   this.ScopeBasedRateBasedFileCountTable=true;
-  // }
 
   CreateRateBasedFileCountAndConcession() {
     console.log('outside createbased file count');
@@ -308,20 +317,15 @@ export class PricingComponent implements OnInit {
       this.userRegistrationForm.markAllAsTouched();
       console.log('inside createbased file count');
       let filecountdata = {
-        ScopeId: this.selectedScope.id,
-        ScopeTempDesc: this.selectedScope.description,
-        FromRange: this.selectedFrom,
-        ToRange: this.selectedTo,
-        Price: this.selectedCountPrice,
+        scopeId: this.selectedScope.id,
+        scopeTempDesc: this.selectedScope.description,
+      fromRange: this.selectedFrom,
+        toRange: this.selectedTo,
+       price: this.selectedCountPrice,
       };
-      this.AddedRecord.push(filecountdata);
-      this.ViewFileCountTable = this.AddedRecord;
+      this.ViewFileCountTable.push(filecountdata);
+      // this.ViewFileCountTable = this.ViewFileCountTable;
       this.ScopeBasedRateBasedFileCountTable = true;
-      $('#ddlCurrentStaff').val('');
-      $('#countfrom').val('');
-      $('#countto').val('');
-      $('#countprice').val('');
-      $('#txtwefromdate').val('');
       return; // Stop form submission if the form is invalid
     }
     this.ScopeBasedRateBasedFileCountTable = true;
@@ -356,6 +360,7 @@ export class PricingComponent implements OnInit {
         alert('Check FromValue Less or Equal');
       }
     }
+    this.EstimatedTimeTable = true;
   }
   CreateStaffing() {
     this.submitted = true;
@@ -382,11 +387,11 @@ export class PricingComponent implements OnInit {
           Price: this.selectedCountPrice,
         };
       }
-      $('#ddlCurrentStaff').val('');
-      $('#countfrom').val('');
-      $('#countto').val('');
-      $('#countprice').val('');
-      this.AddedRecord.push(filecountdata);
+      // $('#ddlCurrentStaff').val('');
+      // $('#countfrom').val('');
+      // $('#countto').val('');
+      // $('#countprice').val('');
+      this.ViewFileCountTable.push(filecountdata);
       this.ViewFileCountTable = this.AddedRecord;
       this.ScopeBasedRateBasedFileCountTable = true;
     }
@@ -397,7 +402,6 @@ export class PricingComponent implements OnInit {
   }
   btndeleteScopepopup() {
     this.ViewFileCountTable.splice(this.RemoveId, 1);
-    // $('#scopeworkflowdelete').modal('hide');
   }
   CreatePricing() {
     let datas: any;
@@ -468,18 +472,6 @@ export class PricingComponent implements OnInit {
         weToDate: this.selectedEffectivetoDate,
         id: 0,
         addCountDatas: [],
-        //
-        // CustomerId: this.selectedCustomers,
-        // DepartmentId: this.selectedValue,
-        // ScopeId: this.selectedScope,
-        // PricingTypeId: this.selectedPricing,
-        // RatePerHour: this.selectedAdditionalRate,
-        // EstimatedTime: this.selectedEstTime,
-        // WEFromDate: this.selectedfromDate,
-        // Price: this.selectedPrice,
-        // ScopeTempDesc: this.selectedScope.description,
-        // CreatedBy: this.loginservice.getUsername(),
-        // JobStatusId: this.selectedValueEfect,
       };
     } else if (this.selectedPricing == 13 || this.selectedPricing == 14) {
       datas = {
@@ -513,16 +505,6 @@ export class PricingComponent implements OnInit {
         weToDate: this.selectedEffectivetoDate,
         id: 0,
         addCountDatas: [],
-
-        // CustomerId: this.selectedCustomers,
-        // DepartmentId: this.selectedValue,
-        // ScopeId: this.selectedScope,
-        // PricingTypeId: this.selectedPricing,
-        // RatePerHour: this.selectedAdditionalRate,
-        // WEFromDate: this.selectedfromDate,
-        // ScopeTempDesc: this.selectedScope.description,
-        // CreatedBy: this.loginservice.getUsername(),
-        // JobStatusId: this.selectedValueEfect,
       };
     } else if (this.selectedPricing == 11 || this.selectedPricing == 12) {
       datas = {
@@ -556,14 +538,6 @@ export class PricingComponent implements OnInit {
         weToDate: this.selectedEffectivetoDate,
         id: 0,
         addCountDatas: [],
-
-        // CustomerId: this.selectedCustomers,
-        // DepartmentId: this.selectedValue,
-        // PricingTypeId: this.selectedPricing,
-        // CreatedBy: this.loginservice.getUsername(),
-        // WEFromDate: this.selectedfromDate,
-        // AddCountDatas: [],
-        // JobStatusId: this.selectedValueEfect,
       };
     } else if (
       this.selectedPricing == 3 ||
@@ -601,14 +575,6 @@ export class PricingComponent implements OnInit {
         weToDate: this.selectedEffectivetoDate,
         id: 0,
         addCountDatas: [],
-
-        // CustomerId: this.selectedCustomers,
-        // DepartmentId: this.selectedValue,
-        // PricingTypeId: this.selectedPricing,
-        // CreatedBy: this.loginservice.getUsername(),
-        // WEFromDate: this.selectedfromDate,
-        // AddCountDatas: [],
-        // JobStatusId: this.selectedValueEfect,
       };
     } else if (this.selectedPricing == 5 || this.selectedPricing == 15) {
       datas = {
@@ -642,14 +608,6 @@ export class PricingComponent implements OnInit {
         weToDate: this.selectedEffectivetoDate,
         id: 0,
         addCountDatas: [],
-
-        // CustomerId: this.selectedCustomers,
-        // DepartmentId: this.selectedValue,
-        // PricingTypeId: this.selectedPricing,
-        // CreatedBy: this.loginservice.getUsername(),
-        // WEFromDate: this.selectedfromDate,
-        // WEToDate: this.selectedEffectivetoDate,
-        // AddCountDatas: [],
       };
     } else if (this.selectedPricing == 6) {
       datas = {
@@ -683,17 +641,6 @@ export class PricingComponent implements OnInit {
         weToDate: '2023-08-03T06:48:55.900Z',
         id: 0,
         addCountDatas: [],
-// 
-        // CustomerId: this.selectedCustomers,
-        // DepartmentId: this.selectedValue,
-        // ScopeId: 21,
-        // PricingTypeId: this.selectedPricing,
-        // RatePerHour: this.selectedAdditionalRate,
-        // WEFromDate: this.selectedfromDate,
-        // Price: this.selectedPrice,
-        // ScopeTempDesc: 'Embroidery Digitizing',
-        // CreatedBy: this.loginservice.getUsername(),
-        // JobStatusId: this.selectedValueEfect,
       };
     }
     this.http
@@ -704,44 +651,5 @@ export class PricingComponent implements OnInit {
     }
   }
 
-  // $('#CreateDialog').on('hidden.bs.modal', function (e) {
-  //     $('#CreateDialog').modal('hide');
-  //     $scope.submitted = false;
-  //     $scope.PricingForm.$setPristine();
-  //     $scope.type2 = false;
-  //     $scope.type22 = false;
-  //     $scope.type6 = false;
-  //     $scope.showeffective = true;
-  //     $scope.notshowntodigi = true;
-  //     $scope.showpricedetails = false;
-  //     //$scope.showstaffing = false;
-  //     $scope.showcounttable = false;
-  //     $scope.showcounttabletime = false;
-  //     $scope.notshowntocount = true;
-  //     $scope.showstaffingcounttable = false;
-  //     $scope.StaffingCountTable = false;
-  //     $scope.ScopeBasedRateBasedFileCountTable = false;
-  //     $scope.EstimatedTimeTable = false;
-  //     $("#ddldepartment").val('');
-  //     $("#ddlpricingtype").val('');
-  //     $("#ddlclient").val('');
-  //     $("#ddlscope").val('');
-  //     $("#txtaditionalrate").val('');
-  //     $("#txtesttime").val('');
-  //     $("#txttype6adirate").val('');
-  //     $("#txtfromdate").val('');
-  //     $("#txtwefromdate").val('');
-  //     $("#txttodate").val('');
-  //     $("#ddldesignation").val('');
-  //     $("#txtnoofartist").val('');
-  //     $("#txtprice").val('');
-  //     $("#ddlCurrentStaff").val('');
-  //     $("#countfrom").val('');
-  //     $("#countto").val('');
-  //     $("#countprice").val('');
-  //     $timeout(function callAtTimeout() {
-  //         $location.path('/CreatePricingWithScope');
-  //     }, 500);
-  // })
-  // }
+
 }
