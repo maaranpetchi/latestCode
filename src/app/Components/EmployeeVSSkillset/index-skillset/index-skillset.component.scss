@@ -1,4 +1,19 @@
-.customerProfile{
+.container { 
+     display: grid;
+    grid-template-columns: 0.6fr 1.8fr 0.6fr;
+    grid-template-rows: 1.5fr 0.5fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      ". advance ."
+      ". . ."
+      ". . .";
+  }
+  
+  .advance { grid-area: advance; }
+  
+
+  .customerProfile{
     border-style: solid; 
     border-color: #428bca;
 }
@@ -28,9 +43,11 @@
 
 .container {
     background-color: white;
-    padding:31px;
 }
 
 #button-gap {
     margin-right: 5px;
   }
+
+
+  

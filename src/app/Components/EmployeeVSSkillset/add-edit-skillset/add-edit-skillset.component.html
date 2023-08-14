@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="height: 123vh;">
+    <div class="customerProfile">
+        <div class="backgroundcolor">
+            <div class="panel-heading">
+                <h2 class="panel-title" style="color:#fff;display: flex;align-items: center;justify-content: center;">
+                    Add Skillset </h2>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Type here" [(ngModel)]="inputValue"
+                                (ngModelChange)="checkDropdownValue()">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Employee Code</mat-label>
+                            <mat-select [(ngModel)]="selectedEmployeeCode">
+                                <mat-option *ngFor="let code of employeeCodes" [value]="code"
+                                    (onSelectionChange)="onSelectCode(code.employeeId)">
+                                    {{ code.employeeCode }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Employee Name</mat-label>
+                            <input matInput [disabled]="EmployeeName" [value]="selectedEmployeeName"
+                                placeholder="Enter employee name">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Division</mat-label>
+                            <mat-select [(ngModel)]="selectedDivision">
+                                <mat-option *ngFor="let division of divisions" [value]="division.id">
+                                    {{ division.divisionName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Working Status</mat-label>
+                            <mat-select [(value)]="selectedWorkingStatus">
+                                <mat-option *ngFor="let option of WorkingStatus" [value]="option">{{ option
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Scope</mat-label>
+                            <mat-select [(ngModel)]="selectedScope">
+                                <mat-option *ngFor="let scope of scopeOptions" [value]="scope.id">{{ scope.description}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

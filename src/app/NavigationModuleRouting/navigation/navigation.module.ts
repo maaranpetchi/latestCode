@@ -129,6 +129,9 @@ import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeC
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 import { AddReceivablesComponent } from 'src/app/Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
 import { CustomervsdivisionindexComponent } from 'src/app/Components/Sales/CustomerVSDivision/customervsdivisionindex/customervsdivisionindex.component';
+import { IndexSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/index-skillset/index-skillset.component';
+import { AddEditSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
+import { ViewSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
 
 @NgModule({
   declarations: [
@@ -322,6 +325,12 @@ CustomervsdivisionindexComponent,
 
     //Bench OPtions
     BenchOptionsComponent,
+
+
+    //EmployeeVsSkillset
+    IndexSkillsetComponent,
+    AddEditSkillsetComponent,
+    ViewSkillsetComponent,
 
   ],
   imports: [

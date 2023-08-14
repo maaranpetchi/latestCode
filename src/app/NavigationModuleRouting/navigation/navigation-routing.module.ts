@@ -113,6 +113,9 @@ import { EditaddemployeecontrollerComponent } from 'src/app/Components/EmployeeC
 import { PricingComponent } from 'src/app/Components/Sales/pricing/pricing.component';
 import { AddReceivablesComponent } from 'src/app/Components/AccountsController/CustomerReceipts/add-receivables/add-receivables.component';
 import { CustomervsdivisionindexComponent } from 'src/app/Components/Sales/CustomerVSDivision/customervsdivisionindex/customervsdivisionindex.component';
+import { IndexSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/index-skillset/index-skillset.component';
+import { AddEditSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
+import { ViewSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
 
 const routes: Routes = [
 
@@ -329,6 +332,11 @@ const routes: Routes = [
 
       //Bench Options
       { path: 'benchOptions', component:BenchOptionsComponent, canActivate: [authGuard]},
+
+      //EmployeeVsSkillset
+      { path: 'indexskillset', component:IndexSkillsetComponent, canActivate: [authGuard]},
+      { path: 'addeditskillset', component:AddEditSkillsetComponent, canActivate: [authGuard]},
+      { path: 'viewskillset', component:ViewSkillsetComponent, canActivate: [authGuard]},
 
     ]
   },
