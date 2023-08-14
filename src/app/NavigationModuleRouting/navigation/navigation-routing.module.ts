@@ -116,6 +116,7 @@ import { CustomervsdivisionindexComponent } from 'src/app/Components/Sales/Custo
 import { IndexSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/index-skillset/index-skillset.component';
 import { AddEditSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
 import { ViewSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
+import { UpdateSkillSetComponent } from 'src/app/Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
 
 const routes: Routes = [
 
@@ -337,6 +338,7 @@ const routes: Routes = [
       { path: 'indexskillset', component:IndexSkillsetComponent, canActivate: [authGuard]},
       { path: 'addeditskillset', component:AddEditSkillsetComponent, canActivate: [authGuard]},
       { path: 'viewskillset', component:ViewSkillsetComponent, canActivate: [authGuard]},
+      { path: 'updateskillset', component:  UpdateSkillSetComponent, canActivate: [authGuard]},
 
     ]
   },

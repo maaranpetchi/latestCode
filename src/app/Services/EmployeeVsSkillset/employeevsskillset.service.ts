@@ -21,6 +21,15 @@ getData() {
   return this.sharedData;
 }
 
+
+ setViewData(data: any) {
+  this.sharedData = data;
+}
+
+getViewData() {
+  return this.sharedData;
+}
+
 clearData() {
   this.sharedData = null;
 }

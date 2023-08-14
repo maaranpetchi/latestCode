@@ -21,7 +21,7 @@ import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofR
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
 import { AddEditSkillsetComponent } from './Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
-import { ViewSkillsetComponent } from './Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
+import { UpdateSkillSetComponent } from './Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +34,7 @@ import { ViewSkillsetComponent } from './Components/EmployeeVSSkillset/view-skil
     PricingApprovalprocessComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
+  
 
    
    ],

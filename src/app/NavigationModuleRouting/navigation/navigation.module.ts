@@ -132,6 +132,7 @@ import { CustomervsdivisionindexComponent } from 'src/app/Components/Sales/Custo
 import { IndexSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/index-skillset/index-skillset.component';
 import { AddEditSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
 import { ViewSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
+import { UpdateSkillSetComponent } from 'src/app/Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
 
 @NgModule({
   declarations: [
@@ -331,7 +332,7 @@ CustomervsdivisionindexComponent,
     IndexSkillsetComponent,
     AddEditSkillsetComponent,
     ViewSkillsetComponent,
-
+    UpdateSkillSetComponent,
   ],
   imports: [
     CommonModule,
