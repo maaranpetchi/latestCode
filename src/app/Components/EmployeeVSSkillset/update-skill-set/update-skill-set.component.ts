@@ -70,4 +70,9 @@ export class UpdateSkillSetComponent implements OnInit {
       )
     })
   }
+
+
+  CancelButton(){
+    this.router.navigate(['/topnavbar/indexskillset']);
+  }
 }
