@@ -90,8 +90,12 @@ export class TopnavbarComponent implements OnInit {
 
   Processes: any[] = [];
   getProcesses() {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Account/getEmployeeProcess/${this.loginservice.getUsername()}`).subscribe(data => {
+      this.spinnerService.requestEnded();
       this.Processes = data.employeeProcess;
+    }, error => {
+      this.spinnerService.resetSpinner();
     });
   }
 
@@ -180,53 +184,53 @@ export class TopnavbarComponent implements OnInit {
   //   );
   // }
   // Online Javascript Editor for free
-// Write, Edit and Run your Javascript code using JS Online Compiler
-permission:any[]=[]
-checkIsAdmin() {
-  // this.loader = true;
-  this.spinnerService.requestStarted();
-  this.http.get<any>(environment.apiURL + `Account/checkIsAdmin/${this.loginservice.getUsername()}`).subscribe(
-    (data) => {
-      this.spinnerService.requestEnded();
-      this.isAdmin = data.success;
-      this.permission = this.GetMenuPermission(data.menu);
-    },
-    (error) => {
-      console.error('Error checking admin status:', error);
-    },
-    () => {
-      this.spinnerService.resetSpinner();
+  // Write, Edit and Run your Javascript code using JS Online Compiler
+  permission: any[] = []
+  checkIsAdmin() {
+    // this.loader = true;
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Account/checkIsAdmin/${this.loginservice.getUsername()}`).subscribe(
+      (data) => {
+        this.spinnerService.requestEnded();
+        this.isAdmin = data.success;
+        this.permission = this.GetMenuPermission(data.menu);
+      },
+      (error) => {
+        console.error('Error checking admin status:', error);
+      },
+      () => {
+        this.spinnerService.resetSpinner();
+      }
+    );
+  }
+  GetMenuPermission(val: string) {
+
+    if (val) {
+
+      val = val.replaceAll('|', '');
+      const b = val.split(',');
+      const c = b.map(x => parseInt(x))
+      console.log(c);
+      return c;
     }
-  );
-}
- GetMenuPermission(val:string){
-    
-  if(val){
-
-    val=val.replaceAll('|','');
-    const b=val.split(',');
-    const c=b.map(x=>parseInt(x))
-    console.log(c);
-    return c;
+    return [];
   }
-  return [];
-  }
-  
 
-   checkIsTrue(inputarray,isAdmin){
-      let result=false
-      if(isAdmin){
-          result=true;
-      }
-      if(!result){
-      this.permission.forEach(x=>{
-          if(inputarray.includes(x)){
-              result=true;
-          
-          }
+
+  checkIsTrue(inputarray, isAdmin) {
+    let result = false
+    if (isAdmin) {
+      result = true;
+    }
+    if (!result) {
+      this.permission.forEach(x => {
+        if (inputarray.includes(x)) {
+          result = true;
+
+        }
       })
-      }
-      return result;
+    }
+    return result;
   }
-  
+
 }

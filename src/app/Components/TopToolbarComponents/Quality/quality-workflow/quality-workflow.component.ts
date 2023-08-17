@@ -27,7 +27,7 @@ export class QualityWorkflowComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
-  ProcessTransaction = {};
+  ProcessTransaction:any;
   isHold: boolean;
   revisionCheck: any;
   SameEmp: any;
@@ -67,10 +67,13 @@ export class QualityWorkflowComponent implements OnInit {
   txtbpsoStitchCount: number = 0;
   footerDropdown: boolean = false;
   ngOnInit(): void {
+    this.getIsvalue();
+
     this.getIsholdSampValue();
     //this.BindWorkDetails();
     this.getScope();
     this.rbnError();
+
 
   }
 
@@ -404,7 +407,12 @@ export class QualityWorkflowComponent implements OnInit {
             this.BindWorkDetails();
             this.confirmationMessage = ChangeWorkflowResult.message;
             this.spinnerService.requestEnded();
-            alert(this.confirmationMessage);
+      
+            Swal.fire(
+              'Good job!',
+              this.confirmationMessage,
+              'success'
+            )
           });
 
 
@@ -446,7 +454,11 @@ export class QualityWorkflowComponent implements OnInit {
         if (workType == 'End') {
           this.BindWorkDetails();
           this.confirmationMessage = ChangeWorkflowResult.Message;
-          alert(this.confirmationMessage);
+          Swal.fire(
+            'Done!',
+            this.confirmationMessage,
+            'success'
+          )
         }
         else {
           this.BindWorkDetails();

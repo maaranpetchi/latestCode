@@ -16,31 +16,31 @@ import { environment } from 'src/Environments/environment';
   templateUrl: './job-history.component.html',
   styleUrls: ['./job-history.component.scss']
 })
-export class JobHistoryComponent implements OnInit{
+export class JobHistoryComponent implements OnInit {
   selectedFilter: number;
   selectedClient: number;
-  recordCount : number;
+  recordCount: number;
   selectedFileName: string;
   fromDate: string;
   toDate: string;
   clients: any[];
 
   selectedInvoices: any[] = [];
-  
 
-  client:boolean =false;
+
+  client: boolean = false;
   customers: boolean = false;
   dateFields: boolean = false;
   inputField: boolean = false;
 
 
   constructor(
-    private _service:JobHistoryService,
-    private router:Router,
-    private http :HttpClient,
-    private dialog:MatDialog ,
+    private _service: JobHistoryService,
+    private router: Router,
+    private http: HttpClient,
+    private dialog: MatDialog,
     private spinnerService: SpinnerService,
-  ){}
+  ) { }
 
   displayedColumns: string[] = [
     'selected',
@@ -53,7 +53,7 @@ export class JobHistoryComponent implements OnInit{
     'jobdate1',
 
   ];
-  
+
 
 
   dataSource = new MatTableDataSource();
@@ -64,7 +64,7 @@ export class JobHistoryComponent implements OnInit{
     this.onGoButtonClick()
 
     const records = [];
-    
+
   }
 
   myForm = new FormGroup({
@@ -72,8 +72,8 @@ export class JobHistoryComponent implements OnInit{
     client: new FormControl("", Validators.required),
     ClientId: new FormControl("", Validators.required),
     filename: new FormControl(""),
-    fromDate:new FormControl(""),
-    toDate:new FormControl(""),
+    fromDate: new FormControl(""),
+    toDate: new FormControl(""),
   });
 
   onFilterChange() {
@@ -96,7 +96,7 @@ export class JobHistoryComponent implements OnInit{
       this.toDate = '';
 
 
-      this.http.get<any[]>(environment.apiURL+'Customer/GetCustomers').subscribe(clientdata => {
+      this.http.get<any[]>(environment.apiURL + 'Customer/GetCustomers').subscribe(clientdata => {
         this.clients = clientdata;
       });
 
@@ -121,7 +121,7 @@ export class JobHistoryComponent implements OnInit{
     }
   };
   onGoButtonClick() {
-    
+
     if (this.selectedClient != undefined || this.selectedFileName != undefined || this.selectedFilter != undefined || this.fromDate != undefined || this.toDate != undefined) {
       if ((this.selectedClient == undefined || this.selectedClient == null)) {
         this.selectedClient = 0;
@@ -134,23 +134,23 @@ export class JobHistoryComponent implements OnInit{
         departmentId = 0;
       }
       var jobOrder = {
-        transactionId:0 ,
-        departmentId: departmentId,
-        clientId: this.selectedClient,
-        fileName: this.selectedFileName,
-        jobClosedUTC: new Date().toISOString(),
-        dateofUpload: '0001-01-01T00:00:00.000Z',
+        "clientId": this.selectedClient,
+        "departmentId": departmentId,
+        "transactionId": 0,
+        "jobClosedUTC": "",
+        "dateofUpload": "",
+        "fileName": this.selectedFileName
       };
       this.spinnerService.requestStarted();
-      this.http.post<any>(environment.apiURL+'Allocation/getJobMovementJobsWithclientIdfileName', jobOrder).subscribe({
-        next:(response) => {
+      this.http.post<any>(environment.apiURL + 'Allocation/getJobMovementJobsWithclientIdfileName', jobOrder).subscribe({
+        next: (response) => {
           console.log(response, "data received");
-       this.spinnerService.requestEnded();
-      this.dataSource.data = response.jobMovement;
-      this.recordCount = response.jobMovement.length;
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        console.log(response);
+          this.spinnerService.requestEnded();
+          this.dataSource.data = response.jobMovement;
+          this.recordCount = response.jobMovement.length;
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+          console.log(response);
         },
         error: (err) => {
           console.log(err);
@@ -162,7 +162,7 @@ export class JobHistoryComponent implements OnInit{
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedInvoices)
     if (completed == true) {
-      this.selectedInvoices.push({id:item.id})
+      this.selectedInvoices.push({ id: item.id })
     }
     else {
 
@@ -185,11 +185,11 @@ export class JobHistoryComponent implements OnInit{
     }
   }
 
-  getJobHistory(data){
-    this.dialog.open(JobhistoryDetailsComponent,{
+  getJobHistory(data) {
+    this.dialog.open(JobhistoryDetailsComponent, {
       // width:'80vw',
       data
-  })
-}
+    })
+  }
 
 }

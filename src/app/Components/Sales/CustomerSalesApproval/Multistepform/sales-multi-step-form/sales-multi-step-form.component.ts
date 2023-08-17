@@ -11,6 +11,8 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { CustomerSalesApprovalService } from 'src/app/Services/sales/CustomerSalesApproval/customer-sales-approval.service';
+import Swal from 'sweetalert2/src/sweetalert2.js'
+
 
 @Component({
   selector: 'app-sales-multi-step-form',
@@ -502,5 +504,13 @@ export class SalesMultiStepFormComponent implements OnInit {
         this.selectedJobStatusDescription = selectedJobDescription;
       }
     }
+  }
+
+  OnSubmit(){
+    Swal.fire(
+      'Good job!',
+      'You clicked the button!',
+      'success'
+    )
   }
 }

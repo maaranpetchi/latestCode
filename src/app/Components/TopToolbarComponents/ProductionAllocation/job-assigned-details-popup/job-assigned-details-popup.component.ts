@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-job-assigned-details-popup',
   templateUrl: './job-assigned-details-popup.component.html',
@@ -46,7 +46,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   dataQuerySource: MatTableDataSource<any>;
 
   remarks: string; // to store the remark value
-  selectedQureryStatus: string; // to store the selected query status
+  selectedQureryStatus: number; // to store the selected query status
   estimatedTime: string;
 
   EstimatedTime: boolean = false;
@@ -73,11 +73,11 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     this.dialogRef.close();
   }
   onFilterChange() {
-    if (this.selectedQureryStatus == 'Query') {
+    if (this.selectedQureryStatus == 6) {
       this.remarksdata = true;
       this.EstimatedTime = false;
       this.EmployeData = false;
-    } else if (this.selectedQureryStatus == 'specialpricing') {
+    } else if (this.selectedQureryStatus == 8) {
       this.EstimatedTime = true;
       this.remarksdata = true;
       this.EmployeData = true;
@@ -173,9 +173,9 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.selectedQureryStatus, "stATUS");
-    if (this.selectedQureryStatus == 'Query') {
+    if (this.selectedQureryStatus == 6) {
       this.processMovement();
-    } else if (this.selectedQureryStatus === 'specialpricing') {
+    } else if (this.selectedQureryStatus === 8) {
       this.changeEstTime();
     } else {
       // Handle the case when no option is selected or handle any other condition
@@ -188,7 +188,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     let saveData = {
       id: 0,
       processId: this.loginservice.getProcessId(),
-      statusId: 0,
+      statusId: this.selectedQureryStatus,
       selectedScopeId: 0,
       autoUploadJobs: true,
       employeeId: this.loginservice.getUsername(),
@@ -245,11 +245,17 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     console.log(saveData,"savedata");
     this.http.post<any>(apiUrl, saveData).subscribe((response) => {
       if(response.success === true){
-        alert("success")
-      }
+        Swal.fire(
+          'Done!',
+          response.message,
+          'success'
+        )      }
       else if(response.success === false){
-        alert("Failed to save data")
-        console.log("error");
+        Swal.fire(
+          'Error!',
+          response.message,
+          'error'
+        )
       }
     });
   }

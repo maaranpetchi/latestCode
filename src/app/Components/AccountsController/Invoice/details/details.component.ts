@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PricingcalculationService } from 'src/app/Services/AccountController/PricingCalculation/pricingcalculation.service';
 import { PopupinvoiceComponent } from '../popupinvoice/popupinvoice.component';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 
 @Component({
   selector: 'app-details',
@@ -16,9 +17,10 @@ import { environment } from 'src/Environments/environment';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
+  clientId: any;
 
 
-  constructor(private http: HttpClient, private _empService: PricingcalculationService, private dialog: MatDialog) { }
+  constructor(private http: HttpClient, private _empService: PricingcalculationService, private dialog: MatDialog,private spinnerService:SpinnerService) { }
 
   displayedColumns: string[] = [
     'selected',
@@ -113,7 +115,7 @@ export class DetailsComponent implements OnInit {
         "shortName": "string",
         "scopeId": 0,
         "scopeDesc": "string",
-        "clientId": 0,
+        "clientId":  this.myForm.value?.ClientId,
         "billingCycleType": "string",
         "dateofUpload": "2023-04-06T08:51:10.069Z",
         "createdBy": 152,
@@ -138,12 +140,17 @@ export class DetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.http.get<any>(environment.apiURL+'Invoice/GetClient').subscribe(data => {
-      this.data = data;
-      console.log(data);
-    });
+   this.getClient();
   }
-
+getClient(){
+  this.spinnerService.requestStarted();
+  this.http.get<any>(environment.apiURL+'Invoice/GetClient').subscribe(data => {
+    this.spinnerService.requestEnded();
+    this.data = data;
+  },error =>{
+    this.spinnerService.resetSpinner();
+  });
+}
   data: any = {
     clientList: [],
   };
@@ -164,18 +171,18 @@ export class DetailsComponent implements OnInit {
 
 
   getEmployeeList() {
+    this.spinnerService.requestStarted();
     this._empService.getEmployeeList().subscribe({
 
       next: (res) => {
-
+this.spinnerService.requestEnded();
         this.dataSource = new MatTableDataSource(res);
 
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         console.log(res);
 
-      },
-      error: console.log,
+      }
     });
   }
   onSubmit() {

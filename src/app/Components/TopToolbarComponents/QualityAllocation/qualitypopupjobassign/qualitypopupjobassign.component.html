@@ -1,55 +1,4 @@
-<!-- <h1 mat-dialog-title>JOb Details </h1>
-<div mat-dialog-content>
-    <table mat-table [dataSource]="restApiData">
-        <ng-container matColumnDef="sNo">
-          <th mat-header-cell *matHeaderCellDef>S.NO</th>
-          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-        </ng-container>
-      
-        <ng-container matColumnDef="jobId">
-          <th mat-header-cell *matHeaderCellDef>Job Id</th>
-          <td mat-cell *matCellDef="let element">{{ element.jobId }}</td>
-        </ng-container>
-      
-        <ng-container matColumnDef="client">
-          <th mat-header-cell *matHeaderCellDef>Client</th>
-          <td mat-cell *matCellDef="let element">{{ element.client }}</td>
-        </ng-container>
-      
-        <ng-container matColumnDef="assignedDate">
-          <th mat-header-cell *matHeaderCellDef>Assigned Date</th>
-          <td mat-cell *matCellDef="let element">{{ element.assignedDate }}</td>
-        </ng-container>
-      
-        <ng-container matColumnDef="fileName">
-          <th mat-header-cell *matHeaderCellDef>File Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
-        </ng-container>
-      
-        <ng-container matColumnDef="tray">
-          <th mat-header-cell *matHeaderCellDef>Tray</th>
-          <td mat-cell *matCellDef="let element">{{ element.tray }}</td>
-        </ng-container>
-      
-        <ng-container matColumnDef="estimatedTime">
-          <th mat-header-cell *matHeaderCellDef>Estimated Time</th>
-          <td mat-cell *matCellDef="let element">{{ element.estimatedTime }}</td>
-        </ng-container>
-      
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      
-</div>
-<div mat-dialog-actions>
-  <button mat-button >No Thanks</button>
-  <button mat-button  cdkFocusInitial>Ok</button>
-</div> -->
+
 <div class="container">
   <div class="jobdetails">
     <h1 mat-dialog-title>Job Details</h1>
@@ -139,7 +88,12 @@
         </table>
       </div>
     </div>
-
+<div class="stitchcount" *ngIf="stitchCountdisplay">
+  <mat-form-field>
+    <mat-label>Stitch Count</mat-label>
+    <input matInput [(ngModel)]="stitchCount" name="stitchCount" placeholder="Enter Stitch Count">
+  </mat-form-field>
+</div>
 
   </div>
 
@@ -197,9 +151,9 @@
           <mat-label>---Select status---</mat-label>
           <mat-select [(value)]="selectedQureryStatus" (selectionChange)="onFilterChange()">
             <!-- <mat-option value="Select status"></mat-option> -->
-            <mat-option value="Query">Query</mat-option>
-            <mat-option value="specialpricing">Query sent for special pricing</mat-option>
-            <mat-option value="ModifiedEst">Modified Esitmated Time</mat-option>
+            <mat-option value="6">Query</mat-option>
+            <mat-option value="8">Query sent for special pricing</mat-option>
+            <mat-option value="100">Modified Esitmated Time</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -236,9 +190,20 @@
     </div>
     <div class="col-md-2"> Estimated Time (estimatedTime)</div>
   </div>
+
+
+
+  <div class="displayestimatedtimr" *ngIf="displayEstimationTime">
+    <div class="col-md-4">Estimation Time</div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <textarea matInput  [(ngModel)]="estimationTime"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
   <div class="mb-5 text-center">
     <button type="button" class="btn btn-danger">Close</button> &nbsp;<button type="button"
-      class="btn btn-success" (click)="onSubmit()">Submit</button>
+      class="btn btn-success" (click)="postQueryData()">Submit</button>
   </div>
 
 </div>
