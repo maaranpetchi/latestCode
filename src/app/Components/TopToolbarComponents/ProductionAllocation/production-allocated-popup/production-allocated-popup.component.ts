@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-production-allocated-popup',
   templateUrl: './production-allocated-popup.component.html',
@@ -47,7 +47,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
   dataQuerySource: MatTableDataSource<any>;
 
   remarks: string; // to store the remark value
-  selectedQureryStatus: string; // to store the selected query status
+  selectedQureryStatus: any; // to store the selected query status
   estimatedTime: string;
 
   EstimatedTime: boolean = false;
@@ -174,15 +174,9 @@ export class ProductionAllocatedPopupComponent implements OnInit {
     return pathParts[pathParts.length - 1];
   }
   onSubmit() {
-    console.log(this.selectedQureryStatus, "stATUS");
-    
-    if (this.selectedQureryStatus == 'Query') {
+    console.log(this.selectedQureryStatus,"SelecedQyeryStatus");
+
       this.processMovement();
-    } else if (this.selectedQureryStatus === 'specialpricing') {
-      this.changeEstTime();
-    } else {
-      // Handle the case when no option is selected or handle any other condition
-    }
   }
   close(){
       this.dialogRef.close();
@@ -241,7 +235,12 @@ export class ProductionAllocatedPopupComponent implements OnInit {
     
     this.http
       .post<any>(environment.apiURL + 'Allocation/processMovement', saveData)
-      .subscribe((response) => {});
+      .subscribe((response) => {
+        Swal.fire(
+          'Good job!',
+          'You clicked the button!',
+          'success'
+        )      });
   }
 
   changeEstTime() {

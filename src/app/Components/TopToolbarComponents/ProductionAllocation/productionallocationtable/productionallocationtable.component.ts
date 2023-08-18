@@ -769,7 +769,7 @@ export class ProductionallocationtableComponent implements OnInit {
       id: 0,
       processId: this.loginservice.getProcessId(),
       statusId: 1,
-      selectedScopeId: this.ScopeId,
+      selectedScopeId: this.ScopeId?this.ScopeId:0,
       autoUploadJobs: true,
       employeeId: this.loginservice.getUsername(),
       remarks: 'string',

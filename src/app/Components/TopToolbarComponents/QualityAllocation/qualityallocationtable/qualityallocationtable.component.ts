@@ -10,7 +10,7 @@ import { QualitypopupjobassignComponent } from '../qualitypopupjobassign/quality
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeePopupTableComponent } from '../employee-popup-table/employee-popup-table.component';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 interface Employee {
   id: number;
   name: string;
@@ -52,6 +52,7 @@ export class QualityallocationtableComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     estTime: number;
+  confirmationMessage: Object;
   
     constructor(
       private http: HttpClient,
@@ -463,7 +464,11 @@ export class QualityallocationtableComponent implements OnInit {
       if (selectedJobCount != 0 && selectedEmployeeCount != 0) {
         if (selectedJobCount > 1) {
           if (selectedEmployeeCount > 1) {
-            alert('Please select one Employee!');
+            Swal.fire(
+              'Info!',
+              'Please select one Employee',
+              'info'
+            )
             // $('#alertPopup').modal('show');
           } else {
             for (var i = 0; i < selectedJobCount; i++) {
@@ -472,7 +477,11 @@ export class QualityallocationtableComponent implements OnInit {
                 this.selectedJobs[i].allocatedEstimatedTime == '' ||
                 this.selectedJobs[i].allocatedEstimatedTime == 0
               ) {
-                alert('Please enter Estimated Time for Selected Job');
+                Swal.fire(
+                  'Info!',
+                  'Please enter Estimated Time for Selected Job',
+                  'info'
+                )
                 // $('#alertPopup').modal('show');
                 return;
               }
@@ -486,7 +495,11 @@ export class QualityallocationtableComponent implements OnInit {
               this.selectedEmployee[i].estTime == '' ||
               this.selectedEmployee[i].estTime == 0
             ) {
-              alert('Please enter Estimated Time for Selected Employee');
+              Swal.fire(
+                'Info!',
+                'Please enter Estimated Time for Selected Employee',
+                'info'
+              )
               // $('#alertPopup').modal('show');
               return;
             }
@@ -494,19 +507,33 @@ export class QualityallocationtableComponent implements OnInit {
           this.postJobs(data);
         }
       } else {
-        alert('Please select Job and Employeesss');
+
+        Swal.fire(
+          'Info!',
+          'Please select Job and Employeesss',
+          'info'
+        )
         // $('#alertPopup').modal('show');
       }
     } else {
       if (selectedJobCount != 0 && selectedEmployeeCount != 0) {
         if (selectedEmployeeCount > 1) {
-          alert('Please select one Employee!');
+          Swal.fire(
+            'Info!',
+            'Please select one Employee!',
+            'info'
+          )
           // $('#alertPopup').modal('show');
           return;
         }
         this.postJobs(data);
       } else {
-        alert('Please select Job and Employee');
+
+        Swal.fire(
+          'Info!',
+          'Please select Job and Employee',
+          'info'
+        )
         // $('#alertPopup').modal('show');
       }
     }
@@ -526,7 +553,7 @@ export class QualityallocationtableComponent implements OnInit {
     processId: this.loginservice.getProcessId(),
     statusId: 1,
     selectedScopeId: this.ScopeId,
-    autoUploadJobs: true,
+    autoUploadJobs: false,
     employeeId: this.loginservice.getUsername(),
     remarks: 'string',
     isBench: this.benchChecked,
@@ -613,40 +640,15 @@ export class QualityallocationtableComponent implements OnInit {
     this.selectedJobs = processMovement.selectedRows;
     this.selectedEmployee = processMovement.selectedEmployees;
     this.http
-      .post(environment.apiURL + 'Allocation/processMovement', processMovement)
+      .post<any>(environment.apiURL + 'Allocation/processMovement', processMovement)
       .subscribe((result) => {
-        confirmationMessage = result;
-      });
-      this.http.post(environment.apiURL+'Allocation/processMovement', processMovement).subscribe( (result)=> {
-      confirmationMessage = result;
-    // if (AttachedFiles.length > 0) {
-    //     var fd = new FormData();
-    //     for (let i = 0; i < AttachedFiles.length; i++) {
-    //       fd.append('file', AttachedFiles[i]);
-    //     }
-
-    // $parent.loader = true;
-    // serviceCall.uploadFile('uploadFiles', result.OrderId, 0, ProcessId, processMovement.StatusId, 1, ProcessId, processMovement.StatusId, fd).$promise.then(function (uploadResult) {
-    //     quotationquerySubmitted = false;
-    //     QuotationpopupSubmitForm.$setPristine();
-    //     AttachedFiles = [];
-    //     $('#fileUpload').val('');
-    //     $('#confirmedPopup').modal('show');
-    // }
-
-    // })
-    // .catch(function (response) {
-    //     console.log(response);
-    // }).finally(function () {
-    //     // parent.loader = false;
-    // });
-    // }
-    // Isbench = false;
-    // $('#confirmedPopup').modal('show');
-    // clear();
-    // $('#quotationModal').modal('hide');
-    // selectedGrid = '';
-
+        this.confirmationMessage = result.message;
+        Swal.fire(
+          'Done!',
+              result.message,
+          'success'
+        )
+     
       });
   }
 

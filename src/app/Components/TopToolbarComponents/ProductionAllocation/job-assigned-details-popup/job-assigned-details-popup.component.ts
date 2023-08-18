@@ -15,6 +15,12 @@ import Swal from 'sweetalert2/src/sweetalert2.js'
   styleUrls: ['./job-assigned-details-popup.component.scss'],
 })
 export class JobAssignedDetailsPopupComponent implements OnInit {
+  jobCommonDetails: any;
+  confirmationMessage: any;
+  QueryDetailsList: any;
+  selectedJobs: { DepartmentId: any; TranMasterId: any; JId: any; CustomerId: any; JobId: string; Comments: string; TimeStamp: string; CategoryDesc: string; SelectedRows: never[]; FileInwardType: string; CommentsToClient: string; SelectedEmployees: never[]; }[];
+  estimationTime: any;
+  stitchCount: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private http: HttpClient,
@@ -22,7 +28,8 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     private _coreService: CoreService,
     private router: Router,
     public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
-  ) {console.log(data,"nambiaki");
+  ) {
+    console.log(data, "InjectedData")
   }
 
   displayedJobColumns: string[] = [
@@ -84,7 +91,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       this.http
         .get<any>(
           environment.apiURL +
-            `Allocation/getAssignedEmployeesToChangeEstTime/${this.data.jId}`
+          `Allocation/getAssignedEmployeesToChangeEstTime/${this.data.jId}`
         )
         .subscribe((response) => {
           this.restApiData = response.assignedEmployees;
@@ -95,7 +102,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     this.http
       .get<any>(
         environment.apiURL +
-          `Allocation/getScopeValues/${this.loginservice.getUsername()}`
+        `Allocation/getScopeValues/${this.loginservice.getUsername()}`
       )
       .subscribe((scopedata) => {
         this.Scopes = scopedata.scopeDetails; // Sort the scopes based on the 'name' property
@@ -106,6 +113,8 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 
     this.http.post<any>(apiUrl, this.data.jId ? this.data.jId : 0).subscribe(
       (response: any) => {
+        this.jobCommonDetails = response;
+
         this.dataJobSource = response;
         this.dataJobSource = new MatTableDataSource(response.jobHistory);
         this.dataJobSource.paginator = this.paginator;
@@ -155,7 +164,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     this.http
       .get(
         environment.apiURL +
-          `Allocation/getFileNames/PRAS_01-17-2022_AllocErrorBugFixing%203-VLA-Fr-0117-221_Quality%20Allocation_Pending-1`
+        `Allocation/getFileNames/PRAS_01-17-2022_AllocErrorBugFixing%203-VLA-Fr-0117-221_Quality%20Allocation_Pending-1`
       )
       .subscribe((response: any) => {
         const fileUrls: string[] = response.files;
@@ -175,8 +184,8 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     console.log(this.selectedQureryStatus, "stATUS");
     if (this.selectedQureryStatus == 6) {
       this.processMovement();
-    } else if (this.selectedQureryStatus === 8) {
-      this.changeEstTime();
+    } else if (this.selectedQureryStatus == 8) {
+      this.postQueryData();
     } else {
       // Handle the case when no option is selected or handle any other condition
     }
@@ -214,15 +223,15 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
           estimatedTime: this.estimatedTime,
           jId: this.data.jId,
           tranMasterId: this.data.tranMasterId,
-          Comments:'',
-          TimeStamp:'',
-          SelectedEmployees:'',
-          JobId:'',
-          FileInwardType:'',
-          CommentsToClient:'',
-          CategoryDesc:'',
-          selectedEmployees:[],
-          selectedRows:[]
+          Comments: '',
+          TimeStamp: '',
+          SelectedEmployees: '',
+          JobId: '',
+          FileInwardType: '',
+          CommentsToClient: '',
+          CategoryDesc: '',
+          selectedEmployees: [],
+          selectedRows: []
         },
       ],
       selectedEmployees: [],
@@ -242,15 +251,16 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
-    console.log(saveData,"savedata");
+    console.log(saveData, "savedata");
     this.http.post<any>(apiUrl, saveData).subscribe((response) => {
-      if(response.success === true){
+      if (response.success === true) {
         Swal.fire(
           'Done!',
           response.message,
           'success'
-        )      }
-      else if(response.success === false){
+        )
+      }
+      else if (response.success === false) {
         Swal.fire(
           'Error!',
           response.message,
@@ -289,15 +299,15 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
           estimatedTime: this.estimatedTime,
           jId: this.data.jId,
           tranMasterId: this.data.tranMasterId,
-          Comments:'',
-          TimeStamp:'',
-          SelectedEmployees:'',
-          JobId:'',
-          FileInwardType:'',
-          CommentsToClient:'',
-          CategoryDesc:'',
-          selectedEmployees:[],
-          selectedRows:[]
+          Comments: '',
+          TimeStamp: '',
+          SelectedEmployees: '',
+          JobId: '',
+          FileInwardType: '',
+          CommentsToClient: '',
+          CategoryDesc: '',
+          selectedEmployees: [],
+          selectedRows: []
         },
       ],
       selectedEmployees: [],
@@ -324,11 +334,19 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          if(response.success === true){
-            alert("Estimated time updated successfully")
+          if (response.success === true) {
+            Swal.fire(
+              'info',
+              "Estimated time updated successfully",
+              'info'
+            )
           }
-          else if(response.success === false){
-            alert("Estimated time updated Failed")
+          else if (response.success === false) {
+            Swal.fire(
+              'info',
+              "Estimated time updated Failed",
+              'info'
+            )
 
           }
           console.log(response);
@@ -336,10 +354,208 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
           // Handle the API response
         },
         (error) => {
-          console.log(error);
+          Swal.fire(
+            'info',
+            error,
+            'info'
+          )
 
           // Handle the API error
         }
       );
   }
+
+  //////////////////Popupsubmit///////////////////
+  getQueryDetailList() {
+    console.log(this.jobCommonDetails.jobCommonDetails.jid, "jobcommondetails");
+
+    this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+      this.QueryDetailsList = result;
+    })
+  }
+
+  postQueryData() {
+    console.log(this.jobCommonDetails,"JobCommonDetails");
+    
+    if (this.selectedQureryStatus == 100) {
+      var changeEstimatedTime = {
+        EmployeeId: "",
+        TranMasterId: this.jobCommonDetails.tranMasterId,
+        JId: this.jobCommonDetails.jobCommonDetails.jid,
+        EstimatedTime: this.estimatedTime,
+        ProcessId: 3,
+        UpdatedBy: this.loginservice.getUsername()
+      };
+      this.http.post<any>(environment.apiURL + 'Allocation/changeEstimatedTime', changeEstimatedTime).subscribe(result => {
+        if (result.Success) {
+          Swal.fire(
+            'info!',
+            'Estimated Time Updated!',
+            'info'
+          )
+        }
+        else {
+          Swal.fire(
+            'info!',
+            'Estimated Time Not Updated!',
+            'info'
+          )
+        }
+      });
+
+    }
+    else {
+      this.selectedJobs = [{
+        DepartmentId: this.data.deptartmentId,
+        TranMasterId: this.jobCommonDetails.tranMasterId,
+        JId: this.jobCommonDetails.jobCommonDetails.jid,
+        CustomerId: this.jobCommonDetails.jobCommonDetails.customerId,
+        JobId: "",
+        Comments: "",
+        TimeStamp: "",
+        CategoryDesc: "",
+        SelectedRows: [],
+        FileInwardType: '',
+        CommentsToClient: '',
+        SelectedEmployees: []
+      }];
+      var estime;
+      var scopeid;
+      var stitchCount;
+      // this.getQueryDetailList();
+      if (this.QueryDetailsList == undefined || this.QueryDetailsList == null) {
+        estime = this.estimationTime;
+        scopeid = this.selectedScope;
+        if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId == null && scopeid == undefined) {
+          // scopeid = 21; //
+          stitchCount = this.stitchCount;
+        }
+        else if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId != null && scopeid == undefined) {
+          scopeid = this.jobCommonDetails.scopeId;
+          stitchCount = $("#stitchCountForSP").val();
+        }
+      }
+      else {
+        estime = this.estimatedTime;
+        stitchCount = $("#stitchCountForSP").val();
+        //if ($scope.QueryDetailsList.Scope == undefined) {
+        //    scopeid = $scope.QueryDetailsList.ScopeId
+        //}
+        //else {
+        //     scopeid = $scope.QueryDetailsList.Scope.Id;                                       
+        //}
+        scopeid = this.QueryDetailsList.scopeId;
+      }
+      //alert(JSON.stringify(scopeid));
+      var processMovement = {
+        selectedRows: this.selectedJobs,
+        JobId: this.data.jobId,
+        EmployeeId: this.loginservice.getUsername(),
+        StatusId: this.selectedQureryStatus,
+        Remarks: this.remarks,
+        ProcessId: this.data.processId,
+        Value: estime,
+        SelectedScopeId: scopeid,
+        StitchCount: stitchCount,
+        FileReceivedDate: this.jobCommonDetails.fileReceivedDate,
+
+
+        //////alreadypayload//
+        autoUploadJobs: true,
+        employeeId: this.loginservice.getUsername(),
+
+        isBench: true,
+        value: 0,
+        amount: 0,
+        stitchCount: 0,
+        estimationTime: this.estTime !== 0 ? this.estTime : 0,
+        dateofDelivery: '2023-07-01T10:02:55.095Z',
+        comments: '',
+        validity: 0,
+        copyFiles: true,
+        updatedBy: 0,
+        jId: this.data.jId,
+        estimatedTime: 0,
+        tranMasterId: 0,
+        // customerId:'',
+        // DepartmentId:0
+
+        selectedEmployees: [],
+        departmentId: 0,
+        updatedUTC: new Date().toISOString,
+        categoryDesc: '',
+        allocatedEstimatedTime: 0,
+        tranId: 0,
+        fileInwardType: 'string',
+        timeStamp: '',
+        scopeId: 0,
+        quotationRaisedby: 0,
+        quotationraisedOn: '2023-07-01T10:02:55.095Z',
+        clientId: 0,
+        customerId: 0,
+        commentsToClient: '',
+        isJobFilesNotTransfer: true,
+      };
+      this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
+        this.confirmationMessage = result.message;
+        Swal.fire(
+          result.message,
+
+        )
+      }, error => {
+        Swal.fire(
+          'Error!',
+          "Error occured",
+          'error'
+        )
+      });
+
+
+    }
+  };
+
+
+  ////////////Statuschange//////////
+  StatusChange() {
+    if (this.selectedQureryStatus == 8) {
+      if (this.jobCommonDetails.processId == 4) {
+        this.EstimatedTime = true;
+        this.remarksdata = true;
+        this.EmployeData = true;
+        this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+          this.QueryDetailsList = result;
+        })
+      }
+      else if (this.jobCommonDetails.processId == 6) {
+        this.EstimatedTime = true;
+        this.remarksdata = true;
+        this.EmployeData = true;
+        this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+          this.QueryDetailsList = result;
+        })
+      }
+      else {
+        var datas = {
+          WFTId: this.jobCommonDetails.tranId,
+          WFMId: this.jobCommonDetails.tranMasterId,
+          JId: this.jobCommonDetails.jId
+        }
+        this.http.post<any>(environment.apiURL + `ClientOrderService/QueryDetailspost`, datas).subscribe(result => {
+          this.QueryDetailsList = result.querylist;
+          if (this.QueryDetailsList == null) {
+            this.EstimatedTime = true;
+            this.remarksdata = true;
+            this.EmployeData = true;
+          }
+          else {
+            this.remarksdata = true;
+            this.EstimatedTime = false;
+            this.EmployeData = false;
+          }
+        });
+      }
+    }
+  }
+
+
 }

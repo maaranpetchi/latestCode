@@ -7,3 +7,37 @@
     display:flex;
     flex-direction: row;
 }
+
+
+.mat-mdc-tab-body.mat-mdc-tab-body-active {
+    position: relative;
+    overflow-x: auto;
+    /* overflow-y: auto; */
+    z-index: 1;
+    flex-grow: 1;
+}
+
+
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #invoice-button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .button-gap {
+    width: 2px;
+  }
+  
+
+  .disabled {
+    pointer-events: none; /* Disable click events */
+    opacity: 0.6; /* Dim the appearance of disabled cells */
+  }
+  

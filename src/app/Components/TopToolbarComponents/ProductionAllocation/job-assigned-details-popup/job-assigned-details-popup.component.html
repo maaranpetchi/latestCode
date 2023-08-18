@@ -155,10 +155,10 @@
       <div class="querydropdown">
         <mat-form-field>
           <mat-label>---Select status---</mat-label>
-          <mat-select [(value)]="selectedQureryStatus" (selectionChange)="onFilterChange()">
+          <mat-select [(value)]="selectedQureryStatus" (selectionChange)="StatusChange()">
             <!-- <mat-option value="Select status"></mat-option> -->
-            <mat-option value=6>Query</mat-option>
-            <mat-option value=8>Query sent for special pricing</mat-option>
+            <mat-option value="6">Query</mat-option>
+            <mat-option value="8">Query sent for special pricing</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
