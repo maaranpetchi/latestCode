@@ -10,7 +10,8 @@ import { PricingcalculationService } from 'src/app/Services/AccountController/Pr
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { DetailsComponent } from '../details/details.component';
-
+import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
@@ -26,7 +27,7 @@ export class InvoiceComponent implements OnInit {
   @ViewChild('table2Paginator') table2Paginator: MatPaginator;
 
 
-  constructor(private http: HttpClient, private _empService: PricingcalculationService, private dialog: MatDialog, private spinnerService: SpinnerService) { }
+  constructor(private http: HttpClient, private loginservice:LoginService, private _empService: PricingcalculationService, private dialog: MatDialog, private spinnerService: SpinnerService) { }
 
   displayedColumns: string[] = [
     'selected',
@@ -75,6 +76,30 @@ export class InvoiceComponent implements OnInit {
     }
     console.log("after", this.selectedInvoices)
   }
+
+
+
+  selectedGeneratedInvoices: any[] = [];
+  setGeneratedAll(completed: boolean, item: any) {
+    console.log("before", this.selectedGeneratedInvoices)
+    if (completed == true) {
+      this.selectedGeneratedInvoices.push({...item, BillingCycleType: item.BillingCycleType ? item.BillingCycleType : 0 })
+    }
+    else {
+
+      if (this.selectedGeneratedInvoices.find(x => x.id == item.id)) {
+        this.selectedGeneratedInvoices = this.selectedGeneratedInvoices.filter(x => {
+          if (x.id != item.id) {
+            return item
+          }
+        })
+      }
+    }
+    console.log("after", this.selectedGeneratedInvoices)
+  }
+
+
+
   openDialog() {
     let clientid = 0;
     if (this.selectedInvoices.length == 0) {
@@ -154,11 +179,15 @@ export class InvoiceComponent implements OnInit {
     this.http.get<any>(environment.apiURL + 'Invoice/GetClient').subscribe(data => {
       this.spinnerService.requestEnded();
       this.data = data;
+      this.ClientGeneratedata = data;
     }, error => {
       this.spinnerService.resetSpinner();
     });
   }
   data: any = {
+    clientList: [],
+  };
+  ClientGeneratedata: any = {
     clientList: [],
   };
 
@@ -223,13 +252,26 @@ export class InvoiceComponent implements OnInit {
   }
 
 ///Genrated Invoice
+Clientid:any;
 GenratedInvoicedataSource = new MatTableDataSource();
 displayedGenaratedInvoiceColumns: string[] = [
-  'Client', 'JobId', 'JobDate', 'FileName', 'ProjectCode',
+  'selected','Client', 'JobId', 'JobDate', 'FileName', 'ProjectCode',
   'Department', 'JobStatus', 'Scope', 'StitchCount',
   'EstimatedTime', 'PricingType', 'ESTFileReceived', 'ESTDateofUpload',
   'Rate'
 ];
+
+getGeneratedInvoice(){
+  console.log(this.ClientGeneratedId,"ClientId");
+  
+  let payload={
+    "clientId":this.ClientGeneratedId 
+  }
+  this.http.post<any>(environment.apiURL + `Invoice/GetCalculatedPrice`,payload).subscribe(result =>{
+    this.GenratedInvoicedataSource.data = result.getInvoice;
+    this.GenratedInvoicedataSource.paginator = this.table1Paginator;
+  })
+}
 
   ///confirm invoicr////
   ConfirmInvoicedataSource = new MatTableDataSource();
@@ -238,7 +280,7 @@ displayedGenaratedInvoiceColumns: string[] = [
     this.http.get<any>(environment.apiURL+`Invoice/GetAllInvoiceMasterDetails`).subscribe(results =>{
       this.ConfirmInvoicedataSource =new MatTableDataSource(results.getInvoice);
       this.ConfirmInvoicedataSource.sort = this.sort;
-    //  this.ConfirmInvoicedataSource.paginator = this.table2Paginator;
+     this.ConfirmInvoicedataSource.paginator = this.table2Paginator;
     })
   }
 
@@ -265,5 +307,113 @@ displayedGenaratedInvoiceColumns: string[] = [
       },
     });
   }
-   
+  ClientGeneratedId:any;
+  btnSubmitRecalculate(){
+
+    if (this.ClientGeneratedId == undefined || this.ClientGeneratedId== null) {
+      Swal.fire(
+        'Alert!',
+        'Please Select a Client.',
+        'info'
+      )
+  }
+  else {
+    
+      if (this.selectedGeneratedInvoices.length == 0) {
+        Swal.fire(
+          'Alert!',
+          'Please Select a Items.',
+          'info'
+        )
+      }
+      else{
+        let payload={
+          "jobId": "string",
+          "shortName": "string",
+          "scopeId": 0,
+          "scopeDesc": "string",
+          "clientId": this.ClientGeneratedId,
+          "billingCycleType": "string",
+          "dateofUpload": "2023-08-21T11:59:16.821Z",
+          "createdBy": this.loginservice.getUsername(),
+          "departmentId": 0,
+          "tranId": 0,
+          "id": 0,
+          "jId": 0,
+          "pricingTypeId": 0,
+          "getInvoice": this.selectedGeneratedInvoices      ,
+          "fileReceivedDate": "2023-08-21T11:59:16.821Z",
+          "isBillable": true,
+          "specialPrice": 0,
+          "estimatedTime": 0,
+          "isWaiver": true,
+          "jobStatusId": 0
+        }
+    
+        this.http.post<any>(environment.apiURL+`Invoice/GenerateReCalculateInvoice`,payload).subscribe(results =>{
+          Swal.fire(
+            'Done!',
+            results.stringList,
+            'success'
+          )
+        })
+      }
+  }
+  
+  }
+
+
+  btnSubmitConfirm() {
+    if (this.selectedGeneratedInvoices.length == 0) {
+      Swal.fire(
+        'Alert!',
+        'Please Select the Items',
+        'info'
+      )
+    }
+    else {
+let payload={
+  "jobId": "string",
+  "shortName": "string",
+  "scopeId": 0,
+  "scopeDesc": "string",
+  "clientId": this.clientId,
+  "billingCycleType": "string",
+  "dateofUpload": "2023-08-21T13:54:54.873Z",
+  "createdBy": this.loginservice.getUsername(),
+  "departmentId": 0,
+  "tranId": 0,
+  "id": 0,
+  "jId": 0,
+  "pricingTypeId": 0,
+  "getInvoice": this.selectedGeneratedInvoices,
+  "fileReceivedDate": "2023-08-21T13:54:54.873Z",
+  "isBillable": true,
+  "specialPrice": 0,
+  "estimatedTime": 0,
+  "isWaiver": true,
+  "jobStatusId": 0
+}
+
+this.http.post<any>(environment.apiURL+`Invoice/GenerateConfirmInvoice`,payload).subscribe(results =>{
+  if(results.stringList="VoucherControl is Missing"){
+    Swal.fire(
+      'alert!',
+      results.stringList,
+      'info'
+    )
+  }
+  else{
+    Swal.fire(
+      'Done!',
+      results.stringList,
+      'success'
+    )
+  }
+  
+
+})
+    }
+}
+
 }

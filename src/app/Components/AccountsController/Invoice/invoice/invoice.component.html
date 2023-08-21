@@ -7,7 +7,7 @@
   <title>Document</title>
 </head>
 
-<body style="height: 140vh">
+<body>
 
   <mat-tab-group>
     <mat-tab label="Details">
@@ -42,7 +42,7 @@
                     <div class="col">
                       <mat-form-field appearance="fill">
                         <mat-label>Client</mat-label>
-                        <mat-select ngDefaultControl formControlName="ClientId">
+                        <mat-select ngDefaultControl formControlName="ClientId" [(ngModel)]="Clientid">
                           <mat-option *ngFor="let Client of data.clientList" [value]="Client.id">
                             {{Client.shortName}}
                           </mat-option>
@@ -164,8 +164,8 @@
           <div class="col">
             <mat-form-field appearance="fill">
               <mat-label>Client</mat-label>
-              <mat-select ngDefaultControl formControlName="ClientId">
-                <mat-option *ngFor="let Client of data.clientList" [value]="Client.id">
+              <mat-select ngDefaultControl [(ngModel)]="ClientGeneratedId" name="clientid">
+                <mat-option *ngFor="let Client of ClientGeneratedata.clientList" [value]="Client.id">
                   {{Client.shortName}}
                 </mat-option>
               </mat-select>
@@ -173,7 +173,7 @@
           </div>
         </div>
         <div class="button" style="float:right">
-          <button type="button" class="btn btn-success"> search</button>
+          <button type="button" class="btn btn-success"  (click)="getGeneratedInvoice()"> search</button>
         </div>
         <div class="table">
           <table mat-table [dataSource]="GenratedInvoicedataSource" matSort class="table table-sm">
@@ -182,7 +182,7 @@
             <ng-container matColumnDef="selected">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Select </th>
               <td mat-cell *matCellDef="let element"> <mat-checkbox
-                  (change)="setAll($event.checked,element)"></mat-checkbox> </td>
+                  (change)="setGeneratedAll($event.checked,element)"></mat-checkbox> </td>
 
             </ng-container>
             <!-- ID Column -->
@@ -194,58 +194,58 @@
             <!-- Progress Column -->
             <ng-container matColumnDef="JobId">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> JobId </th>
-              <td mat-cell *matCellDef="let row"> {{row.invoiceNo}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.jobId}}</td>
             </ng-container>
             <ng-container matColumnDef="JobDate">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> JobDate </th>
-              <td mat-cell *matCellDef="let row"> {{row.invoiceDate}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.estJobDate}}</td>
             </ng-container>
 
             <ng-container matColumnDef="FileName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> FileName </th>
-              <td mat-cell *matCellDef="let row"> {{row.productValue}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.fileName}}</td>
             </ng-container>
             <ng-container matColumnDef="ProjectCode">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ProjectCode </th>
-              <td mat-cell *matCellDef="let row"> {{row.waiver}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.projectCode}}</td>
             </ng-container>
             <ng-container matColumnDef="Department">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
-              <td mat-cell *matCellDef="let row"> {{row.roundOff}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.department}}</td>
             </ng-container>
             <ng-container matColumnDef="JobStatus">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> JobStatus </th>
-              <td mat-cell *matCellDef="let row"> {{row.artInvoiceAmount}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.jobStatusDescription}}</td>
             </ng-container>
             <ng-container matColumnDef="Scope">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Scope </th>
-              <td mat-cell *matCellDef="let row"> {{row.digiInvoiceAmount}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.scopeDesc}}</td>
             </ng-container>
             <ng-container matColumnDef="StitchCount">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> StitchCount </th>
-              <td mat-cell *matCellDef="let row"> {{row.invoiceValue}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.stitchCount}}</td>
             </ng-container>
 
             <ng-container matColumnDef="EstimatedTime">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> EstimatedTime </th>
-              <td mat-cell *matCellDef="let row"> {{row.discount}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.estimatedTime}}</td>
             </ng-container>
             <ng-container matColumnDef="PricingType">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> PricingType </th>
-              <td mat-cell *matCellDef="let row"> {{row.artPayableAmount}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.description}}</td>
             </ng-container>
 
             <ng-container matColumnDef="ESTFileReceived">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTFileReceived </th>
-              <td mat-cell *matCellDef="let row"> {{row.artFileCount}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTFileReceivedDate </th>
+              <td mat-cell *matCellDef="let row"> {{row.estFileReceivedDate}}</td>
             </ng-container>
             <ng-container matColumnDef="ESTDateofUpload">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTDateofUpload </th>
-              <td mat-cell *matCellDef="let row"> {{row.digiPayableAmount}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.estDateofUpload}}</td>
             </ng-container>
             <ng-container matColumnDef="Rate">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
-              <td mat-cell *matCellDef="let row"> {{row.digiFileCount}}</td>
+              <td mat-cell *matCellDef="let row"> {{row.rate}}</td>
             </ng-container>
 
 
@@ -255,7 +255,11 @@
            
           </table>
 
-          <mat-paginator #table2Paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator #table1Paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <div class="footerButtons" style="display: flex;align-items: center;justify-content: center;gap:20px">
+          <button class="btn btn-success" (click)="btnSubmitRecalculate()">Move To Details</button>
+          <button class="btn btn-success" (click)="btnSubmitConfirm()">Confirm Invoice</button>
         </div>
       </div>
 
@@ -372,8 +376,8 @@
               <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
             </tr>
           </table>
-
-          <mat-paginator #table2Paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator #table2Paginator [pageSizeOptions]="[25, 50,75,100]"
+          aria-label="Select page of users"></mat-paginator>
         </div>
         <div class="button-container">
           <button mat-button id="invoice-button" class="btn btn-success">Art Invoice</button>

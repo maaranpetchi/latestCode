@@ -17,7 +17,6 @@ import { SpinnerService } from '../../Spinner/spinner.service';
 })
 export class indexemployeevsdivisionComponent implements OnInit {
   displayedColumns: string[] = [
-    'id',
     'employeeCode',
     'employeeName',
     'divisionName',
