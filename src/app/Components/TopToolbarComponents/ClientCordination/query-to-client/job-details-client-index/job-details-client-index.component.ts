@@ -6,6 +6,7 @@ import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 @Component({
   selector: 'app-job-details-client-index',
@@ -108,7 +109,7 @@ export class JobDetailsClientIndexComponent implements OnInit {
       "tranId": 0,
       "fileInwardType": "string",
       "timeStamp": data.timeStamp,
-      "scopeId": data.scopeId,
+      "scopeId": data.scopeId ? data.scopeId:0,
       "quotationRaisedby": 0,
       "quotationraisedOn": "2023-06-24T09:40:49.877Z",
       "clientId": data.clientId,
@@ -143,8 +144,22 @@ export class JobDetailsClientIndexComponent implements OnInit {
 
   confirmationMessage: string;
   jobMovement(processMovement) {
-    this.http.post(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
-      console.log(result, "jobmovementresultresult");
+    this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
+   
+      if(result.message =="Job sent as query"){
+        Swal.fire(
+          ' Done!',
+         result.message,
+          'success'
+        )
+      }
+      else{
+        Swal.fire(
+          'Alert!',
+         result.message,
+          'info'
+        )
+      }
 
       // if (processMovement.StatusId === 19) {
       //   const url = '/ClientOrder/SendMailForCompletedJobs';

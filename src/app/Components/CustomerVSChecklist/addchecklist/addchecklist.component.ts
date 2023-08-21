@@ -103,8 +103,8 @@ export class AddchecklistComponent implements OnInit {
 
 
       let UploadPayload = {
-        "id": data.id,
-        "customerId": this.selectedDepartment,
+        "id": this.data.data.id,
+        "customerId": this.selectedCustomer,
         "deptId": this.selectedDepartment,
         "description": this.checklistDescription,
         "createdBy": this.loginservice.getUsername(),
@@ -243,7 +243,7 @@ export class AddchecklistComponent implements OnInit {
           )
          
           this.dialogRef.close(true);
-          window.location.reload();
+          // window.location.reload();
 
         },
         error: (err: any) => {

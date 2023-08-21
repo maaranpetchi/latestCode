@@ -123,9 +123,21 @@ onchangesubmit(){
             CustomerId: 200,
         },
         AlreadyAdjusted: this.adjustedAmount1,
+        receivableExts: [
+          {
+            id: 0,
+            receivableId: 0,
+            receiptMode: "",
+            transactionNo: "",
+            transactionDate: new Date().toISOString,
+            amount: 0,
+            bankName: ""
+          }
+        ],
        
     };
     this.http.post<any>(environment.apiURL+`Receivable/CreateCreditNote`,receivable).subscribe(data => {
+      alert("addeed")
    console.log(data)
   });
   }

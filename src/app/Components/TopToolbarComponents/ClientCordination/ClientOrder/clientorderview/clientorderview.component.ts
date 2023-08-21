@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-clientorderview',
@@ -11,10 +11,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ClientorderviewComponent {
 
 
-  constructor(private router: Router, private location: Location,    @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private router: Router, private location: Location,    @Inject(MAT_DIALOG_DATA) public data: any,private dialogRef: MatDialogRef<ClientorderviewComponent>) { }
 
   goBack() {
-    this.location.back();
+this.dialogRef.close();
   }
   
 }

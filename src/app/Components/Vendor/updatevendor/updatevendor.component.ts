@@ -119,11 +119,11 @@ export class UpdatevendorComponent implements OnInit {
       "amountPaid": this.empForm.value.amtPaid,
       "employeeId": this.loginservice.getUserId(),
     }
-    this.http.post<any>(environment.apiURL + `ITAsset/nSetVendorDetails`, payload).subscribe(result => {
+    this.http.post<any>(environment.apiURL + `ITAsset/nUpdateVendorDetails`, payload).subscribe(result => {
 
       Swal.fire(
         'Good job!',
-        result.setVDetailList,
+        result.updateVDetailList,
         'success'
       )
       window.location.reload();

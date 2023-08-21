@@ -78,13 +78,14 @@
           </div>
         </div>
       </div>
-      <div class="row" style="float:right;">
-        <div class="col" >
-          <button type="submit" class="btn btn-success" >Submit</button>
-        </div>
-      </div>
+      
   </div>
-
+  <div class="row" style="float:right;">
+    <div class="col" >
+      <button type="submit" class="btn btn-success" (click)="uploadToClient()" >Submit</button>
+    </div>
+  </div>
+  <br>
   <div class="jobHistory">
     <h1 mat-dialog-title>Job History</h1>
     <div mat-dialog-content>
