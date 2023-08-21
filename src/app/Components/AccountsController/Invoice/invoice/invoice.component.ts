@@ -238,7 +238,7 @@ displayedGenaratedInvoiceColumns: string[] = [
     this.http.get<any>(environment.apiURL+`Invoice/GetAllInvoiceMasterDetails`).subscribe(results =>{
       this.ConfirmInvoicedataSource =new MatTableDataSource(results.getInvoice);
       this.ConfirmInvoicedataSource.sort = this.sort;
-     this.ConfirmInvoicedataSource.paginator = this.table2Paginator;
+    //  this.ConfirmInvoicedataSource.paginator = this.table2Paginator;
     })
   }
 
