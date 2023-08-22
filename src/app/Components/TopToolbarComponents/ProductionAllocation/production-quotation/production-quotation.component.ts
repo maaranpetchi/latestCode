@@ -1,0 +1,448 @@
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { environment } from 'src/Environments/environment';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
+import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2/src/sweetalert2.js'
+@Component({
+  selector: 'app-production-quotation',
+  templateUrl: './production-quotation.component.html',
+  styleUrls: ['./production-quotation.component.scss']
+})
+export class ProductionQuotationComponent implements OnInit{
+
+  jobCommonDetails: any;
+  confirmationMessage: any;
+  QueryDetailsList: any;
+  selectedJobs: { DepartmentId: any; TranMasterId: any; JId: any; CustomerId: any; JobId: string; Comments: string; TimeStamp: string; CategoryDesc: string; SelectedRows: never[]; FileInwardType: string; CommentsToClient: string; SelectedEmployees: never[]; }[];
+  estimationTime: any;
+  stitchCount: any;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private http: HttpClient,
+    private loginservice: LoginService,
+    private _coreService: CoreService,
+    private router: Router,
+    public dialogRef: MatDialogRef<ProductionQuotationComponent>
+  ) {
+    console.log(data, "InjectedData")
+  }
+
+  displayedJobColumns: string[] = [
+    'movedFrom',
+    'movedTo',
+    'movedDate',
+    'movedBy',
+    'MovedTo',
+    'remarks',
+  ];
+  dataJobSource: MatTableDataSource<any>;
+  displayedQueryColumns: string[] = [
+    'movedFrom',
+    'movedTo',
+    'jobStatus',
+    'movedDate',
+    'movedBy',
+    'MovedTo',
+    'remarks',
+  ];
+  dataQuerySource: MatTableDataSource<any>;
+
+  remarks: string; // to store the remark value
+  selectedQureryStatus: number; // to store the selected query status
+  estimatedTime: string;
+
+  EstimatedTime: boolean = false;
+  remarksdata: boolean = false;
+  EmployeData: boolean = false;
+
+  Scopes: any[] = [];
+  selectedScope: any = 0;
+  estTime: number;
+  restApiData: any[];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator1: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  ngOnInit() {
+    this.fetchData();
+    this.QueryDetailspost();
+    this.fetchScopes();
+    this.getAssignedEmployeesToChangeEstTime();
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+  onFilterChange() {
+    if (this.selectedQureryStatus == 6) {
+      this.remarksdata = true;
+      this.EstimatedTime = false;
+      this.EmployeData = false;
+    }
+  }
+  fetchScopes() {
+    this.http
+      .get<any>(
+        environment.apiURL +
+        `Allocation/getScopeValues/${this.loginservice.getUsername()}`
+      )
+      .subscribe((scopedata) => {
+        this.Scopes = scopedata.scopeDetails; // Sort the scopes based on the 'name' property
+      });
+  }
+  fetchData() {
+    const apiUrl = environment.apiURL + 'JobOrder/getJobHistory';
+
+    this.http.post<any>(apiUrl, this.data.jId ? this.data.jId : 0).subscribe(
+      (response: any) => {
+        this.jobCommonDetails = response;
+
+        this.dataJobSource = response;
+        this.dataJobSource = new MatTableDataSource(response.jobHistory);
+        this.dataJobSource.paginator = this.paginator;
+        this.dataJobSource.sort = this.sort; // Assuming the REST API response is an array of objects
+        this.dataQuerySource = response;
+        this.dataQuerySource = new MatTableDataSource(response.jobQueryHistory);
+        this.dataQuerySource.paginator = this.paginator1;
+        this.dataQuerySource.sort = this.sort;
+      },
+      (error: any) => {
+        console.log('Error fetching data from REST API:', error);
+      }
+    );
+  }
+
+  QueryDetailspost() {
+    const apiUrl = environment.apiURL + `ClientOrderService/QueryDetailspost`;
+    var datas = {
+      wftid: 0,
+      jid: this.data.jId,
+    };
+    return this.http.post(apiUrl, datas).subscribe(
+      (response: any) => {
+        this.restApiData = response; // Assuming the REST API response is an array of objects
+      },
+      (error: any) => {
+        console.log('Error fetching data from REST API:', error);
+      }
+    );
+  }
+
+  getAssignedEmployeesToChangeEstTime() {
+    const apiUrl =
+      environment.apiURL +
+      `Allocation/getAssignedEmployeesToChangeEstTime/${this.data.jId}`;
+
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        this.restApiData = response.scopeDetails; // Assuming the REST API response is an array of objects
+      },
+      (error: any) => {
+        console.log('Error fetching data from REST API:', error);
+      }
+    );
+  }
+  workFiles(id: number): void {
+    this.http
+      .get(
+        environment.apiURL +
+        `Allocation/getFileNames/PRAS_01-17-2022_AllocErrorBugFixing%203-VLA-Fr-0117-221_Quality%20Allocation_Pending-1`
+      )
+      .subscribe((response: any) => {
+        const fileUrls: string[] = response.files;
+        fileUrls.forEach((url) => {
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.getFileNameFromPath(url);
+          link.click();
+        });
+      });
+  }
+  getFileNameFromPath(filePath: string): string {
+    const pathParts = filePath.split('/');
+    return pathParts[pathParts.length - 1];
+  }
+  onSubmit() {
+    console.log(this.selectedQureryStatus, "status");
+    if (this.selectedQureryStatus == 6) {
+      this.processMovement();
+    } 
+  }
+
+  processMovement() {
+    const apiUrl = environment.apiURL + `Allocation/processMovement`;
+
+    let saveData = {
+      id: 0,
+      processId: this.loginservice.getProcessId(),
+      statusId: this.selectedQureryStatus,
+      selectedScopeId: 0,
+      autoUploadJobs: true,
+      employeeId: this.loginservice.getUsername(),
+      remarks: this.remarks,
+      isBench: true,
+      jobId: this.data.jobId,
+      value: 0,
+      amount: 0,
+      stitchCount: 0,
+      estimationTime: this.estTime !== 0 ? this.estTime : 0,
+      dateofDelivery: '2023-07-01T10:02:55.095Z',
+      comments: 'string',
+      validity: 0,
+      copyFiles: true,
+      updatedBy: 0,
+      jId: this.data.jId,
+      estimatedTime: 0,
+      tranMasterId: 0,
+      selectedRows: [
+        {
+          customerId: this.data.customerId,
+          departmentId: this.data.departmentId,
+          estimatedTime: this.estimatedTime,
+          jId: this.data.jId,
+          tranMasterId: this.data.tranMasterId,
+          Comments: '',
+          TimeStamp: '',
+          SelectedEmployees: '',
+          JobId: '',
+          FileInwardType: '',
+          CommentsToClient: '',
+          CategoryDesc: '',
+          selectedEmployees: [],
+          selectedRows: []
+        },
+      ],
+      selectedEmployees: [],
+      departmentId: 0,
+      updatedUTC: '2023-07-01T10:02:55.095Z',
+      categoryDesc: 'string',
+      allocatedEstimatedTime: 0,
+      tranId: 0,
+      fileInwardType: 'string',
+      timeStamp: '',
+      scopeId: 0,
+      quotationRaisedby: 0,
+      quotationraisedOn: '2023-07-01T10:02:55.095Z',
+      clientId: 0,
+      customerId: 0,
+      fileReceivedDate: '2023-07-01T10:02:55.095Z',
+      commentsToClient: 'string',
+      isJobFilesNotTransfer: true,
+    };
+    console.log(saveData, "savedata");
+    this.http.post<any>(apiUrl, saveData).subscribe((response) => {
+      if (response.success === true) {
+        Swal.fire(
+          'Done!',
+          response.message,
+          'success'
+        )
+      }
+      else if (response.success === false) {
+        Swal.fire(
+          'Error!',
+          response.message,
+          'error'
+        )
+      }
+    });
+  }
+
+  //////////////////Popupsubmit///////////////////
+  getQueryDetailList() {
+    console.log(this.jobCommonDetails.jobCommonDetails.jid, "jobcommondetails");
+
+    this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+      this.QueryDetailsList = result;
+    })
+  }
+
+  postQueryData() {
+    console.log(this.jobCommonDetails,"JobCommonDetails");
+    
+    if (this.selectedQureryStatus == 100) {
+      var changeEstimatedTime = {
+        EmployeeId: "",
+        TranMasterId: this.jobCommonDetails.tranMasterId,
+        JId: this.jobCommonDetails.jobCommonDetails.jid,
+        EstimatedTime: this.estimatedTime,
+        ProcessId: 3,
+        UpdatedBy: this.loginservice.getUsername()
+      };
+      this.http.post<any>(environment.apiURL + 'Allocation/changeEstimatedTime', changeEstimatedTime).subscribe(result => {
+        if (result.Success) {
+          Swal.fire(
+            'info!',
+            'Estimated Time Updated!',
+            'info'
+          )
+        }
+        else {
+          Swal.fire(
+            'info!',
+            'Estimated Time Not Updated!',
+            'info'
+          )
+        }
+      });
+
+    }
+    else {
+      this.selectedJobs = [{
+        DepartmentId: this.data.deptartmentId,
+        TranMasterId: this.jobCommonDetails.tranMasterId,
+        JId: this.jobCommonDetails.jobCommonDetails.jid,
+        CustomerId: this.jobCommonDetails.jobCommonDetails.customerId,
+        JobId: "",
+        Comments: "",
+        TimeStamp: "",
+        CategoryDesc: "",
+        SelectedRows: [],
+        FileInwardType: '',
+        CommentsToClient: '',
+        SelectedEmployees: []
+      }];
+      var estime;
+      var scopeid;
+      var stitchCount;
+      // this.getQueryDetailList();
+      if (this.QueryDetailsList == undefined || this.QueryDetailsList == null) {
+        estime = this.estimationTime;
+        scopeid = this.selectedScope;
+        if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId == null && scopeid == undefined) {
+          // scopeid = 21; //
+          stitchCount = this.stitchCount;
+        }
+        else if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId != null && scopeid == undefined) {
+          scopeid = this.jobCommonDetails.scopeId;
+          stitchCount = $("#stitchCountForSP").val();
+        }
+      }
+      else {
+        estime = this.estimatedTime;
+        stitchCount = $("#stitchCountForSP").val();
+        scopeid = this.QueryDetailsList.scopeId;
+      }
+      //alert(JSON.stringify(scopeid));
+      var processMovement = {
+        selectedRows: this.selectedJobs,
+        JobId: this.data.jobId,
+        EmployeeId: this.loginservice.getUsername(),
+        StatusId: this.selectedQureryStatus,
+        Remarks: this.remarks,
+        ProcessId: this.data.processId,
+        Value: estime,
+        SelectedScopeId: scopeid,
+        StitchCount: stitchCount,
+        FileReceivedDate: this.jobCommonDetails.fileReceivedDate,
+
+
+        //////alreadypayload//
+        autoUploadJobs: true,
+        employeeId: this.loginservice.getUsername(),
+
+        isBench: true,
+        value: 0,
+        amount: 0,
+        stitchCount: 0,
+        estimationTime: this.estTime !== 0 ? this.estTime : 0,
+        dateofDelivery: '2023-07-01T10:02:55.095Z',
+        comments: '',
+        validity: 0,
+        copyFiles: true,
+        updatedBy: 0,
+        jId: this.data.jId,
+        estimatedTime: 0,
+        tranMasterId: 0,
+        // customerId:'',
+        // DepartmentId:0
+
+        selectedEmployees: [],
+        departmentId: 0,
+        updatedUTC: new Date().toISOString,
+        categoryDesc: '',
+        allocatedEstimatedTime: 0,
+        tranId: 0,
+        fileInwardType: 'string',
+        timeStamp: '',
+        scopeId: 0,
+        quotationRaisedby: 0,
+        quotationraisedOn: '2023-07-01T10:02:55.095Z',
+        clientId: 0,
+        customerId: 0,
+        commentsToClient: '',
+        isJobFilesNotTransfer: true,
+      };
+      this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
+        this.confirmationMessage = result.message;
+        Swal.fire(
+          result.message,
+
+        )
+      }, error => {
+        Swal.fire(
+          'Error!',
+          "Error occured",
+          'error'
+        )
+      });
+
+
+    }
+  };
+
+
+  ////////////Statuschange//////////
+  StatusChange() {
+    if (this.selectedQureryStatus == 8) {
+      if (this.jobCommonDetails.processId == 4) {
+        this.EstimatedTime = true;
+        this.remarksdata = true;
+        this.EmployeData = true;
+        this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+          this.QueryDetailsList = result;
+        })
+      }
+      else if (this.jobCommonDetails.processId == 6) {
+        this.EstimatedTime = true;
+        this.remarksdata = true;
+        this.EmployeData = true;
+        this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+          this.QueryDetailsList = result;
+        })
+      }
+      else {
+        var datas = {
+          WFTId: this.jobCommonDetails.tranId,
+          WFMId: this.jobCommonDetails.tranMasterId,
+          JId: this.jobCommonDetails.jId
+        }
+        this.http.post<any>(environment.apiURL + `ClientOrderService/QueryDetailspost`, datas).subscribe(result => {
+          this.QueryDetailsList = result.querylist;
+          if (this.QueryDetailsList == null) {
+            this.EstimatedTime = true;
+            this.remarksdata = true;
+            this.EmployeData = true;
+          }
+          else {
+            this.remarksdata = true;
+            this.EstimatedTime = false;
+            this.EmployeData = false;
+          }
+        });
+      }
+    }
+  }
+
+  Quotation(){
+
+  }
+
+}

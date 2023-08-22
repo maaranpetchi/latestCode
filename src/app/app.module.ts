@@ -22,6 +22,7 @@ import { JobCategorypopupComponent } from './Components/TopToolbarComponents/Pro
 import { VendorService } from './Services/Vendor/vendor.service';
 import { AddEditSkillsetComponent } from './Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
 import { UpdateSkillSetComponent } from './Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
+import { ProductionQuotationComponent } from './Components/TopToolbarComponents/ProductionAllocation/production-quotation/production-quotation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { UpdateSkillSetComponent } from './Components/EmployeeVSSkillset/update-
     PricingApprovalprocessComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
+    ProductionQuotationComponent,
   
 
    
