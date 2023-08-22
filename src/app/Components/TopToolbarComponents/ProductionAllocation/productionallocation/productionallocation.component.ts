@@ -10,10 +10,11 @@ import { event } from 'jquery';
 @Component({
   selector: 'app-productionallocation',
   templateUrl: './productionallocation.component.html',
-  styleUrls: ['./productionallocation.component.scss']
+  styleUrls: ['./productionallocation.component.scss'],
 })
 export class ProductionallocationComponent implements OnInit {
-  @ViewChild(ProductionallocationtableComponent) ProductionallocationtableComponent: ProductionallocationtableComponent;
+  @ViewChild(ProductionallocationtableComponent)
+  ProductionallocationtableComponent: ProductionallocationtableComponent;
 
   pendingJobsCount: any;
   freshJobsCount: number;
@@ -27,28 +28,23 @@ export class ProductionallocationComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
-    private loginservice: LoginService,
-    ) { }
+    private loginservice: LoginService
+  ) {}
   ngOnInit(): void {
     this.getCount();
     this.onTabChange(event);
   }
 
- 
-
-
-
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
-    console.log("first", event);
+    console.log('first', event);
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
         this.freshJobs();
-        
+
         break;
       case 1: // Revision Jobs tab
-
         // Call your REST API for Revision Jobs
         this.revisionJobs();
         break;
@@ -66,9 +62,12 @@ export class ProductionallocationComponent implements OnInit {
       case 5:
         this.queryResponse();
         break;
-        case 6:
-          this.errorJobs();
-          break;
+      case 6:
+        this.errorJobs();
+        break;
+      case 7:
+        this.quotationJobs();
+        break;
       default:
         break;
     }
@@ -76,14 +75,13 @@ export class ProductionallocationComponent implements OnInit {
 
   freshJobs() {
     this.ProductionallocationtableComponent.tab('1');
-  };
-
+  }
   revisionJobs() {
     this.ProductionallocationtableComponent.tab('2');
-  };
+  }
   reworkJobs() {
     this.ProductionallocationtableComponent.tab('3');
-  };
+  }
   allocatedJobs() {
     this.ProductionallocationtableComponent.tab('4');
   }
@@ -93,30 +91,29 @@ export class ProductionallocationComponent implements OnInit {
   queryResponse() {
     this.ProductionallocationtableComponent.tab('6');
   }
-errorJobs(){
-  this.ProductionallocationtableComponent.tab('7');
-}
-quotationJobs(){
-  this.ProductionallocationtableComponent.tab('8');
-}
+  errorJobs() {
+    this.ProductionallocationtableComponent.tab('7');
+  }
+  quotationJobs() {
+    this.ProductionallocationtableComponent.tab('8');
+  }
 
-getCount() {
-  return this.http
-    .get<any>(
-      environment.apiURL +
-        `Allocation/getCount/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/0`
-    )
-    .subscribe((freshDataCount) => {
-     this.pendingJobsCount= freshDataCount.pendingJobsCount,
-     this.freshJobsCount = freshDataCount.freshJobsCount,
-     this.revisionJobsCount= freshDataCount.revisionJobsCount,
-     this.reworkJobsCount= freshDataCount.reworkJobsCount,
-     this.allocatedJobCount = freshDataCount.allocatedJobCount
-     this.queriesJobsCount= freshDataCount.queriesJobsCount,
-     this.queryResponseJobsCount= freshDataCount.queryResponseJobsCount,
-     this.errorJobsCount= freshDataCount.errorJobsCount,
-     this.quotationJobCount= freshDataCount.quotationJobCount
-    });
+  getCount() {
+    return this.http
+      .get<any>(
+        environment.apiURL +
+          `Allocation/getCount/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/0`
+      )
+      .subscribe((freshDataCount) => {
+        (this.pendingJobsCount = freshDataCount.pendingJobsCount),
+          (this.freshJobsCount = freshDataCount.freshJobsCount),
+          (this.revisionJobsCount = freshDataCount.revisionJobsCount),
+          (this.reworkJobsCount = freshDataCount.reworkJobsCount),
+          (this.allocatedJobCount = freshDataCount.allocatedJobCount);
+        (this.queriesJobsCount = freshDataCount.queriesJobsCount),
+          (this.queryResponseJobsCount = freshDataCount.queryResponseJobsCount),
+          (this.errorJobsCount = freshDataCount.errorJobsCount),
+          (this.quotationJobCount = freshDataCount.quotationJobCount);
+      });
+  }
 }
-}
-

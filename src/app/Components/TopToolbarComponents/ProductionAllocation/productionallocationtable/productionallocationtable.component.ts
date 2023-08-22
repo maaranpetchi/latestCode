@@ -16,6 +16,7 @@ import { EmployeePopupTableComponent } from '../../QualityAllocation/employee-po
 import { error } from 'jquery';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2/src/sweetalert2.js';
+import { ProductionQuotationComponent } from '../production-quotation/production-quotation.component';
 
 @Component({
   selector: 'app-productionallocationtable',
@@ -449,7 +450,7 @@ export class ProductionallocationtableComponent implements OnInit {
         environment.apiURL +
           `Allocation/getPendingAllocationJobsAndEmployees/${parseInt(
             this.loginservice.getUsername()
-          )}/${parseInt(this.loginservice.getProcessId())}/5/0`
+          )}/${parseInt(this.loginservice.getProcessId())}/2/0`
       )
       .subscribe({
         next: (queries) => {
@@ -507,7 +508,7 @@ export class ProductionallocationtableComponent implements OnInit {
         environment.apiURL +
           `Allocation/getPendingAllocationJobsAndEmployees/${parseInt(
             this.loginservice.getUsername()
-          )}/${parseInt(this.loginservice.getProcessId())}/7/0`
+          )}/${parseInt(this.loginservice.getProcessId())}/5/0`
       )
       .subscribe({
         next: (errorJobs) => {
@@ -534,20 +535,19 @@ export class ProductionallocationtableComponent implements OnInit {
         environment.apiURL +
           `Allocation/getPendingAllocationJobsAndEmployees/${parseInt(
             this.loginservice.getUsername()
-          )}/${parseInt(this.loginservice.getProcessId())}/8/0`
+          )}/${parseInt(this.loginservice.getProcessId())}/7/0`
       )
       .subscribe({
         next: (quotationJobs) => {
           this.spinnerService.requestEnded();
-          this.dataSource = new MatTableDataSource(
-            quotationJobs.allocationJobs
-          );
+          this.dataSource = new MatTableDataSource(quotationJobs.allocationJobs);
           this.dataSource.paginator = this.paginator1;
           this.dataSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = false;
-          this.dataEmployeeSource = new MatTableDataSource(
-            quotationJobs.employees
-          );
+          this.displayedColumnsVisibility.quatationJobId = true;
+          this.displayedColumnsVisibility.allocatedJobId = false;
+          this.displayedColumnsVisibility.jobId = false;
+          this.dataEmployeeSource = new MatTableDataSource(quotationJobs.employees);
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
           console.log('quotationJobs');
@@ -666,6 +666,21 @@ export class ProductionallocationtableComponent implements OnInit {
     });
   }
   getAllocatedJobId(data: any) {
+    const dialogRef = this._dialog.open(ProductionQuotationComponent, {
+      width: '100%',
+      height: '450px',
+      data: data,
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.freshJobs();
+        }
+      },
+    });
+  }
+  // 681
+  getQuatationJobId(data:any){
     const dialogRef = this._dialog.open(ProductionAllocatedPopupComponent, {
       width: '100%',
       height: '450px',
@@ -880,10 +895,10 @@ export class ProductionallocationtableComponent implements OnInit {
     }
       });
 
-    // this.http
-    //   .post(environment.apiURL + 'Allocation/processMovement', processMovement)
-    //   .subscribe((result) => {
-    //     confirmationMessage = result;
+    this.http
+      .post(environment.apiURL + 'Allocation/processMovement', processMovement)
+      .subscribe((result) => {
+        confirmationMessage = result;
         if (AttachedFiles.length > 0) {
           var fd = new FormData();
           for (let i = 0; i < AttachedFiles.length; i++) {
@@ -933,7 +948,7 @@ export class ProductionallocationtableComponent implements OnInit {
               }
             })
         }
-      // });
+      });
   }
   ProcessMovementData(url: string, data: any): Observable<any> {
     return this.http.post(
