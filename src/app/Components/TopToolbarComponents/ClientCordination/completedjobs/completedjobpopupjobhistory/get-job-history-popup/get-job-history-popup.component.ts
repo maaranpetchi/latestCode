@@ -1,11 +1,13 @@
 
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
+import { CompletedjobsComponent } from '../../completedjobs.component';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 @Component({
   selector: 'app-get-job-history-popup',
   templateUrl: './get-job-history-popup.component.html',
@@ -14,43 +16,43 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 export class GetJobHistoryPopupComponent implements OnInit {
   selectedJobs: { DepartmentId: any; TranMasterId: any; JId: any; CustomerId: any; JobId: string; Remarks: string; Comments: string; TimeStamp: string; CategoryDesc: string; SelectedRows: never[]; FileInwardType: string; CommentsToClient: string; SelectedEmployees: never[]; }[];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private http: HttpClient,private loginservice:LoginService){}
-  
- displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy','MovedTo', 'remarks'];
- dataJobSource: MatTableDataSource<any>;
- displayedQueryColumns: string[] = ['movedFrom', 'movedTo', 'jobStatus', 'movedDate', 'movedBy','MovedTo', 'remarks'];
- dataQuerySource: MatTableDataSource<any>;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private loginservice: LoginService, private spinnerservice: SpinnerService) { }
 
- remarks: string;  // to store the remark value
- selectedQureryStatus: string; // to store the selected query status
+  displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy', 'MovedTo', 'remarks'];
+  dataJobSource: MatTableDataSource<any>;
+  displayedQueryColumns: string[] = ['movedFrom', 'movedTo', 'jobStatus', 'movedDate', 'movedBy', 'MovedTo', 'remarks'];
+  dataQuerySource: MatTableDataSource<any>;
+
+  remarks: string;  // to store the remark value
+  selectedQureryStatus: string; // to store the selected query status
 
 
- copyPreviousTrayFiles:boolean = false;
+  copyPreviousTrayFiles: boolean = false;
+
+  @ViewChild(CompletedjobsComponent) CompletedjobsComponent: CompletedjobsComponent;
   ngOnInit() {
     // Fetch data from the REST API and populate the table job history
-    this.http.post<any>(environment.apiURL+'JobOrder/getJobHistory',this.data.jid).subscribe(data => {
+    this.http.post<any>(environment.apiURL + 'JobOrder/getJobHistory', this.data.jid).subscribe(data => {
       this.dataJobSource = data.jobHistory;
-      console.log(data,"JobDetails");
-      
+      console.log(data, "JobDetails");
+
     });
   }
-
-  selectedFile: File;
+  selectedFile: File[] = [];
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-  }
-
-  uploadToClient(){
-
+    this.selectedFile = [event.target.files[0], ...this.selectedFile];//store the selected file in selectdfile
   }
 
 
-  uploadBulkFilesToClient(data) {
+
+
+  uploadBulkFilesToClient() {
+
     this.selectedJobs = [{
-      DepartmentId: data.departmentId,
-      TranMasterId: data.tranMasterId,
-      JId: data.jid,
-      CustomerId: data.customerId,
+      DepartmentId: this.data.departmentId,
+      TranMasterId: this.data.tranMasterId,
+      JId: this.data.jid,
+      CustomerId: this.data.customerId,
       JobId: "",
       Remarks: "",
       Comments: "",
@@ -66,13 +68,13 @@ export class GetJobHistoryPopupComponent implements OnInit {
     var processMovement = {
       "id": 0,
       "processId": 0,
-      "statusId": data.statusId.toString(),
+      "statusId": this.data.statusId.toString(),
       "selectedScopeId": 0,
       "autoUploadJobs": true,
       "employeeId": this.loginservice.getUsername(),
       "remarks": this.remarks,
       "isBench": true,
-      "jobId": data.jobId,
+      "jobId": this.data.jobId,
       "value": 0,
       "amount": 0,
       "stitchCount": 0,
@@ -82,8 +84,8 @@ export class GetJobHistoryPopupComponent implements OnInit {
       "validity": 0,
       "copyFiles": true,
       "updatedBy": 0,
-      "jId": data.jid,
-      "estimatedTime": data.estimatedTime !== null ? data.estimatedTime : 0,
+      "jId": this.data.jid,
+      "estimatedTime": this.data.estimatedTime !== null ? this.data.estimatedTime : 0,
       "tranMasterId": 0,
       "selectedRows": this.selectedJobs,
       "selectedEmployees": [],
@@ -93,29 +95,71 @@ export class GetJobHistoryPopupComponent implements OnInit {
       "allocatedEstimatedTime": 0,
       "tranId": 0,
       "fileInwardType": "string",
-      "timeStamp": data.timeStamp,
-      "scopeId": data.scopeId,
+      "timeStamp": this.data.timeStamp,
+      "scopeId": this.data.scopeId,
       "quotationRaisedby": 0,
       "quotationraisedOn": "2023-06-24T09:40:49.877Z",
-      "clientId": data.clientId,
+      "clientId": this.data.clientId,
       "customerId": 0,
-      "fileReceivedDate": data.estfileReceivedDate,
+      "fileReceivedDate": this.data.estfileReceivedDate,
       "commentsToClient": "string",
       "isJobFilesNotTransfer": true
     }
 
 
     this.jobMovement(processMovement);
-        
+
+  }
+
+
+  jobMovement(processMovement) {
+    this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
+
+      if (result.message == "Job sent as query") {
+        Swal.fire(
+          ' Done!',
+          result.message,
+          'success'
+        )
+        this.fileUpload();
+        this.CompletedjobsComponent.getCompletedJobData();
+
+      }
+      else {
+        Swal.fire(
+          'Alert!',
+          result.message,
+          'info'
+        )
+      }
+
+    });
+  }
+
+
+
+  fileUpload() {
+    const orderId = this.data.orderId;
+    const processId = this.data.processId;
+    const statusId = this.data.statusId;
+    if (this.selectedFile?.length > 0) {
+      const fd = new FormData();
+      for (let i = 0; i < this.selectedFile.length; i++) {
+        fd.append('FormCollection[]', this.selectedFile[i]);
+      }
+      this.spinnerservice.requestStarted();
+      this.http.post<any>(environment.apiURL + `File/uploadFiles/${orderId}/0/${processId}/${statusId}/1/${processId}/${statusId}`, fd).subscribe(filedata => {
+        this.spinnerservice.requestEnded();
+        let submitted = false;
+        let orderDetails: any = {};
+        this.selectedFile = [];
+        Swal.fire(
+          'Done!',
+          'Job Order added successfully!',
+          'success'
+        )
+      });
     }
-
-
-    jobMovement(processMovement){
-
-    }
-};
-
-
-
-
+  }
+}
 
