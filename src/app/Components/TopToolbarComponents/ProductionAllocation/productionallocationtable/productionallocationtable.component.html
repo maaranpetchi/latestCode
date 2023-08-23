@@ -47,6 +47,19 @@
                 (click)="getAllocatedJobId(job)"> {{ job.jobId }}
               </a> </td>
           </ng-container>
+          <ng-container matColumnDef="quatationJobId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div class="header-wrapper">
+                <div class="department-name text-center">Job ID </div>
+                <div class="filter-input">
+                  <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+                </div>
+              </div>
+            </th>
+            <td mat-cell *matCellDef="let job" class="text-center"> <a class="text-primary clickable-link"
+                (click)="getQuatationJobId(job)"> {{ job.jobId }}
+              </a> </td>
+          </ng-container>
           <ng-container matColumnDef="estjob">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               <div class="header-wrapper">

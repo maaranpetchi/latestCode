@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +9,7 @@ import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import Swal from 'sweetalert2/src/sweetalert2.js'
+import { QuotationPopupComponent } from '../quotation-popup/quotation-popup.component';
 @Component({
   selector: 'app-production-quotation',
   templateUrl: './production-quotation.component.html',
@@ -28,7 +29,9 @@ export class ProductionQuotationComponent implements OnInit{
     private loginservice: LoginService,
     private _coreService: CoreService,
     private router: Router,
-    public dialogRef: MatDialogRef<ProductionQuotationComponent>
+    public dialogRef: MatDialogRef<ProductionQuotationComponent>,
+    
+    private _dialog: MatDialog,
   ) {
     console.log(data, "InjectedData")
   }
@@ -58,7 +61,6 @@ export class ProductionQuotationComponent implements OnInit{
   estimatedTime: string;
 
   EstimatedTime: boolean = false;
-  remarksdata: boolean = false;
   EmployeData: boolean = false;
 
   Scopes: any[] = [];
@@ -82,7 +84,6 @@ export class ProductionQuotationComponent implements OnInit{
   }
   onFilterChange() {
     if (this.selectedQureryStatus == 6) {
-      this.remarksdata = true;
       this.EstimatedTime = false;
       this.EmployeData = false;
     }
@@ -404,7 +405,6 @@ export class ProductionQuotationComponent implements OnInit{
     if (this.selectedQureryStatus == 8) {
       if (this.jobCommonDetails.processId == 4) {
         this.EstimatedTime = true;
-        this.remarksdata = true;
         this.EmployeData = true;
         this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
           this.QueryDetailsList = result;
@@ -412,7 +412,6 @@ export class ProductionQuotationComponent implements OnInit{
       }
       else if (this.jobCommonDetails.processId == 6) {
         this.EstimatedTime = true;
-        this.remarksdata = true;
         this.EmployeData = true;
         this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
           this.QueryDetailsList = result;
@@ -428,11 +427,9 @@ export class ProductionQuotationComponent implements OnInit{
           this.QueryDetailsList = result.querylist;
           if (this.QueryDetailsList == null) {
             this.EstimatedTime = true;
-            this.remarksdata = true;
             this.EmployeData = true;
           }
           else {
-            this.remarksdata = true;
             this.EstimatedTime = false;
             this.EmployeData = false;
           }
@@ -442,7 +439,15 @@ export class ProductionQuotationComponent implements OnInit{
   }
 
   Quotation(){
-
-  }
+      const dialogRef = this._dialog.open(QuotationPopupComponent, {
+        width: '60%',
+        height: '800px',
+      })
+      dialogRef.afterClosed().subscribe({
+        next: (val) => {
+          console.log(val,"respose");
+        },
+      });
+    }
 
 }
