@@ -40,6 +40,7 @@ export class ProductionallocationtableComponent implements OnInit {
     selected: true,
     jobId: true,
     allocatedJobId: true,
+    quatationJobId:true,
     employee: true,
     estjob: true,
     fileName: true,
@@ -102,6 +103,9 @@ export class ProductionallocationtableComponent implements OnInit {
     }
     if (this.displayedColumnsVisibility.allocatedJobId) {
       result.push('allocatedJobId');
+    }
+    if (this.displayedColumnsVisibility.quatationJobId) {
+      result.push('quatationJobId');
     }
     if (this.displayedColumnsVisibility.employee) {
       result.push('employee');
@@ -331,6 +335,7 @@ export class ProductionallocationtableComponent implements OnInit {
           this.spinnerService.requestEnded();
           this.displayedColumnsVisibility.employee = false;
           this.displayedColumnsVisibility.allocatedJobId = false;
+          this.displayedColumnsVisibility.quatationJobId = false;
           this.displayedColumnsVisibility.jobId = true;
           this.displayedEmployeeColumnsVisibility.allocatedEmployee = false;
           this.displayedEmployeeColumnsVisibility.employees = true;
@@ -366,6 +371,7 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataSource.paginator = this.paginator1;
           this.dataSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = false;
+          this.displayedColumnsVisibility.quatationJobId = false;
           this.dataEmployeeSource = new MatTableDataSource(
             revisionJobs.employees
           );
@@ -395,6 +401,7 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataSource.paginator = this.paginator1;
           this.dataSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = false;
+          this.displayedColumnsVisibility.quatationJobId = false;
           this.dataEmployeeSource = new MatTableDataSource(
             reworkJobs.employees
           );
@@ -427,6 +434,7 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = true;
           this.displayedColumnsVisibility.allocatedJobId = true;
+          this.displayedColumnsVisibility.quatationJobId = false;
           this.displayedColumnsVisibility.jobId = false;
           this.displayedEmployeeColumnsVisibility.allocatedEmployee = true;
           this.displayedEmployeeColumnsVisibility.employees = false;
@@ -459,6 +467,7 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataSource.paginator = this.paginator1;
           this.dataSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = false;
+          this.displayedColumnsVisibility.quatationJobId = false;
           this.dataEmployeeSource = new MatTableDataSource(queries.employees);
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
@@ -488,6 +497,7 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataSource.paginator = this.paginator1;
           this.dataSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = false;
+          this.displayedColumnsVisibility.quatationJobId = false;
           this.dataEmployeeSource = new MatTableDataSource(
             queryResposne.employees
           );
@@ -520,6 +530,7 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = false;
+          this.displayedColumnsVisibility.quatationJobId = false;
           console.log('errorJobs');
         },
         error: (err) => {
@@ -666,9 +677,9 @@ export class ProductionallocationtableComponent implements OnInit {
     });
   }
   getAllocatedJobId(data: any) {
-    const dialogRef = this._dialog.open(ProductionQuotationComponent, {
+    const dialogRef = this._dialog.open(ProductionAllocatedPopupComponent, {
       width: '100%',
-      height: '450px',
+      height: '850px',
       data: data,
     });
     dialogRef.afterClosed().subscribe({
@@ -681,9 +692,9 @@ export class ProductionallocationtableComponent implements OnInit {
   }
   // 681
   getQuatationJobId(data:any){
-    const dialogRef = this._dialog.open(ProductionAllocatedPopupComponent, {
+    const dialogRef = this._dialog.open(ProductionQuotationComponent, {
       width: '100%',
-      height: '450px',
+      height: '850px',
       data: data,
     });
     dialogRef.afterClosed().subscribe({
@@ -882,7 +893,7 @@ export class ProductionallocationtableComponent implements OnInit {
             'success'
           )
           this.router.navigate(["topnavbar/production"]);
-          // this.refreshPage();
+          this.refreshPage();
         }
     (error) => {
       console.error('Error occurred during API call:', error);

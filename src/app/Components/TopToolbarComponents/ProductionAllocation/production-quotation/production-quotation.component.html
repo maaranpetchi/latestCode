@@ -157,14 +157,14 @@
           <mat-form-field>
             <mat-label>---Select status---</mat-label>
             <mat-select [(value)]="selectedQureryStatus" (selectionChange)="StatusChange()">
-              <mat-option value="Select status"></mat-option>
+              <mat-option value="Select status">Select status</mat-option>
               <mat-option value="6" (click)="Quotation()">Quotation</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="remarksdata">
+    <div class="row">
       <div class="col-md-4">remarks <span class="text-danger">*</span></div>
       <div class="col-md-4">
         <div class="querydropdown">
