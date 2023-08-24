@@ -7,7 +7,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { log } from 'console';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from '../../Spinner/spinner.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-addeditemployeevsdivision',
@@ -21,7 +23,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
 
   table2Data: MatTableDataSource<any>;
 
-
+  dialogRef: MatDialogRef<AddeditemployeevsdivisionComponent>;
   myForm: FormGroup;
   // table1Data: any;
   // table2Data: any;
@@ -32,7 +34,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
 
   @ViewChild('paginator1') paginator1: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
-  constructor(private spinnerService:SpinnerService, private fb: FormBuilder, private http: HttpClient) {
+  constructor(private spinnerService: SpinnerService, private fb: FormBuilder, private http: HttpClient, private dialog: MatDialog) {
 
   }
 
@@ -42,9 +44,18 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
     //   selectedValues: this.fb.array([])
     // });
     this.myForm = new FormGroup({ selectedValues: this.fb.array([]) });
+
+
+    this.getTable1();
+    this.getTable2();
+
+  }
+
+
+  getTable1() {
     this.spinnerService.requestStarted();
 
-    this.http.get<any>(environment.apiURL+'EmployeeVsDivision/GetEmployee').subscribe(data => {
+    this.http.get<any>(environment.apiURL + 'EmployeeVsDivision/GetEmployee').subscribe(data => {
       this.spinnerService.requestEnded();
       // this.table1Data =data.eEvDList ;
       this.table1Data = new MatTableDataSource(data.eEvDList);
@@ -54,8 +65,10 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
       this.table1Data.paginator = this.paginator1;
 
     });
+  }
 
-    this.http.get<any>(environment.apiURL+'EmployeeVsDivision/GetDivision').subscribe(data => {
+  getTable2() {
+    this.http.get<any>(environment.apiURL + 'EmployeeVsDivision/GetDivision').subscribe(data => {
       // this.table2Data = data.dEvDList;
       this.table2Data = new MatTableDataSource(data.dEvDList);
       this.table2Data.data.forEach(row => {
@@ -64,24 +77,6 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
       this.table2Data.paginator = this.paginator2;
     });
   }
-  // onPageChange(event: any) {
-  //   this.spinnerService.requestStarted();
-  //   const startIndex = event.pageIndex * event.pageSize;
-  //   const endIndex = startIndex + event.pageSize;
-  //   this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetEmployee?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
-  //     this.spinnerService.requestEnded();
-  //      this.table1Data.data = data.eEvDList;
-  //   });
-  // }
-  // onPageChange2(event: any) {
-  //   const startIndex = event.pageIndex * event.pageSize;
-  //   const endIndex = startIndex + event.pageSize;
-  //   this.http.get<any>(environment.apiURL+`EmployeeVsDivision/GetDivision?_start=${startIndex}&_end=${endIndex}`).subscribe(data => {
-  //     this.spinnerService.requestEnded();
-  //     this.table2Data.data = data.dEvDList;
-  //   });
-  // }
-
   onSubmit() {
     this.spinnerService.requestStarted();
     if (this.table1selectedarray.length > 0 && this.table2selectedarray.length > 0) {
@@ -94,7 +89,7 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
 
       // Submit the selected values to the REST API using HttpClient
 
-      this.http.post(environment.apiURL+'EmployeeVsDivision/SetEmployeeVsDivision', {
+      this.http.post<any>(environment.apiURL + 'EmployeeVsDivision/SetEmployeeVsDivision', {
         "selectedEmployee": this.table1selectedarray,
         "selectedDivision": this.table2selectedarray,
         "createdBy": 152,
@@ -103,12 +98,29 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
 
         // Handle the response from the API
         this.table1selectedarray = [];
-        this.table2selectedarray = [];        
-        alert("Successfuly data added")
+        this.table2selectedarray = [];
+
+
+        if (response.sEvDList =="Inserted Sucessfully") {
+          Swal.fire(
+            'Done!',
+            response.sEvDList,
+            'success'
+          )
+          this.dialogRef.close();
+        }
+
+        else {
+          Swal.fire(
+            'Error!',
+            response.sEvDList,
+            'error'
+          )
+        }
       });
     }
     else {
-
+      this.spinnerService.requestEnded();
     }
   }
 

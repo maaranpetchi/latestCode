@@ -47,29 +47,30 @@ export class ChangepasswordComponent implements OnInit {
       const userId = this.loginservice.getUserId();
       const oldPassword = this.passwordForm.value.oldPassword; 
       this.spinnerService.requestStarted();
-      this.http.post(environment.apiURL+'Account/ChangePassword', {
+      this.http.post<any>(environment.apiURL+'Account/ChangePassword', {
         "userId": userId,
         "oldPassword": oldPassword,
         "latestPassword": this.passwordForm.value.newPassword,
         "conformPassword": this.passwordForm.value.confirmPassword
-      }).subscribe(
-        (response) => {
+      }).subscribe(response => {
           this.spinnerService.requestEnded();
-          this.dialogRef.close()
+       if(response.result == true){
           Swal.fire(
             'Done!',
             'Password Changed Successfully!',
             'success'
           )
-        },
-        (error) => {
-          Swal.fire(
-            'Error!',
-            'Password Not Changed Successfully!',
-            'error'
-          ),
-                    this.spinnerService.resetSpinner();
+          this.dialogRef.close()
+       }
+       else{
+        Swal.fire(
+          'Error!',
+          'Password Not Changed Successfully!',
+          'error'
+        )
+       }
         }
+       
       );
     }
   } 

@@ -208,6 +208,14 @@ export class QualityWorkflowComponent implements OnInit {
       this.ChangeWorkflow(workType);
     }
     else if (workType == 'End') {
+      if (this.AttachedFiles.length == 0) {
+        Swal.fire(
+          'Please choose the file!',
+         'Alert',
+          'info'
+        )
+
+      }
       this.http.get<any>(environment.apiURL + `Workflow/ChecklistPopup?WFMId=${this.data.wfmid}`).subscribe(result => {
         this.checklist = result.check;
       });

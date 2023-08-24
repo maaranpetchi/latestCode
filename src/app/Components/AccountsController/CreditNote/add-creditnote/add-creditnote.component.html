@@ -24,7 +24,7 @@
                 <div class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Reference Number</mat-label>
-                        <input type="number" matInput placeholder="ReferenceNumber" formcontrolname="referencenumber">
+                        <input type="number" ngDefaultControl name="ReferenceNumber" matInput placeholder="ReferenceNumber" [ngModelOptions]="{standalone: true}"  [(ngModel)]="referencenumber">
                     </mat-form-field>
                 </div>
                 <div class="col">
@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col">
                     <mat-form-field>
-                        <mat-label>Customer</mat-label>
+                        <mat-label>Customer Name</mat-label>
                         <mat-select ngDefaultControl formControlName="customer"  (selectionChange)="onchangesubmit()"  [(value)]="selectedCustomerOption">
                             <mat-option *ngFor="let customerdropdownvalues of Customerdropdownvalues"
                                 [value]="customerdropdownvalues.id">
@@ -53,7 +53,24 @@
                 <div class="col">
                     <mat-form-field appearance="fill">
                         <mat-label>Credit Note Amount</mat-label>
-                        <input matInput placeholder="Invoice Type" formcontrolname="creditnoteamount">
+                        <input ngDefaultControl matInput placeholder="Invoice Type" [ngModelOptions]="{standalone: true}"  [(ngModel)]="creditnoteamount" name="creditnoteamount">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <input ngDefaultControl matInput placeholder="Invoice Type" [ngModelOptions]="{standalone: true}"  [(ngModel)]="description" name="description">
+                      </mat-form-field>
+                      
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Exchange Rate</mat-label> 
+                        <input ngDefaultControl  type="number" matInput placeholder="exchangeRate" [ngModelOptions]="{standalone: true}"  [(ngModel)]="exchangerate" name="exchangerate">
                     </mat-form-field>
                 </div>
             </div>
@@ -120,7 +137,9 @@
 
 
 </div>
-<div mat-dialog-actions>
-    <button mat-button>No Thanks</button>
-    <button mat-button (click)="onFormSubmit()">Ok</button>
+
+<div class="buttons">
+    <button class="btn btn-warning" (click)="cancel()" style="float:left;">Cancel</button>
+    <button class="btn btn-success" (click)="onFormSubmit()" style="float:right;">Submit</button>
+    <div style="clear:both;"></div>
 </div>
