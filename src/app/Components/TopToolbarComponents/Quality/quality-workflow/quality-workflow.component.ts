@@ -27,7 +27,7 @@ export class QualityWorkflowComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
-  ProcessTransaction:any;
+  ProcessTransaction: any;
   isHold: boolean;
   revisionCheck: any;
   SameEmp: any;
@@ -77,7 +77,7 @@ export class QualityWorkflowComponent implements OnInit {
 
   }
 
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private loginService: LoginService, private spinnerService: SpinnerService,    public dialogRef: MatDialogRef<QualityWorkflowComponent>
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private loginService: LoginService, private spinnerService: SpinnerService, public dialogRef: MatDialogRef<QualityWorkflowComponent>
   ) {
     console.log(data, "processdata");
   }
@@ -332,26 +332,20 @@ export class QualityWorkflowComponent implements OnInit {
     }
   }
   ChangeWorkflow(workType) {
-    console.log("Method Started 2");
     let ProcessCheck = localStorage.getItem('processid');
-    console.log(ProcessCheck, "Processchecking");
 
     if (ProcessCheck === '3' || ProcessCheck === '5' || ProcessCheck === '9' || ProcessCheck === '11') {
       if (this.data.stitchCountUpdate === undefined) {
         this.data.stitchCountUpdate = this.txtbpsoStitchCount;
-        console.log("if kulla condition");
-
       }
     }
 
     else {
-      console.log("else kulla condition");
 
       this.data.stitchCountUpdate = this.data.stitchCount;
     }
 
     if (this.RbnError == 'No Error') {
-      console.log("rbn condition");
 
       this.errorId = null;
     }
@@ -407,12 +401,14 @@ export class QualityWorkflowComponent implements OnInit {
             this.BindWorkDetails();
             this.confirmationMessage = ChangeWorkflowResult.message;
             this.spinnerService.requestEnded();
-      
+
             Swal.fire(
-              'Good job!',
+              'Done!',
               this.confirmationMessage,
               'success'
             )
+            this.closeDialog();
+
           });
 
 
@@ -610,7 +606,7 @@ export class QualityWorkflowComponent implements OnInit {
 
 
 
-  closeDialog(){
+  closeDialog() {
     this.dialogRef.close();
   }
 }

@@ -10,7 +10,7 @@ import { GetJobHistoryPopupComponent } from './completedjobpopupjobhistory/get-j
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { error } from 'jquery';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-completedjobs',
   templateUrl: './completedjobs.component.html',
@@ -86,7 +86,7 @@ export class CompletedjobsComponent implements OnInit {
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedQuery)
     if (completed == true) {
-      this.selectedQuery.push(item)
+      this.selectedQuery.push({...item,Comments:'',CategoryDesc:'',SelectedRows:[],CommentsToClient:'',SelectedEmployees:[]})
     }
     else {
 
@@ -100,12 +100,14 @@ export class CompletedjobsComponent implements OnInit {
     }
     console.log("after", this.selectedQuery)
   }
-  postdatabulk: any;
+  postdatabulk: any[]=[];
   bulkUpload() {
     this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Allocation/getCompletedJobs?EmpId=${this.loginservice.getUsername()}`).subscribe(data => {
       this.spinnerService.requestEnded();
       this.postdatabulk = data.clientDetails.resultCompletedJobsList;
+      console.log(this.postdatabulk, "postdatabulk");
+
     });
     let bulkuploaddata = {
       "id": 0,
@@ -129,46 +131,7 @@ export class CompletedjobsComponent implements OnInit {
       "jId": 0,
       "estimatedTime": 0,
       "tranMasterId": 0,
-      "selectedRows": [{
-        "id": 0,
-        "processId": 1,
-        "statusId": 12,
-        "selectedScopeId": 0,
-        "autoUploadJobs": false,
-        "employeeId": this.loginservice.getUsername(), //
-        "remarks": this.remarkValue,
-        "isBench": true,
-        "jobId": "string",
-        "value": 0,
-        "amount": 0,
-        "stitchCount": 0,
-        "estimationTime": 0,
-        "dateofDelivery": "2023-05-18T11:26:56.846Z",
-        "comments": "string",
-        "validity": 0,
-        "copyFiles": false,
-        "updatedBy": 0,
-        "jId": 0,
-        "estimatedTime": 0,
-        "tranMasterId": 0,
-        "selectedRows": [],
-        "selectedEmployees": [],
-        "departmentId": 0,
-        "updatedUTC": "2023-05-18T11:26:56.846Z",
-        "categoryDesc": "string",
-        "allocatedEstimatedTime": 0,
-        "tranId": 0,
-        "fileInwardType": "string",
-        "timeStamp": "AAAAAAAxLeM=",
-        "scopeId": 0,
-        "quotationRaisedby": 0,
-        "quotationraisedOn": "2023-05-18T11:26:56.846Z",
-        "clientId": 0,
-        "customerId": 0,
-        "fileReceivedDate": "2023-05-18T11:26:56.846Z",
-        "commentsToClient": "string",
-        "isJobFilesNotTransfer": true
-      }],
+      "SelectedRows": this.selectedQuery,
       "selectedEmployees": [],
       "departmentId": 0,
       "updatedUTC": "2023-05-18T11:26:56.846Z",
@@ -186,29 +149,22 @@ export class CompletedjobsComponent implements OnInit {
       "commentsToClient": "string",
       "isJobFilesNotTransfer": true
     }
-    // let bulkuploaddataa={
-    //   "id": 0,
-    //   "processId": 1,
-    //   "statusId": 12,
-    //   "autoUploadJobs": false,
-    //   "employeeId": 152,
-    //   "remarks": this.remarkValue,
-    //   "copyFiles": false,
-    //   "selectedRows":[{
-    //     "id": 0,
-    //     "processId": 1,
-    //     "statusId": 12,
-    //     "autoUploadJobs": false,
-    //     "employeeId": 152,
-    //     "remarks": this.remarkValue,
-    //     "copyFiles": false,
-    //     "selectedRows":[],
-    //     "isJobFilesNotTransfer": true
-    //   }],
-    //   "isJobFilesNotTransfer": true
-    // }
+
     this.http.post<any>(environment.apiURL + `Allocation/processMovement`, bulkuploaddata).subscribe(data => {
-      console.log(data, "dataprocess");
+if(data.success == true){
+  Swal.fire(
+    'Done!',
+    data.message,
+    'success'
+  )
+}
+else{
+  Swal.fire(
+    'Error!',
+    data.message,
+    'error'
+  )
+}
     });
   }
 

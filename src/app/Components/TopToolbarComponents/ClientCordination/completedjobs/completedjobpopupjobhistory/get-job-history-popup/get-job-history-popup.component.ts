@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 import Swal from 'sweetalert2/src/sweetalert2.js'
 import { CompletedjobsComponent } from '../../completedjobs.component';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-get-job-history-popup',
   templateUrl: './get-job-history-popup.component.html',
@@ -16,7 +17,8 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 export class GetJobHistoryPopupComponent implements OnInit {
   selectedJobs: { DepartmentId: any; TranMasterId: any; JId: any; CustomerId: any; JobId: string; Remarks: string; Comments: string; TimeStamp: string; CategoryDesc: string; SelectedRows: never[]; FileInwardType: string; CommentsToClient: string; SelectedEmployees: never[]; }[];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private loginservice: LoginService, private spinnerservice: SpinnerService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private cookieService: CookieService,private loginservice: LoginService, private spinnerservice: SpinnerService) { console.log(this.data,"InjectedData");
+  }
 
   displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy', 'MovedTo', 'remarks'];
   dataJobSource: MatTableDataSource<any>;
@@ -67,8 +69,8 @@ export class GetJobHistoryPopupComponent implements OnInit {
 
     var processMovement = {
       "id": 0,
-      "processId": 0,
-      "statusId": this.data.statusId.toString(),
+      "processId": this.data.processId,
+      "statusId": 12,
       "selectedScopeId": 0,
       "autoUploadJobs": true,
       "employeeId": this.loginservice.getUsername(),
@@ -114,33 +116,24 @@ export class GetJobHistoryPopupComponent implements OnInit {
 
   jobMovement(processMovement) {
     this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
-
-      if (result.message == "Job sent as query") {
+     console.log(result,"JobMovementResults");
+     
+       
+        this.fileUpload(result)
+        this.CompletedjobsComponent.getCompletedJobData();
         Swal.fire(
           ' Done!',
           result.message,
           'success'
         )
-        this.fileUpload();
-        this.CompletedjobsComponent.getCompletedJobData();
-
-      }
-      else {
-        Swal.fire(
-          'Alert!',
-          result.message,
-          'info'
-        )
-      }
-
     });
   }
 
 
 
-  fileUpload() {
-    const orderId = this.data.orderId;
-    const processId = this.data.processId;
+  fileUpload(result) {
+    const orderId = result.orderId;
+    const processId =  this.data.processId;
     const statusId = this.data.statusId;
     if (this.selectedFile?.length > 0) {
       const fd = new FormData();
@@ -153,11 +146,6 @@ export class GetJobHistoryPopupComponent implements OnInit {
         let submitted = false;
         let orderDetails: any = {};
         this.selectedFile = [];
-        Swal.fire(
-          'Done!',
-          'Job Order added successfully!',
-          'success'
-        )
       });
     }
   }

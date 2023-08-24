@@ -892,6 +892,60 @@ export class ProductionallocationtableComponent implements OnInit {
             'Job assigned successfully!',
             'success'
           )
+          this.http
+          .post(environment.apiURL + 'Allocation/processMovement', processMovement)
+          .subscribe((result) => {
+            confirmationMessage = result;
+            if (AttachedFiles.length > 0) {
+              var fd = new FormData();
+              for (let i = 0; i < AttachedFiles.length; i++) {
+                fd.append('file', AttachedFiles[i]);
+              }
+              let file = {
+                orderId: 0,
+                isClientOrder: 0,
+                processId: 0,
+                statusId: 0,
+                sourcePath: 'string',
+                dynamicFolderPath: 'string',
+                folderPath: 'string',
+                fileName: 'string',
+                fileCount: 0,
+                wfmId: 0,
+                wftId: 0,
+                orignalPath: 'string',
+                orignalDynamicPath: 'string',
+                jobId: 'string',
+                isProcessWorkFlowTranInserted: 0,
+                isCopyFiles: 0,
+                pid: 0,
+                fakeProcessId: 0,
+                fakeStatusId: 0,
+                fakeDynamicFolderPath: 'string',
+                jobFileName: 'string',
+                files: ['string'],
+                message: 'string',
+                creditMessage: 'string',
+                clientName: 'string',
+                clientId: 0,
+              };
+              this.spinnerService.requestStarted();
+              this.http
+                .post(environment.apiURL + 'JobOrder/openFolder', file)
+                .subscribe({
+                  next: (data) => {
+                    this.spinnerService.requestEnded();
+                    console.log(data);
+                    AttachedFiles = [];
+                    
+                  },
+                  error: (err) => {
+                    this.spinnerService.resetSpinner();
+                    console.log(err);
+                  }
+                })
+            }
+          });
           this.router.navigate(["topnavbar/production"]);
           this.refreshPage();
         }
@@ -906,60 +960,7 @@ export class ProductionallocationtableComponent implements OnInit {
     }
       });
 
-    this.http
-      .post(environment.apiURL + 'Allocation/processMovement', processMovement)
-      .subscribe((result) => {
-        confirmationMessage = result;
-        if (AttachedFiles.length > 0) {
-          var fd = new FormData();
-          for (let i = 0; i < AttachedFiles.length; i++) {
-            fd.append('file', AttachedFiles[i]);
-          }
-          let file = {
-            orderId: 0,
-            isClientOrder: 0,
-            processId: 0,
-            statusId: 0,
-            sourcePath: 'string',
-            dynamicFolderPath: 'string',
-            folderPath: 'string',
-            fileName: 'string',
-            fileCount: 0,
-            wfmId: 0,
-            wftId: 0,
-            orignalPath: 'string',
-            orignalDynamicPath: 'string',
-            jobId: 'string',
-            isProcessWorkFlowTranInserted: 0,
-            isCopyFiles: 0,
-            pid: 0,
-            fakeProcessId: 0,
-            fakeStatusId: 0,
-            fakeDynamicFolderPath: 'string',
-            jobFileName: 'string',
-            files: ['string'],
-            message: 'string',
-            creditMessage: 'string',
-            clientName: 'string',
-            clientId: 0,
-          };
-          this.spinnerService.requestStarted();
-          this.http
-            .post(environment.apiURL + 'JobOrder/openFolder', file)
-            .subscribe({
-              next: (data) => {
-                this.spinnerService.requestEnded();
-                console.log(data);
-                AttachedFiles = [];
-                
-              },
-              error: (err) => {
-                this.spinnerService.resetSpinner();
-                console.log(err);
-              }
-            })
-        }
-      });
+ 
   }
   ProcessMovementData(url: string, data: any): Observable<any> {
     return this.http.post(
