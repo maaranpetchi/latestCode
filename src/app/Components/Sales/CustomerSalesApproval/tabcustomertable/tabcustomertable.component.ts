@@ -18,11 +18,13 @@ import { CustomerSalesApprovalService } from 'src/app/Services/sales/CustomerSal
 })
 export class TabcustomertableComponent implements OnInit {
   ngOnInit(): void {
-this.ApprovedCustomer() 
-  }
-  constructor(private router : Router  ,private _coreService: CoreService, private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog, private spinnerService: SpinnerService,private sharedDataService:CustomerSalesApprovalService) { }
-  dataSource: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+ 
+    this.ApprovedCustomer()
+    }
+  constructor(private router: Router, private _coreService: CoreService, private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog, private spinnerService: SpinnerService, private sharedDataService: CustomerSalesApprovalService) {   this.dataSource.paginator = this.paginator1;}
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+
+  @ViewChild('paginator1') paginator1: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
 
@@ -34,7 +36,7 @@ this.ApprovedCustomer()
     classification: false,
     emailid: true,
     phonenumber: true,
-    approvedphonenumber:false,
+    approvedphonenumber: false,
     salesemployee: true,
     action: true,
 
@@ -77,27 +79,16 @@ this.ApprovedCustomer()
 
   employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue,"filtervalue");
-    
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-console.log(this.dataSource.paginator,"paginator");
+    console.log('Filter:', filterValue);
+   this.dataSource.filter = filterValue.trim().toLowerCase();
+   
+    console.log('Filtered Data:', this.dataSource.filteredData);
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-    
   }
-
   
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
 
   openEditForm(id: number) {
     let payload = {
@@ -120,13 +111,14 @@ console.log(this.dataSource.paginator,"paginator");
 
 
   ApprovedCustomer() {
-      // this.spinnerService.requestStarted();
-      this.http.get<any>(environment.apiURL + `Customer/getCustomerUnapproval?EmpId=${this.loginservice.getUsername()}`).subscribe(unapprovedCustomer => {
-       this.dataSource = unapprovedCustomer;
+    // this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Customer/getCustomerUnapproval?EmpId=${this.loginservice.getUsername()}`).subscribe(unapprovedCustomer => {
+ 
+
       this.displayedColumnsvisibility.customername = false; //
       this.displayedColumnsvisibility.companyname = true;
       this.displayedColumnsvisibility.approvedphonenumber = false;
-    
+
       this.displayedColumnsvisibility.customershortname = false; //
       this.displayedColumnsvisibility.address = true;
       this.displayedColumnsvisibility.classification = false;//
@@ -134,15 +126,22 @@ console.log(this.dataSource.paginator,"paginator");
       this.displayedColumnsvisibility.phonenumber = true;//
       this.displayedColumnsvisibility.salesemployee = true;//
       this.displayedColumnsvisibility.action = true;//
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource(
+        unapprovedCustomer
+      );
+      this.dataSource.paginator = this.paginator1;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
     });
   }
   UnApprovedCustomer() {
     // this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Customer/GetAllCustomers?EmpId=${this.loginservice.getUsername()}`).subscribe(approvedCustomer => {
-      this.dataSource = approvedCustomer;
+      this.dataSource = new MatTableDataSource(
+        approvedCustomer
+      );
+      this.dataSource.paginator = this.paginator1;
+      this.dataSource.sort = this.sort;
+
       // this.spinnerService.requestEnded();
       this.displayedColumnsvisibility.customername = true; //
       this.displayedColumnsvisibility.companyname = false;
@@ -154,14 +153,11 @@ console.log(this.dataSource.paginator,"paginator");
       this.displayedColumnsvisibility.approvedphonenumber = true;//
       this.displayedColumnsvisibility.salesemployee = true;//
       this.displayedColumnsvisibility.action = true;//
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
-
+   
     },
       error => {
         // this.spinnerService.resetSpinner();
       });
-}
+  }
 
 }

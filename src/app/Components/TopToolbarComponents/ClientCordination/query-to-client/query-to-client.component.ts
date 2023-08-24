@@ -123,7 +123,8 @@ queriesToClient(){
   this.spinnerService.requestStarted();
   this.http.get<any>( environment.apiURL+ `Allocation/getQueryPendingJobs/${this.loginservice.getUsername()}/1/0`).subscribe(data => {
    this.spinnerService.requestEnded();
-    this.dataSource = data.queryPendingJobs;
+ 
+    this.dataSource = new MatTableDataSource(data.queryPendingJobs);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = true;
@@ -136,7 +137,7 @@ queriesToClient(){
 queryResponse(){
   this.spinnerService.requestStarted();
   this.http.get<any>(environment.apiURL+`Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
-    this.dataSource = data.quotationJobs;
+    this.dataSource = new MatTableDataSource(data.quotationJobs);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = true;
@@ -149,7 +150,7 @@ cancelledJobs(){
   this.spinnerService.requestStarted();
   this.http.get<any>(environment.apiURL+`Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.spinnerService.requestEnded();
-    this.dataSource = data;
+    this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = true;
@@ -162,7 +163,7 @@ quotationJobs(){
   this.spinnerService.requestStarted();
   this.http.get<any>(environment.apiURL+`Allocation/getPendingJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
     this.spinnerService.requestEnded();
-    this.dataSource = data;
+    this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.displayedColumnsVisibility.status = false;
