@@ -347,7 +347,8 @@ export class ProductionallocationtableComponent implements OnInit {
           );
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
-          console.log('freshJobs');
+          console.log('freshJobs',            freshJobs.employees
+          );
         },
         error: (err) => {
           this.spinnerService.resetSpinner();

@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { SpinnerService } from '../Spinner/spinner.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,9 +17,12 @@ export class DashboardComponent implements OnInit {
   public thirdValue: string='';
   public isChecked: boolean=true;
   process: { Id: any; Name: any; };
-  constructor(private http:HttpClient,private router:Router,private loginservice:LoginService) { }
+  isAdmin: any;
+  constructor(private http:HttpClient,private router:Router,private loginservice:LoginService,private spinnerService:SpinnerService,private cookieService:CookieService) { }
 
   ngOnInit(): void {
+    this.getProcesses();
+    this.checkIsAdmin();
   }
   employeeProcess:any;
 
@@ -64,5 +69,126 @@ export class DashboardComponent implements OnInit {
   openReportsWindow() {
     const UserId = localStorage.getItem('UserId');
     window.open('http://localhost:61928/#/Login?id=' + UserId, '_blank');
+  }
+
+
+  Processes: any[] = [];
+  getProcesses() {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Account/getEmployeeProcess/${this.loginservice.getUsername()}`).subscribe(data => {
+      this.spinnerService.requestEnded();
+      this.Processes = data.employeeProcess;
+
+console.log(this.Processes ,"thisProcesses");
+    }, error => {
+      this.spinnerService.resetSpinner();
+    });
+  }
+
+  routeNav(process: any) {
+    if (process.id == 1) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/clientindex']);
+    }
+    else if (process.id == 2) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/production']);
+    }
+    else if (process.id == 3) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/productionmain']);
+    }
+    else if (process.id == 4) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/qualityallocation']);
+    }
+    else if (process.id == 5) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/quality']);
+    }
+    else if (process.id == 6) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/proofreadingallocation']);
+    }
+    else if (process.id == 7) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/proofreading']);
+    }
+    else if (process.id == 9) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/buddyproof']);
+    }
+    else if (process.id == 11) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/sewout']);
+    }
+    else if (process.id == 1013) {
+      this.cookieService.set('processId', process.id);
+      this.cookieService.set('processName', process.name);
+      this.router.navigate(['/topnavbar/Reports']);
+    }
+  }
+
+permission: any[] = []
+  checkIsAdmin() {
+    // this.loader = true;
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Account/checkIsAdmin/${this.loginservice.getUsername()}`).subscribe(
+      (data) => {
+        this.spinnerService.requestEnded();
+        this.isAdmin = data.success;
+        this.permission = this.GetMenuPermission(data.menu);
+      },
+      (error) => {
+        console.error('Error checking admin status:', error);
+      },
+      () => {
+        this.spinnerService.resetSpinner();
+      }
+    );
+  }
+  GetMenuPermission(val: string) {
+
+    if (val) {
+
+      val = val.replaceAll('|', '');
+      const b = val.split(',');
+      const c = b.map(x => parseInt(x))
+      console.log(c);
+      return c;
+    }
+    return [];
+  }
+
+
+  checkIsTrue(inputarray, isAdmin) {
+    let result = false
+    if (isAdmin) {
+      result = true;
+    }
+    if (!result) {
+      this.permission.forEach(x => {
+        if (inputarray.includes(x)) {
+          result = true;
+
+        }
+      })
+    }
+    return result;
+  }
+  IsMenuHaveAccess(val:number){
+    let item=this.Processes.find(x=>x.id==val);
+    if(item)
+      return true;
+    return false;
   }
 }

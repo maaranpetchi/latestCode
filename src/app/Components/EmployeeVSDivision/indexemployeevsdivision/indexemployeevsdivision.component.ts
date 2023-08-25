@@ -66,11 +66,9 @@ export class indexemployeevsdivisionComponent implements OnInit {
       error:console.log,
     });
   }
-
-  applyFilter(event: Event) {
+  employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

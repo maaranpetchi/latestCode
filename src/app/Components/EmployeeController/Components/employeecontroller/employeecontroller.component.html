@@ -8,29 +8,23 @@
 </head>
 
 <body style="height: 123vh;">
-
   <div class="container">
-    <div class="employee">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Employee
-            <span>
-              <a class="btn btn-success" (click)="openAddEditEmployee()" matTooltip="Add Employee!"
-                matTooltipPosition="below">
-                <mat-icon class="glyphicon glyphicon-plus-sign">add</mat-icon>
-              </a>
-            </span>
-          </h3>
-        </div>
-        <div class="checkbox">
-          <mat-checkbox (change)="onCheckboxChange($event,1)">Include Delete Employee</mat-checkbox>
-          <mat-checkbox (change)="onCheckboxChange($event,2)">Include Resign Employee</mat-checkbox>
-        </div>
-        <div class="table">
-          <div class="example-container mat-elevation-z8">
+    <div class="advance">
+      <div class="customerProfile">
+        <div class="backgroundcolor">
+          <div class="panel-heading">
+            <h2 class="panel-title" style="color:#fff;">
+               Employee <mat-icon class="add-icon" matTooltip="Add Employee"
+                (click)="openAddEditEmployee()">add_box</mat-icon>
+            </h2>
+          </div>
 
-            <mat-table class="table table-sm table-responsive" mat-table #table [dataSource]="dataSource" matSort>
+          <div class="table-container">
+            <div class="checkbox">
+              <mat-checkbox (change)="onCheckboxChange($event,1)">Include Delete Employee</mat-checkbox>
+              <mat-checkbox (change)="onCheckboxChange($event,2)">Include Resign Employee</mat-checkbox>
+            </div>
+            <table class="table table-sm table-responsive" mat-table #table [dataSource]="dataSource" id="custom-table" matSort>
 
               <ng-container matColumnDef="employeeCode">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -144,15 +138,14 @@
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </mat-table>
-            <mat-paginator [pageSizeOptions]="[25, 50]" showFirstLastButtons></mat-paginator>
+            </table>
           </div>
-        </div>
+          <mat-paginator [pageSizeOptions]="[25, 50]" showFirstLastButtons></mat-paginator>
       </div>
     </div>
   </div>
 
-
+</div>
 
 </body>
 

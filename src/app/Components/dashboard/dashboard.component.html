@@ -8,16 +8,16 @@
 <body style="height: 130vh;">
   <div class="parentdashboard">
     <div class="dashboard">
-      <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px">
+      <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px" >
         <a routerLink="/topnavbar/clientindex">
-          <mat-grid-tile class="ClientCoordination">
+          <mat-grid-tile class="ClientCoordination" *ngIf="IsMenuHaveAccess(1)" >
             <!-- first card component goes here -->
             ClientCoordination
           </mat-grid-tile>
         </a>
   
         <a routerLink="/topnavbar/production">
-          <mat-grid-tile class=" ProductionAllocation">
+          <mat-grid-tile class=" ProductionAllocation"  *ngIf="IsMenuHaveAccess(2)" >
             <!-- second card component goes here -->
             Production Allocation
           </mat-grid-tile>
@@ -25,7 +25,7 @@
   
   
         <a routerLink="/topnavbar/productionmain">
-          <mat-grid-tile class=" Production">
+          <mat-grid-tile class=" Production" *ngIf="IsMenuHaveAccess(3)" >
             <!-- third card component goes here -->
             Production
           </mat-grid-tile>
@@ -37,21 +37,21 @@
   
       <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px">
         <a routerLink="/topnavbar/qualityallocation">
-          <mat-grid-tile class="QualityAllocation">
+          <mat-grid-tile class="QualityAllocation" *ngIf="IsMenuHaveAccess(4)" >
             <!-- first card component goes here -->
             Quality Allocation
           </mat-grid-tile>
         </a>
   
         <a routerLink="/topnavbar/quality">
-          <mat-grid-tile class="quality">
+          <mat-grid-tile class="quality" *ngIf="IsMenuHaveAccess(5)" >
             <!-- second card component goes here -->
             Quality
           </mat-grid-tile>
         </a>
   
         <a routerLink="/topnavbar/proofreadingallocation">
-          <mat-grid-tile class=" ProofReadingAllocation">
+          <mat-grid-tile class=" ProofReadingAllocation" *ngIf="IsMenuHaveAccess(6)" >
             <!-- third card component goes here -->
             Proof Reading Allocation
           </mat-grid-tile>
@@ -60,20 +60,20 @@
       <br>
       <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px">
         <a routerLink="/topnavbar/proofreading">
-          <mat-grid-tile class="ProofReading">
+          <mat-grid-tile class="ProofReading" *ngIf="IsMenuHaveAccess(7)" >
             <!-- first card component goes here -->
             Proof Reading
           </mat-grid-tile>
         </a>
         <a routerLink="/topnavbar/buddyproof">
-          <mat-grid-tile class="BuddyProof">
+          <mat-grid-tile class="BuddyProof" *ngIf="IsMenuHaveAccess(9)" >
             <!-- second card component goes here -->
             Buddy Proof
           </mat-grid-tile>
         </a>
   
         <a routerLink="/topnavbar/sewout">
-          <mat-grid-tile class="SewOut">
+          <mat-grid-tile class="SewOut" *ngIf="IsMenuHaveAccess(11)" >
             <!-- third card component goes here -->
             Sew Out
           </mat-grid-tile>
@@ -86,7 +86,7 @@
 
           <mat-grid-list cols="1" rowHeight="100px"  gutterSize="16px">
             <a routerLink="/topnavbar/index">
-              <mat-grid-tile class="Reportstitle">
+              <mat-grid-tile class="Reportstitle" *ngIf="IsMenuHaveAccess(1013)" >
                 <!-- first card component goes here -->
                 Reports
               </mat-grid-tile>
