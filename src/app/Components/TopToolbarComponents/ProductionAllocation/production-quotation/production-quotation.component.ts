@@ -438,10 +438,12 @@ export class ProductionQuotationComponent implements OnInit{
     }
   }
 
-  Quotation(){
+  Quotation(data:any){
+    data={...data,statusId:19}
       const dialogRef = this._dialog.open(QuotationPopupComponent, {
         width: '60%',
         height: '800px',
+        data:data
       })
       dialogRef.afterClosed().subscribe({
         next: (val) => {

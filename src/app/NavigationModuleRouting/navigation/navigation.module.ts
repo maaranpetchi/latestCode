@@ -133,6 +133,8 @@ import { IndexSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/in
 import { AddEditSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
 import { ViewSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
 import { UpdateSkillSetComponent } from 'src/app/Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
+import { ProductionQuotationComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/production-quotation/production-quotation.component';
+import { QuotationPopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/quotation-popup/quotation-popup.component';
 
 @NgModule({
   declarations: [
@@ -147,6 +149,9 @@ import { UpdateSkillSetComponent } from 'src/app/Components/EmployeeVSSkillset/u
     ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
     ProductionallocationComponent,
+    
+    ProductionQuotationComponent,
+    QuotationPopupComponent,
     GetJobHistoryPopupComponent,
     ProductionallocationtableComponent,
     JobAssignedDetailsPopupComponent,
@@ -333,6 +338,7 @@ CustomervsdivisionindexComponent,
     AddEditSkillsetComponent,
     ViewSkillsetComponent,
     UpdateSkillSetComponent,
+
   ],
   imports: [
     CommonModule,

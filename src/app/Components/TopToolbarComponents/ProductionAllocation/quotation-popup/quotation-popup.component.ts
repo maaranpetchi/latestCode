@@ -1,58 +1,197 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Validators, FormBuilder } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { UserMasterService } from 'src/app/Services/Master/user-master.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-quotation-popup',
   templateUrl: './quotation-popup.component.html',
-  styleUrls: ['./quotation-popup.component.scss']
+  styleUrls: ['./quotation-popup.component.scss'],
 })
-export class QuotationPopupComponent implements OnInit{
+export class QuotationPopupComponent implements OnInit {
   Scopes: any[] = [];
   selectedScope: any = 0;
-  comments:any;
-  selectedfromDate:any;
-  
+  comments: any;
+  selectedfromDate: any;
+  selectedFile: File[] = [];
+
   constructor(
-    
-    public dialogRef: MatDialogRef<QuotationPopupComponent>,    
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<QuotationPopupComponent>,
     private builder: FormBuilder,
-    private http:HttpClient,
-    private loginservice:LoginService
-  ){}
+    private http: HttpClient,
+    private loginservice: LoginService,
+    private spinnerService: SpinnerService
+  ) {
+    console.log(data, "pop-updata");
+    
+  }
 
   ngOnInit(): void {
     this.fetchScopes();
   }
   userRegistrationForm = this.builder.group({
-    employeeUsers:['', Validators.required],
-    accessName: ['', Validators.required],
-    employeeName: [null, Validators.required],
+    estimatedTime: ['', Validators.required],
+    dateofDelivery: ['', Validators.required],
+    comment: ['', Validators.required],
+    fileattachment: ['', Validators.required],
   });
 
   onFileSelected(event: any) {
-    const selectedFile = event.target.files[0];
-    console.log('Selected file:', selectedFile);
-    // You can perform further operations with the selected file here
+    this.selectedFile = [event.target.files[0], ...this.selectedFile]; //store the selected file in selectdfile
   }
-  onCancel(){
+  onCancel() {
     this.dialogRef.close();
   }
 
-  onFormSubmit(){
+  onFormSubmit() {
+    
+    var confirmationMessage: any;
+    let AttachedFiles = [];
+    let saveData = {
+      id: 0,
+      processId: this.loginservice.getProcessId(),
+      statusId: this.data.statusId,
+      selectedScopeId: this.selectedScope ? this.selectedScope : 0,
+      autoUploadJobs: true,
+      employeeId: this.loginservice.getUsername(),
+      remarks: this.userRegistrationForm.value.comment,
+      isBench: true,
+      jobId: this.data.jobId,
+      value: 0,
+      amount: 0,
+      stitchCount: 0,
+      estimationTime: 0,
+      dateofDelivery: this.userRegistrationForm.value.dateofDelivery,
+      comments: this.userRegistrationForm.value.comment,
+      validity: 0,
+      copyFiles: true,
+      updatedBy: 0,
+      jId: 0,
+      estimatedTime: this.userRegistrationForm.value.estimatedTime,
+      tranMasterId: 0,
+      selectedRows: [
+        {
+          customerId: this.data.customerId,
+          departmentId: this.data.departmentId,
+          estimatedTime: this.userRegistrationForm.value.estimatedTime,
+          jId: this.data.jId,
+          tranMasterId: this.data.tranMasterId,
+          Comments: '',
+          TimeStamp: '',
+          SelectedEmployees: '',
+          JobId: this.data.jobId,
+          FileInwardType: '',
+          CommentsToClient: '',
+          CategoryDesc: '',
+          selectedEmployees: [],
+          selectedRows: [],
+        },
+      ],
+      selectedEmployees: [],
+      departmentId: 0,
+      updatedUTC: '2023-06-22T11:47:25.193Z',
+      categoryDesc: 'string',
+      allocatedEstimatedTime: 0,
+      tranId: 0,
+      fileInwardType: 'string',
+      timeStamp: '',
+      scopeId: this.selectedScope ? this.selectedScope : 0,
+      quotationRaisedby: this.loginservice.getUsername(),
+      quotationraisedOn: '2023-06-22T11:47:25.193Z',
+      clientId: 0,
+      customerId: 0,
+      fileReceivedDate: '2023-06-22T11:47:25.193Z',
+      commentsToClient: 'string',
+      isJobFilesNotTransfer: true,
+    };
+    this.http
+      .post(environment.apiURL + `Allocation/processMovement`, saveData)
+      .subscribe(
+        (response: any) => {
+          confirmationMessage = response;
+          if (response.success === true) {
+            Swal.fire('Done!', 'Quotation assigned successfully!', 'success');
+            console.log('Condition is true:', response);
+          } else {
+            Swal.fire('Done!', 'Quotation assigned Failed!', 'error');
+            console.log('Condition is false:', response);
+          }
+          this.http
+          .post(environment.apiURL + 'Allocation/processMovement', saveData)
+          .subscribe((result) => {
+            confirmationMessage = result;
+            if (this.selectedFile.length > 0) {
+              var fd = new FormData();
+              for (let i = 0; i < this.selectedFile.length; i++) {
+                fd.append('file', this.selectedFile[i]);
+              }
+              let file = {
+                orderId: this.data.jId,
+                isClientOrder: 0,
+                processId: this.loginservice.getProcessId(),
+                statusId: 0,
+                sourcePath: 'string',
+                dynamicFolderPath: 'string',
+                folderPath: 'string',
+                fileName: 'string',
+                fileCount: 0,
+                wfmId: 0,
+                wftId: 0,
+                orignalPath: 'string',
+                orignalDynamicPath: 'string',
+                jobId: 'string',
+                isProcessWorkFlowTranInserted: 0,
+                isCopyFiles: 0,
+                pid: 0,
+                fakeProcessId: 0,
+                fakeStatusId: 0,
+                fakeDynamicFolderPath: 'string',
+                jobFileName: 'string',
+                files: ['string'],
+                message: 'string',
+                creditMessage: 'string',
+                clientName: 'string',
+                clientId: 0,
+              };
+              this.spinnerService.requestStarted();
+              this.http
+                .post(environment.apiURL + `File/uploadFiles/${this.data.jId}/0/${this.loginservice.getProcessId()}/${this.data.statusId}/1/${this.loginservice.getProcessId()}/${this.data.statusId}`, file)
+                .subscribe({
+                  next: (data) => {
+                    this.spinnerService.requestEnded();
+                    console.log(data);
+                    AttachedFiles = [];
+                  },
+                  error: (err) => {
+                    this.spinnerService.resetSpinner();
+                    console.log(err);
+                  },
+                });
+            }
+          });
+        },
+        (error) => {
+          console.error('An error occurred:', error);
+        }
+      );
 
+   
   }
   fetchScopes() {
     this.http
       .get<any>(
         environment.apiURL +
-        `Allocation/getScopeValues/${this.loginservice.getUsername()}`
+          `Allocation/getScopeValues/${this.loginservice.getUsername()}`
       )
       .subscribe((scopedata) => {
-        this.Scopes = scopedata.scopeDetails; // Sort the scopes based on the 'name' property
+        this.Scopes = scopedata.scopeDetails;
       });
   }
 }

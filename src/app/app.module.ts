@@ -36,8 +36,6 @@ import { QuotationPopupComponent } from './Components/TopToolbarComponents/Produ
     PricingApprovalprocessComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
-    ProductionQuotationComponent,
-    QuotationPopupComponent,
   
 
    
