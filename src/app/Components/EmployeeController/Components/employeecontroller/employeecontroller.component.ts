@@ -135,7 +135,9 @@ export class EmployeecontrollerComponent implements OnInit {
       this.isResignInclude = event.checked;
     }
     if (this.isDeletedInclude || this.isResignInclude) {
+      this.spinnerService.requestStarted();
       this.http.get<any[]>(environment.apiURL + `Employee/GetEmployeeWithDelete?IsDeleted=${this.isDeletedInclude ? 1 : 0}&IsResigned=${this.isResignInclude ? 1 : 0}`).subscribe(data => {
+        this.spinnerService.requestEnded();
         this.dataSource.data = data;
       });
     } else {
