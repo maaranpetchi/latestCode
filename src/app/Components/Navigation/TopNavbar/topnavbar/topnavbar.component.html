@@ -213,6 +213,13 @@
         <mat-icon class="push_pin">push_pin</mat-icon> <span class="sidelabel">IT ASSET</span>
       </mat-list-item>
 
+      <mat-list-item routerLink="customerNorms">
+        <mat-icon class="push_pin">push_pin</mat-icon> <span class="sidelabel">CUSTOMER NORMS</span>
+      </mat-list-item>
+      <mat-list-item routerLink="attendance">
+        <mat-icon class="push_pin">push_pin</mat-icon> <span class="sidelabel">ATTENDANCE</span>
+      </mat-list-item>
+
       <mat-list-item routerLink="vendor" *ngIf="this.checkIsTrue([1102], isAdmin)">
         <mat-icon class="push_pin">push_pin</mat-icon> <span class="sidelabel">VENDOR</span>
       </mat-list-item>

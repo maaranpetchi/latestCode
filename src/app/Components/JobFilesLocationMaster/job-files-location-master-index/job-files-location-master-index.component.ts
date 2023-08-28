@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { SpinnerService } from '../../Spinner/spinner.service';
 import { environment } from 'src/Environments/environment';
 import Swal from 'sweetalert2/src/sweetalert2.js'
+import { error } from 'jquery';
 @Component({
   selector: 'app-job-files-location-master-index',
   templateUrl: './job-files-location-master-index.component.html',
@@ -40,21 +41,30 @@ export class JobFilesLocationMasterIndexComponent implements OnInit {
   openEditForm(id) {
     this.AddVisible = false;
     this.UpdateVisible = true;
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Customer/CustomerJobLocUpdate?id=${id}`).subscribe(results => {
+      this.spinnerService.requestEnded();
+
       this.selectedClientId = results.jobslist.clientId;
       this.payloadId = results.jobslist.id;
       this.processId = results.jobslist.processId;
       this.selectedDepartmentId = results.jobslist.departmentId;
       this.FTPFilePath = results.jobslist.ftpfilePath;
       this.SelectedProcessName = results.jobslist.processName;
+    },(error)=>{
+      this.spinnerService.resetSpinner();
     })
   }
 
   getFetchTables() {
+    this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Report/GetLocationForJobOut`).subscribe(employees => {
+      this.spinnerService.requestEnded();
       this.dataSource = new MatTableDataSource(employees.jobslist);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    },(error)=>{
+      this.spinnerService.resetSpinner();
     });
   }
 
@@ -106,8 +116,6 @@ export class JobFilesLocationMasterIndexComponent implements OnInit {
   //submitadd
   CreateCustomerContact() {
 
-
-    
     let payload = {
       "id": 0,
       "clientId": this.selectedClientId,
@@ -192,117 +200,137 @@ export class JobFilesLocationMasterIndexComponent implements OnInit {
         "updatedBy": 0
       }
     }
+    this.spinnerService.requestStarted();
 
     this.http.post<any>(environment.apiURL + `Customer/createJobFilesLocationMaster`, payload).subscribe(results => {
-      alert("Addded");
-      console.log(results, "Results");
+      this.spinnerService.requestEnded();
 
+      Swal.fire(
+        results.message,
+      ).then((result) => {
+        if (result.isConfirmed) {
+        this.getFetchTables();
+      }
+      })
+    },(error)=>{
+      this.spinnerService.resetSpinner();
     })
   }
 
 
   UpdateCustomerContact() {
-let payload={
-  "id": this.payloadId,
-  "clientId": this.selectedClientId,
-  "departmentId": this.selectedDepartmentId,
-  "ftpfilePath": this.FTPFilePath,
-  "processId": this.processId,
-  "processName": this.SelectedProcessName,
-  "createdBy": 0,
-  "createdUtc": "2023-08-26T09:47:17.439Z",
-  "updatedBy": 0,
-  "updatedUtc": new Date().toISOString,
-  "isActive": true,
-  "customer": {
-    "id": 0,
-    "companyId": 0,
-    "name": "string",
-    "shortName": "string",
-    "customerClassificationId": 0,
-    "customerJobType": "string",
-    "creditDays": 0,
-    "isBlacklisted": true,
-    "blacklistedReasons": "string",
-    "createdUtc": "2023-08-26T09:47:17.439Z",
-    "updatedUtc": "2023-08-26T09:47:17.439Z",
-    "createdBy": 0,
-    "updatedBy": 0,
-    "isDeleted": true,
-    "timeZoneId": 0,
-    "creditLimit": 0,
-    "creditLimitAvailed": 0,
-    "billingCycleType": "string",
-    "middleName": "string",
-    "lastName": "string",
-    "approvedBy": 0,
-    "approvedDate": "2023-08-26T09:47:17.439Z",
-    "fax": "string",
-    "phone1": "string",
-    "isApproved": true,
-    "Timezone": "string",
-    "timezoneDescription": "string",
-    "timezoneType": "string",
-    "reportTimeZone": "string",
-    "country": "string",
-    "state": "string",
-    "city": "string",
-    "isAdmin": true,
-    "inputType": "string",
-    "outputType": "string",
-    "nativeTimeZoneDifference": 0,
-    "rpttimeZoneDifference": 0,
-    "isBulk": true,
-    "privilegedClient": "string",
-    "paymentMode": "string",
-    "cusRegId": 0,
-    "bunchMail": true,
-    "isManualUpload": true,
-    "isJobFilesNotTransfer": true,
-    "divisionId": 0,
-    "isRush": true,
-    "trialStartDate": "2023-08-26T09:47:17.439Z",
-    "liveStartDate": "2023-08-26T09:47:17.439Z",
-    "modeofSales": "string",
-    "currencyMode": "string",
-    "checklist": true,
-    "lostCustomerStatus": "string",
-    "TimeZoneNavigation": {
-      "id": 0,
-      "description": "string",
-      "istdiff": "string",
-      "timezoneDiff": "string",
-      "isDeleted": true,
-      "name": "string"
+    let payload = {
+      "id": this.payloadId,
+      "clientId": this.selectedClientId,
+      "departmentId": this.selectedDepartmentId,
+      "ftpfilePath": this.FTPFilePath,
+      "processId": this.processId,
+      "processName": this.SelectedProcessName,
+      "createdBy": 0,
+      "createdUtc": "2023-08-26T09:47:17.439Z",
+      "updatedBy": 0,
+      "updatedUtc": new Date().toISOString,
+      "isActive": true,
+      "customer": {
+        "id": 0,
+        "companyId": 0,
+        "name": "string",
+        "shortName": "string",
+        "customerClassificationId": 0,
+        "customerJobType": "string",
+        "creditDays": 0,
+        "isBlacklisted": true,
+        "blacklistedReasons": "string",
+        "createdUtc": "2023-08-26T09:47:17.439Z",
+        "updatedUtc": "2023-08-26T09:47:17.439Z",
+        "createdBy": 0,
+        "updatedBy": 0,
+        "isDeleted": true,
+        "timeZoneId": 0,
+        "creditLimit": 0,
+        "creditLimitAvailed": 0,
+        "billingCycleType": "string",
+        "middleName": "string",
+        "lastName": "string",
+        "approvedBy": 0,
+        "approvedDate": "2023-08-26T09:47:17.439Z",
+        "fax": "string",
+        "phone1": "string",
+        "isApproved": true,
+        "Timezone": "string",
+        "timezoneDescription": "string",
+        "timezoneType": "string",
+        "reportTimeZone": "string",
+        "country": "string",
+        "state": "string",
+        "city": "string",
+        "isAdmin": true,
+        "inputType": "string",
+        "outputType": "string",
+        "nativeTimeZoneDifference": 0,
+        "rpttimeZoneDifference": 0,
+        "isBulk": true,
+        "privilegedClient": "string",
+        "paymentMode": "string",
+        "cusRegId": 0,
+        "bunchMail": true,
+        "isManualUpload": true,
+        "isJobFilesNotTransfer": true,
+        "divisionId": 0,
+        "isRush": true,
+        "trialStartDate": "2023-08-26T09:47:17.439Z",
+        "liveStartDate": "2023-08-26T09:47:17.439Z",
+        "modeofSales": "string",
+        "currencyMode": "string",
+        "checklist": true,
+        "lostCustomerStatus": "string",
+        "TimeZoneNavigation": {
+          "id": 0,
+          "description": "string",
+          "istdiff": "string",
+          "timezoneDiff": "string",
+          "isDeleted": true,
+          "name": "string"
+        }
+      },
+      "department": {
+        "id": 0,
+        "description": "string",
+        "isDeleted": true,
+        "createdUtc": "2023-08-26T09:47:17.439Z",
+        "updatedUtc": "2023-08-26T09:47:17.439Z",
+        "createdBy": 0,
+        "updatedBy": 0
+      }
     }
-  },
-  "department": {
-    "id": 0,
-    "description": "string",
-    "isDeleted": true,
-    "createdUtc": "2023-08-26T09:47:17.439Z",
-    "updatedUtc": "2023-08-26T09:47:17.439Z",
-    "createdBy": 0,
-    "updatedBy": 0
+    this.spinnerService.requestStarted();
+
+    this.http.post<any>(environment.apiURL + `Customer/UpdateJobLocationInfo`, payload).subscribe(results => {
+      this.spinnerService.requestEnded();
+
+   
+      Swal.fire(
+        'Done!',
+        'Updated Data Successfully!',
+        'success'
+      ).then((result) => {
+        if (result.isConfirmed) {
+        this.getFetchTables();
+      }
+      })
+    },error => {
+      this.spinnerService.resetSpinner();
+
+    })
   }
-}
-
-this.http.post<any>(environment.apiURL + `Customer/UpdateJobLocationInfo`,payload).subscribe(results =>{
-  Swal.fire(
-    'Done!',
-    'Updated Data Successfully!',
-    'success'
-  )
-})
-  }
 
 
-  reset(){
+  reset() {
     this.AddVisible = true;
     this.UpdateVisible = false;
-    this.selectedClientId='';
-    this.selectedDepartmentId='';
-    this.FTPFilePath='';
-    this.SelectedProcessName='';
+    this.selectedClientId = '';
+    this.selectedDepartmentId = '';
+    this.FTPFilePath = '';
+    this.SelectedProcessName = '';
   }
 }

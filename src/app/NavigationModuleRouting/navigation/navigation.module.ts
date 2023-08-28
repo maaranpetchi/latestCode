@@ -134,6 +134,10 @@ import { AddEditSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/
 import { ViewSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
 import { UpdateSkillSetComponent } from 'src/app/Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
 import { JobFilesLocationMasterIndexComponent } from 'src/app/Components/JobFilesLocationMaster/job-files-location-master-index/job-files-location-master-index.component';
+import { CustomernormsindexComponent } from 'src/app/Components/CustomerNorms/customernormsindex/customernormsindex.component';
+import { AddCustomerNormsComponent } from 'src/app/Components/CustomerNorms/add-customer-norms/add-customer-norms.component';
+import { UpdateCustomerNormsComponent } from 'src/app/Components/CustomerNorms/update-customer-norms/update-customer-norms.component';
+import { AttendanceIndexComponent } from 'src/app/Components/Attendance/attendance-index/attendance-index.component';
 
 @NgModule({
   declarations: [
@@ -338,6 +342,16 @@ CustomervsdivisionindexComponent,
 
     //JOBFILESLOCATIONMASTER
     JobFilesLocationMasterIndexComponent,
+
+
+    //customerNorms
+    CustomernormsindexComponent,
+    AddCustomerNormsComponent,
+    UpdateCustomerNormsComponent,
+  
+
+    //Attendance
+    AttendanceIndexComponent,
 
   ],
   imports: [

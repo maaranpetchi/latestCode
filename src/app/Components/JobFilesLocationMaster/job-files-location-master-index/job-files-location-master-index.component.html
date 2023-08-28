@@ -39,7 +39,7 @@
                                         <mat-label>Customer</mat-label>
                                         <mat-select [(ngModel)]="selectedClientId" name="customerId">
                                           <mat-option *ngFor="let customer of customers" [value]="customer.id">
-                                            {{ customer.name }}
+                                            {{ customer.shortName }}
                                           </mat-option>
                                         </mat-select>
                                       </mat-form-field>
