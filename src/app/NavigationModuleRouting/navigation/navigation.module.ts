@@ -133,6 +133,7 @@ import { IndexSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/in
 import { AddEditSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
 import { ViewSkillsetComponent } from 'src/app/Components/EmployeeVSSkillset/view-skillset/view-skillset.component';
 import { UpdateSkillSetComponent } from 'src/app/Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
+import { JobFilesLocationMasterIndexComponent } from 'src/app/Components/JobFilesLocationMaster/job-files-location-master-index/job-files-location-master-index.component';
 
 @NgModule({
   declarations: [
@@ -333,6 +334,11 @@ CustomervsdivisionindexComponent,
     AddEditSkillsetComponent,
     ViewSkillsetComponent,
     UpdateSkillSetComponent,
+
+
+    //JOBFILESLOCATIONMASTER
+    JobFilesLocationMasterIndexComponent,
+
   ],
   imports: [
     CommonModule,

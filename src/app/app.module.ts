@@ -20,8 +20,7 @@ import { PricingApprovalprocessComponent } from './Components/Sales/pricing-appr
 import { EmployeePopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/employee-popup/employee-popup.component';
 import { JobCategorypopupComponent } from './Components/TopToolbarComponents/ProofReadingAllocation/job-categorypopup/job-categorypopup.component';
 import { VendorService } from './Services/Vendor/vendor.service';
-import { AddEditSkillsetComponent } from './Components/EmployeeVSSkillset/add-edit-skillset/add-edit-skillset.component';
-import { UpdateSkillSetComponent } from './Components/EmployeeVSSkillset/update-skill-set/update-skill-set.component';
+
 import { ProductionQuotationComponent } from './Components/TopToolbarComponents/ProductionAllocation/production-quotation/production-quotation.component';
 import { QuotationPopupComponent } from './Components/TopToolbarComponents/ProductionAllocation/quotation-popup/quotation-popup.component';
 @NgModule({
@@ -39,7 +38,6 @@ import { QuotationPopupComponent } from './Components/TopToolbarComponents/Produ
     ProductionQuotationComponent,
     QuotationPopupComponent,
   
-
    
    ],
   imports: [
