@@ -55,4 +55,9 @@ export class ViewSkillsetComponent implements OnInit {
   
   }
 
+
+  cancel(){
+    this.router.navigate(['/topnavbar/indexskillset']);
+
+  }
 }

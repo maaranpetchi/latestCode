@@ -34,6 +34,7 @@ export class UpdateSkillSetComponent implements OnInit {
   selectedProficiency:any
   fetchUpdateData() {
     this.employeeSkill = this.apiResponseData.skillSetName
+    this.selectedProficiency = this.apiResponseData.proficiencyLevel
   }
 
   updateForm(){
