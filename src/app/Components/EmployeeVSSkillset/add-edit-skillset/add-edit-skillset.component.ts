@@ -13,6 +13,7 @@ import Swal from 'sweetalert2/src/sweetalert2.js'
 export class AddEditSkillsetComponent implements OnInit {
   getSelectedProficiency: any;
   apiResponseData: any;
+  filteredEmployeeCodes: any[] = [];
   ngOnInit(): void {
     this.getEmployeeCode();
   }
@@ -28,11 +29,8 @@ export class AddEditSkillsetComponent implements OnInit {
   }
 
   // Update selected employee code when input matches a code
-  checkDropdownValue() {
-    const matchingCode = this.employeeCodes.find(code => code.employeeCode === this.inputValue);
-    if (matchingCode) {
-      this.selectedEmployeeCode = matchingCode.employeeId;
-    }
+  filterEmployeeCodes() {
+    this.filteredEmployeeCodes = this.employeeCodes.filter(code => code.employeeCode.includes(this.inputValue));
   }
 
   //EmployeeName
@@ -52,6 +50,7 @@ export class AddEditSkillsetComponent implements OnInit {
   getEmployeeCode() {
     this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetDropDownList`).subscribe(getCode => {
       this.employeeCodes = getCode.employeelist,
+      this.filteredEmployeeCodes = this.employeeCodes; // Initialize the filtered list with all codes
         this.divisions = getCode.divisionlist;
       this.scopeOptions = getCode.skilllist;
     })

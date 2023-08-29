@@ -124,6 +124,16 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
     }
   }
 
+
+  employeeFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.table1Data.filter = filterValue.trim().toLowerCase();
+    if (this.table1Data.paginator) {
+      this.table1Data.paginator.firstPage();
+    }
+  }
+
+
   setAll(completed: boolean, item: any) {
     if (completed == true) {
       this.table1selectedarray.push({ employeeId: item.employeeId, departmentId: item.departmentId })

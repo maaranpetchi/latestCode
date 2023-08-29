@@ -1,58 +1,77 @@
-
-
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-    <h1 style="font-family: 'Times New Roman', Times, serif;color:#186be9;text-align: center;">Employee VS Divsion</h1>
-    <div class="row">
-        <div class="col">
-
-            <mat-table [dataSource]="table1Data">
-                <!-- Define columns and rows here -->
-                <ng-container matColumnDef="employeeCode">
-                    <mat-header-cell *matHeaderCellDef> EmployeeCode </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{ element.employeeCode }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="employeeName">
-                    <mat-header-cell *matHeaderCellDef> EmployeeName </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{ element.employeeName }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="selected">
-                    <mat-header-cell *matHeaderCellDef> Select </mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <mat-checkbox [formControlName]="element.employeeId.toString()" (change)="setAll($event.checked,element)" ></mat-checkbox>
-
-                    </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="['employeeCode', 'employeeName', 'selected']"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: ['employeeCode', 'employeeName', 'selected']"></mat-row>
-
-            </mat-table>
-            <mat-paginator #paginator1 [pageSizeOptions]="[25, 50,75,100]" aria-label="Select page of users"></mat-paginator>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="empvsdiv">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <h1 style="font-family: 'Times New Roman', Times, serif;color:#186be9;text-align: center;">Employee VS Divsion</h1>
+        <div class="row">
+            <div class="col">
+                <div class="table-container">
+                    <mat-table id="custom-table" [dataSource]="table1Data">
+                        <!-- Define columns and rows here -->
+                        <ng-container matColumnDef="employeeCode">
+                            <mat-header-cell *matHeaderCellDef> EmployeeCode </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{ element.employeeCode }} </mat-cell>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="employeeName">
+                            <mat-header-cell *matHeaderCellDef> EmployeeName </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{ element.employeeName }} </mat-cell>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="selected">
+                            <mat-header-cell *matHeaderCellDef> Select </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-checkbox [formControlName]="element.employeeId.toString()"
+                                    (change)="setAll($event.checked,element)"></mat-checkbox>
+    
+                            </mat-cell>
+                        </ng-container>
+    
+                        <mat-header-row *matHeaderRowDef="['employeeCode', 'employeeName', 'selected']"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: ['employeeCode', 'employeeName', 'selected']"></mat-row>
+    
+                    </mat-table>
+                    <mat-paginator #paginator1 [pageSizeOptions]="[25, 50,75,100]"
+                        aria-label="Select page of users"></mat-paginator>
+                </div>
+            </div>
+            <div class="col">
+                <div class="table-container">
+    
+                    <mat-table id="custom-table" [dataSource]="table2Data">
+                        <!-- Define columns and rows here -->
+                        <ng-container matColumnDef="divisionName">
+                            <mat-header-cell *matHeaderCellDef> Divisions </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{ element.divisionName }} </mat-cell>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="selected">
+                            <mat-header-cell *matHeaderCellDef> Select </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-checkbox [formControlName]='element.id.toString()+"hi"'
+                                    (change)="setAll2($event.checked,element)"></mat-checkbox>
+                            </mat-cell>
+                        </ng-container>
+    
+                        <mat-header-row *matHeaderRowDef="['divisionName', 'selected']"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: ['divisionName','selected']"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginator2 [pageSizeOptions]="[25, 50,75,100]"></mat-paginator>
+                </div>
+            </div>
         </div>
-        <div class="col">
-            <mat-table [dataSource]="table2Data">
-                <!-- Define columns and rows here -->
-                <ng-container matColumnDef="divisionName">
-                    <mat-header-cell *matHeaderCellDef> Divisions </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{ element.divisionName }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="selected">
-                    <mat-header-cell *matHeaderCellDef> Select </mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <mat-checkbox [formControlName]='element.id.toString()+"hi"' (change)="setAll2($event.checked,element)" ></mat-checkbox>
-                    </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="['divisionName', 'selected']"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: ['divisionName','selected']"></mat-row>
-            </mat-table>
-            <mat-paginator #paginator2 [pageSizeOptions]="[25, 50,75,100]"></mat-paginator>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary" >Submit</button>
-
-</form>
+    
+       <div class="buttons" style="float: right;padding:20px">
+        <button type="submit" class="btn btn-primary">Submit</button>
+       </div>
+    
+    </form>
+</div>
+</body>
+</html>
