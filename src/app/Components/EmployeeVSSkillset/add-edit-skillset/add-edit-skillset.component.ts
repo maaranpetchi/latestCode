@@ -5,6 +5,8 @@ import { EmpvsdivService } from 'src/app/Services/EmployeeVSDivision/empvsdiv.se
 import { EmployeevsskillsetService } from 'src/app/Services/EmployeeVsSkillset/employeevsskillset.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import Swal from 'sweetalert2/src/sweetalert2.js'
+import { SpinnerService } from '../../Spinner/spinner.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-edit-skillset',
   templateUrl: './add-edit-skillset.component.html',
@@ -18,7 +20,7 @@ export class AddEditSkillsetComponent implements OnInit {
     this.getEmployeeCode();
   }
 
-  constructor(private http: HttpClient, private loginservice: LoginService,private _empservice:EmployeevsskillsetService) { }
+  constructor(private http: HttpClient, private loginservice: LoginService, private _empservice: EmployeevsskillsetService, private spinnerService: SpinnerService,private router:Router ) { }
 
   //Search 
   inputValue: string = ''; // Input value from the text field
@@ -40,19 +42,45 @@ export class AddEditSkillsetComponent implements OnInit {
   employeeCodes: any[] = [];
   selectedEmployeeCode: any; // Property to store selected code
   onSelectCode(code: string): void {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeCodeByEmployeeId?employeeid=${code}`).subscribe({
+      next: (getEmployeeName) => {
+        this.spinnerService.requestEnded();
 
-    console.log(code, "CodeId");
-    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeCodeByEmployeeId?employeeid=${code}`).subscribe(getEmployeeName => {
-      this.selectedEmployeeName = getEmployeeName.employeeName;
+        this.selectedEmployeeName = getEmployeeName.employeeName;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
+
     })
     // this.selectedEmployeeCode = code;
   }
   getEmployeeCode() {
-    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetDropDownList`).subscribe(getCode => {
-      this.employeeCodes = getCode.employeelist,
-      this.filteredEmployeeCodes = this.employeeCodes; // Initialize the filtered list with all codes
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetDropDownList`).subscribe({
+      next: (getCode) => {
+        this.spinnerService.requestEnded();
+
+        this.employeeCodes = getCode.employeelist,
+          this.filteredEmployeeCodes = this.employeeCodes; // Initialize the filtered list with all codes
         this.divisions = getCode.divisionlist;
-      this.scopeOptions = getCode.skilllist;
+        this.scopeOptions = getCode.skilllist;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        Swal.fire(
+          'Error!',
+          'An error occurred !',
+          'error'
+        );
+      }
+
     })
   }
 
@@ -87,7 +115,7 @@ export class AddEditSkillsetComponent implements OnInit {
       const skillsetId = this.selectedScope
       const skill = this.scopeOptions.find(scope => scope.id === this.selectedScope)?.description || '';
       const ProficiencyLevel = this.selectedProficiency;
-      this.tableData.push({ skillsetId, skill, ProficiencyLevel, AddCountpara: [], EmployeeCode: '', EmployeeName: '', WorkingStatus: '',  });
+      this.tableData.push({ skillsetId, skill, ProficiencyLevel, AddCountpara: [], EmployeeCode: '', EmployeeName: '', WorkingStatus: '', });
       this.selectedScope = null;
       this.getSelectedProficiency = this.selectedProficiency;
       this.selectedProficiency = '';
@@ -116,13 +144,29 @@ export class AddEditSkillsetComponent implements OnInit {
       "addCountpara": this.tableData
 
     }
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + `EmployeeVsSkillset/CreateEmployeeSkillset`, payload).subscribe({
+      next: (response) => {
+        this.spinnerService.requestEnded();
 
-    this.http.post<any>(environment.apiURL + `EmployeeVsSkillset/CreateEmployeeSkillset`, payload).subscribe(response => {
-      Swal.fire(
-        'Done!',
-        response.evSList,
-        'success'
-      )
+        Swal.fire(
+          'Done!',
+          response.evSList,
+          'success'
+        ).then((result)=>{
+          if (result.isConfirmed) {
+            this.router.navigate(['/topnavbar/indexskillset']);
+        }
+        })
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     })
   }
 }

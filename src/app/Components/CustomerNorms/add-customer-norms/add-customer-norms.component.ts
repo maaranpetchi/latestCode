@@ -18,7 +18,7 @@ export class AddCustomerNormsComponent implements OnInit {
     this.fetchJobStatus();
     this.fetchDivision();
   }
-  constructor(private loginservice:LoginService,private http: HttpClient, private router: Router, private spinnerService: SpinnerService, private _empService: CustomerNormsService) { }
+  constructor(private loginservice: LoginService, private http: HttpClient, private router: Router, private spinnerService: SpinnerService, private _empService: CustomerNormsService) { }
 
   //Array declaration
   departments: any[] = [];
@@ -34,59 +34,147 @@ export class AddCustomerNormsComponent implements OnInit {
   selectedJobStatus: any;
   selectedProcess: any;
   selectedDivision: any;
-  norms:any;
+  norms: any;
   //Method
   fetchDepartments(): void {
-    this.http.get<any>(environment.apiURL + `Pricing/pricingList`).subscribe(data => {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Pricing/pricingList`).subscribe({
+      next:(data) => {
+      this.spinnerService.requestEnded();
       this.departments = data.departments;
       this.customers = data.customers;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     });
   }
   onSelectCode(id) {
-    this.http.get<any>(environment.apiURL + `Pricing/ScopeByDeptCustId?clientid=${id}&departmentId=${this.selectedDepartment}`).subscribe(results => {
-      this.scopes = results
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Pricing/ScopeByDeptCustId?clientid=${id}&departmentId=${this.selectedDepartment}`).subscribe({
+      next:(results) => {
+      this.spinnerService.requestEnded();
+
+      this.scopes = results;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     })
   }
   fetchJobStatus(): void {
-    this.http.get<any>(environment.apiURL + `Pricing/GetJobStatusList`).subscribe(data => {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `Pricing/GetJobStatusList`).subscribe({
+      next:(data) => {
+      this.spinnerService.requestEnded();
       this.jobstatus = data.jsList;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     });
   }
   fetchProcess(): void {
-    this.http.get<any>(environment.apiURL + `Pricing/GetProcessListforNorms`).subscribe(data => {
+    this.spinnerService.requestStarted();
+
+    this.http.get<any>(environment.apiURL + `Pricing/GetProcessListforNorms`).subscribe({
+      next:(data) => {
+      this.spinnerService.requestEnded();
       this.process = data.prList;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     });
   }
   fetchDivision(): void {
-    this.http.get<any>(environment.apiURL + `Pricing/GetCusDvisionforNorms`).subscribe(data => {
+    this.spinnerService.requestStarted();
+
+    this.http.get<any>(environment.apiURL + `Pricing/GetCusDvisionforNorms`).subscribe({
+      next:(data) => {
+      this.spinnerService.requestEnded();
       this.CustomerDivisions = data.divList;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     });
   }
 
   onSubmit() {
-let payload={
-  "id": 0,
-  "customerId": this.selectedCustomer,
-  "customerShortName": "string",
-  "departmentId": this.selectedDepartment,
-  "processId": this.selectedProcess,
-  "jobStatusId": this.selectedJobStatus,
-  "scopeId": this.selectedScope,
-  "norms": this.norms,
-  "divisionId": this.selectedDivision,
-  "createdBy": this.loginservice.getUsername(),
-  "createdUTC": "2023-08-28T07:48:36.543Z",
-  "updatedBy": 0,
-  "updatedUTC": "2023-08-28T07:48:36.543Z",
-  "isDeleted": true
-}
+    let payload = {
+      "id": 0,
+      "customerId": this.selectedCustomer,
+      "customerShortName": "string",
+      "departmentId": this.selectedDepartment,
+      "processId": this.selectedProcess,
+      "jobStatusId": this.selectedJobStatus,
+      "scopeId": this.selectedScope,
+      "norms": this.norms,
+      "divisionId": this.selectedDivision,
+      "createdBy": this.loginservice.getUsername(),
+      "createdUTC": "2023-08-28T07:48:36.543Z",
+      "updatedBy": 0,
+      "updatedUTC": "2023-08-28T07:48:36.543Z",
+      "isDeleted": true
+    }
 
-this.http.post<any>(environment.apiURL+`Pricing/CreateCustomerNormDetails`,payload).subscribe(results =>{
-  Swal.fire(
-    'Done!',
-  results.stringList,
-    'success'
-  )
-})
+    this.spinnerService.requestStarted();
+
+    this.http.post<any>(environment.apiURL + `Pricing/CreateCustomerNormDetails`, payload).subscribe({
+      next: (results) => {
+        this.spinnerService.requestEnded();
+
+        Swal.fire(
+          'Done!',
+          results.stringList,
+          'success'
+        ).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/topnavbar/customerNorms']);
+          }
+        })
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
+    })
+
   }
 }

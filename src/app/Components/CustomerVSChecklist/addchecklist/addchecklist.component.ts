@@ -39,24 +39,42 @@ export class AddchecklistComponent implements OnInit {
   customers: any[] = [];
 
   fetchDataAndOpenForm() {
-    this.http.get(environment.apiURL + `CustomerVsChecklist/GetChecklistDetails?id=${this.data.data.id}`).subscribe((data: any) => {
-      console.log(data, "fetchdata");
+    this.spinnerService.requestStarted();
+    this.http.get(environment.apiURL + `CustomerVsChecklist/GetChecklistDetails?id=${this.data.data.id}`).subscribe({
+      next:(data: any) => {
+      this.spinnerService.requestEnded();
 
       this.selectedDepartment = data.dept.id;
       this.selectedCustomer = data.customer.id;
       this.checklistDescription = data.description;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        Swal.fire(
+          'Error!',
+          'An error occurred.',
+          'error'
+        );
+      }
+  
     });
   }
 
   fetchCustomers() {
-    this.http.get<any>(environment.apiURL + `CustomerVsChecklist/GetDropDownList`).subscribe(
-      (data) => {
+    this.http.get<any>(environment.apiURL + `CustomerVsChecklist/GetDropDownList`).subscribe({
+      next:(data) => {
         this.customers = data.customerList;
       },
-      (error) => {
-        console.log('Error fetching customers:', error);
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        Swal.fire(
+          'Error!',
+          'An error occurred .',
+          'error'
+        );
       }
-    );
+  
+      });
   }
 
   onFormSubmit() {
@@ -76,8 +94,13 @@ export class AddchecklistComponent implements OnInit {
           'Done!',
           "Added Successfully",
           'success'
-        )
-        window.location.reload();
+        ).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/topnavbar/CustomerVsChecklist']);
+        }
+
+        this.dialogRef.close();
+        })
         
        
       }, (error) => {
@@ -240,10 +263,13 @@ export class AddchecklistComponent implements OnInit {
             'Updated!',
             'Employee detail updated!',
             'success'
-          )
-         
-          this.dialogRef.close(true);
-          // window.location.reload();
+          ).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/topnavbar/CustomerVsChecklist']);
+          }
+          })
+          this.dialogRef.close();
+
 
         },
         error: (err: any) => {

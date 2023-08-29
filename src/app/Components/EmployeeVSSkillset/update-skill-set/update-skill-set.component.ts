@@ -62,13 +62,29 @@ export class UpdateSkillSetComponent implements OnInit {
         "updatedUtc": new Date().toISOString
       }
     }
+this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL+`EmployeeVsSkillset/UpdateEmployeeSkill`,payload).subscribe({
+      next:(response) =>{
+        this.spinnerService.requestEnded();
 
-    this.http.post<any>(environment.apiURL+`EmployeeVsSkillset/UpdateEmployeeSkill`,payload).subscribe(response =>{
       Swal.fire(
         'Done!',
         'Updated Data Successfully!',
         'success'
-      )
+      ).then((result)=>{
+        if (result.isConfirmed) {
+          this.router.navigate(['/topnavbar/indexskillset']);
+      }
+      })
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     })
   }
 

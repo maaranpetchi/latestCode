@@ -20,18 +20,31 @@ export class IndexSkillsetComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http:HttpClient,private router:Router,private spinnerService:SpinnerService,private _empService:EmployeevsskillsetService) { }
+  constructor(private http: HttpClient, private router: Router, private spinnerService: SpinnerService, private _empService: EmployeevsskillsetService) { }
 
   ngOnInit(): void {
-   this.getFetchTables();
+    this.getFetchTables();
   }
-getFetchTables(){
-  this.http.get<any>(environment.apiURL+`EmployeeVsSkillset/ShowEmployeeVsSkillset`).subscribe(employees => {
-    this.dataSource = new MatTableDataSource(employees.gEvSlist);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  });
-}
+  getFetchTables() {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/ShowEmployeeVsSkillset`).subscribe({
+      next: (employees) => {
+        this.spinnerService.requestEnded();
+        this.dataSource = new MatTableDataSource(employees.gEvSlist);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
+    });
+  }
 
   employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -41,40 +54,73 @@ getFetchTables(){
     }
   }
 
-//aCTIONS
-openEditForm(id: number) {
-  this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeVsSkillsetbyId?id=${id}`).subscribe(results => {
-    this._empService.setData({ type: 'EDIT', data: results });
-    this._empService.shouldFetchData = true;
-    this.router.navigate(['/topnavbar/updateskillset']);
-  });
+  //aCTIONS
+  openEditForm(id: number) {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeVsSkillsetbyId?id=${id}`).subscribe({
+      next: (results) => {
+        this.spinnerService.requestEnded();
+        this._empService.setData({ type: 'EDIT', data: results });
+        this._empService.shouldFetchData = true;
+        this.router.navigate(['/topnavbar/updateskillset']);
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
+    });
 
-}
-viewEmployee(id: number) {
-  this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeVsSkillsetbyId?id=${id}`).subscribe(results => {
-    this._empService.setData({ type: 'EDIT', data: results });
-    this._empService.shouldFetchData = true;
-    this.router.navigate(['/topnavbar/viewskillset']);
-  });
-}
-deleteEmployee(id: number) {
-   this.spinnerService.requestStarted();
-this.http.get<any>(environment.apiURL+`EmployeeVsSkillset/Delete-Skill?id=${id}`).subscribe({
-    next: (res) => {
-      this.spinnerService.requestEnded();
+  }
+  viewEmployee(id: number) {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeVsSkillsetbyId?id=${id}`).subscribe({
+      next: (results) => {
+        this._empService.setData({ type: 'EDIT', data: results });
+        this._empService.shouldFetchData = true;
+        this.router.navigate(['/topnavbar/viewskillset']);
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
+    });
+  }
+  deleteEmployee(id: number) {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/Delete-Skill?id=${id}`).subscribe({
+      next: (res) => {
+        this.spinnerService.requestEnded();
 
-      Swal.fire(
-        'Deleted!',
-        'Data deleted successfully!',
-        'success'
-      )
-      this.getFetchTables();
-    },
-    error: console.log,
-  });
-}
+        Swal.fire(
+          'Deleted!',
+          'Data deleted successfully!',
+          'success'
+        )
+        this.getFetchTables();
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
+    });
+  }
 
-OpenNewForm(){
-  this.router.navigate(['/topnavbar/addeditskillset']);
-}
+  OpenNewForm() {
+    this.router.navigate(['/topnavbar/addeditskillset']);
+  }
 }

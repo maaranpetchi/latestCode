@@ -26,10 +26,24 @@ export class CustomernormsindexComponent implements OnInit {
    this.getFetchTables();
   }
 getFetchTables(){
-  this.http.get<any>(environment.apiURL+`CustomerVsEmployee/GetCustomerNorms`).subscribe(employees => {
+  this.spinnerService.requestStarted();
+  this.http.get<any>(environment.apiURL+`CustomerVsEmployee/GetCustomerNorms`).subscribe({
+    next:(employees) => {
+    this.spinnerService.requestEnded();
     this.dataSource = new MatTableDataSource(employees);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    },
+    error: (err) => {
+      this.spinnerService.resetSpinner(); // Reset spinner on error
+      console.error(err);
+
+      Swal.fire(
+        'Error!',
+        'An error occurred !.',
+        'error'
+      );
+    }
   });
 }
 
@@ -43,18 +57,46 @@ getFetchTables(){
 
 //aCTIONS
 openEditForm(id: number) {
-  this.http.get<any>(environment.apiURL + `CustomerVsEmployee/GetCustomerNormsById?Id=${id}`).subscribe(results => {
+  this.spinnerService.requestStarted();
+  this.http.get<any>(environment.apiURL + `CustomerVsEmployee/GetCustomerNormsById?Id=${id}`).subscribe({
+    next:(results) => {
+    this.spinnerService.requestEnded();
     this._empService.setData({ type: 'EDIT', data: results });
     this._empService.shouldFetchData = true;
     this.router.navigate(['/topnavbar/updatecustomerNorms']);
+    },
+    error: (err) => {
+      this.spinnerService.resetSpinner(); // Reset spinner on error
+      console.error(err);
+
+      Swal.fire(
+        'Error!',
+        'An error occurred !.',
+        'error'
+      );
+    }
   });
 
 }
 viewEmployee(id: number) {
-  this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeVsSkillsetbyId?id=${id}`).subscribe(results => {
+  this.spinnerService.requestStarted();
+  this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeVsSkillsetbyId?id=${id}`).subscribe({
+    next:(results) => {
+    this.spinnerService.requestEnded();
     this._empService.setData({ type: 'EDIT', data: results });
     this._empService.shouldFetchData = true;
     this.router.navigate(['/topnavbar/viewskillset']);
+  },
+  error: (err) => {
+    this.spinnerService.resetSpinner(); // Reset spinner on error
+    console.error(err);
+
+    Swal.fire(
+      'Error!',
+      'An error occurred !.',
+      'error'
+    );
+  }
   });
 }
 deleteEmployee(id: number) {
@@ -77,7 +119,7 @@ this.http.post<any>(environment.apiURL+`CustomerVsEmployee/DeleteCustomerNormByI
 
       Swal.fire(
         'Error!',
-        'An error occurred while deleting data.',
+        'An error occurred !.',
         'error'
       );
     }

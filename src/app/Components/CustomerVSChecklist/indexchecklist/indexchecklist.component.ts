@@ -96,15 +96,23 @@ export class IndexchecklistComponent implements OnInit {
         )
         this.fetchtableData();
       },
-      error: console.log,
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
+  
     });
   }
 
 
   openViewForm(data: any){
     const dialogRef = this._dialog.open(ViewchecklistComponent, {
-      height: '60vh',
-      width: '50vw',
+     height: '40vh',
+     width: '50vw',
       data
     });
 

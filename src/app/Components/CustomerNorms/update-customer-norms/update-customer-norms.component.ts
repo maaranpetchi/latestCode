@@ -20,39 +20,39 @@ export class UpdateCustomerNormsComponent implements OnInit {
       console.log(data, "Data 1");
       this.apiResponseData = data.data;
       console.log(this.apiResponseData, "apiresponsedata");
-  this.fetchUpdateData();
+      this.fetchUpdateData();
       this._empservice.shouldFetchData = false;
     }
   }
 
-  constructor(private http: HttpClient, private router: Router, private spinnerService: SpinnerService, private _empservice: CustomerNormsService,private loginservice:LoginService) { }
+  constructor(private http: HttpClient, private router: Router, private spinnerService: SpinnerService, private _empservice: CustomerNormsService, private loginservice: LoginService) { }
 
   employeeSkill: any;
-  selectedProficiency:any
+  selectedProficiency: any
   fetchUpdateData() {
-    this.Departmentname=this.apiResponseData.getNormsList[0].departmentname;
-    this.CustomerShortName=this.apiResponseData.getNormsList[0].customerShortName;
-    this.ScopeName=this.apiResponseData.getNormsList[0].scopeName;
-    this.Jobstatus=this.apiResponseData.getNormsList[0].jobstatus;
-    this.Processname=this.apiResponseData.getNormsList[0].processname;
-    this.DivisionName=this.apiResponseData.getNormsList[0].divisionName;
+    this.Departmentname = this.apiResponseData.getNormsList[0].departmentname;
+    this.CustomerShortName = this.apiResponseData.getNormsList[0].customerShortName;
+    this.ScopeName = this.apiResponseData.getNormsList[0].scopeName;
+    this.Jobstatus = this.apiResponseData.getNormsList[0].jobstatus;
+    this.Processname = this.apiResponseData.getNormsList[0].processname;
+    this.DivisionName = this.apiResponseData.getNormsList[0].divisionName;
     this.Norms = this.apiResponseData.getNormsList[0].norms;
   }
 
 
   //ngmodel
-  Departmentname:any;
-  CustomerShortName:any;
-  ScopeName:any;
-  Jobstatus:any;
-  Processname:any;
-  DivisionName:any;
-  Norms:any;
+  Departmentname: any;
+  CustomerShortName: any;
+  ScopeName: any;
+  Jobstatus: any;
+  Processname: any;
+  DivisionName: any;
+  Norms: any;
 
 
-  update(){
-    let payload={
-      "id":this.apiResponseData.getNormsList[0].id ,
+  update() {
+    let payload = {
+      "id": this.apiResponseData.getNormsList[0].id,
       "customerId": 0,
       "customerShortName": "string",
       "departmentId": 0,
@@ -67,8 +67,11 @@ export class UpdateCustomerNormsComponent implements OnInit {
       "updatedBy": this.loginservice.getUsername(),
       "updatedUtc": "2023-08-28T09:05:51.829Z"
     }
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + `CustomerVsEmployee/EditCustomerNorms`, payload).subscribe({
+      next:(results) => {
+      this.spinnerService.requestEnded();
 
-    this.http.post<any>(environment.apiURL+`CustomerVsEmployee/EditCustomerNorms`,payload).subscribe(results=>{
       Swal.fire(
         'Done!',
         'Updated Data Successfully!',
@@ -76,13 +79,24 @@ export class UpdateCustomerNormsComponent implements OnInit {
       ).then((result) => {
         if (result.isConfirmed) {
           this.router.navigate(['/topnavbar/customerNorms']);
-      }
+        }
       })
+    },
+    error: (err) => {
+      this.spinnerService.resetSpinner(); // Reset spinner on error
+      console.error(err);
+
+      Swal.fire(
+        'Error!',
+        'An error occurred .',
+        'error'
+      );
+    }
     })
   }
 
 
-  Cancel(){
+  Cancel() {
     this.router.navigate(['/topnavbar/customerNorms']);
 
   }
