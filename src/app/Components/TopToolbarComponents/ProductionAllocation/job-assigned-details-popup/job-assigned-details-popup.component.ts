@@ -79,7 +79,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
-  onFilterChange() {
+  StatusChange() {
     if (this.selectedQureryStatus == 6) {
       this.remarksdata = true;
       this.EstimatedTime = false;
@@ -516,46 +516,46 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 
 
   ////////////Statuschange//////////
-  StatusChange() {
-    if (this.selectedQureryStatus == 8) {
-      if (this.jobCommonDetails.processId == 4) {
-        this.EstimatedTime = true;
-        this.remarksdata = true;
-        this.EmployeData = true;
-        this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
-          this.QueryDetailsList = result;
-        })
-      }
-      else if (this.jobCommonDetails.processId == 6) {
-        this.EstimatedTime = true;
-        this.remarksdata = true;
-        this.EmployeData = true;
-        this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
-          this.QueryDetailsList = result;
-        })
-      }
-      else {
-        var datas = {
-          WFTId: this.jobCommonDetails.tranId,
-          WFMId: this.jobCommonDetails.tranMasterId,
-          JId: this.jobCommonDetails.jId
-        }
-        this.http.post<any>(environment.apiURL + `ClientOrderService/QueryDetailspost`, datas).subscribe(result => {
-          this.QueryDetailsList = result.querylist;
-          if (this.QueryDetailsList == null) {
-            this.EstimatedTime = true;
-            this.remarksdata = true;
-            this.EmployeData = true;
-          }
-          else {
-            this.remarksdata = true;
-            this.EstimatedTime = false;
-            this.EmployeData = false;
-          }
-        });
-      }
-    }
-  }
+  // StatusChange() {
+  //   if (this.selectedQureryStatus == 8) {
+  //     if (this.jobCommonDetails.processId == 4) {
+  //       this.EstimatedTime = true;
+  //       this.remarksdata = true;
+  //       this.EmployeData = true;
+  //       this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+  //         this.QueryDetailsList = result;
+  //       })
+  //     }
+  //     else if (this.jobCommonDetails.processId == 6) {
+  //       this.EstimatedTime = true;
+  //       this.remarksdata = true;
+  //       this.EmployeData = true;
+  //       this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
+  //         this.QueryDetailsList = result;
+  //       })
+  //     }
+  //     else {
+  //       var datas = {
+  //         WFTId: this.jobCommonDetails.tranId,
+  //         WFMId: this.jobCommonDetails.tranMasterId,
+  //         JId: this.jobCommonDetails.jId
+  //       }
+  //       this.http.post<any>(environment.apiURL + `ClientOrderService/QueryDetailspost`, datas).subscribe(result => {
+  //         this.QueryDetailsList = result.querylist;
+  //         if (this.QueryDetailsList == null) {
+  //           this.EstimatedTime = true;
+  //           this.remarksdata = true;
+  //           this.EmployeData = true;
+  //         }
+  //         else {
+  //           this.remarksdata = true;
+  //           this.EstimatedTime = false;
+  //           this.EmployeData = false;
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
 
 
 }

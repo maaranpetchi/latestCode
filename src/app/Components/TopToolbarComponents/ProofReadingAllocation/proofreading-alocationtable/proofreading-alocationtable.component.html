@@ -5,8 +5,9 @@
 
       <div class="selectedJobTable mt-4">
         <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort
-            class="table table-sm  table-responsive table table-bordered text-center">
+          <div class="table-container">
+          <table mat-table [dataSource]="dataSource" id="custom-table" matSort
+          class="table table-sm  table-responsive table table-bordered text-center">
             <!--Checkbox to select the values-->
             <ng-container matColumnDef="selected">
               <th mat-sort-header mat-header-cell *matHeaderCellDef> Select </th>
@@ -191,6 +192,7 @@
             <!-- Table Rows -->
             <tr mat-row *matRowDef="let job; columns: displayedColumns;"></tr>
           </table>
+        </div>
           <mat-paginator #paginator1 [pageSizeOptions]="[25, 50,75,100]"
             aria-label="Select page of users"></mat-paginator>
         </div>
@@ -200,9 +202,10 @@
         <div class="row">
           <div class="col-8">
             <div class="mat-elevation-z8">
+              <div class="table-container">
               <h3 style="font-family: 'Times New Roman', Times, serif;color:#ff9710df">Assigned To:</h3>
-              <table mat-table [dataSource]="dataEmployeeSource" matSort
-                class="table table-sm table table-bordered text-center">
+              <table mat-table [dataSource]="dataEmployeeSource" id="custom-table" matSort
+              class="table table-sm  table-responsive table table-bordered text-center">
                 <!--Checkbox to select the values-->
                 <ng-container matColumnDef="selected">
                   <th mat-sort-header mat-header-cell *matHeaderCellDef> Select </th>
@@ -233,6 +236,7 @@
                 <!-- Table Rows -->
                 <tr mat-row *matRowDef="let job; columns: displayedEmployeeColumns;"></tr>
               </table>
+            </div>
               <mat-paginator #paginator2 [pageSizeOptions]="[25, 50,75,100]"
                 aria-label="Select page of users"></mat-paginator>
             </div>

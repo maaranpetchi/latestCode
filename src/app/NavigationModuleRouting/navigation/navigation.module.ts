@@ -138,6 +138,8 @@ import { CustomernormsindexComponent } from 'src/app/Components/CustomerNorms/cu
 import { AddCustomerNormsComponent } from 'src/app/Components/CustomerNorms/add-customer-norms/add-customer-norms.component';
 import { UpdateCustomerNormsComponent } from 'src/app/Components/CustomerNorms/update-customer-norms/update-customer-norms.component';
 import { AttendanceIndexComponent } from 'src/app/Components/Attendance/attendance-index/attendance-index.component';
+import { ProductionQuotationComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/production-quotation/production-quotation.component';
+import { QuotationPopupComponent } from 'src/app/Components/TopToolbarComponents/ProductionAllocation/quotation-popup/quotation-popup.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +154,9 @@ import { AttendanceIndexComponent } from 'src/app/Components/Attendance/attendan
     ClientordinationindexComponent,
     //SUBCATEGOROFCLIENTCORDINATION
     ProductionallocationComponent,
+    
+    ProductionQuotationComponent,
+    QuotationPopupComponent,
     GetJobHistoryPopupComponent,
     ProductionallocationtableComponent,
     JobAssignedDetailsPopupComponent,

@@ -36,8 +36,7 @@ import { AttendanceIndexComponent } from './Components/Attendance/attendance-ind
     PricingApprovalprocessComponent,
     EmployeePopupComponent,
     JobCategorypopupComponent,
-    ProductionQuotationComponent,
-    QuotationPopupComponent,
+  
 
    
    ],
