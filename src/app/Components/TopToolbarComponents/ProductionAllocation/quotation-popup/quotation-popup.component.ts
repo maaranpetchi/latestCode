@@ -4,9 +4,7 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import { UserMasterService } from 'src/app/Services/Master/user-master.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -53,7 +51,6 @@ export class QuotationPopupComponent implements OnInit {
   onFormSubmit() {
     
     var confirmationMessage: any;
-    let AttachedFiles = [];
     let saveData = {
       id: 0,
       processId: this.loginservice.getProcessId(),
@@ -132,42 +129,14 @@ export class QuotationPopupComponent implements OnInit {
               for (let i = 0; i < this.selectedFile.length; i++) {
                 fd.append('file', this.selectedFile[i]);
               }
-              let file = {
-                orderId: this.data.jId,
-                isClientOrder: 0,
-                processId: this.loginservice.getProcessId(),
-                statusId: 0,
-                sourcePath: 'string',
-                dynamicFolderPath: 'string',
-                folderPath: 'string',
-                fileName: 'string',
-                fileCount: 0,
-                wfmId: 0,
-                wftId: 0,
-                orignalPath: 'string',
-                orignalDynamicPath: 'string',
-                jobId: 'string',
-                isProcessWorkFlowTranInserted: 0,
-                isCopyFiles: 0,
-                pid: 0,
-                fakeProcessId: 0,
-                fakeStatusId: 0,
-                fakeDynamicFolderPath: 'string',
-                jobFileName: 'string',
-                files: ['string'],
-                message: 'string',
-                creditMessage: 'string',
-                clientName: 'string',
-                clientId: 0,
-              };
               this.spinnerService.requestStarted();
               this.http
-                .post(environment.apiURL + `File/uploadFiles/${this.data.jId}/0/${this.loginservice.getProcessId()}/${this.data.statusId}/1/${this.loginservice.getProcessId()}/${this.data.statusId}`, file)
+                .post(environment.apiURL + `File/uploadFiles/${this.data.jId}/0/${this.loginservice.getProcessId()}/${this.data.statusId}/1/${this.loginservice.getProcessId()}/${this.data.statusId}`, fd)
                 .subscribe({
                   next: (data) => {
                     this.spinnerService.requestEnded();
                     console.log(data);
-                    AttachedFiles = [];
+                    this.selectedFile = [];
                   },
                   error: (err) => {
                     this.spinnerService.resetSpinner();

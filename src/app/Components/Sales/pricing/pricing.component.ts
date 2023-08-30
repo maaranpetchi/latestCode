@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pricing',
@@ -58,8 +59,8 @@ export class PricingComponent implements OnInit {
   Scopes: any[] = [];
   dropdownOptions: any;
   ViewFileCountTable: any[]=[];
-  i: any;
   AddedRecord: any = [];
+  newItem: any = {};
 
   pricingtype: any;
   submitted: boolean;
@@ -295,38 +296,21 @@ export class PricingComponent implements OnInit {
       }
     })
   }
-  // onSubmit() {
-  //   if (this.userRegistrationForm.invalid) {
-  //     this.userRegistrationForm.markAllAsTouched(); // Mark the control as touched to trigger validation messages
-  //     return; // Stop form submission if the form is invalid
-  //   }
-  // }
   onCancel() {
-    this.router.navigate(['topnavbar/pricing'])
+    window.location.reload();
+    // this.router.navigate(['topnavbar/pricing'])
   }
-
   back() {
     window.location.reload();
   }
-
   CreateRateBasedFileCountAndConcession() {
     console.log('outside createbased file count');
-
     this.submitted = true;
-    if (this.userRegistrationForm.valid) {
-      this.userRegistrationForm.markAllAsTouched();
-      console.log('inside createbased file count');
-      let filecountdata = {
-        scopeId: this.selectedScope.id,
-        scopeTempDesc: this.selectedScope.description,
-      fromRange: this.selectedFrom,
-        toRange: this.selectedTo,
-       price: this.selectedCountPrice,
-      };
-      this.ViewFileCountTable.push(filecountdata);
-      // this.ViewFileCountTable = this.ViewFileCountTable;
+    if (this.newItem.selectedCountPrice) {
+      this.ViewFileCountTable.push(this.newItem);
+      this.newItem = {};
       this.ScopeBasedRateBasedFileCountTable = true;
-      return; // Stop form submission if the form is invalid
+      return;
     }
     this.ScopeBasedRateBasedFileCountTable = true;
   }
@@ -336,7 +320,6 @@ export class PricingComponent implements OnInit {
     if (this.userRegistrationForm.valid) {
       this.userRegistrationForm.markAllAsTouched();
       console.log('inside CreateEstimatedTime file count');
-      //  form control
       if (
         this.selectedFrom < this.selectedTo &&
         this.selectedFrom != this.selectedTo
@@ -405,8 +388,6 @@ export class PricingComponent implements OnInit {
   }
   CreatePricing() {
     let datas: any;
-    if (this.userRegistrationForm.valid) {
-      this.userRegistrationForm.markAllAsTouched();
     if (this.selectedPricing == 1 || this.selectedPricing == 9) {
       datas = {
         departments: [],
@@ -645,10 +626,27 @@ export class PricingComponent implements OnInit {
     }
     this.http
       .post(environment.apiURL + `Pricing/AddPricingWithScope`, datas)
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         this.jobStatusFormControl = response;
+        if(response && response.stringList ==="Pricing Added Successfully"){
+          Swal.fire(
+            'Done!',
+            'Updated Data Successfully!',
+            'success'
+          ).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+          }
+          })
+        }
+        else{
+          Swal.fire(
+            'Done!',
+            'Updated Data Failed!',
+            'error'
+          )
+        }
       });
-    }
   }
 
 
