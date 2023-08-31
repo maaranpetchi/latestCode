@@ -19,7 +19,8 @@
           <input matInput (keyup)="applyFilter($event)" placeholder="ex.prasana" #input>
         </mat-form-field>
         <div class="table-container">
-          <table class="table table-sm table-responsive" mat-table [dataSource]="dataSource" matSort>
+          <table id="custom-table"
+          class="table table-sm table-responsive table table-bordered text-center" mat-table [dataSource]="dataSource" matSort>
 
             <!-- ID Column -->
             <ng-container matColumnDef="Name" >

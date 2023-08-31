@@ -26,4 +26,13 @@
     height: 100%;
     font-size: 18px; /* Adjust the value as needed */
   }
-  
+  .table-container {
+    height: 50vh;
+    overflow-y: auto;
+}
+
+  /* Define the custom-table class for styling */
+  #custom-table {
+    width: 75%; /* Set the table width to 75% of its container */
+    border-collapse: collapse; /* Optional: Collapse borders between table cells */
+  }
