@@ -20,6 +20,14 @@ export class InvoicecancelleddetailsComponent implements OnInit {
 
   constructor(private http: HttpClient,@Inject(MAT_DIALOG_DATA) public data: any) { }
 
+
+  employeeFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   ngOnInit(): void {
     const request = {
       // your request body goes here
