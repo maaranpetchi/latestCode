@@ -7,6 +7,7 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { VendorService } from 'src/app/Services/Vendor/vendor.service';
 import Swal from 'sweetalert2/src/sweetalert2.js';
+import { SpinnerService } from '../../Spinner/spinner.service';
 
 @Component({
   selector: 'app-updatevendor',
@@ -21,6 +22,7 @@ export class UpdatevendorComponent implements OnInit {
   constructor(
     private loginservice: LoginService,
     private _fb: FormBuilder,
+    private spinnerService: SpinnerService,
     public sharedService: VendorService,
     private http: HttpClient,
     private _dialogRef: MatDialogRef<UpdatevendorComponent>,
@@ -60,9 +62,21 @@ export class UpdatevendorComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.http.post<any>(environment.apiURL + `ITAsset/nSetVendorDetails`, this.empForm.value).subscribe(data => {
-      this._coreService.openSnackBar('Employee added successfully');
-      this._dialogRef.close();
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + `ITAsset/nSetVendorDetails`, this.empForm.value).subscribe({
+      next: (data) => {
+        Swal.fire(
+          'Done!',
+          'Employee added successfully',
+          'success'
+        )
+        window.location.reload()
+
+        this._dialogRef.close();
+      },
+      error: (err: any) => {
+        this.spinnerService.resetSpinner();
+      }
     });
   }
 
@@ -79,8 +93,8 @@ export class UpdatevendorComponent implements OnInit {
         const Para = {
           Id: this.id
         };
-
         this.http.post<any>(environment.apiURL + 'ITAsset/nGetVendorEditDetail', Para).subscribe(results => {
+
           const GetVED = results.getVEDetailList;
           const newAmtPaid = GetVED.amountPaid + this.empForm.value.amountsToBePaid;
           const newPendingAmount = this.empForm.value.invoiceValue - newAmtPaid;
@@ -122,11 +136,11 @@ export class UpdatevendorComponent implements OnInit {
     this.http.post<any>(environment.apiURL + `ITAsset/nUpdateVendorDetails`, payload).subscribe(result => {
 
       Swal.fire(
-        'Good job!',
+        'Done!',
         result.updateVDetailList,
         'success'
       )
-      window.location.reload();
+      window.location.reload()
     });
   }
 

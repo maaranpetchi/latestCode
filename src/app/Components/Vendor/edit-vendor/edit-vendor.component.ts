@@ -7,6 +7,7 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { SpinnerService } from '../../Spinner/spinner.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import Swal from 'sweetalert2/src/sweetalert2.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-vendor',
@@ -23,14 +24,15 @@ export class EditVendorComponent implements OnInit {
   amtPaidHide: boolean = true;
 
   constructor(
-    private loginservice:LoginService,
+    private loginservice: LoginService,
     private _fb: FormBuilder,
+    private router: Router,
     private spinnerService: SpinnerService,
     private http: HttpClient,
     private _dialogRef: MatDialogRef<EditVendorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _coreService: CoreService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
   }
@@ -61,8 +63,6 @@ export class EditVendorComponent implements OnInit {
           'Employee Added Succesfully!',
           'success'
         )
-        this._dialogRef.close();
-        window.location.reload();
       },
       error: (err: any) => {
         this.spinnerService.resetSpinner();

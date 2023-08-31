@@ -6,6 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
+import { SpinnerService } from '../../Spinner/spinner.service';
+import Swal from 'sweetalert2/src/sweetalert2.js'
+
 
 @Component({
   selector: 'app-bank',
@@ -20,7 +23,7 @@ export class BankComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-constructor(private http: HttpClient,private  loginservice:LoginService,private coreservice:CoreService){}
+constructor(private http: HttpClient,private  loginservice:LoginService,private coreservice:CoreService,private spinnerService:SpinnerService){}
   ngOnInit(): void {
     this.fetchData();
   }
@@ -38,22 +41,56 @@ constructor(private http: HttpClient,private  loginservice:LoginService,private 
         "closingBalance": this.ClosingBalance,
         "employeeId": this.loginservice.getUsername()
       }
-    
-this.http.post<any>(environment.apiURL +`ITAsset/nSetBankDetails`,postData).subscribe(data => {
-  this.coreservice.openSnackBar(data.setBDetailList);
-  this.fetchData();
+    this.spinnerService.requestStarted();
+this.http.post<any>(environment.apiURL +`ITAsset/nSetBankDetails`,postData).subscribe({
+  next:(data) => {
+    this.spinnerService.requestEnded();
+  Swal.fire(
+    'Done!',
+    data.setBDetailList,
+    'success'
+  ).then((result) => {
+
+    if (result.isConfirmed) {
+
+     this.fetchData();
+  }
+
+  })
+
   this.BankName='';
   this.selectedDate='';
   this.ClosingBalance='';
+  },
+  error: (err) => {
+    this.spinnerService.resetSpinner(); // Reset spinner on error
+    Swal.fire(
+      'Error!',
+      'An error occurred !.',
+      'error'
+    );
+  }
+
 });
   }
 
   fetchData() {
     // Make an HTTP request to your REST API and fetch the data
-    this.http.get<any>(environment.apiURL+'ITAsset/nGetBankDetails').subscribe((data) => {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL+'ITAsset/nGetBankDetails').subscribe({next:(data) => {
+      this.spinnerService.requestEnded();
       this.dataSource = new MatTableDataSource(data.getBDetailList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    },
+    error: (err) => {
+      this.spinnerService.resetSpinner(); // Reset spinner on error
+      Swal.fire(
+        'Error!',
+        'An error occurred !.',
+        'error'
+      );
+    }
     });
   }
 
@@ -63,7 +100,6 @@ this.http.post<any>(environment.apiURL +`ITAsset/nSetBankDetails`,postData).subs
   selectedQuery: any[] = [];
 
   setAll(completed: boolean, item: any) {
-    console.log("before", this.selectedQuery)
     if (completed == true) {
       this.selectedQuery.push(item)
     }

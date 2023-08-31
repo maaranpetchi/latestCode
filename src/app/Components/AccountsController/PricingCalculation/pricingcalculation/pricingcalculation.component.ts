@@ -42,15 +42,14 @@ export class PricingcalculationComponent implements OnInit {
   selectedInvoices: any[] = [];
 
 
-  applyFilter(event: Event) {
+
+  employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-
   setAll(completed: boolean, item: any) {
     console.log("before", this.selectedInvoices)
     if (completed == true) {

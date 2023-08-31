@@ -80,6 +80,8 @@ export class IndexSkillsetComponent implements OnInit {
     this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `EmployeeVsSkillset/GetEmployeeVsSkillsetbyId?id=${id}`).subscribe({
       next: (results) => {
+        this.spinnerService.requestEnded();
+
         this._empService.setData({ type: 'EDIT', data: results });
         this._empService.shouldFetchData = true;
         this.router.navigate(['/topnavbar/viewskillset']);

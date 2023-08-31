@@ -95,7 +95,6 @@ export class AttendanceIndexComponent implements OnInit {
 
       )
     }
-    console.log("Log2");
 
     let payload = {
       attendanceList: this.dataSource,
@@ -111,7 +110,6 @@ export class AttendanceIndexComponent implements OnInit {
           'Alert!',
           results.result,
           'info'
-
         )
       }
       else {

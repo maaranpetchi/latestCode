@@ -10,6 +10,7 @@ import { EditVendorComponent } from '../edit-vendor/edit-vendor.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VendorService } from 'src/app/Services/Vendor/vendor.service';
 import { UpdatevendorComponent } from '../updatevendor/updatevendor.component';
+import { SpinnerService } from '../../Spinner/spinner.service';
 
 @Component({
   selector: 'app-vendor',
@@ -20,7 +21,7 @@ export class VendorComponent implements OnInit {
   ngOnInit(): void {
     this.fetchtableData();
   }
-  constructor(private VendorService:VendorService,  private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog) { }
+  constructor(private spinnerService:SpinnerService, private VendorService:VendorService,  private http: HttpClient, private loginservice: LoginService, private coreservice: CoreService, private _dialog: MatDialog) { }
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -30,10 +31,17 @@ export class VendorComponent implements OnInit {
   }
 
   fetchtableData() {
-    this.http.get<any>(environment.apiURL + `ITAsset/nGetVendorData`).subscribe(data => {
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + `ITAsset/nGetVendorData`).subscribe({
+      next:(data) => {
+        this.spinnerService.requestEnded();
       this.dataSource = new MatTableDataSource(data.vendorGDetailList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      },
+      error: (err: any) => {
+        this.spinnerService.resetSpinner();
+      }
     });
   }
 
@@ -64,13 +72,12 @@ export class VendorComponent implements OnInit {
         data:data
       },
     });
-
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
           this.fetchtableData();
         }
-      },
+      }
     });
   }
 }
