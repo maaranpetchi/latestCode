@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -61,25 +61,31 @@ selecteddepartmentOption: any = '';
 Departmentdropdownvalues: any[] = [];
 
 
-applyFilter(event: Event) {
+
+employeeFilter(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
-
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
   }
 }
-
-openEditForm(data:any){
-  
-  const dialogRef = this._dialog.open(EditadvanceadjustmentComponent,{
+openEditForm(data: any) {
+  const dialogRef: MatDialogRef<EditadvanceadjustmentComponent> = this._dialog.open(EditadvanceadjustmentComponent, {
     width: '70vw',
-    data:{
-      id:data.id,availableAdvance:data.availableAdvance,department:this.selecteddepartmentOption
-    }
+    height: '90vh',
+    data: {
+      id: data.id,
+      availableAdvance: data.availableAdvance,
+      department: this.selecteddepartmentOption,
+    },
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+
+      // Call the loaddata() method here
+      this.loadData();
   });
 }
-
 getcustomerid(){
   console.log(this.selecteddepartmentOption,"getcustomerid");
   
@@ -90,7 +96,6 @@ getcustomerid(){
 loadData() {
   this.http.get<any[]>(environment.apiURL+`AdvanceAdjustment/GetAllCustomerAdvance?CustomerId=${this.selecteddepartmentOption}`).subscribe(data => {
     this.dataSource = new MatTableDataSource(data);
-    console.table(data);
     
   });
 }

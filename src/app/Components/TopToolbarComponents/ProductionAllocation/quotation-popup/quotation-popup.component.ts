@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 @Component({
   selector: 'app-quotation-popup',

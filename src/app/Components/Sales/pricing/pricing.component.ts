@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 @Component({
   selector: 'app-pricing',

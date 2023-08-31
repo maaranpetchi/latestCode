@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
+import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import Swal from 'sweetalert2/src/sweetalert2.js';
 
@@ -18,7 +19,7 @@ export class AddReceivablesComponent implements OnInit {
   TotalAdjustedAmount: number = 0;
   CollectionBalanceAmount: number = 0;
 
-  constructor(private http: HttpClient,private loginservice:LoginService,private router:Router) { }
+  constructor(private http: HttpClient,private loginservice:LoginService,private router:Router,private spinnerservice:SpinnerService) { }
   ngOnInit(): void {
     this.getCustomerDropdown();
   }
@@ -247,4 +248,9 @@ console.log(this.AddedInvoice,"AddedInvoice");
     }
 }
 
+
+BackButton(){
+  this.router.navigate(['/topnavbar/acc-customer']);
+
+}
 }
