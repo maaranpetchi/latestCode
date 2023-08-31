@@ -873,7 +873,8 @@ export class ProductionallocationtableComponent implements OnInit {
     }
   }
   refreshPage() {
-    window.location.reload();
+    // window.location.reload();
+this.freshJobs();
   }
   jobMovement(processMovement) {
     var confirmationMessage: any;
