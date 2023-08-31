@@ -13,8 +13,17 @@ cursor: pointer;
 
   .mat-mdc-paginator {
     display: block;
-    width: 85vw;
+    // width: 85vw;
 }
-.mat-elevation-z8{
-overflow-x: auto;
-}
+// .mat-elevation-z8{
+// overflow-x: auto;
+// }
+#table-container {
+    height: 70vh; /* Set a fixed height of 50% of the viewport height */
+    overflow-y: auto;  
+  }
+  #custom-table {
+    width: 75%; /* Set the table width to 75% of its container */
+    border-collapse: collapse; /* Optional: Collapse borders between table cells */
+  }
+  

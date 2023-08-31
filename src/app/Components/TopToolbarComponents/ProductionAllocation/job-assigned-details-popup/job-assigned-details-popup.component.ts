@@ -219,7 +219,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       selectedRows: [
         {
           customerId: this.data.customerId,
-          departmentId: this.data.departmentId,
+          departmentId: 1,
           estimatedTime: this.estimatedTime,
           jId: this.data.jId,
           tranMasterId: this.data.tranMasterId,
@@ -235,7 +235,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         },
       ],
       selectedEmployees: [],
-      departmentId: 0,
+      departmentId: 1,
       updatedUTC: '2023-07-01T10:02:55.095Z',
       categoryDesc: 'string',
       allocatedEstimatedTime: 0,
@@ -295,7 +295,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       selectedRows: [
         {
           customerId: this.data.customerId,
-          departmentId: this.data.departmentId,
+          departmentId: 1,
           estimatedTime: this.estimatedTime,
           jId: this.data.jId,
           tranMasterId: this.data.tranMasterId,
@@ -311,7 +311,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         },
       ],
       selectedEmployees: [],
-      departmentId: 0,
+      departmentId: 1,
       updatedUTC: '2023-07-01T11:15:03.552Z',
       categoryDesc: 'string',
       allocatedEstimatedTime: 0,
@@ -407,7 +407,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     else {
       this.selectedJobs = [{
         DepartmentId: this.data.deptartmentId,
-        TranMasterId: this.jobCommonDetails.tranMasterId,
+        TranMasterId: this.jobCommonDetails?.tranMasterId,
         JId: this.jobCommonDetails.jobCommonDetails.jid,
         CustomerId: this.jobCommonDetails.jobCommonDetails.customerId,
         JobId: "",
