@@ -22,7 +22,9 @@
           </div>
           <div>
             <div class="table-container table-responsive mt-4">
-              <table class="table table-bordered text-center">
+              <div class="table-container">
+              <table mat-table  matSort id="custom-table"
+                class="table table-sm table-responsive table table-bordered text-center">
                 <thead>
                   <tr>
                     <th rowspan="2">Customer Name</th>
@@ -89,7 +91,7 @@
                 </tbody>
 
               </table>
-
+              </div>
             </div>
           </div>
         </div>

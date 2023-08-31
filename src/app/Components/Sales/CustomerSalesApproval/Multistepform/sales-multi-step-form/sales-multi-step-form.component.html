@@ -581,9 +581,9 @@
                             </div>
                             <br>
                             <div class="example-container mat-elevation-z8">
-
-                                <mat-table class="table table-sm table-responsive" mat-table #table
-                                    [dataSource]="customertatdatasource" matSort>
+                                
+                                <mat-table [dataSource]="customertatdatasource" matSort id="custom-table"
+                                class="table table-sm table-responsive table table-bordered text-center" #table>
                                     <ng-container matColumnDef="customernametat">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <div class="header-wrapper">
