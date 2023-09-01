@@ -11,13 +11,13 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { CustomerVSEmployeeService } from 'src/app/Services/CustomerVSEmployee/customer-vsemployee.service';
 import { AddEditCustomerVSEmployeeComponent } from '../add-edit-customer-vsemployee/add-edit-customer-vsemployee.component';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-customer-vsemployee',
   templateUrl: './customer-vsemployee.component.html',
   styleUrls: ['./customer-vsemployee.component.scss']
 })
-export class CustomerVSEmployeeComponent implements OnInit{
+export class CustomerVSEmployeeComponent implements OnInit {
 
   displayedColumns: string[] = [
     'customerClassification',
@@ -34,22 +34,22 @@ export class CustomerVSEmployeeComponent implements OnInit{
   isResignInclude = false;
 
 
-constructor( private _dialog: MatDialog,
-  private spinnerService: SpinnerService,
-  private _empService: CustomerVSEmployeeService,
-  private _coreService: CoreService,
-  private router: Router,
-  private http:HttpClient){}
+  constructor(private _dialog: MatDialog,
+    private spinnerService: SpinnerService,
+    private _empService: CustomerVSEmployeeService,
+    private _coreService: CoreService,
+    private router: Router,
+    private http: HttpClient) { }
 
-  
+
   ngOnInit(): void {
     this.getEmployeeList();
   }
 
   openAddEditEmpForm() {
     // this.state=1;
-    const dialogRef = this._dialog.open(AddEditCustomerVSEmployeeComponent,{
-      height: '60vh',
+    const dialogRef = this._dialog.open(AddEditCustomerVSEmployeeComponent, {
+      // height: '60vh',
       width: '50vw'
     });
     dialogRef.afterClosed().subscribe({
@@ -67,27 +67,33 @@ constructor( private _dialog: MatDialog,
     this.spinnerService.requestStarted();
 
     this._empService.getEmployeeList().subscribe({
-     
+
       next: (res) => {
         this.spinnerService.requestEnded();
 
         this.dataSource = new MatTableDataSource(res);
-        
+
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-     console.log(res);
-     
+
       },
-      error: console.log,
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     });
   }
-    // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
+  // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
 
 
-  applyFilter(event: Event) {
+  employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -99,25 +105,40 @@ constructor( private _dialog: MatDialog,
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
         this.spinnerService.requestEnded();
-        this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
-        console.log(id);
-        
+        Swal.fire(
+          'Done!',
+          'Employee Deleted !',
+          'success'
+        ).then((result)=>{
+          if(result.isConfirmed) {
+            this.getEmployeeList();
+          }
+        }); 
+   
+
       },
-      error: console.log,
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !',
+          'error'
+        );
+      }
     });
   }
 
 
   openEditForm(data: any) {
-    console.log("datavalue"+data);
-    
+    console.log("datavalue" + data);
+
     const dialogRef = this._dialog.open(AddEditCustomerVSEmployeeComponent, {
       height: '60vh',
       width: '50vw',
       data
     });
-    
+
     console.log(dialogRef);
     dialogRef.afterClosed().subscribe({
       next: (val) => {
@@ -126,7 +147,16 @@ constructor( private _dialog: MatDialog,
 
         }
       },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !.',
+          'error'
+        );
+      }
     });
   }
-   
+
 }

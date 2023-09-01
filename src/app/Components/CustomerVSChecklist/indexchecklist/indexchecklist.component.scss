@@ -53,7 +53,8 @@
 
 
  .table-container {
-    height: 60vh; /* Set a fixed height of 50% of the viewport height */
+    height: 60vh; 
+    background: white;/* Set a fixed height of 50% of the viewport height */
     overflow: auto; /* Enable vertical scrolling if content overflows */
     overflow-x: hidden; 
     
