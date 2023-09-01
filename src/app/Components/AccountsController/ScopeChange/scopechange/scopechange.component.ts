@@ -39,7 +39,7 @@ export class ScopechangeComponent implements OnInit {
     { value: '2', viewValue: 'Digitizing' },
   ];
   dataSource = new MatTableDataSource([]);
-  
+
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,7 +52,7 @@ export class ScopechangeComponent implements OnInit {
     private _empService: ScopechangeService,
     private snackBar: MatSnackBar,
     private _coreService: CoreService,
-    private spinnerService:SpinnerService
+    private spinnerService: SpinnerService
   ) {
 
     this.empForm = this._fb.group({
@@ -64,7 +64,7 @@ export class ScopechangeComponent implements OnInit {
     });
   }
 
-onSubmit() {
+  onSubmit() {
     let tempInvoices: any[] = []
     tempInvoices = this.selectedInvoices.map(x => {
       return {
@@ -80,7 +80,7 @@ onSubmit() {
       }
     })
     this.spinnerService.requestStarted();
-    this.http.post<any>(environment.apiURL+'CustomerMapping/ChangeScopeAPI', {
+    this.http.post<any>(environment.apiURL + 'CustomerMapping/ChangeScopeAPI', {
       "fromDate": this.empForm?.value.fromdate,
       "toDate": this.empForm?.value.todate,
       "departmentId": this.empForm?.value.department,
@@ -89,29 +89,36 @@ onSubmit() {
       "jobId": "string",
       "jId": 0,
       "changeScope": tempInvoices
-    }).subscribe({next:(results: any) => {
-      this.spinnerService.requestEnded();
+    }).subscribe({
+      next: (results: any) => {
+        this.spinnerService.requestEnded();
 
-      Swal.fire(
-        'Done',
-        results.stringList,
-        'success'
-      )
-      // Show success message popup
+        Swal.fire(
+          'Done',
+          results.stringList,
+          'success'
+        ).then((result) => {
+
+          if (result.isConfirmed) {
+            this.getJobOrderList();
+          }
+
+        })
+        // Show success message popup
       },
       error: (err) => {
-         this.spinnerService.resetSpinner(); // Reset spinner on error
-         console.error(err);
-         Swal.fire(
-           'Error!',
-           'An error occurred !',
-           'error'
-         );
-       }
-    } )
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !',
+          'error'
+        );
+      }
+    })
   }
 
- 
+
   //Customerdropdownvalues dropdowndeclaration
   selectedclientOption: any = '';
   Clientdropdownvalues: any[] = [];
@@ -144,26 +151,27 @@ onSubmit() {
 
   ngOnInit(): void {
 
-this.getCustomerData();
+    this.getCustomerData();
 
   }
-getCustomerData(){
-      // customerdata dropdown fetch the values from the API
-      this.spinnerService.requestStarted();
-      this.http.get<any[]>(environment.apiURL+'dropdown/getcustomers').subscribe({next:(clientdata) => {
+  getCustomerData() {
+    // customerdata dropdown fetch the values from the API
+    this.spinnerService.requestStarted();
+    this.http.get<any[]>(environment.apiURL + 'dropdown/getcustomers').subscribe({
+      next: (clientdata) => {
         this.Clientdropdownvalues = clientdata;
       },
       error: (err) => {
-         this.spinnerService.resetSpinner(); // Reset spinner on error
-         console.error(err);
-         Swal.fire(
-           'Error!',
-           'An error occurred !',
-           'error'
-         );
-       }
-      });
-}
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !',
+          'error'
+        );
+      }
+    });
+  }
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -173,19 +181,20 @@ getCustomerData(){
   }
   getScopeList() {
     this.spinnerService.requestStarted();
-    this.http.get(environment.apiURL+`CustomerMapping/DDLforScopeChange?departmentId=${this.empForm.value.department}&custId=${this.empForm.value.client}`).subscribe({next:(data: any) => {
-     this.spinnerService.requestEnded();
-      this.Scopedropdownvalues = data;
-    },
-    error: (err) => {
-       this.spinnerService.resetSpinner(); // Reset spinner on error
-       console.error(err);
-       Swal.fire(
-         'Error!',
-         'An error occurred !',
-         'error'
-       );
-     }
+    this.http.get(environment.apiURL + `CustomerMapping/DDLforScopeChange?departmentId=${this.empForm.value.department}&custId=${this.empForm.value.client}`).subscribe({
+      next: (data: any) => {
+        this.spinnerService.requestEnded();
+        this.Scopedropdownvalues = data;
+      },
+      error: (err) => {
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !',
+          'error'
+        );
+      }
     })
   }
 
@@ -201,14 +210,14 @@ getCustomerData(){
 
       },
       error: (err) => {
-         this.spinnerService.resetSpinner(); // Reset spinner on error
-         console.error(err);
-         Swal.fire(
-           'Error!',
-           'An error occurred !',
-           'error'
-         );
-       }
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !',
+          'error'
+        );
+      }
     });
   }
 
@@ -220,21 +229,21 @@ getCustomerData(){
       "fromDate": this.empForm.value.fromdate,
       "toDate": this.empForm.value.todate
     }).subscribe({
-      next:(results: any) => {
-      this.spinnerService.requestEnded();
-      this.dataSource.data = results.jobOrderDetailsReport;
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      next: (results: any) => {
+        this.spinnerService.requestEnded();
+        this.dataSource.data = results.jobOrderDetailsReport;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       },
       error: (err) => {
-         this.spinnerService.resetSpinner(); // Reset spinner on error
-         console.error(err);
-         Swal.fire(
-           'Error!',
-           'An error occurred !',
-           'error'
-         );
-       }
+        this.spinnerService.resetSpinner(); // Reset spinner on error
+        console.error(err);
+        Swal.fire(
+          'Error!',
+          'An error occurred !',
+          'error'
+        );
+      }
     })
     this.getScopeList();
   }
