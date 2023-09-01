@@ -7,68 +7,86 @@
     <title>Document</title>
 </head>
 
-<body style="height:123vh">
-    <div class="container">
-        <div class="fullform">
-            <div mat-dialog-title>
-                <h1 style="font-family: 'Times New Roman', Times, serif;color:#0a5dac;text-align: center;">Scope Change
-                </h1>
-            </div>
-            <form [formGroup]="empForm" (ngSubmit)="onSubmit()">
-                <div mat-dialog-content class="content">
-                    <div class="row">
-                        <div class="col">
-                            <mat-form-field appearance="outline">
-                                <mat-label>From Date</mat-label>
-                                <input matInput [matDatepicker]="picker" formControlName="fromdate">
-                                <mat-hint>MM/DD/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field appearance="outline">
-                                <mat-label>To Date</mat-label>
-                                <input matInput [matDatepicker]="picker1" formControlName="todate">
-                                <mat-hint>MM/DD/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                                <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <mat-form-field>
-                                <mat-label>Client</mat-label>
-                                <mat-select ngDefaultControl formControlName="client" [(value)]="selectedclientOption">
-                                    <mat-option *ngFor="let clientdropdownvalues of Clientdropdownvalues"
-                                        [value]="clientdropdownvalues.id">
-                                        {{clientdropdownvalues.shortName }}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Department</mat-label>
-                                <mat-select ngDefaultControl formControlName="department">
-                                    <mat-option *ngFor="let department of departments" [value]="department.value">
-                                        {{department.viewValue}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="buttongo">
-                        <button class="btn btn-primary" type="button" id="gobutton" (click)="getJobOrderList()">
-                            Go</button>
-                    </div>
-                </div>
-                <hr>
-                <div class="main-body">
+<body>
 
+    <div class="container">
+        <div class="advance">
+            <div class="customerProfile">
+                <div class="backgroundcolor">
+                    <div class="panel-heading">
+                        <h2 class="panel-title" style="color:#fff;">
+                            SCOPE CHANGE
+                        </h2>
+                    </div>
+
+                    <div class="pricingcalculation">
+                        <form [formGroup]="empForm" >
+                            <div class="container1">
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>From Date</mat-label>
+                                            <input matInput [matDatepicker]="picker" formControlName="fromdate">
+                                            <mat-hint>MM/DD/YYYY</mat-hint>
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>To Date</mat-label>
+                                            <input matInput [matDatepicker]="picker1" formControlName="todate">
+                                            <mat-hint>MM/DD/YYYY</mat-hint>
+                                            <mat-datepicker-toggle matIconSuffix
+                                                [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <mat-form-field>
+                                                <mat-label>Client</mat-label>
+                                                <mat-select ngDefaultControl formControlName="client"
+                                                    [(value)]="selectedclientOption">
+                                                    <mat-option
+                                                        *ngFor="let clientdropdownvalues of Clientdropdownvalues"
+                                                        [value]="clientdropdownvalues.id">
+                                                        {{clientdropdownvalues.shortName }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Department</mat-label>
+                                                <mat-select ngDefaultControl formControlName="department">
+                                                    <mat-option *ngFor="let department of departments"
+                                                        [value]="department.value">
+                                                        {{department.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="display: flex;text-align: center;justify-content: center;">
+                                        <div class="col">
+                                            <div class="button">
+                                                <button class="btn btn-primary" type="button" id="gobutton"
+                                                    (click)="getJobOrderList()">
+                                                    Go</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
                     <div class="table-container">
-                        <table mat-table [dataSource]="dataSource" matSort>
+
+                        <table mat-table [dataSource]="dataSource" matSort class="table table-sm table-responsive"
+                            id="custom-table">
                             <!-- Progress Column -->
                             <ng-container matColumnDef="selected">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Select </th>
@@ -165,19 +183,13 @@
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-                            <!-- Row shown when there is no matching data. -->
-                            <tr class="mat-row" *matNoDataRow>
-                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-                            </tr>
+                      
                         </table>
-
-                        <mat-paginator [pageSizeOptions]="[25, 100,150]"
-                            aria-label="Select page of users"></mat-paginator>
                     </div>
+                    <mat-paginator [pageSizeOptions]="[25, 50]" showFirstLastButtons></mat-paginator>
                 </div>
-                <div mat-dialog-actions class="action">
-                    <!-- <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button> -->
-                    <!-- <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Save'}}</button> -->
+
+                <div class="matbuttonaign">
                     <mat-form-field>
                         <mat-label>Choose Scope</mat-label>
                         <mat-select ngDefaultControl formControlName="scope" [(value)]="selectedScopeOption">
@@ -188,10 +200,12 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <button type="submit" class="btn btn-primary">Change</button>
+                    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Change</button>
+
                 </div>
-            </form>
+            </div>
         </div>
+
     </div>
 </body>
 

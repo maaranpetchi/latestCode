@@ -9,7 +9,7 @@ import { CoreService } from 'src/app/Services/AccountController/ScopeChange/Core
 import { ScopechangeService } from 'src/app/Services/AccountController/ScopeChange/scopechange.service';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-import { error } from 'jquery';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 //MARTIAL INTERFACE
 interface Department {
   value: string;
@@ -64,43 +64,54 @@ export class ScopechangeComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+onSubmit() {
     let tempInvoices: any[] = []
     tempInvoices = this.selectedInvoices.map(x => {
       return {
-        "fromDate": this.empForm?.value.fromdate,
-        "toDate": this.empForm?.value.todate,
-        "departmentId": this.empForm?.value.department,
-        "clientId": this.empForm?.value.client,
-        "scopeId": this.empForm.value.scope,
-        "jobId": "string",
-        "jId": x.jId,
+        // "fromDate": this.empForm?.value.fromdate,
+        // "toDate": this.empForm?.value.todate,
+        // "departmentId": this.empForm?.value.department,
+        // "clientId": this.empForm?.value.client,
+        // "scopeId": this.selectedScopeOption,
+        // "jobId": "string",
+        // "jId": x.jId,
+        ...x,
         "changeScope": []
       }
     })
+    this.spinnerService.requestStarted();
     this.http.post<any>(environment.apiURL+'CustomerMapping/ChangeScopeAPI', {
       "fromDate": this.empForm?.value.fromdate,
       "toDate": this.empForm?.value.todate,
       "departmentId": this.empForm?.value.department,
       "clientId": this.empForm?.value.client,
-      "scopeId": this.empForm?.value.scope,
+      "scopeId": this.selectedScopeOption,
       "jobId": "string",
       "jId": 0,
       "changeScope": tempInvoices
-    }).subscribe((results: any) => {
+    }).subscribe({next:(results: any) => {
+      this.spinnerService.requestEnded();
 
+      Swal.fire(
+        'Done',
+        results.stringList,
+        'success'
+      )
       // Show success message popup
-      this.showSuccessMessage();
-      console.log(results, "Change Scope Results")
-    }
-    )
+      },
+      error: (err) => {
+         this.spinnerService.resetSpinner(); // Reset spinner on error
+         console.error(err);
+         Swal.fire(
+           'Error!',
+           'An error occurred !',
+           'error'
+         );
+       }
+    } )
   }
 
-  showSuccessMessage() {
-    this.snackBar.open('Data submitted successfully!', 'Close', {
-      duration: 5000
-    });
-  }
+ 
   //Customerdropdownvalues dropdowndeclaration
   selectedclientOption: any = '';
   Clientdropdownvalues: any[] = [];
@@ -133,29 +144,48 @@ export class ScopechangeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // customerdata dropdown fetch the values from the API
-    this.http.get<any[]>(environment.apiURL+'dropdown/getcustomers').subscribe(clientdata => {
-      this.Clientdropdownvalues = clientdata;
-    });
+this.getCustomerData();
 
   }
-
-  applyFilter(event: Event) {
+getCustomerData(){
+      // customerdata dropdown fetch the values from the API
+      this.spinnerService.requestStarted();
+      this.http.get<any[]>(environment.apiURL+'dropdown/getcustomers').subscribe({next:(clientdata) => {
+        this.Clientdropdownvalues = clientdata;
+      },
+      error: (err) => {
+         this.spinnerService.resetSpinner(); // Reset spinner on error
+         console.error(err);
+         Swal.fire(
+           'Error!',
+           'An error occurred !',
+           'error'
+         );
+       }
+      });
+}
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-
   getScopeList() {
     this.spinnerService.requestStarted();
-    this.http.get(environment.apiURL+`CustomerMapping/DDLforScopeChange?departmentId=${this.empForm.value.department}&custId=${this.empForm.value.client}`).subscribe((data: any) => {
+    this.http.get(environment.apiURL+`CustomerMapping/DDLforScopeChange?departmentId=${this.empForm.value.department}&custId=${this.empForm.value.client}`).subscribe({next:(data: any) => {
      this.spinnerService.requestEnded();
       this.Scopedropdownvalues = data;
-    },(error) =>{
-      this.spinnerService.resetSpinner();
+    },
+    error: (err) => {
+       this.spinnerService.resetSpinner(); // Reset spinner on error
+       console.error(err);
+       Swal.fire(
+         'Error!',
+         'An error occurred !',
+         'error'
+       );
+     }
     })
   }
 
@@ -170,7 +200,15 @@ export class ScopechangeComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
 
       },
-      error: console.log,
+      error: (err) => {
+         this.spinnerService.resetSpinner(); // Reset spinner on error
+         console.error(err);
+         Swal.fire(
+           'Error!',
+           'An error occurred !',
+           'error'
+         );
+       }
     });
   }
 
@@ -181,15 +219,23 @@ export class ScopechangeComponent implements OnInit {
       "departmentId": this.empForm.value.department,
       "fromDate": this.empForm.value.fromdate,
       "toDate": this.empForm.value.todate
-    }).subscribe((results: any) => {
+    }).subscribe({
+      next:(results: any) => {
       this.spinnerService.requestEnded();
       this.dataSource.data = results.jobOrderDetailsReport;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-    },(error) =>{
-      this.spinnerService.resetSpinner();
-    }
-    )
+      },
+      error: (err) => {
+         this.spinnerService.resetSpinner(); // Reset spinner on error
+         console.error(err);
+         Swal.fire(
+           'Error!',
+           'An error occurred !',
+           'error'
+         );
+       }
+    })
     this.getScopeList();
   }
 

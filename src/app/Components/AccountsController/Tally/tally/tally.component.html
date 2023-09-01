@@ -1,73 +1,83 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<body>
+    
+<div class="container">
+    <div class="advance">
+        <div class="customerProfile">
+            <div class="backgroundcolor">
+                <div class="panel-heading">
+                    <h2 class="panel-title" style="color:#fff;display: flex;text-align: center;justify-content: center;font-family: 'Times New Roman', Times, serif;">
+                        Invoice Integration
+                    </h2>
+                </div>
 
-<body style=height:123vh>
-    <div class="container">
-        <div class="formgroup">
-            <div class="firstform">
-                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-                    <h1 style="text-align: center;font-family: 'Times New Roman', Times, serif;color:#FF9671">Tally
-                        Invoice
-                        Integration</h1>
-                    <div class="container1">
-                        <div class="row">
-                            <div class="col">
-                                <mat-form-field>
-                                    <mat-label>Start Date</mat-label>
-                                    <input matInput [matDatepicker]="startDatePicker" placeholder="Choose a date"
-                                        formControlName="fromDate">
-                                    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #startDatePicker></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                            <div class="col">
-                                <mat-form-field>
-                                    <mat-label>End Date</mat-label>
-                                    <input matInput [matDatepicker]="endDatePicker" placeholder="Choose a date"
-                                        formControlName="toDate">
-                                    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #endDatePicker></mat-datepicker>
-                                </mat-form-field>
-                            </div>
+                <div class="pricingcalculation">
+                    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                        <div class="container1">
                             <div class="row">
                                 <div class="col">
-                                    <mat-form-field appearance="fill">
-                                        <mat-label>Client</mat-label>
-                                        <mat-select ngDefaultControl formControlName="ClientId">
-                                            <mat-option *ngFor="let Client of data.clientList" [value]="Client.id">
-                                                {{Client.shortName}}
-                                            </mat-option>
-                                        </mat-select>
+                                    <mat-form-field>
+                                        <mat-label>Start Date</mat-label>
+                                        <input matInput [matDatepicker]="startDatePicker" placeholder="Choose a date"
+                                            formControlName="fromDate">
+                                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #startDatePicker></mat-datepicker>
                                     </mat-form-field>
+                                </div>
+                                <div class="col">
+                                    <mat-form-field>
+                                        <mat-label>End Date</mat-label>
+                                        <input matInput [matDatepicker]="endDatePicker" placeholder="Choose a date"
+                                            formControlName="toDate">
+                                        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #endDatePicker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Client</mat-label>
+                                            <mat-select ngDefaultControl formControlName="ClientId">
+                                                <mat-option *ngFor="let Client of data.clientList" [value]="Client.id">
+                                                    {{Client.shortName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" style="display: flex;text-align: center;justify-content: center;" >
+                                    <div class="col">
+                                        <div class="button">
+                                            <button class="btn" mat-raised-button
+                                                color="primary">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="exchangeHeader" style="text-align: end;">
+
+                                        <mat-form-field>
+                                            <mat-label>Exchange Header</mat-label>
+                                            <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header">
+                                        </mat-form-field>
+                                        <button mat-raised-button color="primary" (click)="setExchangeHeader()">Set</button>
+                                    
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="button">
-                        <button class="btn" mat-raised-button color="primary">Search</button>
-                    </div>
-                </form>
-            </div>
 
-
-            <div class="secondform">
-                <div style="float: right;" class="exchangerate">
-                    <mat-form-field>
-                        <mat-label>Exchange Header</mat-label>
-                        <input matInput [(ngModel)]="exchangeHeader" placeholder="Enter exchange header">
-                    </mat-form-field>
-                    <button mat-raised-button color="primary" (click)="setExchangeHeader()">Set</button>
+                    </form>
                 </div>
-             
-
                 <div class="table-container">
-                    <table mat-table [dataSource]="dataSource" matSort class="table table-sm">
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-sm table-responsive" id="custom-table">
 
                         <!--Checkbox to select the values-->
                         <ng-container matColumnDef="selected">
@@ -197,17 +207,18 @@
 
                    
                     </table>
-
-                    <mat-paginator [pageSizeOptions]="[25, 100,150]" aria-label="Select page of users"></mat-paginator>
-
                 </div>
-                <div class="footer">
-                    <button (click)="updateintegration()" mat-flat-button color="primary">Update Exchange Rate</button>
-                </div>
-
+                <mat-paginator [pageSizeOptions]="[25, 50]" showFirstLastButtons></mat-paginator>
             </div>
+               
+        <div class="matbuttonaign">
+            <button (click)="updateintegration()" mat-flat-button color="primary">Update Exchange Rate</button>
+        </div>
         </div>
     </div>
-</body>
 
+</div>
+</body>
 </html>
+
+

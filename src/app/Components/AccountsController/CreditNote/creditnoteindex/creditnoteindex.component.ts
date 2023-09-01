@@ -39,7 +39,10 @@ export class CreditnoteindexComponent {
   }
 
   openAddEditEmpForm() {
-    const dialogRef = this._dialog.open(AddCreditnoteComponent);
+    const dialogRef = this._dialog.open(AddCreditnoteComponent,{
+      height: '80vh',
+      //width: '80vw'
+    });
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
@@ -67,14 +70,14 @@ export class CreditnoteindexComponent {
   // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
 
 
-  applyFilter(event: Event) {
+  employeeFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
+
 
 
 

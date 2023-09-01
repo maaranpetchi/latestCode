@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { error } from 'jquery';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-tally',
   templateUrl: './tally.component.html',
@@ -87,12 +87,27 @@ export class TallyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<any>(environment.apiURL + 'Invoice/GetClient').subscribe(data => {
-      this.data = data;
-      console.log(data);
-    });
+this.getClient();
   }
-
+getClient(){
+  this.spinnerService.requestStarted();
+  this.http.get<any>(environment.apiURL + 'Invoice/GetClient').subscribe({
+    next:(data) => {
+    this.spinnerService.requestEnded();
+    this.data = data;
+    console.log(data);
+    },
+    error: (err) => {
+       this.spinnerService.resetSpinner(); // Reset spinner on error
+       console.error(err);
+       Swal.fire(
+         'Error!',
+         'An error occurred !.',
+         'error'
+       );
+     }
+  });
+}
   data: any = {
     clientList: [],
   };
@@ -119,17 +134,25 @@ export class TallyComponent implements OnInit {
       "customerID": this.myForm.value?.ClientId,
       "fromDate": this.myForm.value?.fromDate,
       "toDate": this.myForm.value?.toDate
-    }).subscribe((results: any) => {
+    }).subscribe({next:(results: any) => {
       // Set the search results in the data source
       this.spinnerService.requestEnded();
       this.dataSource.data = results.getInvoice;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       console.log(results, "results")
-    },error=>{
-      this.spinnerService.resetSpinner();
-    }
-    )
+    },
+    error: (err) => {
+       this.spinnerService.resetSpinner(); // Reset spinner on error
+       console.error(err);
+       Swal.fire(
+         'Error!',
+         'An error occurred !.',
+         'error'
+       );
+     }
+
+    })
   }
 
 
@@ -150,12 +173,22 @@ export class TallyComponent implements OnInit {
       "invintigxchange": invintigxchange
     }
     this.spinnerService.requestStarted();
-    this.http.post<any>(environment.apiURL + 'Invoice/GetExchangeRatetoInvoice', data).subscribe(data => {
+    this.http.post<any>(environment.apiURL + 'Invoice/GetExchangeRatetoInvoice', data).subscribe({
+      next:(data) => {
 this.spinnerService.requestEnded();
       this.selectedInvoices = [];
       this.onSubmit();
-    },error=>{
-      this.spinnerService.resetSpinner();
+      },
+      error: (err) => {
+         this.spinnerService.resetSpinner(); // Reset spinner on error
+         console.error(err);
+         Swal.fire(
+           'Error!',
+           'An error occurred !.',
+           'error'
+         );
+       }
+  
     })
   }
 
@@ -226,10 +259,22 @@ this.spinnerService.requestEnded();
       "transactionId": 0,
       "exchangeRate": 0
     }
-    this.http.post<any>(environment.apiURL + 'Invoice/GetCopytoIntegration', data).subscribe(data => {
-      console.log(data, "movedata");
+    this.spinnerService.requestStarted();
+    this.http.post<any>(environment.apiURL + 'Invoice/GetCopytoIntegration', data).subscribe({ next:(data) => {
+      this.spinnerService.requestEnded();
       this.selectedInvoices = [];
       this.onSubmit();
+    },
+    error: (err) => {
+       this.spinnerService.resetSpinner(); // Reset spinner on error
+       console.error(err);
+       Swal.fire(
+         'Error!',
+         'An error occurred !.',
+         'error'
+       );
+     }
+
     })
   }
 }
