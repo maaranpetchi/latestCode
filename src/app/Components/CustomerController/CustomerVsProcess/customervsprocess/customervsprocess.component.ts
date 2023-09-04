@@ -14,7 +14,7 @@ import { LoginService } from 'src/app/Services/Login/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 @Component({
   selector: 'app-customervsprocess',
   templateUrl: './customervsprocess.component.html',
@@ -56,7 +56,7 @@ export class CustomervsprocessComponent implements OnInit {
   ];
 
   constructor(private _dialog: MatDialog,
-    private spinnerService:SpinnerService,
+    private spinnerService: SpinnerService,
     private _empService: EmployeevsprocessService,
     private _coreService: CoreService,
     private router: Router,
@@ -81,23 +81,47 @@ export class CustomervsprocessComponent implements OnInit {
   });
   ngOnInit(): void {
     this.getEmployeeList();
-    this._empService.getOptions()
-      .subscribe(options => {
-        this.spinnerService.requestEnded();
-        this.departmentList = options;
+   this.getDepartmentlist();
+   
+
+
+  }
+  getAllCustomer() {
+    this.spinnerService.requestStarted();
+    this.http.get<any[]>(environment.apiURL + 'user/getallcustomers')
+      .subscribe({
+        next: (customers) => {
+          this.spinnerService.requestEnded();
+          this.customers = customers.sort((a, b) => a.name.localeCompare(b.name));
+        },
+        error: (err) => {
+          this.spinnerService.resetSpinner(); // Reset spinner on error
+          console.error(err);
+          Swal.fire(
+            'Error!',
+            'An error occurred !',
+            'error'
+          );
+        }
       });
 
-    this.http.get<any>(environment.apiURL+'CustomerVsProcess/GetAllddlList').subscribe(data => {
+  }
+
+  getDepartmentlist(){
+    this.spinnerService.requestStarted();
+    this._empService.getOptions()
+    .subscribe(options => {
+      this.spinnerService.requestEnded();
+      this.departmentList = options;
+    });
+  }
+  getDDLList(){
+    this.spinnerService.requestStarted();
+    this.http.get<any>(environment.apiURL + 'CustomerVsProcess/GetAllddlList').subscribe(data => {
+      this.spinnerService.requestEnded();
       this.data = data;
       console.log(data);
-
     });
-
-    this.http.get<any[]>(environment.apiURL+'user/getallcustomers')
-      .subscribe(customers => {
-        this.customers = customers.sort((a, b) => a.name.localeCompare(b.name));
-      });
-
   }
 
   onOptionSelected(event: any, myForm: FormGroup) {
@@ -138,7 +162,7 @@ export class CustomervsprocessComponent implements OnInit {
   // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
 
 
-  applyFilter(event: Event) {
+  employeeFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -159,7 +183,7 @@ export class CustomervsprocessComponent implements OnInit {
           "customerJobType": this.myForm.value.customerscopestatus,
         }).subscribe(data => {
           this.scopeList = data.getScopeList;
-         
+
           // console.log("scopelist" + JSON.stringify(this.scopeList));
         })
         this.refreshPage();
@@ -206,7 +230,7 @@ export class CustomervsprocessComponent implements OnInit {
 
     console.log(this.myForm);
     this.submitted = true;
-    this.http.post(environment.apiURL+'CustomerVsProcess/AddProcessworkflow', {
+    this.http.post(environment.apiURL + 'CustomerVsProcess/AddProcessworkflow', {
       "selectedScopes": this.myForm.value.scopeName,
       "departmentId": this.myForm.value.departmentList,
       "customerId": this.myForm.value.customer,
@@ -219,20 +243,19 @@ export class CustomervsprocessComponent implements OnInit {
     }).subscribe(() => {
       // clear form fields
       this.spinnerService.requestEnded();
-      this.snackBar.open('Data added Successfully!', 'Close',{
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: ['my-snackbar']
-      });
+      Swal.fire(
+        'Done!',
+        ' Data Added Successfully!',
+        'success'
+      )
       this.submitted = false;
-      this.refreshPage();
+      this.getEmployeeList();
     });
   }
 
 
   refreshPage() {
-    window.location.reload();
+    this.getEmployeeList();
   }
 
 }

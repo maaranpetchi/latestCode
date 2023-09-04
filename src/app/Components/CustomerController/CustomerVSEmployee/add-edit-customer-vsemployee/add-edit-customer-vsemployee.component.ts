@@ -7,7 +7,7 @@ import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.servi
 import { CustomerVSEmployeeService } from 'src/app/Services/CustomerVSEmployee/customer-vsemployee.service';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 //customerClassification INTERFACE
 interface customerClassification {
   value: string;
@@ -70,10 +70,10 @@ export class AddEditCustomerVSEmployeeComponent implements OnInit {
 
 
   onSubmit(num: number) {
-this.spinnerService.requestStarted();
+
     const Editid = this.myForm.getRawValue().id;
     if (Editid != '' && Editid != null) {
-
+      this.spinnerService.requestStarted();
       this.http.post(environment.apiURL + 'CustomerVsEmployee/EditCustomerVsEmployee', {
         Id: Editid,
         CustomerId: this.myForm.value.customer,
@@ -108,9 +108,15 @@ this.spinnerService.requestStarted();
         next: (res) => {
           this.spinnerService.requestEnded();
 
-          this._coreService.openSnackBar('Employee Added!', 'done');
-          this._dialogRef.close();
-          this.employeeservice.getEmployeeList();
+          Swal.fire(
+            'Done!',
+            'Employee Added Successfully!',
+            'success'
+          ).then((result)=>{
+            if(result.isConfirmed){
+              this._dialogRef.close();
+            }
+          })
 
         },
         error: console.log,

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 
 @Component({
   selector: 'app-clientordinationindex',
@@ -12,7 +13,8 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 })
 export class ClientordinationindexComponent implements OnInit {
   @ViewChild(QueryToClientComponent) QueryToClientComponent: QueryToClientComponent;
-  constructor(private http: HttpClient, private loginservice: LoginService, private spinnerService: SpinnerService) { }
+  SetIndex: any;
+  constructor(private http: HttpClient, private loginservice: LoginService, private spinnerService: SpinnerService, private _empService: ClientcordinationService) { }
 
   ngOnInit(): void {
     this.queriesToClient();
@@ -23,9 +25,14 @@ export class ClientordinationindexComponent implements OnInit {
   }
 
 
+
   onTabChange(event: any) {
     // Update the REST API based on the selected tab
     console.log("first", event);
+    this.SetIndex = event.index
+    console.log(this.SetIndex, "IndexNumber");
+    this._empService.setData({ data: this.SetIndex });
+
     switch (event.index) {
       case 0: // Fresh Jobs tab
         // Call your REST API for Fresh Jobs
@@ -47,6 +54,11 @@ export class ClientordinationindexComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  setndexData() {
+
+
   }
 
   queriesToClient() {
@@ -81,7 +93,7 @@ export class ClientordinationindexComponent implements OnInit {
   QuoteJobCount: any;
   getclientordercount() {
     this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/1`).subscribe(responsedata1 => {
-      console.log(responsedata1,"NewJobTabCount");
+      console.log(responsedata1, "NewJobTabCount");
       this.NewJobCount = responsedata1.count;
     });
     this.http.get<any>(environment.apiURL + `ClientOrderService/ClientOrdersCount/2`).subscribe(responsedata2 => {
@@ -91,7 +103,7 @@ export class ClientordinationindexComponent implements OnInit {
     });
   }
 
-  
+
 
 
   QueryJobCount: any;
@@ -107,7 +119,7 @@ export class ClientordinationindexComponent implements OnInit {
       this.querycount = getquerycount.queryResponseJobsCount;
       this.cancelledcount = getquerycount.cancelledJobsCount
       this.quotationcount = getquerycount.quotationJobCount;
-    },error => {
+    }, error => {
       this.spinnerService.resetSpinner();
     });
   }

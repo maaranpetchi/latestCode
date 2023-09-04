@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginService } from '../../Login/login.service';
 import { environment } from 'src/Environments/environment';
 
@@ -8,6 +8,7 @@ import { environment } from 'src/Environments/environment';
   providedIn: 'root'
 })
 export class ClientcordinationService {
+ public sharedData: any;
 
   constructor(private http: HttpClient, private loginservice: LoginService) { }
   getFileInwardType(): Observable<any> {
@@ -30,4 +31,14 @@ deletetempexcel():Observable<any>{
   return   this.http.delete<any>(environment.apiURL+`JobOrder/CancelImportExcel`)
 }
 
+
+
+  
+setData(data: any) {
+  this.sharedData = data;
+}
+
+getData() {
+  return this.sharedData;
+}
 }

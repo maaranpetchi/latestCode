@@ -37,9 +37,9 @@
                         <mat-row *matRowDef="let row; columns: ['employeeCode', 'employeeName', 'selected']"></mat-row>
     
                     </mat-table>
-                    <mat-paginator #paginator1 [pageSizeOptions]="[25, 50,75,100]"
-                        aria-label="Select page of users"></mat-paginator>
                 </div>
+                <mat-paginator #paginator1 [pageSizeOptions]="[25, 50,75,100]"
+                        aria-label="Select page of users"></mat-paginator>
             </div>
             <div class="col">
                 <div class="table-container">
@@ -62,8 +62,9 @@
                         <mat-header-row *matHeaderRowDef="['divisionName', 'selected']"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: ['divisionName','selected']"></mat-row>
                     </mat-table>
-                    <mat-paginator #paginator2 [pageSizeOptions]="[25, 50,75,100]"></mat-paginator>
                 </div>
+                <mat-paginator #paginator2 [pageSizeOptions]="[25, 50,75,100]"></mat-paginator>
+
             </div>
         </div>
     

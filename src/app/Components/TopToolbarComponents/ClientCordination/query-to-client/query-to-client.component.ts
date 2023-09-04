@@ -9,6 +9,7 @@ import { JobDetailsClientIndexComponent } from './job-details-client-index/job-d
 import { environment } from 'src/Environments/environment';
 import * as e from 'cors';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { ClientordinationindexComponent } from '../clientordinationindex/clientordinationindex.component';
 
 
 @Component({
@@ -17,6 +18,8 @@ import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
   styleUrls: ['./query-to-client.component.scss']
 })
 export class QueryToClientComponent implements OnInit {
+  @ViewChild(ClientordinationindexComponent) ClientordinationindexComponent: ClientordinationindexComponent;
+
   displayedColumns: string[] = [
     'selected',
     'jobId',
@@ -81,8 +84,10 @@ export class QueryToClientComponent implements OnInit {
   constructor(private http: HttpClient,private loginservice:LoginService, private dialog:MatDialog ,private spinnerService:SpinnerService) {}
 
   ngOnInit(): void {
+    console.log("POpup");
+    
     //to get the data and show it in table
-  this.queriesToClient();
+
   }
 
 
@@ -137,6 +142,8 @@ queriesToClient(){
 queryResponse(){
   this.spinnerService.requestStarted();
   this.http.get<any>(environment.apiURL+`Allocation/getQueryResponseJobs/${this.loginservice.getUsername()}/1`).subscribe(data => {
+    this.spinnerService.requestEnded();
+
     this.dataSource = new MatTableDataSource(data.quotationJobs);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

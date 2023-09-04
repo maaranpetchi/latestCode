@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/Environments/environment';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
+import { ClientcordinationService } from 'src/app/Services/CoreStructure/ClientCordination/clientcordination.service';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
 import Swal from 'sweetalert2/src/sweetalert2.js'
@@ -18,10 +19,14 @@ export class JobDetailsClientIndexComponent implements OnInit {
   QueryEstimatedTime: any;
   QueryEstimatedScope: any;
   QueryEstimatedSpecialPrice: any;
+  indexData: any;
+  gettingindex: any;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: SpinnerService, private loginservice: LoginService, private _coreService: CoreService, public dialogRef: MatDialogRef<JobDetailsClientIndexComponent>,) {
-    console.log(data, "datainformation");
-    console.log(this.data, "jobStatusDescription");
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: SpinnerService, private loginservice: LoginService, private _coreService: CoreService, public dialogRef: MatDialogRef<JobDetailsClientIndexComponent>,private _empService:ClientcordinationService) {
+   this.gettingindex= this._empService.getData();
+
+   console.log(this.gettingindex,"GettingIndex");
+   
   }
 
   displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy', 'MovedTo', 'remarks'];
@@ -371,5 +376,6 @@ console.log(this.QueryEstimatedTime,"QueryEstimatedTime");
     }
   };
 
+/////0109////
 
 }
