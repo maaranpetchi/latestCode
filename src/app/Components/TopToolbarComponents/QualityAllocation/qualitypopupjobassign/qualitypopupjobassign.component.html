@@ -181,29 +181,42 @@
     </div>
   </div>
 
-  <div class="row"  *ngIf="EstimatedTime">
+
+  <div class="row" *ngIf="EstimatedTime">
     <div class="col-md-4">Estimated Time</div>
     <div class="col-md-4">
       <mat-form-field>
-        <textarea matInput  [(ngModel)]="estimatedTime"></textarea>
+        <textarea matInput [(ngModel)]="estimatedTime"></textarea>
       </mat-form-field>
     </div>
-    <div class="col-md-2"> Estimated Time (estimatedTime)</div>
+    <!-- <div class="col-md-2"> Estimated Time (estimatedTime)</div> -->
+  </div>
+  <div class="row" *ngIf="EmployeDatascope">
+    <div class="col-md-4">Employees</div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <mat-label>Scope</mat-label>
+        <mat-select [(ngModel)]="selectedScope">
+          <mat-option *ngFor="let scope of Scopes" [value]="scope.id">{{ scope.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 
-
-
-  <div class="displayestimatedtimr" *ngIf="displayEstimationTime">
+  <!-- <div class="displayestimatedtimr" *ngIf="displayEstimationTime">
     <div class="col-md-4">Estimation Time</div>
     <div class="col-md-4">
       <mat-form-field>
         <textarea matInput  [(ngModel)]="estimationTime"></textarea>
       </mat-form-field>
     </div>
-  </div>
+  </div> -->
   <div class="mb-5 text-center">
     <button type="button" class="btn btn-danger">Close</button> &nbsp;<button type="button"
-      class="btn btn-success" (click)="postQueryData()">Submit</button>
+      class="btn btn-success" (click)="onSubmit()">Submit</button>
+      
   </div>
+  
+  <!-- class="btn btn-success" (click)="postQueryData()">Submit</button> -->
 
 </div>
