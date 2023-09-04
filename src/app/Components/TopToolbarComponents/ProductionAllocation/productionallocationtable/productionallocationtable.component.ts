@@ -310,12 +310,7 @@ export class ProductionallocationtableComponent implements OnInit {
     this.dataSource.data = temparray;
     this.selectedQuery=selected;
   }
-  // getSelectedJobs(){
-  //   this.dataEmployeeSource.data.filter((y:any)=>{
-  //     this.selectedQuery.
-  //   })
-  // }
-
+  
   benchChecked: boolean = false;
   onBenchCheckboxChange(event: any) {
     this.benchChecked = event.checked;
@@ -459,7 +454,7 @@ export class ProductionallocationtableComponent implements OnInit {
         environment.apiURL +
           `Allocation/getPendingAllocationJobsAndEmployees/${parseInt(
             this.loginservice.getUsername()
-          )}/${parseInt(this.loginservice.getProcessId())}/2/0`
+          )}/${parseInt(this.loginservice.getProcessId())}/0`
       )
       .subscribe({
         next: (queries) => {
@@ -487,7 +482,7 @@ export class ProductionallocationtableComponent implements OnInit {
         environment.apiURL +
           `Allocation/getQueryResponseJobsAndEmployees/${parseInt(
             this.loginservice.getUsername()
-          )}/${parseInt(this.loginservice.getProcessId())}/6/0`
+          )}/${parseInt(this.loginservice.getProcessId())}/0`
       )
       .subscribe({
         next: (queryResposne) => {
@@ -873,8 +868,8 @@ export class ProductionallocationtableComponent implements OnInit {
     }
   }
   refreshPage() {
+    this.freshJobs();
     // window.location.reload();
-this.freshJobs();
   }
   jobMovement(processMovement) {
     var confirmationMessage: any;

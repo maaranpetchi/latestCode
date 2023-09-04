@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>Details</h1>
 <div mat-dialog-content>
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" matSort id="custom-table"
+    class="table table-sm table-responsive table table-bordered text-center">
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef>Amount</th>

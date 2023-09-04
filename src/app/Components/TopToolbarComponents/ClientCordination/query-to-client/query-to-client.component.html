@@ -1,6 +1,7 @@
 <div class="main-body">
-    <div class="container">
-            <table mat-table [dataSource]="dataSource" matSort class="table">
+    <div class="container" id="table-container">
+            <table mat-table [dataSource]="dataSource" matSort id="custom-table"
+            class="table table-sm table-responsive table table-bordered text-center">
             <!--Checkbox to select the values--> 
                     <ng-container matColumnDef="selected">
                         <th mat-sort-header mat-header-cell *matHeaderCellDef > Select </th>
