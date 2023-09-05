@@ -13,7 +13,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { writeFile } from 'xlsx';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import Swal from 'sweetalert2/src/sweetalert2.js';
-
+import { WorkflowService } from 'src/app/Services/CoreStructure/WorkFlow/workflow.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-quality-workflow',
@@ -66,6 +67,7 @@ export class QualityWorkflowComponent implements OnInit {
   commentsToClient: string = '';
   txtbpsoStitchCount: number = 0;
   footerDropdown: boolean = false;
+  data: any;
   ngOnInit(): void {
     this.getIsvalue();
 
@@ -75,16 +77,20 @@ export class QualityWorkflowComponent implements OnInit {
     this.rbnError();
 
 
+
   }
 
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, private loginService: LoginService, private spinnerService: SpinnerService, public dialogRef: MatDialogRef<QualityWorkflowComponent>
+  constructor(private location:Location,private http: HttpClient, private dialog: MatDialog, private loginService: LoginService, private workflowservice: WorkflowService, private spinnerService: SpinnerService,
   ) {
-    console.log(data, "processdata");
+    this.data = this.workflowservice.getData();
+    console.log(this.data, "InjecetdData");
   }
 
 
 
-
+  Back(){
+    this.location.back();
+  }
 
   //upperbody
   viewDetails(data) {
@@ -211,7 +217,7 @@ export class QualityWorkflowComponent implements OnInit {
       if (this.AttachedFiles.length == 0) {
         Swal.fire(
           'Please choose the file!',
-         'Alert',
+          'Alert',
           'info'
         )
 
@@ -415,7 +421,6 @@ export class QualityWorkflowComponent implements OnInit {
               this.confirmationMessage,
               'success'
             )
-            this.closeDialog();
 
           });
 
@@ -428,11 +433,24 @@ export class QualityWorkflowComponent implements OnInit {
             this.BindWorkDetails();
             this.confirmationMessage = ChangeWorkflowResult.message;
             this.spinnerService.requestEnded();
-            Swal.fire(
-              'Done!',
-              this.confirmationMessage,
-              'success'
-            )
+            if (ChangeWorkflowResult.success == true) {
+              Swal.fire(
+                'Done!',
+                this.confirmationMessage,
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  this.location.back();               }
+              })
+            }
+            else {
+              Swal.fire(
+                'Error!',
+                this.confirmationMessage,
+                'error'
+              )
+            }
+
           });
         }
       }
@@ -614,7 +632,5 @@ export class QualityWorkflowComponent implements OnInit {
 
 
 
-  closeDialog() {
-    this.dialogRef.close();
-  }
+
 }

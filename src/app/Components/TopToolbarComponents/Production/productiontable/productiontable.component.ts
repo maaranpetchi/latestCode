@@ -11,6 +11,8 @@ import { ProdjobpopupComponent } from '../prodjobpopup/prodjobpopup.component';
 import { ProductionworkflowComponent } from '../productionworkflow/productionworkflow.component';
 import { SpinnerService } from 'src/app/Components/Spinner/spinner.service';
 import { QualityWorkflowComponent } from '../../Quality/quality-workflow/quality-workflow.component';
+import { WorkflowService } from 'src/app/Services/CoreStructure/WorkFlow/workflow.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-productiontable',
@@ -45,7 +47,7 @@ export class ProductiontableComponent {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private http: HttpClient,private loginservice: LoginService,private dialog:MatDialog,private spinnerService:SpinnerService) { }
+  constructor(private http: HttpClient,private loginservice: LoginService,private dialog:MatDialog,private spinnerService:SpinnerService,private workflowservice:WorkflowService,private router:Router) { }
 
   ngOnInit(): void {
     // //ScopeDropdown
@@ -248,11 +250,9 @@ openJobDetailsDialog(data){
               localStorage.setItem("JId", data.jid);
               localStorage.setItem("processid", data.processId);
               // $location.path('/ProcessTransaction');
-              this.dialog.open(QualityWorkflowComponent,{
-                width: '80vw',
-                height: '80vh',
-                data
-              })            
+              this.workflowservice.setData( data);
+              
+              this.router.navigate(['/topnavbar/qualityworkflow']);    
           }
       }
   };
