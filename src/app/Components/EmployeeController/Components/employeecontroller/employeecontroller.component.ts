@@ -75,7 +75,7 @@ export class EmployeecontrollerComponent implements OnInit {
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this.fetchtableData();
       },
-      error: console.log,
+      error: 
     });
   }
 
@@ -108,7 +108,7 @@ export class EmployeecontrollerComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
 
       },
-      error: console.log,
+      error: 
     });
   }
 

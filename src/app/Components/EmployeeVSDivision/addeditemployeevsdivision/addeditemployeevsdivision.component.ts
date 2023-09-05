@@ -82,9 +82,9 @@ export class AddeditemployeevsdivisionComponent implements OnInit {
     if (this.table1selectedarray.length > 0 && this.table2selectedarray.length > 0) {
       const selectedValues = this.myForm.get('selectedValues')?.value
       const data = { selectedValues };
-      console.log(this.myForm)
-      console.log(this.table1selectedarray)
-      console.log(this.table2selectedarray)
+      
+      
+      
 
 
       // Submit the selected values to the REST API using HttpClient

@@ -46,7 +46,7 @@ export class TallyComponent implements OnInit {
   }
 
   setAll(completed: boolean, item: any) {
-    console.log("before", this.selectedInvoices)
+    
     if (completed == true) {
       this.selectedInvoices.push(item)
     }
@@ -60,7 +60,7 @@ export class TallyComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedInvoices)
+    
   }
 
   setExchangeHeader() {
@@ -95,7 +95,7 @@ getClient(){
     next:(data) => {
     this.spinnerService.requestEnded();
     this.data = data;
-    console.log(data);
+    
     },
     error: (err) => {
        this.spinnerService.resetSpinner(); // Reset spinner on error
@@ -140,7 +140,7 @@ getClient(){
       this.dataSource.data = results.getInvoice;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(results, "results")
+      
     },
     error: (err) => {
        this.spinnerService.resetSpinner(); // Reset spinner on error

@@ -81,7 +81,7 @@ export class AddCreditnoteComponent implements OnInit {
   amountToBeAdjusted: number = 0;
   invoicenumberdetails() {
     this.http.get<any>(environment.apiURL + `Receivable/GetInvoice?invoiceNo=${this.selectedinvoiceoption}&customerId=${this.selectedCustomerOption}`).subscribe(data => {
-      console.log(data)
+      
       this.invoiceDetails = data
       this.invoiceDate = new Date(data.invoiceDate).toLocaleDateString()
       this.invoiceValue = data.invoiceValue

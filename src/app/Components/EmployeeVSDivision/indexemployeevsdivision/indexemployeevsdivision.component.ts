@@ -63,7 +63,7 @@ export class indexemployeevsdivisionComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
-      error:console.log,
+      error:
     });
   }
   employeeFilter(event: Event): void {
@@ -83,7 +83,7 @@ export class indexemployeevsdivisionComponent implements OnInit {
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this.getEmployeeList();
       },
-      error: console.log,
+      error: 
     });
   }
 

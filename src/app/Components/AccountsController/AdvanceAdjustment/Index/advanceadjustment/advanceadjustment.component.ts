@@ -87,7 +87,7 @@ openEditForm(data: any) {
   });
 }
 getcustomerid(){
-  console.log(this.selecteddepartmentOption,"getcustomerid");
+  
   
   return this.selecteddepartmentOption;
   

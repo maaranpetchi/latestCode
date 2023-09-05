@@ -46,13 +46,13 @@ export class ScopeComponent {
     this._scopeService.getListScope().subscribe({
       next: (data) => {
         this.dataSource = new MatTableDataSource(data);
-        console.log(data);
+        
         
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
       error: (err) => {
-        console.log(err);
+        
       }
     })  
   }
@@ -81,14 +81,14 @@ export class ScopeComponent {
 
 
   deleteScopeUser(id:number){
-    console.log(id, "deleteScopeUser");
+    
     this._scopeService.deleteScope(id).subscribe({
       next: (res) => {
         this._coreService.openSnackBar('Employee deleted!', 'done');
         this.listScope();
-        console.log(res);
+        
       },
-      error: console.log,
+      error: 
     })
   }
 

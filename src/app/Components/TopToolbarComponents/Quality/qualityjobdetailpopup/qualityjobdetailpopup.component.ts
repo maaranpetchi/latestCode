@@ -33,7 +33,7 @@ export class QualityjobdetailpopupComponent  implements OnInit{
         this.restApiData = response;
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }

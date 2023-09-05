@@ -64,10 +64,10 @@ export class CreditnoteindexComponent {
         this.dataSource.paginator = this.paginator;
 
       },
-      error: console.log,
+      error: 
     });
   }
-  // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
+  // this._empService.getEmployeeList().then((res)=>{
 
 
   employeeFilter(event: Event): void {
@@ -82,7 +82,7 @@ export class CreditnoteindexComponent {
 
 
   openEditForm(data: any) {
-    console.log(data, "openeditform");
+    
     const dialogRef = this._dialog.open(AddCreditnoteComponent, {
       data,
     });

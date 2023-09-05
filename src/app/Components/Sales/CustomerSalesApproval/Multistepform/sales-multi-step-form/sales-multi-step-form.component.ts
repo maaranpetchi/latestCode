@@ -52,7 +52,7 @@ export class SalesMultiStepFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiResponseData = this.sharedDataService.getData();
-    console.log(this.apiResponseData, "gettingdatafromindex");
+    
     this.fetchUpdateData();
     this.getCustomervsscopeDepartments();
     this.getCustomerDatainForm();
@@ -202,7 +202,7 @@ export class SalesMultiStepFormComponent implements OnInit {
   GetTimeZoneList() {
     this.http.get<any>(environment.apiURL + `Customer/GetAllTimeZoneListbyCityId?CityId=${this.City}`).subscribe(results => {
       this.timezone = results[0].timeZone;
-      console.log(results[0].timeZone, "timezone");
+      
 
     });
   }
@@ -270,7 +270,7 @@ export class SalesMultiStepFormComponent implements OnInit {
       "currencyMode": this.CurrencyMode
     }
     this.http.post<any>(environment.apiURL + `Customer/EditCustomerDetails`, payload).subscribe(results => {
-      console.log(results, "see results")
+      
 
       localStorage.setItem("CustomerId123", results.id);
       localStorage.setItem("ShortName", results.shortName);
@@ -291,10 +291,10 @@ export class SalesMultiStepFormComponent implements OnInit {
       // Access the ID and Description of the selected department
       const selectedDeptId = this.selectedDept.id;
       const selectedDeptDescription = this.selectedDept.description;
-      console.log('Selected ID:', selectedDeptId);
-      console.log('Selected Description:', selectedDeptDescription);
+      
+      
       this.displayscope = true;
-      console.log(this.selectedDept, "selectedDepartment")
+      
       this.http.get<any>(environment.apiURL + `CustomerMapping/ScopeByDeptIdCusId?departmentId=${selectedDeptId}&custId=${this.apiResponseData.id}`).subscribe(results => {
         this.ScopeBillings = results
       });
@@ -382,8 +382,8 @@ export class SalesMultiStepFormComponent implements OnInit {
 
         this.selectedScopeID = selectedDeptId;
         this.selectedDeptDescription = selectedDeptDescription;
-        console.log('Selected ID:', this.selectedScopeID);
-        console.log('Selected Description:', this.selectedDeptDescription);
+        
+        
         // Do whatever you need with the selectedDeptId and selectedDeptDescription here
       }
     }
@@ -453,13 +453,13 @@ export class SalesMultiStepFormComponent implements OnInit {
   addcustat: boolean = true;
   openEditForm() {
     this.http.get<any>(environment.apiURL + `CustomerMapping/GetAllCustomerTATbyCusId?custId=${this.apiResponseData.id}`).subscribe(results => {
-      console.log(results, "Tatavaluefromapi");
+      
       this.jobStatusdisplay = true;
       this.jobstatusdropdown = false;
       this.addcustat = false;
       this.uptcustat = true;
       this.tatValue = results[0].tat;
-      console.log(results[0].tat, "tatvalue");
+      
 
     });
 

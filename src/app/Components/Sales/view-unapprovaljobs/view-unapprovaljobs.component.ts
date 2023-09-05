@@ -19,7 +19,7 @@ export class ViewUnapprovaljobsComponent implements OnInit {
   ngOnInit(): void {
     this.getviewDetils(history.state.data)
     
-    console.log( history.state,"responseData");
+    
     this.responseData = history.state.data;
   }
   getviewDetils(data:any){
@@ -32,7 +32,7 @@ export class ViewUnapprovaljobsComponent implements OnInit {
       error: (err) => {
         this.spinner.resetSpinner();
 
-        console.log(err);
+        
       },
     })
   }
@@ -57,10 +57,10 @@ export class ViewUnapprovaljobsComponent implements OnInit {
         observe: 'response'
       })
       .subscribe((response) => {
-        console.log(response.body)
+        
         const contentType = response.headers.get('Content-Type');
         if (response.body?.size) {
-          console.log("trur")
+          
         const fileBlob: Blob = response.body;
         const fileURL = URL.createObjectURL(fileBlob);
         const downloadLink = document.createElement('a');

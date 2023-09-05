@@ -82,7 +82,7 @@ export class JoborderexcelComponent implements OnInit {
       this.spinnerService.requestEnded();
       this.ViewImportExcel = fileinwarddata;
       this.dataSource = fileinwarddata;
-      console.log(fileinwarddata, "postbindfile");
+      
 
     }, (error) => {
       // Handle error (optional)
@@ -96,7 +96,7 @@ export class JoborderexcelComponent implements OnInit {
     this.clientcordinationservice.getBindFileInwardOnlyTrue().subscribe(inwarddata => {
       this.spinnerService.requestEnded();
       this.ViewImportExcelTrue = inwarddata;
-      console.log(inwarddata, "postbindfile");
+      
     }, (error) => {
       // Handle error (optional)
       this.spinnerService.resetSpinner();
@@ -169,7 +169,7 @@ export class JoborderexcelComponent implements OnInit {
       this.clientcordinationservice.postexcelSubmit(payload).subscribe(postdataresult => {
         // this.spinnerService.requestEnded();
         this.ViewImportExcelFinal = postdataresult;
-        console.log(this.ViewImportExcelFinal, "ViewImportExcelFinal");
+        
         this.clientcordinationservice.getBindFileInward();
         Swal.fire(
           'Done!',

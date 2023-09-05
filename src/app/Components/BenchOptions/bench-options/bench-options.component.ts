@@ -40,7 +40,7 @@ export class BenchOptionsComponent implements OnInit {
       }
 
       this.http.post<any>(environment.apiURL + `BenchOption/Startbench?Worktype=Start`, Startbench).subscribe(result => {
-        console.log(result, "Start");
+        
         this.list = result;
         if (result.data == true) {
           this.disableWorkType = true;
@@ -61,7 +61,7 @@ export class BenchOptionsComponent implements OnInit {
 
       
       this.http.post<any>(environment.apiURL + `BenchOption/Startbench?Worktype=Break`, Startbench).subscribe(result => {
-        console.log(result, "Break");
+        
         this.list = result;
         if (result.data == true) {
           this.disableWorkType = false;

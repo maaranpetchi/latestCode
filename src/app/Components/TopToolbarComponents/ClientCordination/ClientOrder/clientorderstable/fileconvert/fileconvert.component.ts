@@ -44,7 +44,7 @@ export class FileconvertComponent implements OnInit {
   division = 0;
   constructor(private http: HttpClient, private _dialog: MatDialog, private snackBar: MatSnackBar, public dialogRef: MatDialogRef<FileconvertComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data, "data");
+      
 
     this.gettingdata(data);
 
@@ -59,7 +59,7 @@ export class FileconvertComponent implements OnInit {
   a: any[] = [];
 
   gettingdata(data: any) {
-    console.log(data, "filedata");
+    
     let GetAllvalues = data.row;
     let count = data.fileCount;
     for (let i = 0; i < count; i++) {
@@ -204,7 +204,7 @@ export class FileconvertComponent implements OnInit {
       "dateofDelivery": "2023-05-12T07:08:03.495Z",
       "getAllValues": this.dataSource.data
     };
-    console.log(senddata, "fileconvertdata");
+    
     this.http.post<any>(environment.apiURL+'JobOrder/DirectOrder', senddata).subscribe(multiorderdataconvert => {
       this.showSnackBar('Converted successfully');
       this.dialogRef.close();
@@ -216,7 +216,7 @@ export class FileconvertComponent implements OnInit {
   updatefilename(event: Event, i, row) {
 
     let getfile = (event.target as HTMLInputElement).value
-    console.log(getfile, "getfile", i, "Indexfle");
+    
     delete row.FileName
     row = { FileName: getfile, ...row }
     let data = this.dataSource.data.map((person, index) =>

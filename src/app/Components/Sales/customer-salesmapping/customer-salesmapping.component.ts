@@ -79,8 +79,8 @@ export class CustomerSalesmappingComponent implements OnInit {
   }
 
   setAll(completed: boolean, item: any) {
-    console.log('item: ' + item);
-    console.log('before', this.selectedQuery);
+    
+    
     if (completed == true) {
       if (item.allocatedEstimatedTime == null) item.allocatedEstimatedTime = 0;
       if (item.employeeId == null) item.employeeId = 0;
@@ -105,12 +105,12 @@ export class CustomerSalesmappingComponent implements OnInit {
       });
       }
     }
-    console.log('after', this.selectedQuery);
+    
   }
 
   setEmployeeAll(completed: boolean, item: any) {
-    console.log('before', this.selectedEmployee);
-    console.log('item', item);
+    
+    
     if (completed == true) {
         this.selectedEmployee.push({
           ...item,
@@ -138,7 +138,7 @@ export class CustomerSalesmappingComponent implements OnInit {
       });
       }
     }
-    console.log('after', this.selectedEmployee);
+    
   }
   onDropdownChange(): void {
     this.spinner.requestStarted();
@@ -150,19 +150,19 @@ export class CustomerSalesmappingComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.spinner.requestEnded();
-          console.log(response);
+          
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
           this.employeeDaSource = new MatTableDataSource(response);
           this.employeeDaSource.sort = this.sort;
           this.employeeDaSource.paginator = this.paginator1;
-          console.log(response);
+          
           this.GetAllddlList();
         },
         error: (err) => {
           this.spinner.resetSpinner();
-          console.log('Error loading table values:', err);
+          
         },
       });
   }
@@ -174,14 +174,14 @@ export class CustomerSalesmappingComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.spinner.requestEnded();
-          console.log(response);
+          
           this.employeeDaSource = new MatTableDataSource(response.employeeList);
           this.employeeDaSource.sort = this.sort;
           this.employeeDaSource.paginator = this.paginator1;
-          console.log(response);
+          
         },
         error(err) {
-          console.log(err);
+          
         },
       });
   }
@@ -215,7 +215,7 @@ export class CustomerSalesmappingComponent implements OnInit {
             if (response === true) {
               alert('added');
             } else {
-              console.log('error');
+              
             }
           });
       // }

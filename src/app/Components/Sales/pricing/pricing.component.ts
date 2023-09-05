@@ -105,11 +105,11 @@ export class PricingComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.Pricings = response;
-          console.log(response);
+          
           this.showTable = true;
         },
         error: (err) => {
-          console.log(err, 'Error');
+          
         },
       });
   }
@@ -117,15 +117,15 @@ export class PricingComponent implements OnInit {
     this.http.get(environment.apiURL + 'Pricing/pricingList').subscribe(
       (response: any) => {
         this.departments = response.departments;
-        console.log(response, 'departmentsValues');
+        
       },
       (error) => {
-        console.log('Error loading departments values:', error);
+        
       }
     );
   }
   onPricingTypeChange(pricingType: any): void {
-    console.log('outsid');
+    
     if (pricingType != undefined) {
       //  this.pricingtype = pricingType.Id;
       if (pricingType == 1 || pricingType == 9) {
@@ -234,7 +234,7 @@ export class PricingComponent implements OnInit {
           this.dropdownOptions = response.jsList;
         },
         error: (error) => {
-          console.log(error, 'Api Error');
+          
         },
       });
     }
@@ -243,10 +243,10 @@ export class PricingComponent implements OnInit {
     this.http.get(environment.apiURL + 'Pricing/pricingList').subscribe(
       (response: any) => {
         this.Customer = response.customers;
-        console.log(response, 'departmentsValues');
+        
       },
       (error) => {
-        console.log('Error loading departments values:', error);
+        
       }
     );
   }
@@ -260,13 +260,13 @@ export class PricingComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.spinner.requestEnded();
-          console.log(response);
+          
           this.loadScope();
           this.customers = response;
         },
         error: (err) => {
           this.spinner.resetSpinner();
-          console.log(err, 'Error');
+          
         },
       });
   }
@@ -279,10 +279,10 @@ export class PricingComponent implements OnInit {
       .subscribe(
         (response: any) => {
           this.Scopes = response;
-          console.log(response, 'departmentsValues');
+          
         },
         (error) => {
-          console.log('Error loading departments values:', error);
+          
         }
       );
   }
@@ -304,7 +304,7 @@ export class PricingComponent implements OnInit {
     window.location.reload();
   }
   CreateRateBasedFileCountAndConcession() {
-    console.log('outside createbased file count');
+    
     this.submitted = true;
     if (this.newItem.selectedCountPrice) {
       this.ViewFileCountTable.push(this.newItem);
@@ -315,11 +315,11 @@ export class PricingComponent implements OnInit {
     this.ScopeBasedRateBasedFileCountTable = true;
   }
   CreateEstimatedTime() {
-    console.log('outside CreateEstimatedTime file count');
+    
     this.submitted = true;
     if (this.userRegistrationForm.valid) {
       this.userRegistrationForm.markAllAsTouched();
-      console.log('inside CreateEstimatedTime file count');
+      
       if (
         this.selectedFrom < this.selectedTo &&
         this.selectedFrom != this.selectedTo

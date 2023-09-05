@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
       this.spinnerService.requestEnded();
       this.Processes = data.employeeProcess;
 
-console.log(this.Processes ,"thisProcesses");
+
     }, error => {
       this.spinnerService.resetSpinner();
     });
@@ -163,7 +163,7 @@ permission: any[] = []
       val = val.replaceAll('|', '');
       const b = val.split(',');
       const c = b.map(x => parseInt(x))
-      console.log(c);
+      
       return c;
     }
     return [];

@@ -26,7 +26,7 @@ export class AddEditprocessComponent implements OnInit {
   ngOnInit() {
     const data = history.state.data;
 
-    console.log(history.state, 'responseData');
+    
     this.responseData = history.state.data;
 
     this._Service.formData$.subscribe((formData: any) => {
@@ -64,10 +64,10 @@ export class AddEditprocessComponent implements OnInit {
 
     if (this.mode === 'add') {
       this.createProcess();
-      console.log('Add:', formData);
+      
     } else if (this.mode === 'edit') {
       this.updateProcess();
-      console.log('Edit:', formData);
+      
     }
 
     // Reset the form after submission
@@ -315,13 +315,13 @@ export class AddEditprocessComponent implements OnInit {
         if (response === true) {
           this.route.navigate(['/topnavbar/processMaster']);
           this._coreService.openSnackBar('process added!');
-          console.log(response);
+          
         } else {
           alert('value not added Corectly');
         }
       },
       error: (err) => {
-        console.log(err);
+        
       },
     });
   }
@@ -567,11 +567,11 @@ export class AddEditprocessComponent implements OnInit {
         if(response === true){
           this.route.navigate(['/topnavbar/processMaster']);
           this._coreService.openSnackBar('process Updated!');
-          console.log(response, "updated");
+          
         }
       },
       error: (err) => {
-        console.log(err);
+        
       },
     })
   }

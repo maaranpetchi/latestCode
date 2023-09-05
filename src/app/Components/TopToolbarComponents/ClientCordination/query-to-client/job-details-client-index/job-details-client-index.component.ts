@@ -31,7 +31,7 @@ export class JobDetailsClientIndexComponent implements OnInit {
     if (this.gettingindex.data = 1) {
       this.popupStatus = true;
     }
-    console.log(this.gettingindex, "GettingIndex");
+    
 
   }
 
@@ -59,8 +59,8 @@ export class JobDetailsClientIndexComponent implements OnInit {
       this.dataJobSource = jobdata.jobHistory;
       this.JobCommonDetails = jobdata.jobCommonDetails;
       this.JobCommonDetailsJob = jobdata.jobStatusDescription;
-      console.log(jobdata, "JobDetails");
-      console.log(this.JobCommonDetails, " JobCommonDetails");
+      
+      
     });
   }
 
@@ -214,7 +214,7 @@ export class JobDetailsClientIndexComponent implements OnInit {
         this.spinnerService.requestEnded();
 
         this.QueryDetailsList = result;
-        console.log(result, "GetAmountbutton");
+        
 
 
         if (this.QueryDetailsList == undefined) {
@@ -275,9 +275,9 @@ export class JobDetailsClientIndexComponent implements OnInit {
             if (result.message != "") {
               alert(result.message);
             }
-            console.log(result, "postresult");
+            
           });
-          console.log(result, "QueryDetailsList");
+          
 
         }
       });
@@ -295,7 +295,7 @@ export class JobDetailsClientIndexComponent implements OnInit {
 
 
   submitpostQueryData(data) {
-    console.log(this.QueryEstimatedTime, "QueryEstimatedTime");
+    
 
     this.selectedJobs = [{
       DepartmentId: this.data.departmentId,
@@ -406,7 +406,7 @@ export class JobDetailsClientIndexComponent implements OnInit {
       this.spinnerService.requestStarted();
       this.http.get<any>(environment.apiURL + `ClientOrderService/QueryDetails?WFTId=${this.data.tranId}&WFMId=${this.data.tranMasterId}`).subscribe(results => {
         this.spinnerService.requestEnded();
-        console.log(results, "Resultsquery");
+        
         this.QueryDetailsList = results;
         this.QueryEstimatedTime = results.estimatedTime;
         this.QueryEstimatedScope = results.scope.description;

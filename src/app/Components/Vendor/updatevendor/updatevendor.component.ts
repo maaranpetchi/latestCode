@@ -29,7 +29,7 @@ export class UpdatevendorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _coreService: CoreService
   ) {
-    console.log(this.data, "injected data");
+    
     let amountdisplayed = this.originalAmtPaid + this.Amounttobepaid;
 
     this.type = this.data.type;

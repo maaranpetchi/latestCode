@@ -42,7 +42,7 @@ export class ViewinvoicecancelComponent  implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The popup form was closed');
+      
     });
     this.invoiceNumberSelected.emit(invoiceNo);
   }

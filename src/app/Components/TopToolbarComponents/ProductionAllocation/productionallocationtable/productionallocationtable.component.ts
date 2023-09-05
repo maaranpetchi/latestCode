@@ -204,8 +204,8 @@ export class ProductionallocationtableComponent implements OnInit {
   selectedEmployee: any[] = [];
 
   setAll(completed: boolean, item: any) {
-    console.log('item: ' + item);
-    console.log('before', this.selectedQuery);
+    
+    
     if (completed == true) {
       if (item.allocatedEstimatedTime == null) item.allocatedEstimatedTime = 0;
       if (item.employeeId == null) item.employeeId = 0;
@@ -228,12 +228,12 @@ export class ProductionallocationtableComponent implements OnInit {
         });
       }
     }
-    console.log('after', this.selectedQuery);
+    
   }
 
   setEmployeeAll(completed: boolean, item: any) {
-    console.log('before', this.selectedEmployee);
-    console.log('item', item);
+    
+    
     if (completed == true) {
       if (item.jId != null)
         this.selectedEmployee.push({
@@ -272,11 +272,11 @@ export class ProductionallocationtableComponent implements OnInit {
         });
       }
     }
-    console.log('after', this.selectedEmployee);
+    
   }
   setExchangeHeader() {
-    console.log('exchangeHeader', this.exchangeHeader);
-    console.log(this.selectedQuery, 'selectrow');
+    
+    
 
     let temparray: any[] = [];
     let selected:any[]=[];
@@ -342,12 +342,12 @@ export class ProductionallocationtableComponent implements OnInit {
           );
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
-          console.log('freshJobs',            freshJobs.employees
+          
           );
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -373,11 +373,11 @@ export class ProductionallocationtableComponent implements OnInit {
           );
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
-          console.log('revisionJobs');
+          
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -403,11 +403,11 @@ export class ProductionallocationtableComponent implements OnInit {
           );
           this.dataEmployeeSource.sort = this.sort;
           this.dataEmployeeSource.paginator = this.paginator2;
-          console.log('reworkJobs');
+          
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -439,11 +439,11 @@ export class ProductionallocationtableComponent implements OnInit {
           );
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
-          console.log('allocaetdJobs');
+          
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -467,11 +467,11 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataEmployeeSource = new MatTableDataSource(queries.employees);
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
-          console.log('queries');
+          
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -499,11 +499,11 @@ export class ProductionallocationtableComponent implements OnInit {
           );
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
-          console.log('queryResposne');
+          
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -527,11 +527,11 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataEmployeeSource.sort = this.sort;
           this.displayedColumnsVisibility.employee = false;
           this.displayedColumnsVisibility.quatationJobId = false;
-          console.log('errorJobs');
+          
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -557,11 +557,11 @@ export class ProductionallocationtableComponent implements OnInit {
           this.dataEmployeeSource = new MatTableDataSource(quotationJobs.employees);
           this.dataEmployeeSource.paginator = this.paginator2;
           this.dataEmployeeSource.sort = this.sort;
-          console.log('quotationJobs');
+          
         },
         error: (err) => {
           this.spinnerService.resetSpinner();
-          console.log(err);
+          
         },
       });
   }
@@ -603,7 +603,7 @@ export class ProductionallocationtableComponent implements OnInit {
     // }
   }
   afterCellEdit(rowEntity: any) {
-    console.log('editfield', rowEntity);
+    
 
     if (parseInt(this.loginservice.getProcessId()) == 2) {
       var colls = this.estTimeinput;
@@ -726,8 +726,8 @@ export class ProductionallocationtableComponent implements OnInit {
 
     var selectedJobCount = this.selectedJobs.length;
     var selectedEmployeeCount = this.selectedEmployee.length;
-    console.log(selectedJobCount, 'JOB COUNT');
-    console.log(selectedEmployeeCount, 'EMPLOYEE COUNT');
+    
+    
 
     if (this.loginservice.getProcessName() == 'Production Allocation') {
       if (selectedJobCount != 0 && selectedEmployeeCount != 0) {
@@ -737,10 +737,10 @@ export class ProductionallocationtableComponent implements OnInit {
             alert('Please select one Employee!');
           }
           else {
-            console.log();
+            
             
             for (var i = 0; i < selectedJobCount; i++) {
-            console.log(this.selectedQuery, "est time for job");
+            
                 if (this.selectedJobs[i].allocatedEstimatedTime == undefined || this.selectedJobs[i].allocatedEstimatedTime == "" || this.selectedJobs[i].allocatedEstimatedTime == 0) {
                     alert('Please enter Estimated Time for Selected Job');
                     return;
@@ -932,13 +932,13 @@ export class ProductionallocationtableComponent implements OnInit {
                 .subscribe({
                   next: (data) => {
                     this.spinnerService.requestEnded();
-                    console.log(data);
+                    
                     AttachedFiles = [];
                     
                   },
                   error: (err) => {
                     this.spinnerService.resetSpinner();
-                    console.log(err);
+                    
                   }
                 })
             }

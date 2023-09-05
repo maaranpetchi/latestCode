@@ -17,7 +17,7 @@ import { IndexchecklistComponent } from '../indexchecklist/indexchecklist.compon
 export class AddchecklistComponent implements OnInit {
 
   constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private _coreService: CoreService, private loginservice: LoginService, private spinnerService: SpinnerService, private router: Router, public dialogRef: MatDialogRef<AddchecklistComponent>) {
-    console.log(data, "injected");
+    
     if (this.data && this.data.type === "edit") {
       this.fetchDataAndOpenForm();
     }

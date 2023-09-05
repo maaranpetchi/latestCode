@@ -42,7 +42,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
   ) {
-    console.log(data, 'InjectedData');
+    
   }
 
   displayedJobColumns: string[] = [
@@ -138,7 +138,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         this.dataQuerySource.sort = this.sort;
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -154,7 +154,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         this.restApiData = response; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -169,7 +169,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         this.restApiData = response.scopeDetails; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -194,7 +194,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     return pathParts[pathParts.length - 1];
   }
   onSubmit() {
-    console.log(this.selectedQureryStatus, 'stATUS');
+    
     if (this.selectedQureryStatus == 6) {
       this.processMovement();
     } else if (this.selectedQureryStatus == 8) {
@@ -264,7 +264,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
-    console.log(saveData, 'savedata');
+    
     this.http.post<any>(apiUrl, saveData).subscribe((response) => {
       if (response.success === true) {
         Swal.fire('Done!', response.message, 'success');
@@ -348,7 +348,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
           } else if (response.success === false) {
             Swal.fire('Done!', 'Job Sent As Query', 'error');
           }
-          console.log(response);
+          
 
           // Handle the API response
         },
@@ -362,7 +362,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 
   //////////////////Popupsubmit///////////////////
   getQueryDetailList() {
-    console.log(this.jobCommonDetails.jobCommonDetails.jid, 'jobcommondetails');
+    
 
     this.http
       .get<any>(
@@ -375,7 +375,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   }
 
   postQueryData() {
-    console.log(this.jobCommonDetails, 'JobCommonDetails');
+    
 
     if (this.selectedQureryStatus == 100) {
       var changeEstimatedTime = {

@@ -84,7 +84,7 @@ export class QueryToClientComponent implements OnInit {
   constructor(private http: HttpClient,private loginservice:LoginService, private dialog:MatDialog ,private spinnerService:SpinnerService) {}
 
   ngOnInit(): void {
-    console.log("POpup");
+    
     
     //to get the data and show it in table
 
@@ -106,7 +106,7 @@ export class QueryToClientComponent implements OnInit {
   selectedQuery:any[]=[];
 
   setAll(completed: boolean, item: any) {
-    console.log("before", this.selectedQuery)
+    
     if (completed == true) {
       this.selectedQuery.push(item)
     }
@@ -120,7 +120,7 @@ export class QueryToClientComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedQuery)
+    
   }
 
   convertedDate:string;

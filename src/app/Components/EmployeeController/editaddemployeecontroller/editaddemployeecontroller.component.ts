@@ -30,9 +30,9 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     let data: any[] = [];
     if (this._empservice.shouldFetchData) {
       const data = this._empservice.getData();
-      console.log(data, "Data 1");
+      
       this.apiResponseData = data.data;
-      console.log(this.apiResponseData, "apiresponsedata");
+      
 
       this.fetchUpdateData();
       this._empservice.shouldFetchData = false;
@@ -42,9 +42,9 @@ export class EditaddemployeecontrollerComponent implements OnInit {
 
     if (this._empservice.shouldFetchViewData) {
       const viewdata = this._empservice.getViewData();
-      console.log(data, "Data 2");
+      
       this.apiViewResponseData = viewdata.data;
-      console.log(this.apiViewResponseData, "apiViewResponseData");
+      
       this.homeButton = true;
       this.updateButton = false;
       this.fetchViewData();
@@ -52,7 +52,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     }
   }
   fetchViewData() {
-    console.log("ftechviewdataa");
+    
 
     this.resignShow = true;
     this.submitButton = false;
@@ -103,7 +103,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
   submitButton: boolean = true;
   EmployeeEditName: boolean = false;
   fetchUpdateData() {
-    console.log("ftechUpdateData");
+    
     this.resignShow = true;
     this.submitButton = false;
     this.updateButton = true;
@@ -325,7 +325,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
 
   onCheckboxChange(event: Event) {
     this.copyAddress = (event.target as HTMLInputElement).checked;
-    console.log(this.copyAddress, "Copy Address");
+    
     if (this.copyAddress) {
       this.presentAddress1 = this.permanentAddress1;
       this.presentAddress2 = this.permanentAddress2;
@@ -419,7 +419,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     this.http.post<any>(environment.apiURL + `Employee/AddEmployee`, payload).subscribe({
       next: (val: any) => {
         // this.spinnerService.requestStarted();
-        console.log(val, "value");
+        
 
         Swal.fire(
           'Done!',
@@ -517,7 +517,7 @@ export class EditaddemployeecontrollerComponent implements OnInit {
     this.http.post<any>(environment.apiURL + `Employee/EditEmployee`, payload).subscribe({
       next: (val: any) => {
         // this.spinnerService.requestStarted();
-        console.log(val, "value");
+        
         Swal.fire(
           'Updated!',
           'Employee updated successfully',

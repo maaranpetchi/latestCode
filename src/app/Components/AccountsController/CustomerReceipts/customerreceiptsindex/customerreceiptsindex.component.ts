@@ -62,8 +62,7 @@ constructor( private _dialog: MatDialog,
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
      
-      },
-      error: console.log,
+      }
     });
   }
   employeeFilter(event: Event): void {

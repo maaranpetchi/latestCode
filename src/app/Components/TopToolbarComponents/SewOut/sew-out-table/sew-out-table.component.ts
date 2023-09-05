@@ -70,7 +70,7 @@ export class SewOutTableComponent implements OnInit {
   selectedQuery: any[] = [];
 
   setAll(completed: boolean, item: any) {
-    console.log("before", this.selectedQuery)
+    
     if (completed == true) {
       this.selectedQuery.push(item)
     }
@@ -84,7 +84,7 @@ export class SewOutTableComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedQuery)
+    
   }
 
   benchChecked: boolean = false;
@@ -127,7 +127,7 @@ export class SewOutTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       // Handle any logic after the modal is closed (if needed)
-      console.log('The dialog was closed');
+      
     });
   }
 
@@ -142,7 +142,7 @@ export class SewOutTableComponent implements OnInit {
 
   freshJobs() {
     this.sewOutService.getTabValue1().subscribe(freshJobs => {
-      console.log(freshJobs,"freshJOBSSEWOUT");
+      
       
       this.dataSource = new MatTableDataSource(freshJobs.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
@@ -207,7 +207,7 @@ export class SewOutTableComponent implements OnInit {
   }
 
   getTabValue() {
-    console.log("Inside table", this.SewOutComponent1.getCurrentTab());
+    
     return this.SewOutComponent1.getCurrentTab();
   }
   workFlowConversion() {
@@ -215,14 +215,14 @@ export class SewOutTableComponent implements OnInit {
       const apiUrl = environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/${this.getTabValue()}/0`;
       this.http.get(apiUrl).subscribe(
         (response: any) => {
-          console.log(response, "getworkflow");
+          
 
           // Handle success response here
           let timeStamp = response.getWorkflowDetails[0].timeStamp;
           let customerId = response.getWorkflowDetails[0].customerId
-          console.log(timeStamp, "TimeStamp");
-          console.log(customerId, "customerId");
-          console.log("Data retrieved successfully", response);
+          
+          
+          
           let existingSelectedRows = {
             // Existing selectedRows array
             // Add your existing selectedRows elements here
@@ -310,12 +310,12 @@ export class SewOutTableComponent implements OnInit {
           // Make the POST request with the updated payload
           this.sewOutService.getprocessmovement(payload).subscribe(
             (response: any) => {
-              console.log('WFTID', response.wftId);
-              console.log('WFMID', response.wfmid);
+              
+              
               localStorage.setItem('WFTID', response.wftId);
               localStorage.setItem('WFMID', response.wfmid);
               localStorage.setItem('JID', response.jid);
-              console.log("Data posted successfully", response);
+              
               if (response.success == true) {
                 this._coreService.openSnackBar("Workflow converted successfully");
               }
@@ -343,7 +343,7 @@ export class SewOutTableComponent implements OnInit {
         },
         (error: any) => {
           // Handle error response here
-          console.log("An error occurred while retrieving the data", error);
+          
         }
       );
     }

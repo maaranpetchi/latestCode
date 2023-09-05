@@ -140,7 +140,7 @@ export class ClientorderstableComponent implements OnInit {
   selectedproduction: any[] = [];
   setAll(completed: boolean, item: any) {
 
-    console.log("before", this.selectedproduction)
+    
     if (completed == true) {
       this.selectedproduction.push(item)
     }
@@ -154,7 +154,7 @@ export class ClientorderstableComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedproduction)
+    
   }
 
   bindingjobs() {
@@ -172,7 +172,7 @@ export class ClientorderstableComponent implements OnInit {
       this.displayedColumnsvisibility.jobid = false;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
+      
 
     },
     error => {
@@ -211,7 +211,7 @@ export class ClientorderstableComponent implements OnInit {
       this.displayedColumnsvisibility.filecount = false;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
+      
     },
     error => {
       this.spinnerService.resetSpinner();
@@ -230,7 +230,7 @@ export class ClientorderstableComponent implements OnInit {
       this.displayedColumnsvisibility.fileInwardMode = false;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
+      
     },
     error => {
       this.spinnerService.resetSpinner();
@@ -312,12 +312,12 @@ export class ClientorderstableComponent implements OnInit {
 
   handleKeyPress(event: KeyboardEvent, job: any) {
     const enteredNumber = (event.target as HTMLInputElement).value;
-    console.log("enter value", enteredNumber)
+    
 
     if (event.key === 'Enter') {
       this.openPopup(enteredNumber, job);
-      console.log(event, "event");
-      console.log(job, "job");
+      
+      
     }
   }
 
@@ -328,7 +328,7 @@ export class ClientorderstableComponent implements OnInit {
     //added co if starts
     let GetAllvalues = data;
     let Gridwithmultiplefilesname: any[] = [];
-    console.log(data, "GETTINGDATA");
+    
 
     let GetAddList =
     {
@@ -467,7 +467,7 @@ export class ClientorderstableComponent implements OnInit {
       GetAllValues: Gridwithmultiplefilesname,
     }
 
-    // console.log(senddata, "fileconvertdata");
+    // 
     this.spinnerService.requestStarted();
     this.http.post<any>(environment.apiURL + 'JobOrder/DirectOrder', senddata).subscribe(convertdata => {
       let JobId = convertdata.jobId;
@@ -629,7 +629,7 @@ export class ClientorderstableComponent implements OnInit {
       GetAllValues: Gridwithmultiplefilesname,
     }
 
-    // console.log(senddata, "fileconvertdata");
+    // 
     this.spinnerService
     this.http.post<any>(environment.apiURL + 'JobOrder/DirectOrder', senddata).subscribe(convertdata => {
       let JobId = convertdata.jobId;
@@ -674,7 +674,7 @@ export class ClientorderstableComponent implements OnInit {
       data: job,
 
     });
-    console.log(job, "jobdata");
+    
   }
 
 

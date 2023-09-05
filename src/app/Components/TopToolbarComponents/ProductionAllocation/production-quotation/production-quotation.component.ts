@@ -33,7 +33,7 @@ export class ProductionQuotationComponent implements OnInit{
     
     private _dialog: MatDialog,
   ) {
-    console.log(data, "InjectedData")
+    
   }
 
   displayedJobColumns: string[] = [
@@ -115,7 +115,7 @@ export class ProductionQuotationComponent implements OnInit{
         this.dataQuerySource.sort = this.sort;
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -131,7 +131,7 @@ export class ProductionQuotationComponent implements OnInit{
         this.restApiData = response; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -146,7 +146,7 @@ export class ProductionQuotationComponent implements OnInit{
         this.restApiData = response.scopeDetails; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -171,7 +171,7 @@ export class ProductionQuotationComponent implements OnInit{
     return pathParts[pathParts.length - 1];
   }
   onSubmit() {
-    console.log(this.selectedQureryStatus, "status");
+    
     if (this.selectedQureryStatus == 6) {
       this.processMovement();
     } 
@@ -237,7 +237,7 @@ export class ProductionQuotationComponent implements OnInit{
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
-    console.log(saveData, "savedata");
+    
     this.http.post<any>(apiUrl, saveData).subscribe((response) => {
       if (response.success === true) {
         Swal.fire(
@@ -258,7 +258,7 @@ export class ProductionQuotationComponent implements OnInit{
 
   //////////////////Popupsubmit///////////////////
   getQueryDetailList() {
-    console.log(this.jobCommonDetails.jobCommonDetails.jid, "jobcommondetails");
+    
 
     this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
       this.QueryDetailsList = result;
@@ -266,7 +266,7 @@ export class ProductionQuotationComponent implements OnInit{
   }
 
   postQueryData() {
-    console.log(this.jobCommonDetails,"JobCommonDetails");
+    
     
     if (this.selectedQureryStatus == 100) {
       var changeEstimatedTime = {
@@ -447,7 +447,7 @@ export class ProductionQuotationComponent implements OnInit{
       })
       dialogRef.afterClosed().subscribe({
         next: (val) => {
-          console.log(val,"respose");
+          
         },
       });
     }

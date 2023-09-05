@@ -73,7 +73,7 @@ export class QualitytableComponent {
   //to save the checkbox values
   selectedproduction: any[] = [];
   setAll(completed: boolean, item: any) {
-    console.log("before", this.selectedproduction)
+    
     if (completed == true) {
       this.selectedproduction.push(item)
     }
@@ -87,7 +87,7 @@ export class QualitytableComponent {
         })
       }
     }
-    console.log("after", this.selectedproduction)
+    
   }
 
   showAlert() {
@@ -122,7 +122,7 @@ export class QualitytableComponent {
     this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(freshdata => {
       this.spinnerService.requestEnded();
-      console.log(freshdata,"totaldata");
+      
       
       this.dataSource = new MatTableDataSource(freshdata.getWorkflowDetails);
       this.dataSource.paginator = this.paginator;
@@ -176,7 +176,7 @@ export class QualitytableComponent {
     })
   }
   getTabValue() {
-//console.log("Inside table", this.qualitycomponent.getCurrentTab());
+//
     return this.qualitycomponent.getCurrentTab();
   }
 
@@ -234,7 +234,7 @@ lnkviewedit(data) {
           "isJobFilesNotTransfer": true
         }
       this.http.post<any>(environment.apiURL+`Allocation/processMovement`,processMovement).subscribe( result => {
-        console.log(result,"processMovementworkkk");
+        
             if (result.Success == true) {
                 localStorage.setItem("WFTId", result.wftId);
                 localStorage.setItem("WFMId", result.wfmid);
@@ -271,7 +271,7 @@ lnkviewedit(data) {
 
   BindPendingJobs() {
     this.http.get<any>(environment.apiURL + `Allocation/getWorkflowJobList/${this.loginservice.getUsername()}/${this.loginservice.getProcessId()}/1/0`).subscribe(result => {
-      console.log(result,"buddyproofmainwwww");
+      
     });
   }
 

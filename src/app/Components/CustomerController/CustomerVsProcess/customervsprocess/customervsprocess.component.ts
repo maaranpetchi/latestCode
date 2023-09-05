@@ -120,13 +120,13 @@ export class CustomervsprocessComponent implements OnInit {
     this.http.get<any>(environment.apiURL + 'CustomerVsProcess/GetAllddlList').subscribe(data => {
       this.spinnerService.requestEnded();
       this.data = data;
-      console.log(data);
+      
     });
   }
 
   onOptionSelected(event: any, myForm: FormGroup) {
-    console.log(event);
-    console.log(myForm.value);
+    
+    
     if (myForm.value.customerscopestatus.length > 0) {
       this._empService.changeapi({
         "customerId": myForm.value.customer == '' ? 0 : myForm.value.customer,
@@ -134,7 +134,7 @@ export class CustomervsprocessComponent implements OnInit {
         "customerJobType": myForm.value.customerscopestatus,
       }).subscribe(data => {
         this.scopeList = data.getScopeList;
-        console.log("scopelist" + JSON.stringify(this.scopeList));
+        
       })
     }
     else {
@@ -153,13 +153,13 @@ export class CustomervsprocessComponent implements OnInit {
 
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        console.log(res);
+        
 
       },
-      error: console.log,
+      error: 
     });
   }
-  // this._empService.getEmployeeList().then((res)=>{console.log(res)}).catch(err=> console.log(err));
+  // this._empService.getEmployeeList().then((res)=>{
 
 
   employeeFilter(event: Event) {
@@ -184,12 +184,12 @@ export class CustomervsprocessComponent implements OnInit {
         }).subscribe(data => {
           this.scopeList = data.getScopeList;
 
-          // console.log("scopelist" + JSON.stringify(this.scopeList));
+          // 
         })
         this.refreshPage();
 
       },
-      error: console.log,
+      error: 
     });
   }
 
@@ -228,7 +228,7 @@ export class CustomervsprocessComponent implements OnInit {
   onSubmit() {
     this.spinnerService.requestStarted();
 
-    console.log(this.myForm);
+    
     this.submitted = true;
     this.http.post(environment.apiURL + 'CustomerVsProcess/AddProcessworkflow', {
       "selectedScopes": this.myForm.value.scopeName,

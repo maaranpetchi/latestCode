@@ -45,12 +45,12 @@ export class ErrorCategoryComponent implements OnInit{
     this._service.getErrorCategoryList().subscribe({
       next:(data)=>{
         this.dataSource = new MatTableDataSource(data);
-        console.log(data, "error");
+        
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
       error:(err:any) => {
-        console.log(err);
+        
       }
     })
   }
@@ -80,7 +80,7 @@ export class ErrorCategoryComponent implements OnInit{
         window.location.reload();
       },
       error:(err:any)=>{
-        console.log(err);
+        
       }
     })
   }

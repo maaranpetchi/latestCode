@@ -97,7 +97,7 @@ export class JobCategorypopupComponent implements OnInit {
         this.dataQuerySource.sort = this.sort;
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -113,7 +113,7 @@ export class JobCategorypopupComponent implements OnInit {
         this.restApiData = response; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -128,7 +128,7 @@ export class JobCategorypopupComponent implements OnInit {
         this.Scopes = response.scopeDetails; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -245,12 +245,12 @@ export class JobCategorypopupComponent implements OnInit {
     };
     this.http.post<any>(environment.apiURL+'Allocation/changeEstimatedTime', estTimeData).subscribe(
       (response) => {
-        console.log(response);
+        
         
         // Handle the API response
       },
       (error) => {
-        console.log(error);
+        
         
         // Handle the API error
       }

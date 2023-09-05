@@ -60,7 +60,7 @@ export class InvoiceComponent implements OnInit {
   }
   selectedInvoices: any[] = [];
   setAll(completed: boolean, item: any) {
-    console.log("before", this.selectedInvoices)
+    
     if (completed == true) {
       this.selectedInvoices.push(item)
     }
@@ -74,14 +74,14 @@ export class InvoiceComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedInvoices)
+    
   }
 
 
 
   selectedGeneratedInvoices: any[] = [];
   setGeneratedAll(completed: boolean, item: any) {
-    console.log("before", this.selectedGeneratedInvoices)
+    
     if (completed == true) {
       this.selectedGeneratedInvoices.push({...item, BillingCycleType: item.BillingCycleType ? item.BillingCycleType : 0 })
     }
@@ -95,7 +95,7 @@ export class InvoiceComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedGeneratedInvoices)
+    
   }
 
 
@@ -215,7 +215,7 @@ export class InvoiceComponent implements OnInit {
 
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.table1Paginator;
-        console.log(res);
+        
 
       }
     });
@@ -232,7 +232,7 @@ export class InvoiceComponent implements OnInit {
       this.dataSource.data = results.getInvoice;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.table1Paginator;
-      console.log(results, "results")
+      
     }
     )
   }
@@ -262,7 +262,7 @@ displayedGenaratedInvoiceColumns: string[] = [
 ];
 
 getGeneratedInvoice(){
-  console.log(this.ClientGeneratedId,"ClientId");
+  
   
   let payload={
     "clientId":this.ClientGeneratedId 
@@ -297,7 +297,7 @@ getGeneratedInvoice(){
       data
     });
     
-    console.log(dialogRef);
+    
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {

@@ -23,7 +23,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
     private router :Router,
   public dialogRef: MatDialogRef<ProductionAllocatedPopupComponent>
 
-  ) {console.log(data,"ProductionAllocatedPopupComponent");
+  ) {
   }
 
   displayedJobColumns: string[] = [
@@ -118,7 +118,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
         this.dataQuerySource.sort = this.sort;
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -134,7 +134,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
         this.restApiData = response; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -149,7 +149,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
         this.Scopes = response.scopeDetails; // Assuming the REST API response is an array of objects
       },
       (error: any) => {
-        console.log('Error fetching data from REST API:', error);
+        
       }
     );
   }
@@ -174,7 +174,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
     return pathParts[pathParts.length - 1];
   }
   onSubmit() {
-    console.log(this.selectedQureryStatus,"SelecedQyeryStatus");
+    
 
       this.processMovement();
   }
@@ -231,7 +231,7 @@ export class ProductionAllocatedPopupComponent implements OnInit {
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
-    console.log(saveData,"savedata");
+    
     
     this.http
       .post<any>(environment.apiURL + 'Allocation/processMovement', saveData)
@@ -331,12 +331,12 @@ export class ProductionAllocatedPopupComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          console.log(response);
+          
 
           // Handle the API response
         },
         (error) => {
-          console.log(error);
+          
 
           // Handle the API error
         }

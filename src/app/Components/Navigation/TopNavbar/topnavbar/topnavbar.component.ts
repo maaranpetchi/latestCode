@@ -170,7 +170,7 @@ export class TopnavbarComponent implements OnInit {
   //         this.menus.forEach((menu) => {
   //           menu = menu.replace('|', '_').replace('|', '_');
   //           this.showingMenu = menu;
-  //           console.log(this.showingMenu,"ShowingMenu");
+  //           
   //           this[menu] = true;
   //         });
   //       }
@@ -210,7 +210,7 @@ export class TopnavbarComponent implements OnInit {
       val = val.replaceAll('|', '');
       const b = val.split(',');
       const c = b.map(x => parseInt(x))
-      console.log(c);
+      
       return c;
     }
     return [];

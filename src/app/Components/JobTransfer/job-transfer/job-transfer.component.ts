@@ -76,10 +76,10 @@ export class JobTransferComponent implements OnInit {
       this._service.getJobTransferDetails().subscribe({
         next: (response: any) => {
           this.clients = response;
-          console.log(response);
+          
         },
         error: (err) => {
-          console.log(err);
+          
           // this.spinnerService.resetSpinner();
         },
       });
@@ -104,7 +104,7 @@ export class JobTransferComponent implements OnInit {
     }
   }
   onSearchClick() {
-    console.log(this.selectedFileName, 'selected');
+    
 
     if (
       this.selectedClientId != undefined ||
@@ -139,10 +139,10 @@ export class JobTransferComponent implements OnInit {
           this.dataSource = response.jobs;
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-          console.log(response.jobs);
+          
         },
         error: (err: any) => {
-          console.log(err);
+          
           this.spinnerService.resetSpinner();
         },
       });
@@ -158,7 +158,7 @@ export class JobTransferComponent implements OnInit {
   selectedJobs: any[] = [];
   //   convert(): void {
   //     this.selectedJobs = this.selectedQuery;
-  //     console.log(this.selectedQuery,"selected query");
+  //     
 
   //     if (this.selectedJobs.length == 0) {
   //       alert('Please Select Job(s).');
@@ -175,7 +175,7 @@ export class JobTransferComponent implements OnInit {
   //         if (response === true) {
   //           alert("Value moved to Selected Jobs")
   //         } else if(response === false){
-  //           console.log('Error');
+  //           
   //         }
   //       });
   //   }
@@ -215,8 +215,8 @@ export class JobTransferComponent implements OnInit {
 
   selectedQuery: any[] = [];
   setAll(completed: boolean, item: any) {
-    console.log('item: ' + item);
-    console.log('before', this.selectedQuery);
+    
+    
     if (completed == true) {
       this.selectedQuery.push({
         ...item,
@@ -230,6 +230,6 @@ export class JobTransferComponent implements OnInit {
         });
       }
     }
-    console.log('after', this.selectedQuery);
+    
   }
 }

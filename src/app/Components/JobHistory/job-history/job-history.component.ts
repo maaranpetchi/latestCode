@@ -144,23 +144,23 @@ export class JobHistoryComponent implements OnInit {
       this.spinnerService.requestStarted();
       this.http.post<any>(environment.apiURL + 'Allocation/getJobMovementJobsWithclientIdfileName', jobOrder).subscribe({
         next: (response) => {
-          console.log(response, "data received");
+          
           this.spinnerService.requestEnded();
           this.dataSource.data = response.jobMovement;
           this.recordCount = response.jobMovement.length;
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-          console.log(response);
+          
         },
         error: (err) => {
-          console.log(err);
+          
           this.spinnerService.resetSpinner();
         }
       })
     }
   };
   setAll(completed: boolean, item: any) {
-    console.log("before", this.selectedInvoices)
+    
     if (completed == true) {
       this.selectedInvoices.push({ id: item.id })
     }
@@ -174,7 +174,7 @@ export class JobHistoryComponent implements OnInit {
         })
       }
     }
-    console.log("after", this.selectedInvoices)
+    
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

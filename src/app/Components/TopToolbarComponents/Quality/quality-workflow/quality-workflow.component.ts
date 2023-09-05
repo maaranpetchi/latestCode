@@ -83,7 +83,7 @@ export class QualityWorkflowComponent implements OnInit {
   constructor(private location:Location,private http: HttpClient, private dialog: MatDialog, private loginService: LoginService, private workflowservice: WorkflowService, private spinnerService: SpinnerService,
   ) {
     this.data = this.workflowservice.getData();
-    console.log(this.data, "InjecetdData");
+    
   }
 
 
@@ -159,7 +159,7 @@ export class QualityWorkflowComponent implements OnInit {
   AttachedFiles1: File[] = [];
 
   onFileSelected(event: any) {
-    console.log(event)
+    
     const file: File = event.target.files[0];
     this.AttachedFiles = [event.target.files[0], ...this.AttachedFiles];//store the selected file in selectdfile;
     this.AttachedFiles1 = [event.target.files[0].name, ...this.AttachedFiles1];//store the selected file in selectdfile;
@@ -172,7 +172,7 @@ export class QualityWorkflowComponent implements OnInit {
   //ishold ,sam
   getIsholdSampValue() {
     this.http.get<any>(environment.apiURL + `Workflow/GetProcessTransaction/${localStorage.getItem("WFTId")}/${this.loginService.getUsername()}`).subscribe(result => {
-      console.log(result, "getIsholdSampValue");
+      
 
       this.ProcessTransaction = result.getWorkflowDetails;
       this.revisionCheck = result.ChkRevise;
@@ -180,7 +180,7 @@ export class QualityWorkflowComponent implements OnInit {
       this.isHold = result.isHold;
       this.SameEmp = result.sameEmp;
       this.Checkbench = result.checkbench;
-      console.log(this.Checkbench, "Checkbenchkullavalue");
+      
 
       if (result.getWorkflowDetails.workStatus == 'Working') {
         this.disableWorkType = false;
@@ -209,7 +209,7 @@ export class QualityWorkflowComponent implements OnInit {
     if (workType == 'Start') {
       this.disableWorkType = false;
       this.showFiles = true;
-      console.log("Method Started 1");
+      
       this.footerDropdown = true;
       this.ChangeWorkflow(workType);
     }
@@ -492,7 +492,7 @@ export class QualityWorkflowComponent implements OnInit {
 
 
   BindWorkDetails() {
-    console.log("Method started 3");
+    
 
     let processTransaction = {
       "wftid": localStorage.getItem("WFTId"),
@@ -531,15 +531,15 @@ export class QualityWorkflowComponent implements OnInit {
       "selectedRows": []
     }
     this.http.post<any>(environment.apiURL + "Workflow/GetProductionWorkList", processTransaction).subscribe((result) => {
-      console.log(result.summary.summaryHistory, "Normal");
-      console.log(result.summary.summaryHistory[0], "Normal");
+      
+      
       this.dataSource = new MatTableDataSource<any>(result.jobHistory); // to display the details in table
       this.dataSource.paginator = this.paginator;
       let History = result.summary.summaryHistory;
       this.SummaryHistory = History[0];
 
-      console.log(History[0], " vale History[0] history");
-      console.log(History, "Array summary history");
+      
+      
       this.TotalTimeWorked = result.summary.summaryHistory[0].totalTime;
       this.Break = result.summary.summaryHistory[0].break;
       this.Training = result.summary.summaryHistory[0].trainingorMeeting;
@@ -556,7 +556,7 @@ export class QualityWorkflowComponent implements OnInit {
         this.showFiles = true;
       }
 
-      console.log(result, "resultBinddetails");
+      
 
     });
   }
@@ -584,7 +584,7 @@ export class QualityWorkflowComponent implements OnInit {
 
   ///to get the error dropdown value
   rbnError() {
-    console.log(localStorage.getItem('WFTId'), "local storage from the wftid");
+    
 
     this.http.get<any>(environment.apiURL + `Workflow/GetErrorCategories/${localStorage.getItem('WFTId')}/${this.loginService.getUsername()}`).subscribe(result => {
       this.errorCategory = result.errorCategories;

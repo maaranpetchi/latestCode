@@ -59,12 +59,12 @@ export class UnApprovaljobsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(response);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        console.log(response, 'getAllaprovals');
+        
       },
       error: (err) => {
         this.spinner.resetSpinner();
 
-        console.log(err);
+        
       },
     })
   }
