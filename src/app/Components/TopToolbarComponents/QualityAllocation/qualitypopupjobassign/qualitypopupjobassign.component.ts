@@ -37,6 +37,7 @@ export class QualitypopupjobassignComponent implements OnInit {
   EstimatedTime: boolean = false;
   remarksdata: boolean = false;
   EmployeData: boolean = false;
+  EmployeDatascope: boolean = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   selectedEmployees: any;
@@ -44,6 +45,8 @@ export class QualitypopupjobassignComponent implements OnInit {
   Employees: any[];
   estTime: number;
   jobCommonDetails: any;
+  selectedScope: any = 0;
+  Scopes:any[]=[];
   QueryDetailsList: any;
   confirmationMessage: any;
   selectedJobs: { DepartmentId: any; TranMasterId: any; JId: any; CustomerId: any; JobId:any;Comments:any;TimeStamp:any;CategoryDesc:any;SelectedRows:any;FileInwardType:any;CommentsToClient:any;SelectedEmployees:any}[];
@@ -83,6 +86,7 @@ export class QualitypopupjobassignComponent implements OnInit {
     this.fetchData(); // Call the function to fetch data from the REST API
     this.getAssignedEmployeesToChangeEstTime(); // this function for getting values in drop down list
     this.QueryDetailspost(); // this function for get the wftId and Jid
+    this.fetchScopes();
   }
 
 
@@ -91,14 +95,17 @@ export class QualitypopupjobassignComponent implements OnInit {
       this.remarksdata = true;
       this.EstimatedTime = false;
       this.EmployeData = false;
+      this.EmployeDatascope= false;
     } else if (this.selectedQureryStatus == 8) {
-      this.EstimatedTime = false;
+      this.EstimatedTime = true;
       this.remarksdata = true;
       this.EmployeData = false;
+      this.EmployeDatascope= true;
     } else if (this.selectedQureryStatus == 100) {
-      this.EstimatedTime = true;
+      this.EstimatedTime = false;
       this.EmployeData = true;
       this.remarksdata = false;
+      this.EmployeDatascope= false;
 
       this.http
         .get<any>(
@@ -159,17 +166,29 @@ export class QualitypopupjobassignComponent implements OnInit {
       }
     );
   }
+  fetchScopes() {
+    this.http
+      .get<any>(
+        environment.apiURL +
+          `Allocation/getScopeValues/${this.loginservice.getUsername()}`
+      )
+      .subscribe((scopedata) => {
+        this.Scopes = scopedata.scopeDetails; // Sort the scopes based on the 'name' property
+      });
+  }
 
   onSubmit() {
     if (this.selectedQureryStatus == 6 || this.selectedQureryStatus == 8) {
       this.processMovement();
-    } else if (this.selectedQureryStatus === 100) {
+    } else if (this.selectedQureryStatus == 100) {
       this.changeEstTime();
     } else {
       // Handle the case when no option is selected or handle any other condition
     }
   }
   processMovement() {
+    console.log("submit");
+    
     const apiUrl = environment.apiURL + `Allocation/processMovement`;
 
     let saveData = {
@@ -194,12 +213,26 @@ export class QualitypopupjobassignComponent implements OnInit {
       jId: this.data.jId,
       estimatedTime: 0,
       tranMasterId: 0,
-      selectedRows: this.data.selectedJobs,
-      // customerId:'',
-      // DepartmentId:0
-
+      selectedRows: [
+        {
+          customerId: this.data.customerId,
+          departmentId:  this.data.departmentId,
+          estimatedTime: this.estimatedTime,
+          jId: this.data.jId,
+          tranMasterId: this.data.tranMasterId,
+          Comments: '',
+          TimeStamp: '',
+          SelectedEmployees: '',
+          JobId: '',
+          FileInwardType: '',
+          CommentsToClient: '',
+          CategoryDesc: '',
+          selectedEmployees: [],
+          selectedRows: [],
+        },
+      ],
       selectedEmployees: [],
-      departmentId: 0,
+      departmentId:  this.data.departmentId,
       updatedUTC: '2023-07-01T10:02:55.095Z',
       categoryDesc: 'string',
       allocatedEstimatedTime: 0,
@@ -215,9 +248,13 @@ export class QualitypopupjobassignComponent implements OnInit {
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
+    console.log(saveData, 'savedata');
     this.http.post<any>(apiUrl, saveData).subscribe((response) => {
-      console.log(response, "SubmitResponse");
-
+      if (response.success === true) {
+        Swal.fire('Done!', response.message, 'success');
+      } else if (response.success === false) {
+        Swal.fire('Error!', response.message, 'error');
+      }
     });
   }
 
@@ -245,7 +282,7 @@ export class QualitypopupjobassignComponent implements OnInit {
       tranMasterId: this.data.tranMasterId,
       selectedRows: [],
       selectedEmployees: [],
-      departmentId: 0,
+      departmentId: this.data.departmentId,
       updatedUTC: '2023-07-01T11:15:03.552Z',
       categoryDesc: 'string',
       allocatedEstimatedTime: 0,
@@ -263,8 +300,11 @@ export class QualitypopupjobassignComponent implements OnInit {
     };
     this.http.post<any>(environment.apiURL + 'Allocation/changeEstimatedTime', estTimeData).subscribe(
       (response) => {
-        console.log(response);
-
+          if (response.success === true) {
+            Swal.fire('Done!', response.message, 'success');
+          } else if (response.success === false) {
+            Swal.fire('Error!', response.message, 'error');
+          };
         // Handle the API response
       },
       (error) => {
@@ -333,7 +373,7 @@ export class QualitypopupjobassignComponent implements OnInit {
   //////////////Popupsubmit////
 
   getQueryDetailList() {
-    console.log(this.jobCommonDetails.jobCommonDetails.jid      , "jobcommondetails");
+    console.log(this.jobCommonDetails.jobCommonDetails.jid, "jobcommondetails");
 
     this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
       this.QueryDetailsList = result;
@@ -343,144 +383,138 @@ export class QualitypopupjobassignComponent implements OnInit {
   stitchCount: any;
 
 
-  displayEstimationTime:boolean=false;
-  estimationTime:any;
-  postQueryData() {
-    if (this.selectedQureryStatus == 100) {
-      var changeEstimatedTime = {
-        EmployeeId: this.selectedEmployees,
-        TranMasterId: this.jobCommonDetails.tranMasterId,
-        JId: this.jobCommonDetails.jobCommonDetails.jid,
-        EstimatedTime: this.estimatedTime,
-        ProcessId: 3,
-        UpdatedBy: this.loginservice.getUsername()
-      };
-      this.http.post<any>(environment.apiURL + 'Allocation/changeEstimatedTime', changeEstimatedTime).subscribe(result => {
-        if (result.Success) {
-          Swal.fire(
-            'info!',
-            'Estimated Time Updated!',
-            'info'
-          )
-        }
-        else {
-          Swal.fire(
-            'info!',
-            'Estimated Time Not Updated!',
-            'info'
-          )
-        }
-      });
+  // displayEstimationTime:boolean=false;
+  // estimationTime:any;
+  // postQueryData() {
+  //   if (this.selectedQureryStatus == 100) {
+  //     var changeEstimatedTime = {
+  //       EmployeeId: this.selectedEmployees,
+  //       TranMasterId: this.jobCommonDetails.tranMasterId,
+  //       JId: this.jobCommonDetails.jobCommonDetails.jid,
+  //       EstimatedTime: this.estimatedTime,
+  //       ProcessId: 3,
+  //       UpdatedBy: this.loginservice.getUsername()
+  //     };
+  //     this.http.post<any>(environment.apiURL + 'Allocation/changeEstimatedTime', changeEstimatedTime).subscribe(result => {
+  //       if (result.Success) {
+  //         Swal.fire(
+  //           'info!',
+  //           'Estimated Time Updated!',
+  //           'info'
+  //         )
+  //       }
+  //       else {
+  //         Swal.fire(
+  //           'info!',
+  //           'Estimated Time Not Updated!',
+  //           'info'
+  //         )
+  //       }
+  //     });
 
-    }
-    else {
-       this.selectedJobs = [{
-        DepartmentId: this.data.deptartmentId,
-        TranMasterId: this.jobCommonDetails.tranMasterId,
-        JId: this.jobCommonDetails.jobCommonDetails.jid,
-        CustomerId: this.jobCommonDetails.jobCommonDetails.customerId,
-        JobId:"",
-        Comments:"",
-        TimeStamp:"",
-        CategoryDesc:"",
-        SelectedRows:[],
-        FileInwardType:'',
-        CommentsToClient:'',
-        SelectedEmployees:[]
-      }];
-      var estime;
-      var scopeid;
-      var stitchCount;
-      this.getQueryDetailList();
-      if (this.QueryDetailsList == undefined || this.QueryDetailsList == null) {
-        estime = this.estimationTime;
-        scopeid = 0;
-        if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId == null && scopeid == undefined) {
-          // scopeid = 21; //
-          stitchCount = this.stitchCount;
-        }
-        else if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId != null && scopeid == undefined) {
-          scopeid = this.jobCommonDetails.scopeId;
-          stitchCount = $("#stitchCountForSP").val();
-        }
-      }
-      else {
-        estime = this.estimatedTime;
-        stitchCount = $("#stitchCountForSP").val();
-        //if ($scope.QueryDetailsList.Scope == undefined) {
-        //    scopeid = $scope.QueryDetailsList.ScopeId
-        //}
-        //else {
-        //     scopeid = $scope.QueryDetailsList.Scope.Id;                                       
-        //}
-        scopeid = this.QueryDetailsList.scopeId;
-      }
-      //alert(JSON.stringify(scopeid));
-      var processMovement = {
-        selectedRows: this.selectedJobs,
-        JobId: this.data.jobId,
-        EmployeeId: this.loginservice.getUsername(),
-        StatusId: this.selectedQureryStatus,
-        Remarks: this.remarks,
-        ProcessId: this.data.processId,
-        Value: estime,
-        SelectedScopeId: scopeid,
-        StitchCount: stitchCount,
-        FileReceivedDate: this.jobCommonDetails.fileReceivedDate,
+  //   }
+  //   else {
+  //      this.selectedJobs = [{
+  //       DepartmentId: this.data.deptartmentId,
+  //       TranMasterId: this.jobCommonDetails.tranMasterId,
+  //       JId: this.jobCommonDetails.jobCommonDetails.jid,
+  //       CustomerId: this.jobCommonDetails.jobCommonDetails.customerId,
+  //       JobId:"",
+  //       Comments:"",
+  //       TimeStamp:"",
+  //       CategoryDesc:"",
+  //       SelectedRows:[],
+  //       FileInwardType:'',
+  //       CommentsToClient:'',
+  //       SelectedEmployees:[]
+  //     }];
+  //     var estime;
+  //     var scopeid;
+  //     var stitchCount;
+  //     this.getQueryDetailList();
+  //     if (this.QueryDetailsList == undefined || this.QueryDetailsList == null) {
+  //       estime = this.estimationTime;
+  //       scopeid = 0;
+  //       if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId == null && scopeid == undefined) {
+  //         // scopeid = 21; //
+  //         stitchCount = this.stitchCount;
+  //       }
+  //       else if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId != null && scopeid == undefined) {
+  //         scopeid = this.jobCommonDetails.scopeId;
+  //         stitchCount = $("#stitchCountForSP").val();
+  //       }
+  //     }
+  //     else {
+  //       estime = this.estimatedTime;
+  //       stitchCount = $("#stitchCountForSP").val();
+  //       scopeid = this.QueryDetailsList.scopeId;
+  //     }
+  //     //alert(JSON.stringify(scopeid));
+  //     var processMovement = {
+  //       selectedRows: this.selectedJobs,
+  //       JobId: this.data.jobId,
+  //       EmployeeId: this.loginservice.getUsername(),
+  //       StatusId: this.selectedQureryStatus,
+  //       Remarks: this.remarks,
+  //       ProcessId: this.data.processId,
+  //       Value: estime,
+  //       SelectedScopeId: scopeid,
+  //       StitchCount: stitchCount,
+  //       FileReceivedDate: this.jobCommonDetails.fileReceivedDate,
 
 
-        //////alreadypayload//
-        autoUploadJobs: true,
-        employeeId: this.loginservice.getUsername(),
+  //       //////alreadypayload//
+  //       autoUploadJobs: true,
+  //       employeeId: this.loginservice.getUsername(),
       
-        isBench: true,
-        value: 0,
-        amount: 0,
-        stitchCount: 0,
-        estimationTime: this.estTime !== 0 ? this.estTime : 0,
-        dateofDelivery: '2023-07-01T10:02:55.095Z',
-        comments: '',
-        validity: 0,
-        copyFiles: true,
-        updatedBy: 0,
-        jId: this.data.jId,
-        estimatedTime: 0,
-        tranMasterId: 0,
-        // customerId:'',
-        // DepartmentId:0
+  //       isBench: true,
+  //       value: 0,
+  //       amount: 0,
+  //       stitchCount: 0,
+  //       estimationTime: this.estTime !== 0 ? this.estTime : 0,
+  //       dateofDelivery: '2023-07-01T10:02:55.095Z',
+  //       comments: '',
+  //       validity: 0,
+  //       copyFiles: true,
+  //       updatedBy: 0,
+  //       jId: this.data.jId,
+  //       estimatedTime: 0,
+  //       tranMasterId: 0,
+  //       // customerId:'',
+  //       // DepartmentId:0
   
-        selectedEmployees: [],
-        departmentId: 0,
-        updatedUTC: new Date().toISOString,
-        categoryDesc: '',
-        allocatedEstimatedTime: 0,
-        tranId: 0,
-        fileInwardType: 'string',
-        timeStamp: '',
-        scopeId: 0,
-        quotationRaisedby: 0,
-        quotationraisedOn: '2023-07-01T10:02:55.095Z',
-        clientId: 0,
-        customerId: 0,
-        commentsToClient: '',
-        isJobFilesNotTransfer: true,
-      };
-      this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
-        this.confirmationMessage = result.message;
-        Swal.fire(
-          result.message,
+  //       selectedEmployees: [],
+  //       departmentId: 0,
+  //       updatedUTC: new Date().toISOString,
+  //       categoryDesc: '',
+  //       allocatedEstimatedTime: 0,
+  //       tranId: 0,
+  //       fileInwardType: 'string',
+  //       timeStamp: '',
+  //       scopeId: 0,
+  //       quotationRaisedby: 0,
+  //       quotationraisedOn: '2023-07-01T10:02:55.095Z',
+  //       clientId: 0,
+  //       customerId: 0,
+  //       commentsToClient: '',
+  //       isJobFilesNotTransfer: true,
+  //     };
+  //     this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
+  //       this.confirmationMessage = result.message;
+  //       Swal.fire(
+  //         result.message,
     
-        )
-      },error =>{
-        Swal.fire(
-          'Error!',
-        "Error occured",
-          'error'
-        )
-      });
+  //       )
+  //     },error =>{
+  //       Swal.fire(
+  //         'Error!',
+  //       "Error occured",
+  //         'error'
+  //       )
+  //     });
 
 
-    }
-  };
+  //   }
+  // };
 
 }

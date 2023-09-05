@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/Environments/environment';
 import { CoreService } from 'src/app/Services/CustomerVSEmployee/Core/core.service';
 import { LoginService } from 'src/app/Services/Login/login.service';
-import Swal from 'sweetalert2/src/sweetalert2.js'
+import Swal from 'sweetalert2/src/sweetalert2.js';
 @Component({
   selector: 'app-job-assigned-details-popup',
   templateUrl: './job-assigned-details-popup.component.html',
@@ -18,7 +18,20 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   jobCommonDetails: any;
   confirmationMessage: any;
   QueryDetailsList: any;
-  selectedJobs: { DepartmentId: any; TranMasterId: any; JId: any; CustomerId: any; JobId: string; Comments: string; TimeStamp: string; CategoryDesc: string; SelectedRows: never[]; FileInwardType: string; CommentsToClient: string; SelectedEmployees: never[]; }[];
+  selectedJobs: {
+    DepartmentId: any;
+    TranMasterId: any;
+    JId: any;
+    CustomerId: any;
+    JobId: string;
+    Comments: string;
+    TimeStamp: string;
+    CategoryDesc: string;
+    SelectedRows: never[];
+    FileInwardType: string;
+    CommentsToClient: string;
+    SelectedEmployees: never[];
+  }[];
   estimationTime: any;
   stitchCount: any;
   constructor(
@@ -29,7 +42,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<JobAssignedDetailsPopupComponent>
   ) {
-    console.log(data, "InjectedData")
+    console.log(data, 'InjectedData');
   }
 
   displayedJobColumns: string[] = [
@@ -91,7 +104,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       this.http
         .get<any>(
           environment.apiURL +
-          `Allocation/getAssignedEmployeesToChangeEstTime/${this.data.jId}`
+            `Allocation/getAssignedEmployeesToChangeEstTime/${this.data.jId}`
         )
         .subscribe((response) => {
           this.restApiData = response.assignedEmployees;
@@ -102,7 +115,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     this.http
       .get<any>(
         environment.apiURL +
-        `Allocation/getScopeValues/${this.loginservice.getUsername()}`
+          `Allocation/getScopeValues/${this.loginservice.getUsername()}`
       )
       .subscribe((scopedata) => {
         this.Scopes = scopedata.scopeDetails; // Sort the scopes based on the 'name' property
@@ -164,7 +177,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     this.http
       .get(
         environment.apiURL +
-        `Allocation/getFileNames/PRAS_01-17-2022_AllocErrorBugFixing%203-VLA-Fr-0117-221_Quality%20Allocation_Pending-1`
+          `Allocation/getFileNames/PRAS_01-17-2022_AllocErrorBugFixing%203-VLA-Fr-0117-221_Quality%20Allocation_Pending-1`
       )
       .subscribe((response: any) => {
         const fileUrls: string[] = response.files;
@@ -181,11 +194,11 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
     return pathParts[pathParts.length - 1];
   }
   onSubmit() {
-    console.log(this.selectedQureryStatus, "stATUS");
+    console.log(this.selectedQureryStatus, 'stATUS');
     if (this.selectedQureryStatus == 6) {
       this.processMovement();
     } else if (this.selectedQureryStatus == 8) {
-      this.postQueryData();
+      this.changeEstTime();
     } else {
       // Handle the case when no option is selected or handle any other condition
     }
@@ -219,7 +232,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       selectedRows: [
         {
           customerId: this.data.customerId,
-          departmentId: 1,
+          departmentId: this.data.departmentId,
           estimatedTime: this.estimatedTime,
           jId: this.data.jId,
           tranMasterId: this.data.tranMasterId,
@@ -231,11 +244,11 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
           CommentsToClient: '',
           CategoryDesc: '',
           selectedEmployees: [],
-          selectedRows: []
+          selectedRows: [],
         },
       ],
       selectedEmployees: [],
-      departmentId: 1,
+      departmentId: this.data.departmentId,
       updatedUTC: '2023-07-01T10:02:55.095Z',
       categoryDesc: 'string',
       allocatedEstimatedTime: 0,
@@ -251,21 +264,12 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       commentsToClient: 'string',
       isJobFilesNotTransfer: true,
     };
-    console.log(saveData, "savedata");
+    console.log(saveData, 'savedata');
     this.http.post<any>(apiUrl, saveData).subscribe((response) => {
       if (response.success === true) {
-        Swal.fire(
-          'Done!',
-          response.message,
-          'success'
-        )
-      }
-      else if (response.success === false) {
-        Swal.fire(
-          'Error!',
-          response.message,
-          'error'
-        )
+        Swal.fire('Done!', response.message, 'success');
+      } else if (response.success === false) {
+        Swal.fire('Error!', response.message, 'error');
       }
     });
   }
@@ -273,14 +277,14 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   changeEstTime() {
     let estTimeData = {
       id: 0,
-      processId: 2,
-      statusId: 0,
+      processId: this.data.processId,
+      statusId: this.selectedQureryStatus,
       selectedScopeId: 0,
       autoUploadJobs: true,
       employeeId: this.loginservice.getUsername(),
-      remarks: null,
+      remarks: this.remarks,
       isBench: true,
-      jobId: 'string',
+      jobId: this.data.jobId,
       value: 0,
       amount: 0,
       stitchCount: 0,
@@ -295,7 +299,7 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       selectedRows: [
         {
           customerId: this.data.customerId,
-          departmentId: 1,
+          departmentId: this.data.departmentId,
           estimatedTime: this.estimatedTime,
           jId: this.data.jId,
           tranMasterId: this.data.tranMasterId,
@@ -307,11 +311,11 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
           CommentsToClient: '',
           CategoryDesc: '',
           selectedEmployees: [],
-          selectedRows: []
+          selectedRows: [],
         },
       ],
       selectedEmployees: [],
-      departmentId: 1,
+      departmentId: this.data.departmentId,
       updatedUTC: '2023-07-01T11:15:03.552Z',
       categoryDesc: 'string',
       allocatedEstimatedTime: 0,
@@ -328,37 +332,28 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       isJobFilesNotTransfer: true,
     };
     this.http
-      .post<any>(
-        environment.apiURL + 'Allocation/processMovement',
-        estTimeData
-      )
+      .post<any>(environment.apiURL + 'Allocation/processMovement', estTimeData)
       .subscribe(
         (response) => {
           if (response.success === true) {
             Swal.fire(
-              'info',
-              "Estimated time updated successfully",
-              'info'
-            )
-          }
-          else if (response.success === false) {
-            Swal.fire(
-              'info',
-              "Estimated time updated Failed",
-              'info'
-            )
-
+              'Done!',
+              'Job Sent As Query Successfully!',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                this.dialogRef.close();
+            }
+            })
+          } else if (response.success === false) {
+            Swal.fire('Done!', 'Job Sent As Query', 'error');
           }
           console.log(response);
 
           // Handle the API response
         },
         (error) => {
-          Swal.fire(
-            'info',
-            error,
-            'info'
-          )
+          Swal.fire('info', error, 'info');
 
           // Handle the API error
         }
@@ -367,58 +362,59 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
 
   //////////////////Popupsubmit///////////////////
   getQueryDetailList() {
-    console.log(this.jobCommonDetails.jobCommonDetails.jid, "jobcommondetails");
+    console.log(this.jobCommonDetails.jobCommonDetails.jid, 'jobcommondetails');
 
-    this.http.get<any>(environment.apiURL + `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`).subscribe(result => {
-      this.QueryDetailsList = result;
-    })
+    this.http
+      .get<any>(
+        environment.apiURL +
+          `Allocation/GetQuerySPDetailsForQA/${this.jobCommonDetails.jobCommonDetails.jid}`
+      )
+      .subscribe((result) => {
+        this.QueryDetailsList = result;
+      });
   }
 
   postQueryData() {
-    console.log(this.jobCommonDetails,"JobCommonDetails");
-    
+    console.log(this.jobCommonDetails, 'JobCommonDetails');
+
     if (this.selectedQureryStatus == 100) {
       var changeEstimatedTime = {
-        EmployeeId: "",
+        EmployeeId: '',
         TranMasterId: this.jobCommonDetails.tranMasterId,
         JId: this.jobCommonDetails.jobCommonDetails.jid,
         EstimatedTime: this.estimatedTime,
         ProcessId: 3,
-        UpdatedBy: this.loginservice.getUsername()
+        UpdatedBy: this.loginservice.getUsername(),
       };
-      this.http.post<any>(environment.apiURL + 'Allocation/changeEstimatedTime', changeEstimatedTime).subscribe(result => {
-        if (result.Success) {
-          Swal.fire(
-            'info!',
-            'Estimated Time Updated!',
-            'info'
-          )
-        }
-        else {
-          Swal.fire(
-            'info!',
-            'Estimated Time Not Updated!',
-            'info'
-          )
-        }
-      });
-
-    }
-    else {
-      this.selectedJobs = [{
-        DepartmentId: this.data.deptartmentId,
-        TranMasterId: this.jobCommonDetails?.tranMasterId,
-        JId: this.jobCommonDetails.jobCommonDetails.jid,
-        CustomerId: this.jobCommonDetails.jobCommonDetails.customerId,
-        JobId: "",
-        Comments: "",
-        TimeStamp: "",
-        CategoryDesc: "",
-        SelectedRows: [],
-        FileInwardType: '',
-        CommentsToClient: '',
-        SelectedEmployees: []
-      }];
+      this.http
+        .post<any>(
+          environment.apiURL + 'Allocation/changeEstimatedTime',
+          changeEstimatedTime
+        )
+        .subscribe((result) => {
+          if (result.Success) {
+            Swal.fire('info!', 'Estimated Time Updated!', 'info');
+          } else {
+            Swal.fire('info!', 'Estimated Time Not Updated!', 'info');
+          }
+        });
+    } else {
+      this.selectedJobs = [
+        {
+          DepartmentId: this.data.deptartmentId,
+          TranMasterId: this.jobCommonDetails?.tranMasterId,
+          JId: this.jobCommonDetails.jobCommonDetails.jid,
+          CustomerId: this.jobCommonDetails.jobCommonDetails.customerId,
+          JobId: '',
+          Comments: '',
+          TimeStamp: '',
+          CategoryDesc: '',
+          SelectedRows: [],
+          FileInwardType: '',
+          CommentsToClient: '',
+          SelectedEmployees: [],
+        },
+      ];
       var estime;
       var scopeid;
       var stitchCount;
@@ -426,23 +422,29 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
       if (this.QueryDetailsList == undefined || this.QueryDetailsList == null) {
         estime = this.estimationTime;
         scopeid = this.selectedScope;
-        if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId == null && scopeid == undefined) {
+        if (
+          this.data.deptartmentId == 2 &&
+          this.jobCommonDetails.scopeId == null &&
+          scopeid == undefined
+        ) {
           // scopeid = 21; //
           stitchCount = this.stitchCount;
-        }
-        else if (this.data.deptartmentId == 2 && this.jobCommonDetails.scopeId != null && scopeid == undefined) {
+        } else if (
+          this.data.deptartmentId == 2 &&
+          this.jobCommonDetails.scopeId != null &&
+          scopeid == undefined
+        ) {
           scopeid = this.jobCommonDetails.scopeId;
-          stitchCount = $("#stitchCountForSP").val();
+          stitchCount = $('#stitchCountForSP').val();
         }
-      }
-      else {
+      } else {
         estime = this.estimatedTime;
-        stitchCount = $("#stitchCountForSP").val();
+        stitchCount = $('#stitchCountForSP').val();
         //if ($scope.QueryDetailsList.Scope == undefined) {
         //    scopeid = $scope.QueryDetailsList.ScopeId
         //}
         //else {
-        //     scopeid = $scope.QueryDetailsList.Scope.Id;                                       
+        //     scopeid = $scope.QueryDetailsList.Scope.Id;
         //}
         scopeid = this.QueryDetailsList.scopeId;
       }
@@ -458,7 +460,6 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         SelectedScopeId: scopeid,
         StitchCount: stitchCount,
         FileReceivedDate: this.jobCommonDetails.fileReceivedDate,
-
 
         //////alreadypayload//
         autoUploadJobs: true,
@@ -496,24 +497,22 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
         commentsToClient: '',
         isJobFilesNotTransfer: true,
       };
-      this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
-        this.confirmationMessage = result.message;
-        Swal.fire(
-          result.message,
-
+      this.http
+        .post<any>(
+          environment.apiURL + `Allocation/processMovement`,
+          processMovement
         )
-      }, error => {
-        Swal.fire(
-          'Error!',
-          "Error occured",
-          'error'
-        )
-      });
-
-
+        .subscribe(
+          (result) => {
+            this.confirmationMessage = result.message;
+            Swal.fire(result.message);
+          },
+          (error) => {
+            Swal.fire('Error!', 'Error occured', 'error');
+          }
+        );
     }
-  };
-
+  }
 
   ////////////Statuschange//////////
   // StatusChange() {
@@ -556,6 +555,4 @@ export class JobAssignedDetailsPopupComponent implements OnInit {
   //     }
   //   }
   // }
-
-
 }
