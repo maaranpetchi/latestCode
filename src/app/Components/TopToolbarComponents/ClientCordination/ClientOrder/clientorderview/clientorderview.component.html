@@ -76,7 +76,7 @@
                         <p> Input File Folder</p>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary"><i class="fa fa-download"
+                        <button class="btn btn-primary" (click)="downloadFiles(this.OrderDetails)" [disabled]="this.OrderDetails === null"><i class="fa fa-download"
                                 style="font-size:24px"></i>Download</button> &nbsp;<button class="btn btn-primary"><i
                                 class="fa fa-folder-open-o" style="font-size:24px"></i>Zip</button>
                     </div>

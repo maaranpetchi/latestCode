@@ -21,12 +21,18 @@ export class JobDetailsClientIndexComponent implements OnInit {
   QueryEstimatedSpecialPrice: any;
   indexData: any;
   gettingindex: any;
+  JobCommonDetails: any;
+  JobCommonDetailsJob: any;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: SpinnerService, private loginservice: LoginService, private _coreService: CoreService, public dialogRef: MatDialogRef<JobDetailsClientIndexComponent>,private _empService:ClientcordinationService) {
-   this.gettingindex= this._empService.getData();
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: SpinnerService, private loginservice: LoginService, private _coreService: CoreService, public dialogRef: MatDialogRef<JobDetailsClientIndexComponent>, private _empService: ClientcordinationService) {
+    this.gettingindex = this._empService.getData();
 
-   console.log(this.gettingindex,"GettingIndex");
-   
+
+    if (this.gettingindex.data = 1) {
+      this.popupStatus = true;
+    }
+    console.log(this.gettingindex, "GettingIndex");
+
   }
 
   displayedJobColumns: string[] = ['movedFrom', 'movedTo', 'movedDate', 'movedBy', 'MovedTo', 'remarks'];
@@ -51,7 +57,10 @@ export class JobDetailsClientIndexComponent implements OnInit {
     this.http.post<any>(environment.apiURL + 'JobOrder/getJobHistory', this.data.jid).subscribe(jobdata => {
       this.spinnerService.requestEnded();
       this.dataJobSource = jobdata.jobHistory;
+      this.JobCommonDetails = jobdata.jobCommonDetails;
+      this.JobCommonDetailsJob = jobdata.jobStatusDescription;
       console.log(jobdata, "JobDetails");
+      console.log(this.JobCommonDetails, " JobCommonDetails");
     });
   }
 
@@ -70,7 +79,7 @@ export class JobDetailsClientIndexComponent implements OnInit {
   res: string;
   res1: string;
 
-  // postQueryData(data) {
+
   //   this.selectedJobs = [{
   //     DepartmentId: data.departmentId,
   //     TranMasterId: data.tranMasterId,
@@ -153,7 +162,9 @@ export class JobDetailsClientIndexComponent implements OnInit {
 
   confirmationMessage: string;
   jobMovement(processMovement) {
+    this.spinnerService.requestStarted();
     this.http.post<any>(environment.apiURL + `Allocation/processMovement`, processMovement).subscribe(result => {
+      this.spinnerService.requestEnded();
 
       if (result.message == "Job sent as query") {
         Swal.fire(
@@ -196,9 +207,15 @@ export class JobDetailsClientIndexComponent implements OnInit {
   stitchcount: any;
   //bottom dropdowns
   getAmountForSpecialPrice(data) {
+     this.spinnerService.requestStarted();
+
     this.http.post<any>(environment.apiURL + 'JobOrder/getJobHistory', this.data.jid).subscribe(jobdata => {
       this.http.get<any>(environment.apiURL + `ClientOrderService/QueryDetails?WFTId=${this.data.tranId}&WFMId=${this.data.tranMasterId}`).subscribe(result => {
+        this.spinnerService.requestEnded();
+
         this.QueryDetailsList = result;
+        console.log(result,"GetAmountbutton");
+        
 
         if (this.QueryDetailsList == undefined) {
           this.scopeid = null;
@@ -206,16 +223,14 @@ export class JobDetailsClientIndexComponent implements OnInit {
           this.stitchcount = null;
         }
         else {
-          this.scopeid = result.scope.id;
+          this.scopeid = result.scopeId;
           this.esttime = result.estimatedTime;
           this.stitchcount = result.stitchCount;
-        }
-        console.log(this.data.scopeId);
-
+        
         var processMovementPayload = {
           "id": 0,
           "processId": 0,
-          "statusId": this.Status,
+          "statusId": this.queryStatus,
           "selectedScopeId": parseInt(this.data.scopeId), // Parse the value to an integer
           "autoUploadJobs": true,
           "employeeId": this.loginservice.getUsername(),
@@ -225,7 +240,7 @@ export class JobDetailsClientIndexComponent implements OnInit {
           "value": 0,
           "amount": 0,
           "stitchCount": this.data.stitchCount,
-          "estimationTime": jobdata.jobCommonDetail,
+          "estimationTime":  this.QueryDetailsList.estimatedTime,
           "dateofDelivery": "2023-07-03T12:35:41.988Z",
           "comments": "string",
           "validity": 0,
@@ -252,8 +267,10 @@ export class JobDetailsClientIndexComponent implements OnInit {
           "commentsToClient": "string",
           "isJobFilesNotTransfer": true
         };
-
+        this.spinnerService.requestStarted();
         this.http.post<any>(environment.apiURL + `Allocation/getAmountForSpecialPrice`, processMovementPayload).subscribe(result => {
+          this.spinnerService.requestEnded();
+
           this.pricingAmount = result.amount;
           if (result.message != "") {
             alert(result.message);
@@ -261,7 +278,10 @@ export class JobDetailsClientIndexComponent implements OnInit {
           console.log(result, "postresult");
         });
         console.log(result, "QueryDetailsList");
+    
+      }
       });
+    
     });
   };
 
@@ -269,44 +289,25 @@ export class JobDetailsClientIndexComponent implements OnInit {
 
 
   ///2208changes
-  statusChange(statusId) {
-    if (statusId == 19) {
-
-      this.http.get<any>(environment.apiURL + `ClientOrderService/QuotationDetails?JobId=${this.data.jid}`).subscribe(result => {
-        this.QuotationDetailsList = result;
-      });
-    }
-    else if (statusId == 8 || statusId == 9) {
-      this.http.get<any>(environment.apiURL + `ClientOrderService/QueryDetails?WFTId=${this.data.tranId}&WFMId=${this.data.tranMasterId}`).subscribe(results => {
-console.log(results,"Resultsquery");
-
-        this.QueryDetailsList = results;
-        this.QueryEstimatedTime = results.estimatedTime;
-        this.QueryEstimatedScope = results.scope.description;
-        this.QueryEstimatedSpecialPrice = results.specialPrice;
-      })
-
-    }
-  };
 
 
 
   submitpostQueryData(data) {
-console.log(this.QueryEstimatedTime,"QueryEstimatedTime");
+    console.log(this.QueryEstimatedTime, "QueryEstimatedTime");
 
     this.selectedJobs = [{
       DepartmentId: this.data.departmentId,
       TranMasterId: this.data.tranMasterId,
       JId: this.data.jid,
       CustomerId: this.data.clientId,
-      JobId:'',
-      Comments:'',
-      TimeStamp:'',
-      CategoryDesc:'',
-      SelectedRows:[],
-      FileInwardType:"",
-      CommentsToClient:"",
-      SelectedEmployees:[]
+      JobId: '',
+      Comments: '',
+      TimeStamp: '',
+      CategoryDesc: '',
+      SelectedRows: [],
+      FileInwardType: "",
+      CommentsToClient: "",
+      SelectedEmployees: []
     }];
     if (this.QueryDetailsList == undefined) {
       this.scopeid = null;
@@ -324,25 +325,25 @@ console.log(this.QueryEstimatedTime,"QueryEstimatedTime");
     var processMovement = {
       SelectedRows: this.selectedJobs,
       EmployeeId: this.loginservice.getUsername(),
-      StatusId: this.Status,
+      StatusId: this.queryStatus,
       Remarks: this.remarks,
       Value: this.data.value,
       ProcessId: this.data.processId,
       JobId: this.data.jobId,
-      ScopeId: this.data.scopeId ? this.data.scopeId:0,
-      SelectedScopeId: this.scopeid ? this.scopeid:0, 
+      ScopeId: this.data.scopeId ? this.data.scopeId : 0,
+      SelectedScopeId: this.scopeid ? this.scopeid : 0,
       //Amount: $scope.specialPriceValue,
       Amount: this.pricingAmount,
       EstimatedTime: this.QueryEstimatedTime,
       ClientId: this.data.clientId,
       FileReceivedDate: this.data.fileReceivedDate,
-      StitchCount: this.stitchcount,
-      Comments:'',
-      TimeStamp:'',
-      CategoryDesc:'',
-      FileInwardType:'',
-      CommentsToClient:'',
-      SelectedEmployees:[]
+      StitchCount: this.StitchCount,
+      Comments: '',
+      TimeStamp: '',
+      CategoryDesc: '',
+      FileInwardType: '',
+      CommentsToClient: '',
+      SelectedEmployees: []
     }
     if (data.Status == 9) {
       //if ($scope.QueryDetailsList.SpecialPrice >= $scope.specialPriceValue) {
@@ -376,6 +377,45 @@ console.log(this.QueryEstimatedTime,"QueryEstimatedTime");
     }
   };
 
-/////0109////
+  /////0109////
+  popupStatus: boolean = false;
+  SpecialPrice: boolean = false;
+  AmountValue: boolean = false;
+  specialPrice:boolean  = false;
+
+  //ngmodel
+  queryStatus: any;
+  StitchCount:any;
+  //Method
+  statusChange(statusId) {
+    if (statusId == 19) {
+      this.SpecialPrice = false;
+      this.AmountValue = true;
+      this.spinnerService.requestStarted();
+      this.http.get<any>(environment.apiURL + `ClientOrderService/QuotationDetails?JobId=${this.data.jid}`).subscribe(result => {
+        this.spinnerService.requestEnded();
+
+        this.QuotationDetailsList = result;
+      });
+    }
+    else if (statusId == 8 || statusId == 9) {
+      this.SpecialPrice = true;
+      this.AmountValue = false;
+      this.spinnerService.requestStarted();
+      this.http.get<any>(environment.apiURL + `ClientOrderService/QueryDetails?WFTId=${this.data.tranId}&WFMId=${this.data.tranMasterId}`).subscribe(results => {
+        this.spinnerService.requestEnded();
+        console.log(results, "Resultsquery");
+        this.QueryDetailsList = results;
+        this.QueryEstimatedTime = results.estimatedTime;
+        this.QueryEstimatedScope = results.scope.description;
+        this.QueryEstimatedSpecialPrice = results.specialPrice;
+      })
+
+    }
+    else {
+      this.SpecialPrice = false;
+      this.AmountValue = false;
+    }
+  };
 
 }

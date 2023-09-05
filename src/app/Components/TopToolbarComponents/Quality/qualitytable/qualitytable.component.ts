@@ -23,7 +23,13 @@ import { WorkflowService } from 'src/app/Services/CoreStructure/WorkFlow/workflo
 export class QualitytableComponent {
   @Output() showAlertEvent: EventEmitter<any> = new EventEmitter();
 
-
+  employeeFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   displayedColumns: string[] = [
     'selected',
     'jobId',
@@ -58,7 +64,7 @@ export class QualitytableComponent {
   ScopeApiData: any[];
   fetchScope() {
     this.http.get<any>(environment.apiURL + `Allocation/getScopeValues/${this.loginservice.getUsername()}`).subscribe(data => {
-      this.ScopeApiData = data.ScopeDetails;
+      this.ScopeApiData = data.scopeDetails;
     });
   }
 

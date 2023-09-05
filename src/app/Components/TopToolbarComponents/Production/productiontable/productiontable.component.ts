@@ -54,12 +54,12 @@ export class ProductiontableComponent {
     //FreshJobs
     this.freshJobs();
   }
-  ScopeApiData: any[];
+  ScopeApiData: any;
   fetchScope() {
     this.spinnerService.requestStarted();
     this.http.get<any>(environment.apiURL+`Allocation/getScopeValues/${this.loginservice.getUsername()}`).subscribe(data => {
       this.spinnerService.requestEnded();
-      this.ScopeApiData = data.ScopeDetails ;
+      this.ScopeApiData = data.scopeDetails ;
     });
   }
 

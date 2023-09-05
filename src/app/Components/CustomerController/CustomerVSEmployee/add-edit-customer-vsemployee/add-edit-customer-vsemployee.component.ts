@@ -119,7 +119,15 @@ export class AddEditCustomerVSEmployeeComponent implements OnInit {
           })
 
         },
-        error: console.log,
+        error: (err) => {
+           this.spinnerService.resetSpinner(); // Reset spinner on error
+           console.error(err);
+           Swal.fire(
+             'Error!',
+             'Already Exist',
+             'error'
+           );
+         }
       });
     }
 

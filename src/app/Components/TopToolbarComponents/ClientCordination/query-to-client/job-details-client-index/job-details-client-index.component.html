@@ -132,7 +132,7 @@
       </div>
     </div>
   </div>
-  <div class="bottomDropdown">
+  <!-- <div class="bottomDropdown">
     <div class="querydropdown">
       <label>Process Status</label>
       <select id="ddlprocessstatus1" class="form-control" name="queryStatus" [(ngModel)]="Status"
@@ -185,13 +185,109 @@
     <div class="getamountbutton" *ngIf="Status === '8' || Status === '9'">
       <button class="btn btn-primary" (click)="getAmountForSpecialPrice(data)">Get Amount</button>
     </div>
-  </div>
+  </div> -->
 
   <br>
   <br>
-  <div>
+  <!-- <div>
     <button type="button" class="btn btn-danger">Close</button> &nbsp;<button type="button" class="btn btn-success"
       (click)="submitpostQueryData(data)">Submit</button>
+  </div> -->
+
+  <div class="todayDemo">
+    <form  novalidate>
+      <div class="form-group" *ngIf="popupStatus">
+        <label for="ddlprocessstatus1" class="col-sm-3 control-label">Process Status</label>
+        <div class="col-sm-9">
+          <div>
+            <select id="ddlprocessstatus1" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="queryStatus" (change)="statusChange(queryStatus)" required>
+              <option value="">-- Select Status --</option>
+              <option value="6">Query</option>
+              <option value="7">Query Response</option>
+              <option value="8">Query sent for Special Pricing</option>
+              <option value="9">Query for SP Response</option>
+              <option value="19" *ngIf="this.JobCommonDetailsJob === 'Quotation'">Quotation</option>
+              <option value="5">Cancelled</option>
+              <option value="3">Duplicate</option>
+              <option value="13">Client Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <label for="txtremarks" class="col-sm-3 control-label">Remarks</label>
+        <div class="col-sm-9">
+          <textarea id="txtremarks" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="remarks" required></textarea>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="SpecialPrice && this.JobCommonDetails.departmentId === 1">
+          <label class="col-sm-3 control-label">Estimation Time</label>
+          <div class="col-sm-9">
+            <label class="control-label" style="font-weight:bold;">{{ this.QueryEstimatedTime }} mins</label>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="SpecialPrice">
+          <label for="txtscope" class="col-sm-3 control-label">Scope</label>
+          <div class="col-sm-9">
+            <label class="control-label" style="font-weight:bold;">{{ this.QueryEstimatedScope }}</label>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="SpecialPrice && this.JobCommonDetails.departmentId === 2">
+          <label for="txtscope" class="col-sm-3 control-label">Stitch Count</label>
+          <div class="col-sm-9">
+            <label class="control-label" style="font-weight:bold;">{{ this.QueryDetailsList.stitchCount }}</label>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="SpecialPrice">
+          <label for="txtscope" class="col-sm-3 control-label">Special Price :</label>
+          <div class="col-sm-9" *ngIf="SpecialPrice">
+            <label class="control-label" style="font-weight:bold;">{{ this.QueryEstimatedSpecialPrice }}</label>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="AmountValue && this.JobCommonDetails.departmentId === 1">
+          <label for="txtesttime" class="col-sm-3 control-label">Estimation time</label>
+          <div class="col-sm-9">
+            <label class="control-label" style="font-weight:bold;">{{ QuotationDetailsList.estimatedTime }} mins</label>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="AmountValue && this.JobCommonDetails.departmentId === 1">
+          <label for="txtesttime" class="col-sm-3 control-label">Scope</label>
+          <div class="col-sm-9">
+            <label class="control-label" style="font-weight:bold;">{{ QuotationDetailsList?.scope?.description }}</label>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="this.queryStatus === '8' || AmountValue || this.queryStatus === '9'">
+          <label for="txtpricingamount" class="col-sm-3 control-label">Pricing Amount</label>
+          <div class="col-sm-9" >
+            <input type="number" id="txtpricingamount" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="pricingAmount" min="0.01" required />
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="AmountValue && this.JobCommonDetails.departmentId === 2">
+          <label for="txtstitchcount" class="col-sm-3 control-label">Stitch Count</label>
+          <div class="col-sm-9">
+            <input type="number" id="txtstitchcount" class="form-control" [ngModelOptions]="{standalone: true}" [ngModel]="StitchCount" [attr.disabled]="true" />
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div *ngIf="this.queryStatus === '8' || this.queryStatus === '9'">
+          <div class="col-sm-9">
+            <button class="btn btn-primary" style="margin-left:57%;" (click)="getAmountForSpecialPrice(data)">Get Amount</button>
+          </div>
+        </div>
+        <div class="clearfix padding-bottom-10"></div>
+        <div class="col-xs-12 text-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button class="btn btn-success"  (click)="submitpostQueryData(data)">Submit</button>
+        </div>
+      </div>
+    </form>
+    
   </div>
 
 </div>
